@@ -1,21 +1,32 @@
 # Project overview
 
-STATUS: NEEDS_IMPORT_FROM_CHATGPT_UPLOADS
+STATUS: IMPORTED_FROM_CHATGPT_UPLOAD
 
-This file will become the human-readable project overview for ChatGPT and Codex.
+OpenScript Agent Lab is not just a Telegram bot around one LLM. It is an agent lab where:
+- agents are first-class product entities;
+- agents have source packages and Hermes runtime profiles;
+- provider choice is independent from agent identity;
+- skills are instructions and requirements, not tool permissions;
+- deterministic business logic owns money/date/report facts;
+- Telegram is one product path, not the whole architecture.
 
-Seed facts from current repo state:
-- the documentation foundation is in place
-- Hermes vendor docs exist under `docs/codex_source/vendor/hermes/**`
-- Telegram vendor docs exist under `docs/codex_source/vendor/telegram/**`
-- the project memory layer is being created now
+The first applied scenario is “Расходы с характером”:
+- the user sends a receipt or expense through Telegram;
+- the system extracts or processes the factual data;
+- the user confirms the draft;
+- deterministic code stores and reports expenses;
+- the chosen agent contributes tone, explanation and dialog quality.
 
-Missing imports:
-- current TЗ / product spec
-- roadmap history
-- current handoff / working context
-- module map expansion
-- rules pack import
+Current source-of-truth split:
+- vendor docs live under `docs/codex_source/vendor/**`;
+- project docs live under `docs/codex_source/project/**`;
+- append-only memory lives under `docs/codex_source/context/**`, `docs/codex_source/roadmap/**`, `docs/codex_source/module_map/**`.
 
-Non-goal:
-- do not infer missing product requirements from memory alone
+The current technical spec is v0.3, imported from `Тз(2).md`.
+v0.2 is historical/original and should not be treated as the current spec.
+
+Missing next imports:
+- actual roadmap;
+- rules pack;
+- module map expansion;
+- remaining project architecture docs such as Telegram router, voice pipeline, Hermes reply path and access control.

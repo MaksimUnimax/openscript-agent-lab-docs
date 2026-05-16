@@ -1,12 +1,14 @@
 # Runtime git canon
 
-STATUS: INITIAL_FROM_CURRENT_REPO_DOCS
+STATUS: IMPORTED_FROM_CHATGPT_UPLOAD
 
 Canonical git baseline captured for docs and memory work:
 - repo: `/opt/openscript-agent-lab`
 - branch: `main`
-- head: `3eb2ce35026f75928d45865ba9e6919650be98e2`
-- remote: empty
+- head: `8f34733debfdf9ae38482618a9a9113f9995bcaa`
+- remote: `git@github.com:MaksimUnimax/openscript-agent-lab.git`
+- public docs repo: `git@github.com:MaksimUnimax/openscript-agent-lab-docs.git`
+- public docs visibility: yes
 - unrelated dirty state: `agent-packages/**`
 
 Rules:

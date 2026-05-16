@@ -1,21 +1,26 @@
 # Source vs runtime
 
-STATUS: INITIAL_FROM_CURRENT_REPO_DOCS
+STATUS: IMPORTED_FROM_CHATGPT_UPLOAD
 
 Source-of-truth layers:
 - vendor docs under `docs/codex_source/vendor/**`
 - project docs under `docs/codex_source/project/**`
 - append-only memory under `docs/codex_source/context/**`, `docs/codex_source/roadmap/**`, `docs/codex_source/module_map/**`
 
-Runtime state:
-- local virtual environment
-- application runtime tree
-- package workspaces
-- caches and generated artifacts
+Source package:
+- stored in git under `/opt/openscript-agent-lab/agent-packages/<agent_slug>/`
+- contains `SOUL.md`, `rules.md`, `examples.md`, `provider.defaults.json`, `skills/`
+- is edited by UI and git-backed workflows
+- is source-of-truth for documents and defaults
 
-Principle:
-- source-of-truth files are for decisions and prompt grounding
-- runtime files are for execution state and should not be confused with documentation
+Runtime profile:
+- stored under `/var/lib/openscript-agent-lab/hermes/profiles/<agent_slug>/`
+- contains `config.yaml`, `.env`, `auth.json`, memories, sessions, logs and other runtime state
+- is not source-of-truth
+- may contain secrets
 
-Current boundary note:
-- Telegram and Hermes vendor docs are already separated from project memory
+Boundary rules:
+- UI edits source package, not runtime profile directly
+- `agentctl apply` syncs source package into runtime profile
+- no symlinks for `SOUL.md` or `config.yaml`
+- runtime state must not be confused with documentation state

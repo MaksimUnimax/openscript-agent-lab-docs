@@ -20,11 +20,11 @@ rules:
 repo_visibility:
   private_source_repo:
     url: git@github.com:MaksimUnimax/openscript-agent-lab.git
-    head_before_sync: 793fa8df4afd4d993badc8cabf693a45dc061bb3
+    head_before_sync: 8f34733debfdf9ae38482618a9a9113f9995bcaa
     status: pushed_and_verified
   public_docs_repo:
     url: https://github.com/MaksimUnimax/openscript-agent-lab-docs
-    export_head_before_sync: 11af8d0cd270139436414d5ac6edf475bf00fd3a
+    export_head_before_sync: 027c34d6965ad5a54757ffad8045650e4ea72c5b
     web_visible_via_chatgpt: yes
     contains_only_docs_codex_source: yes
 entrypoint:
@@ -237,23 +237,23 @@ project_docs:
   - path: docs/codex_source/project/README.md
     status: initial
   - path: docs/codex_source/project/project_overview.md
-    status: needs_import
+    status: imported
   - path: docs/codex_source/project/technical_spec.md
-    status: needs_import
+    status: imported
   - path: docs/codex_source/project/project_snapshot.md
     status: initial
   - path: docs/codex_source/project/module_map.md
     status: initial
   - path: docs/codex_source/project/runtime_git_canon.md
-    status: initial
+    status: imported
   - path: docs/codex_source/project/assistant_codex_workflow_rules.md
     status: needs_import
   - path: docs/codex_source/project/safe_boundaries.md
-    status: initial
+    status: imported
   - path: docs/codex_source/project/source_vs_runtime.md
-    status: initial
+    status: imported
   - path: docs/codex_source/project/current_status.md
-    status: initial
+    status: imported
   - path: docs/codex_source/project/agent_lab_architecture.md
     status: stub
   - path: docs/codex_source/project/agent_package_vs_runtime_profile.md

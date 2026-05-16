@@ -1,6 +1,6 @@
 # Current status
 
-STATUS: INITIAL_FROM_CURRENT_REPO_DOCS
+STATUS: IMPORTED_FROM_CHATGPT_UPLOAD
 
 Confirmed facts:
 - repo path: `/opt/openscript-agent-lab`
@@ -10,16 +10,21 @@ Confirmed facts:
 - private source repo pushed successfully to `git@github.com:MaksimUnimax/openscript-agent-lab.git`
 - public docs repo exported successfully to `git@github.com:MaksimUnimax/openscript-agent-lab-docs.git`
 - public docs repo is visible through ChatGPT web access
+- normalized working context has been appended to repo memory
+- the current technical spec is v0.3, imported from `Тз(2).md`
+- v0.2 is historical/original and not the current source-of-truth spec
 - unrelated dirty state exists under `agent-packages/**`
 
 Needs confirmation:
 - STATUS: NEEDS_CONFIRMATION service `openscript-agent-lab-ui.service` is active
 - STATUS: NEEDS_CONFIRMATION UI listener is `127.0.0.1:18765`
-- STATUS: NEEDS_CONFIRMATION source repo post-sync HEAD is the new commit reported in the sync run output
+- STATUS: NEEDS_CONFIRMATION current roadmap has not yet been imported
+- STATUS: NEEDS_CONFIRMATION rules pack has not yet been imported
+- STATUS: NEEDS_CONFIRMATION module map expansion has not yet been imported
 
 Next planned step:
-- import actual user-provided ТЗ / roadmap / rules / context / module map into the append-only project docs layer
-- keep main feature work paused until actual docs imports are complete
+- import actual roadmap, rules pack and module map into the append-only project docs layer
+- keep main feature work paused until required docs imports are complete
 
 Notes:
 - This file is a live project status marker, not a replacement for the technical spec.

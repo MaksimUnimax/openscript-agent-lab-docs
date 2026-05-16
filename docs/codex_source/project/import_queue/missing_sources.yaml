@@ -11,9 +11,9 @@ items:
     notes: private source repo push succeeded and origin/main matched HEAD before this sync
     must_not_invent: true
   - id: technical_spec
-    status: missing
+    status: imported
     expected_target_path: docs/codex_source/project/technical_spec.md
-    notes: current product TЗ has not been imported into the repo memory layer
+    notes: current product TЗ v0.3 from `Тз(2).md` is imported into the repo memory layer
     must_not_invent: true
   - id: roadmap_current
     status: missing
@@ -21,9 +21,9 @@ items:
     notes: current roadmap v0.7 / current roadmap content is not imported yet
     must_not_invent: true
   - id: working_context
-    status: missing
+    status: imported
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
-    notes: the append-only context seed exists, but the full working handoff content is not imported yet
+    notes: the append-only context seed and normalized working context blocks exist in repo memory
     must_not_invent: true
   - id: rules_pack
     status: missing
@@ -36,9 +36,9 @@ items:
     notes: module map seed exists, but detailed module ownership blocks still need import
     must_not_invent: true
   - id: runtime_git_canon
-    status: missing
+    status: imported
     expected_target_path: docs/codex_source/project/runtime_git_canon.md
-    notes: baseline exists, but a fuller canon from ChatGPT memory may still be needed later
+    notes: canonical git baseline is now imported and updated with current repo visibility
     must_not_invent: true
   - id: prompt_templates
     status: missing
@@ -54,4 +54,9 @@ items:
     status: imported
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: normalized working context from uploaded ChatGPT handoff files was appended to the repo memory layer
+    must_not_invent: true
+  - id: actual_tz_v0_3
+    status: imported
+    expected_target_path: docs/codex_source/project/technical_spec.md
+    notes: v0.3 OpenScript Agent Lab + Расходы с характером is now the current technical spec
     must_not_invent: true

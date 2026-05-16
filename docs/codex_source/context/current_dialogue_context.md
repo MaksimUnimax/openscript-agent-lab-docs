@@ -415,3 +415,42 @@ Next imports should happen in order:
 Telegram user_id allowlist remains intended, but must wait until required project docs are imported/non-stub.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_WORKING_CONTEXT_V1 -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260516_IMPORTED_TZ_V0_3 source=chatgpt_uploaded_tz accepted_by_user=yes -->
+
+## 2026-05-16 — Imported current ТЗ v0.3 “OpenScript Agent Lab + Расходы с характером”
+
+Facts:
+- Imported the current working technical spec v0.3 from `Тз(2).md`.
+- v0.3 supersedes the earlier v0.2 expense-bot-only draft as the current project technical spec.
+- The project is OpenScript Agent Lab, not just a single Telegram expense bot.
+- First applied scenario remains “Расходы с характером”.
+- Key principle: universal agent creation + independent provider branch + deterministic business layer.
+- Agent, provider, skills, business layer, management UI and Telegram Router are separate parts.
+- Agent source package lives in `/opt/openscript-agent-lab/agent-packages/<agent_slug>/`.
+- Hermes runtime profile lives in `/var/lib/openscript-agent-lab/hermes/profiles/<agent_slug>/`.
+- Source package is git-tracked source-of-truth; runtime profile is runtime state and may contain secrets.
+- No symlinks for `SOUL.md` or `config.yaml`.
+- UI edits source package; `agentctl apply` syncs to runtime.
+- Provider branches: `offline_template`, `codex_resource`, `api_runtime`.
+- Provider branch is independent from agent.
+- Business layer owns SQLite, money, date and report facts.
+- Agent/Hermes owns language, character, explanation and safe text understanding.
+- Telegram Router is not “now”; it comes after `agentctl`, provider/auth design, source packages, runtime apply and at least one provider proof.
+- Voice canonical rule: voice → transcription → same text understanding layer as typed text.
+- Hermes Dashboard must not be exposed as public product UI.
+- Secrets must not be stored in git or shown in UI/logs.
+
+Not imported in this run:
+- actual roadmap
+- full rules pack
+- module map/safe boundaries as independent append-only module map
+- prompt templates
+
+Next:
+- Import actual roadmap.
+- Import rules pack.
+- Import module map/safe boundaries.
+- Then re-evaluate task cards before main feature work.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_TZ_V0_3 -->
