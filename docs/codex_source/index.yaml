@@ -17,6 +17,7 @@ rules:
   - Project ТЗ не заменяет vendor/runtime/API docs.
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
+repo_documentation_access_model: repo_documentation_access_v2
 repo_visibility:
   private_source_repo:
     url: git@github.com:MaksimUnimax/openscript-agent-lab.git
@@ -274,8 +275,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260516_IMPORTED_ROADMAP_V0_7
-      last_append_title: Imported actual roadmap v0.7
+      last_append_id: CTX_20260516_IMPORTED_RULES_REPO_DOCS_ACCESS_V2
+      last_append_title: "Imported rules update: repo documentation access model v2"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:
@@ -307,22 +308,24 @@ project_memory:
       status: initial
   rules:
     - path: docs/codex_source/rules/README.md
-      status: needs_import
+      status: imported
+    - path: docs/codex_source/rules/repo_documentation_access_rules.md
+      status: imported
     - path: docs/codex_source/rules/chatgpt_workflow_rules.md
-      status: needs_import
+      status: imported
     - path: docs/codex_source/rules/codex_prompt_rules.md
-      status: needs_import
+      status: imported
     - path: docs/codex_source/rules/runtime_git_rules.md
-      status: initial
+      status: imported
     - path: docs/codex_source/rules/documentation_gate_rules.md
-      status: needs_import
+      status: imported
     - path: docs/codex_source/rules/append_only_memory_rules.md
-      status: initial
+      status: imported
   import_queue:
     - path: docs/codex_source/project/import_queue/README.md
       status: needs_import
     - path: docs/codex_source/project/import_queue/missing_sources.yaml
-      status: needs_import
+      status: imported
 task_cards:
   - path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
     status: extracted

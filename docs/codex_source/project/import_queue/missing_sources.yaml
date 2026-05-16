@@ -26,9 +26,14 @@ items:
     notes: the append-only context seed and normalized working context blocks exist in repo memory
     must_not_invent: true
   - id: rules_pack
-    status: missing
+    status: imported
     expected_target_path: docs/codex_source/rules/*.md
-    notes: only minimal placeholder rules are present; full rules pack still needs import
+    notes: rules pack has been imported under the repo-based docs access schema
+    must_not_invent: true
+  - id: repo_documentation_access_rules
+    status: imported
+    expected_target_path: docs/codex_source/rules/repo_documentation_access_rules.md
+    notes: rules repo access model v2 has been imported
     must_not_invent: true
   - id: module_map_expansion
     status: missing

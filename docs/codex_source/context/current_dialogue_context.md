@@ -476,3 +476,24 @@ Next:
 - Then re-evaluate task cards before main feature work.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_ROADMAP_V0_7 -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260516_IMPORTED_RULES_REPO_DOCS_ACCESS_V2 source=chatgpt_inline_rules accepted_by_user=yes -->
+
+## 2026-05-16 — Imported rules update: repo documentation access model v2
+
+Facts:
+- The old general assumption that Codex lacks all documentation is no longer the normal workflow.
+- Project documentation is now available to Codex in the private repo under `/opt/openscript-agent-lab/docs/codex_source/**`.
+- Public documentation mirror is available to ChatGPT at `https://github.com/MaksimUnimax/openscript-agent-lab-docs`.
+- Future Codex prompts must include exact `DOCS_TO_READ` paths.
+- Codex must read only the listed docs unless a proof/inventory task explicitly permits broader reading.
+- Every proof/design/fix must rely on relevant project/vendor/rules/task-card docs.
+- If required docs are missing, stub, contradictory, or not listed, Codex must STOP instead of guessing.
+- Uploaded ChatGPT file names may be provenance metadata only; content must be imported into repo docs or pasted inline before Codex can use it.
+- Vendor/API/CLI/auth/runtime docs remain separate from project docs; roadmap/context cannot replace vendor docs.
+
+Still pending:
+- module map / safe boundaries import as independent module-map canon.
+- task card readiness re-evaluation after module map import.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_RULES_REPO_DOCS_ACCESS_V2 -->

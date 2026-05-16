@@ -1,10 +1,28 @@
 # Documentation gate rules
 
-STATUS: NEEDS_IMPORT_FROM_CHATGPT_UPLOADS
+STATUS: IMPORTED_FROM_CHATGPT_UPLOAD
 
-Minimal gate rules:
+Gate rules:
 - vendor docs are source-of-truth for vendor behavior
 - project docs are source-of-truth for project-specific memory and rules
-- roadmap/context are memory, not vendor docs
+- roadmap and context are memory, not vendor docs
+- rules pack tells Codex how to read docs; it does not replace the docs themselves
 - if required docs are missing or stubbed, the future fix-run must stop
 - do not replace missing docs with memory-based assumptions
+- do not rely on "Codex cannot see files" as a general rule
+
+New access model:
+- docs are available in the repo under `docs/codex_source/**`
+- assistant must point Codex to exact paths
+- Codex should not read all docs by default
+- Codex should read only the exact sources required by the task card and prompt
+
+DOCS_TO_READ rule:
+- if a prompt does not list exact docs to read, Codex must stop or request clarification
+- `DOCS_TO_READ` must name the repo files and explain why each is needed
+
+STOP conditions:
+- required docs are missing, stub, contradictory, or not listed in `DOCS_TO_READ`
+- an active task card says `ready_for_fix_run: false`
+- project docs contradict runtime facts and the prompt does not define which source wins
+- guessing from memory, code or previous reports is forbidden

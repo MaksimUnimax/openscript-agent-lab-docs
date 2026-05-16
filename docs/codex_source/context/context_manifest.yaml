@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260516_IMPORTED_ROADMAP_V0_7
-last_append_title: Imported actual roadmap v0.7
-last_updated_utc: 2026-05-16T11:38:46Z
+last_append_id: CTX_20260516_IMPORTED_RULES_REPO_DOCS_ACCESS_V2
+last_append_title: "Imported rules update: repo documentation access model v2"
+last_updated_utc: 2026-05-16T11:59:25Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

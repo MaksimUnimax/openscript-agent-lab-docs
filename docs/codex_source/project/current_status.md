@@ -15,16 +15,18 @@ Confirmed facts:
 - v0.2 is historical/original and not the current source-of-truth spec
 - roadmap v0.7 has now been imported as the current roadmap state
 - Telegram voice/universal Hermes path was already accepted by server-side proof in roadmap v0.7
+- rules pack has now been imported under the repo-based docs access schema
+- repo documentation access model v2 has now been imported
+- future Codex prompts must include exact DOCS_TO_READ paths
 - unrelated dirty state exists under `agent-packages/**`
 
 Needs confirmation:
 - STATUS: NEEDS_CONFIRMATION service `openscript-agent-lab-ui.service` is active
 - STATUS: NEEDS_CONFIRMATION UI listener is `127.0.0.1:18765`
-- STATUS: NEEDS_CONFIRMATION rules pack has not yet been imported
 - STATUS: NEEDS_CONFIRMATION module map expansion has not yet been imported
 
 Next planned step:
-- import actual rules pack and module map into the append-only project docs layer
+- import actual module map into the append-only project docs layer
 - keep main feature work paused until required docs imports are complete
 
 Notes:
