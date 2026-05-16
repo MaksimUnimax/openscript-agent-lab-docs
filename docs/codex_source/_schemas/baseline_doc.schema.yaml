@@ -1,0 +1,46 @@
+version: 0.1
+name: baseline_doc.schema
+description: Схема документа базовой истины для vendor или project docs.
+fields:
+  - name: doc_id
+    type: string
+    required: true
+  - name: category
+    type: string
+    required: true
+    allowed_values:
+      - vendor
+      - project
+  - name: status
+    type: string
+    required: true
+    allowed_values:
+      - stub
+      - extracted
+      - verified
+      - deprecated
+  - name: source_paths
+    type: array[string]
+    required: true
+  - name: source_urls
+    type: array[string]
+    required: true
+  - name: extracted_from
+    type: array[string]
+    required: true
+  - name: verified_at
+    type: string
+    required: false
+  - name: applies_to
+    type: array[string]
+    required: true
+  - name: facts
+    type: array[string]
+    required: true
+  - name: non_goals
+    type: array[string]
+    required: true
+  - name: forbidden_misuse
+    type: array[string]
+    required: true
+

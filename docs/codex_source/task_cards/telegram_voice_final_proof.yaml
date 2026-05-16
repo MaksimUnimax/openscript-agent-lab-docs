@@ -1,0 +1,38 @@
+task_id: OPENSCRIPT_AGENT_LAB_TELEGRAM_VOICE_FINAL_PROOF_20260516_01
+task_type: live-proof-run
+description: >
+  Final proof task card for Telegram voice path.
+required_vendor_docs:
+  - docs/codex_source/vendor/telegram/files/voice_object.md
+  - docs/codex_source/vendor/telegram/files/file_object.md
+  - docs/codex_source/vendor/telegram/files/getfile_download.md
+  - docs/codex_source/vendor/telegram/files/token_url_redaction.md
+  - docs/codex_source/vendor/telegram/messaging/send_message_delivery.md
+  - docs/codex_source/vendor/telegram/messaging/send_voice_delivery.md
+  - docs/codex_source/vendor/telegram/security/deny_before_resource_use.md
+required_project_docs:
+  - docs/codex_source/project/telegram_voice_pipeline.md
+  - docs/codex_source/project/universal_hermes_reply_path.md
+forbidden_substitutes:
+  - roadmap
+  - continuity/handoff
+  - TZ
+required_runtime_baseline:
+  repo: /opt/openscript-agent-lab
+  expected_head: 4946a9180bd6fc0d2975fee8d11ccf13241e1790
+allowed_scope:
+  - live verification only
+forbidden_scope:
+  - application code
+  - agent_lab/**
+  - agent-packages/**
+stop_conditions:
+  - STOP_DOCS_MISSING if any required doc status is stub
+  - stop if telegram runtime is unhealthy
+acceptance_summary:
+  - live voice proof can be run only when docs are extracted
+report_contract:
+  required: true
+  must_state: exact sources and live checks
+ready_for_fix_run: false
+reason: required project docs are still stub

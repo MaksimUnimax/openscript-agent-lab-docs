@@ -1,0 +1,42 @@
+queue_version: 0.1
+items:
+  - id: technical_spec
+    status: missing
+    expected_target_path: docs/codex_source/project/technical_spec.md
+    notes: current product TЗ has not been imported into the repo memory layer
+    must_not_invent: true
+  - id: roadmap_current
+    status: missing
+    expected_target_path: docs/codex_source/roadmap/roadmap.md
+    notes: current roadmap v0.7 / current roadmap content is not imported yet
+    must_not_invent: true
+  - id: working_context
+    status: missing
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: the append-only context seed exists, but the full working handoff content is not imported yet
+    must_not_invent: true
+  - id: rules_pack
+    status: missing
+    expected_target_path: docs/codex_source/rules/*.md
+    notes: only minimal placeholder rules are present; full rules pack still needs import
+    must_not_invent: true
+  - id: module_map_expansion
+    status: missing
+    expected_target_path: docs/codex_source/module_map/module_map.md
+    notes: module map seed exists, but detailed module ownership blocks still need import
+    must_not_invent: true
+  - id: runtime_git_canon
+    status: missing
+    expected_target_path: docs/codex_source/project/runtime_git_canon.md
+    notes: baseline exists, but a fuller canon from ChatGPT memory may still be needed later
+    must_not_invent: true
+  - id: prompt_templates
+    status: missing
+    expected_target_path: docs/codex_source/templates/*
+    notes: prompt templates were not created in this run and need a dedicated import if desired
+    must_not_invent: true
+  - id: current_dialogue_append_block
+    status: missing
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: future append blocks should be provided by ChatGPT, not invented locally
+    must_not_invent: true

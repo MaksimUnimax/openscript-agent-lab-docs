@@ -1,0 +1,33 @@
+task_id: OPENSCRIPT_AGENT_LAB_AGENT_LLM_BINDING_FIX_20260516_01
+task_type: limited-fix-run
+description: >
+  Task card for LLM connection binding repair work.
+required_vendor_docs:
+  - docs/codex_source/vendor/hermes/providers/provider_runtime_resolution.md
+  - docs/codex_source/vendor/hermes/providers/openai_codex_provider.md
+  - docs/codex_source/vendor/hermes/runtime/model_switch.md
+required_project_docs:
+  - docs/codex_source/project/llm_connection_binding.md
+  - docs/codex_source/project/agent_package_vs_runtime_profile.md
+forbidden_substitutes:
+  - roadmap
+  - continuity/handoff
+  - memory-only assumptions
+required_runtime_baseline:
+  repo: /opt/openscript-agent-lab
+  expected_head: 4946a9180bd6fc0d2975fee8d11ccf13241e1790
+allowed_scope:
+  - docs only until source docs are extracted
+forbidden_scope:
+  - application code
+  - agent_lab/**
+  - agent-packages/**
+stop_conditions:
+  - STOP_DOCS_MISSING if any required doc status is stub
+acceptance_summary:
+  - binding contract path is explicit
+report_contract:
+  required: true
+  must_state: required docs and runtime baseline
+ready_for_fix_run: false
+reason: project docs are still stub

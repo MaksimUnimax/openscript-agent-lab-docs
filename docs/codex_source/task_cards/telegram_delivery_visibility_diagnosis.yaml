@@ -1,0 +1,43 @@
+task_id: OPENSCRIPT_AGENT_LAB_TELEGRAM_DELIVERY_VISIBILITY_DIAGNOSIS_20260516_01
+task_type: design-run
+description: >
+  Telegram delivery visibility diagnosis card for proving who can see bot output and why.
+required_vendor_docs:
+  - docs/codex_source/vendor/telegram/identity/from_user_id.md
+  - docs/codex_source/vendor/telegram/identity/chat_id_vs_user_id.md
+  - docs/codex_source/vendor/telegram/messaging/send_message_delivery.md
+  - docs/codex_source/vendor/telegram/privacy/privacy_mode_limits.md
+  - docs/codex_source/vendor/telegram/privacy/private_chat_visibility.md
+  - docs/codex_source/vendor/telegram/privacy/group_visibility.md
+  - docs/codex_source/vendor/telegram/security/audit_redaction.md
+required_project_docs:
+  - docs/codex_source/project/telegram_router.md
+  - docs/codex_source/project/telegram_voice_pipeline.md
+  - docs/codex_source/project/access_control.md
+forbidden_substitutes:
+  - roadmap
+  - continuity/handoff
+  - TZ
+  - memory-based assumptions
+required_runtime_baseline:
+  repo: /opt/openscript-agent-lab
+  expected_head: d079dd1030d195ac9b4ad1349f0d570432906ff0
+allowed_scope:
+  - docs
+  - task card only
+forbidden_scope:
+  - application code
+  - agent_lab/**
+  - agent-packages/**
+  - vendor/**
+stop_conditions:
+  - STOP_DOCS_MISSING if any required doc status is stub
+  - stop if project docs are still stub
+acceptance_summary:
+  - card points to exact vendor and project docs
+  - card is not ready until project docs exist
+report_contract:
+  required: true
+  must_state: STOP_DOCS_MISSING when required docs are stub
+ready_for_fix_run: false
+reason: required project docs are still stub

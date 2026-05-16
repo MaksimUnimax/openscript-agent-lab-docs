@@ -1,0 +1,47 @@
+version: 0.1
+name: task_card.schema
+description: Схема task card для Codex prompt'ов.
+fields:
+  - name: task_id
+    type: string
+    required: true
+  - name: task_type
+    type: string
+    required: true
+    allowed_values:
+      - proof-run
+      - design-run
+      - limited-fix-run
+      - live-proof-run
+      - docs-extraction-run
+  - name: description
+    type: string
+    required: true
+  - name: required_vendor_docs
+    type: array[string]
+    required: true
+  - name: required_project_docs
+    type: array[string]
+    required: true
+  - name: forbidden_substitutes
+    type: array[string]
+    required: true
+  - name: required_runtime_baseline
+    type: object
+    required: true
+  - name: allowed_scope
+    type: array[string]
+    required: true
+  - name: forbidden_scope
+    type: array[string]
+    required: true
+  - name: stop_conditions
+    type: array[string]
+    required: true
+  - name: acceptance_summary
+    type: array[string]
+    required: true
+  - name: report_contract
+    type: object
+    required: true
+

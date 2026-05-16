@@ -1,0 +1,34 @@
+task_id: OPENSCRIPT_AGENT_LAB_HERMES_AUTH_RECOVER_IMPORT_ADOPT_20260516_01
+task_type: docs-extraction-run
+description: >
+  Hermes auth recovery and import/adopt documentation task card.
+required_vendor_docs:
+  - docs/codex_source/vendor/hermes/auth/openai_codex_auth.md
+  - docs/codex_source/vendor/hermes/auth/auth_stores.md
+  - docs/codex_source/vendor/hermes/auth/codex_cli_import_adopt.md
+required_project_docs:
+  - docs/codex_source/project/agent_lab_architecture.md
+  - docs/codex_source/project/universal_hermes_reply_path.md
+forbidden_substitutes:
+  - roadmap
+  - continuity/handoff
+  - generic CLI memory
+required_runtime_baseline:
+  repo: /opt/openscript-agent-lab
+  expected_head: 4946a9180bd6fc0d2975fee8d11ccf13241e1790
+allowed_scope:
+  - docs extraction only
+forbidden_scope:
+  - application code
+  - agent_lab/**
+  - agent-packages/**
+stop_conditions:
+  - STOP_DOCS_MISSING if any required doc status is stub
+acceptance_summary:
+  - Hermes auth facts extracted from source
+  - import/adopt path documented
+report_contract:
+  required: true
+  must_state: citations_or_source_paths
+ready_for_fix_run: false
+reason: project docs are still stub

@@ -1,0 +1,393 @@
+version: 0.1
+purpose: >
+  Единая карта документационного слоя OpenScript Agent Lab для будущих Codex prompt'ов.
+  Используется для выбора exact paths, контроля обязательных источников и остановки run'ов при missing docs.
+directory_map:
+  root: docs/codex_source
+  schemas: docs/codex_source/_schemas
+  templates: docs/codex_source/templates
+  vendor: docs/codex_source/vendor
+  vendor_hermes: docs/codex_source/vendor/hermes
+  vendor_telegram: docs/codex_source/vendor/telegram
+  project: docs/codex_source/project
+  task_cards: docs/codex_source/task_cards
+rules:
+  - Roadmap не является vendor documentation.
+  - Continuity/handoff не является vendor documentation.
+  - Project ТЗ не заменяет vendor/runtime/API docs.
+  - Codex должен читать exact paths из task cards, а не полагаться на память.
+  - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
+entrypoint:
+  - path: docs/codex_source/ENTRYPOINT_FOR_CHATGPT.md
+    status: initial
+vendor_docs:
+  overview:
+    - path: docs/codex_source/vendor/hermes/README.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/overview/docs_map.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/overview/getting_started.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/overview/installation.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/overview/quickstart.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/overview/configuration.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/overview/environment_variables.md
+      status: verified
+  auth:
+    - path: docs/codex_source/vendor/hermes/auth/auth_overview.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/auth/auth_stores.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/auth/openai_codex_auth.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/auth/codex_cli_import_adopt.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/auth/token_invalidated.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/auth/cloudflare_device_code_blocker.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/auth/provider_credentials.md
+      status: extracted
+  providers:
+    - path: docs/codex_source/vendor/hermes/providers/provider_overview.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/providers/provider_runtime_resolution.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/providers/openai_codex_provider.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/providers/openai_compatible_providers.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/providers/openrouter.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/providers/nous_portal.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/providers/custom_providers.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/providers/fallback_providers.md
+      status: extracted_with_gaps
+  profiles:
+    - path: docs/codex_source/vendor/hermes/profiles/runtime_profiles.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/profiles/profile_commands.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/profiles/profile_state_layout.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/profiles/profile_isolation.md
+      status: verified
+  runtime:
+    - path: docs/codex_source/vendor/hermes/runtime/api_server.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/runtime/gateway.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/runtime/codex_app_server_runtime.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/runtime/runtime_provider.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/runtime/model_switch.md
+      status: verified
+  tools:
+    - path: docs/codex_source/vendor/hermes/tools/tools_runtime.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/tools/built_in_tools.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/tools/toolsets.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/tools/adding_tools.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/tools/mcp.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/tools/tool_gateway.md
+      status: extracted
+  skills:
+    - path: docs/codex_source/vendor/hermes/skills/skills_overview.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/skills/bundled_skills.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/skills/codex_skill.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/skills/hermes_agent_skill.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/skills/custom_skills.md
+      status: extracted
+  memory:
+    - path: docs/codex_source/vendor/hermes/memory/memory_overview.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/memory/memory_providers.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/memory/sessions.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/memory/context_references.md
+      status: extracted_with_gaps
+  platforms:
+    - path: docs/codex_source/vendor/hermes/platforms/messaging_overview.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/platforms/telegram.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/platforms/discord.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/platforms/slack.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/platforms/email.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/platforms/platform_adapters.md
+      status: extracted_with_gaps
+  troubleshooting:
+    - path: docs/codex_source/vendor/hermes/troubleshooting/faq.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/troubleshooting/common_errors.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/troubleshooting/auth_failures.md
+      status: verified
+    - path: docs/codex_source/vendor/hermes/troubleshooting/provider_failures.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/hermes/troubleshooting/windows_wsl.md
+      status: extracted_with_gaps
+  source_map:
+    - path: docs/codex_source/vendor/hermes/source_map/cli_entrypoints.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/source_map/auth_source_files.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/source_map/provider_source_files.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/source_map/runtime_source_files.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/source_map/profile_source_files.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/source_map/tools_source_files.md
+      status: extracted
+    - path: docs/codex_source/vendor/hermes/source_map/gateway_source_files.md
+      status: extracted
+  telegram:
+    - path: docs/codex_source/vendor/telegram/README.md
+      status: extracted
+    - path: docs/codex_source/vendor/telegram/identity/update_object.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/identity/user_object.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/identity/chat_object.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/identity/from_user_id.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/identity/chat_id_vs_user_id.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/identity/callback_query_identity.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/updates/get_updates.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/updates/update_offset_deduplication.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/updates/allowed_updates.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/updates/webhook_vs_polling.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/files/voice_object.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/files/file_object.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/files/getfile_download.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/files/file_id_and_file_unique_id.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/files/token_url_redaction.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/messaging/send_message_delivery.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/messaging/send_voice_delivery.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/messaging/message_thread_id.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/messaging/direct_messages_topic_id.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/privacy/privacy_mode_limits.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/privacy/private_chat_visibility.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/privacy/group_visibility.md
+      status: verified
+    - path: docs/codex_source/vendor/telegram/privacy/botfather_settings.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/security/user_id_allowlist.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/security/deny_before_resource_use.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/security/audit_redaction.md
+      status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/source_map/bot_api_objects.md
+      status: extracted
+    - path: docs/codex_source/vendor/telegram/source_map/bot_api_methods.md
+      status: extracted
+    - path: docs/codex_source/vendor/telegram/source_map/project_mapping.md
+      status: extracted_with_gaps
+project_docs:
+  - path: docs/codex_source/project/README.md
+    status: initial
+  - path: docs/codex_source/project/project_overview.md
+    status: needs_import
+  - path: docs/codex_source/project/technical_spec.md
+    status: needs_import
+  - path: docs/codex_source/project/project_snapshot.md
+    status: initial
+  - path: docs/codex_source/project/module_map.md
+    status: initial
+  - path: docs/codex_source/project/runtime_git_canon.md
+    status: initial
+  - path: docs/codex_source/project/assistant_codex_workflow_rules.md
+    status: needs_import
+  - path: docs/codex_source/project/safe_boundaries.md
+    status: initial
+  - path: docs/codex_source/project/source_vs_runtime.md
+    status: initial
+  - path: docs/codex_source/project/current_status.md
+    status: initial
+  - path: docs/codex_source/project/agent_lab_architecture.md
+    status: stub
+  - path: docs/codex_source/project/agent_package_vs_runtime_profile.md
+    status: stub
+  - path: docs/codex_source/project/telegram_router.md
+    status: stub
+  - path: docs/codex_source/project/telegram_voice_pipeline.md
+    status: stub
+  - path: docs/codex_source/project/universal_hermes_reply_path.md
+    status: stub
+  - path: docs/codex_source/project/llm_connection_binding.md
+    status: stub
+  - path: docs/codex_source/project/access_control.md
+    status: stub
+project_memory:
+  context:
+    - path: docs/codex_source/context/README.md
+      status: initial
+    - path: docs/codex_source/context/current_dialogue_context.md
+      status: initial
+    - path: docs/codex_source/context/context_manifest.yaml
+      status: initial
+  roadmap:
+    - path: docs/codex_source/roadmap/README.md
+      status: initial
+    - path: docs/codex_source/roadmap/roadmap.md
+      status: initial
+    - path: docs/codex_source/roadmap/roadmap_manifest.yaml
+      status: initial
+  module_map:
+    - path: docs/codex_source/module_map/README.md
+      status: initial
+    - path: docs/codex_source/module_map/module_map.md
+      status: initial
+    - path: docs/codex_source/module_map/module_map_manifest.yaml
+      status: initial
+  project_snapshot:
+    - path: docs/codex_source/project_snapshot/README.md
+      status: initial
+    - path: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
+      status: initial
+    - path: docs/codex_source/project_snapshot/project_snapshot_manifest.yaml
+      status: initial
+  rules:
+    - path: docs/codex_source/rules/README.md
+      status: needs_import
+    - path: docs/codex_source/rules/chatgpt_workflow_rules.md
+      status: needs_import
+    - path: docs/codex_source/rules/codex_prompt_rules.md
+      status: needs_import
+    - path: docs/codex_source/rules/runtime_git_rules.md
+      status: initial
+    - path: docs/codex_source/rules/documentation_gate_rules.md
+      status: needs_import
+    - path: docs/codex_source/rules/append_only_memory_rules.md
+      status: initial
+  import_queue:
+    - path: docs/codex_source/project/import_queue/README.md
+      status: needs_import
+    - path: docs/codex_source/project/import_queue/missing_sources.yaml
+      status: needs_import
+task_cards:
+  - path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
+    status: extracted
+    required_docs:
+      vendor:
+        - docs/codex_source/vendor/telegram/identity/from_user_id.md
+        - docs/codex_source/vendor/telegram/identity/chat_id_vs_user_id.md
+        - docs/codex_source/vendor/telegram/security/user_id_allowlist.md
+        - docs/codex_source/vendor/telegram/security/deny_before_resource_use.md
+        - docs/codex_source/vendor/telegram/privacy/private_chat_visibility.md
+      project:
+        - docs/codex_source/project/telegram_router.md
+        - docs/codex_source/project/telegram_voice_pipeline.md
+        - docs/codex_source/project/access_control.md
+        - docs/codex_source/project/project_snapshot.md
+    ready_for_fix_run: false
+    reason: Project docs memory layer exists, but required project docs still need import/extraction from current ТЗ/context/module map.
+  - path: docs/codex_source/task_cards/telegram_voice_final_proof.yaml
+    status: extracted
+    required_docs:
+      vendor:
+        - docs/codex_source/vendor/telegram/files/voice_object.md
+        - docs/codex_source/vendor/telegram/files/file_object.md
+        - docs/codex_source/vendor/telegram/files/getfile_download.md
+        - docs/codex_source/vendor/telegram/files/token_url_redaction.md
+        - docs/codex_source/vendor/telegram/messaging/send_message_delivery.md
+        - docs/codex_source/vendor/telegram/messaging/send_voice_delivery.md
+        - docs/codex_source/vendor/telegram/security/deny_before_resource_use.md
+      project:
+        - docs/codex_source/project/telegram_voice_pipeline.md
+        - docs/codex_source/project/universal_hermes_reply_path.md
+    ready_for_fix_run: false
+    reason: required project docs are still stub
+  - path: docs/codex_source/task_cards/telegram_delivery_visibility_diagnosis.yaml
+    status: stub
+    required_docs:
+      vendor:
+        - docs/codex_source/vendor/telegram/identity/from_user_id.md
+        - docs/codex_source/vendor/telegram/identity/chat_id_vs_user_id.md
+        - docs/codex_source/vendor/telegram/messaging/send_message_delivery.md
+        - docs/codex_source/vendor/telegram/privacy/privacy_mode_limits.md
+        - docs/codex_source/vendor/telegram/privacy/private_chat_visibility.md
+        - docs/codex_source/vendor/telegram/privacy/group_visibility.md
+        - docs/codex_source/vendor/telegram/security/audit_redaction.md
+      project:
+        - docs/codex_source/project/telegram_router.md
+        - docs/codex_source/project/telegram_voice_pipeline.md
+        - docs/codex_source/project/access_control.md
+    ready_for_fix_run: false
+    reason: required project docs are still stub
+  - path: docs/codex_source/task_cards/hermes_auth_recover_import_adopt.yaml
+    status: extracted
+    required_docs:
+      vendor:
+        - docs/codex_source/vendor/hermes/auth/openai_codex_auth.md
+        - docs/codex_source/vendor/hermes/auth/auth_stores.md
+        - docs/codex_source/vendor/hermes/auth/codex_cli_import_adopt.md
+      project:
+        - docs/codex_source/project/agent_lab_architecture.md
+        - docs/codex_source/project/universal_hermes_reply_path.md
+    ready_for_fix_run: false
+    reason: project docs are still stub
+  - path: docs/codex_source/task_cards/create_agent_apply_test.yaml
+    status: extracted
+    required_docs:
+      vendor:
+        - docs/codex_source/vendor/hermes/profiles/profile_commands.md
+        - docs/codex_source/vendor/hermes/runtime/runtime_provider.md
+      project:
+        - docs/codex_source/project/agent_package_vs_runtime_profile.md
+        - docs/codex_source/project/agent_lab_architecture.md
+    ready_for_fix_run: false
+    reason: project docs are still stub
+  - path: docs/codex_source/task_cards/agent_llm_binding_fix.yaml
+    status: extracted
+    required_docs:
+      vendor:
+        - docs/codex_source/vendor/hermes/providers/provider_runtime_resolution.md
+        - docs/codex_source/vendor/hermes/providers/openai_codex_provider.md
+        - docs/codex_source/vendor/hermes/runtime/model_switch.md
+      project:
+        - docs/codex_source/project/llm_connection_binding.md
+        - docs/codex_source/project/agent_package_vs_runtime_profile.md
+    ready_for_fix_run: false
+    reason: project docs are still stub
+gate_rule:
+  future_fix_run_must_stop_if_any_required_doc_is_stub: true
+  stop_reason: STOP_DOCS_MISSING

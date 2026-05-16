@@ -1,0 +1,13 @@
+docs_root: https://hermes-agent.nousresearch.com/docs/
+llms_txt: https://hermes-agent.nousresearch.com/docs/llms.txt
+llms_full_txt: https://hermes-agent.nousresearch.com/docs/llms-full.txt
+provider_docs: https://hermes-agent.nousresearch.com/docs/integrations/providers
+provider_runtime_docs: https://hermes-agent.nousresearch.com/docs/developer-guide/provider-runtime/
+codex_app_server_docs: https://hermes-agent.nousresearch.com/docs/user-guide/features/codex-app-server-runtime
+api_server_docs: https://hermes-agent.nousresearch.com/docs/user-guide/features/api-server/
+profiles_docs: https://hermes-agent.nousresearch.com/docs/user-guide/profiles/
+env_vars_docs: https://hermes-agent.nousresearch.com/docs/reference/environment-variables
+tools_runtime_docs: https://hermes-agent.nousresearch.com/docs/developer-guide/tools-runtime
+tools_reference_docs: https://hermes-agent.nousresearch.com/docs/reference/tools-reference/
+skills_docs: https://hermes-agent.nousresearch.com/docs/guides/work-with-skills
+codex_skill_docs: https://hermes-agent.nousresearch.com/docs/user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-codex

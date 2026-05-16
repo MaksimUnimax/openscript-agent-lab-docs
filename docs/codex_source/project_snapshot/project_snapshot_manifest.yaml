@@ -1,0 +1,8 @@
+snapshot_file: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
+append_only: false
+status: initial
+snapshot_kind: repo-tree-lightweight-index
+source_basis: safe tree inspection only
+generated_from_command: find . -maxdepth 2 -type d | sort
+generated_at_utc: 2026-05-16T10:46:58Z
+needs_future_refresh: true

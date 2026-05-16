@@ -1,0 +1,6 @@
+version: 0.1
+source_urls:
+  bot_api: https://core.telegram.org/bots/api
+  bots_faq: https://core.telegram.org/bots/faq
+  bots_features: https://core.telegram.org/bots/features
+captured_run_id: OPENSCRIPT_AGENT_LAB_CODEX_SOURCE_TELEGRAM_DOCS_EXTRACTION_20260516_01

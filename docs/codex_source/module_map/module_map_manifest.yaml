@@ -1,0 +1,5 @@
+module_map_file: docs/codex_source/module_map/module_map.md
+append_only: true
+last_append_id: MM_20260516_0001
+no_destructive_rewrite: true
+tail_lines_for_codex: 160

@@ -1,0 +1,32 @@
+version: 0.1
+name: extraction_report.schema
+description: Схема отчёта о извлечении документации.
+fields:
+  - name: run_id
+    type: string
+    required: true
+  - name: sources_read
+    type: array[string]
+    required: true
+  - name: files_created
+    type: array[string]
+    required: true
+  - name: files_updated
+    type: array[string]
+    required: true
+  - name: facts_extracted
+    type: array[string]
+    required: true
+  - name: facts_not_found
+    type: array[string]
+    required: true
+  - name: citations_or_source_paths
+    type: array[string]
+    required: true
+  - name: verification_status
+    type: string
+    required: true
+  - name: next_steps
+    type: array[string]
+    required: true
+

@@ -1,0 +1,59 @@
+# ENTRYPOINT FOR CHATGPT
+
+STATUS: initial
+
+Purpose:
+- This is the first file ChatGPT must read at the start of a new project dialogue.
+- It exists so ChatGPT and Codex use repo memory instead of guessing from prior chat state.
+
+Do not rely on memory before reading this entrypoint.
+
+Current known HEAD:
+- 3eb2ce35026f75928d45865ba9e6919650be98e2
+
+Current active docs index:
+- docs/codex_source/index.yaml
+
+Manifests:
+- docs/codex_source/context/context_manifest.yaml
+- docs/codex_source/roadmap/roadmap_manifest.yaml
+- docs/codex_source/module_map/module_map_manifest.yaml
+- docs/codex_source/project_snapshot/project_snapshot_manifest.yaml
+
+Vendor docs index:
+- docs/codex_source/vendor/hermes/README.md
+- docs/codex_source/vendor/telegram/README.md
+- docs/codex_source/index.yaml
+
+Project docs:
+- docs/codex_source/project/README.md
+- docs/codex_source/project/current_status.md
+- docs/codex_source/project/project_snapshot.md
+- docs/codex_source/project/module_map.md
+- docs/codex_source/project/runtime_git_canon.md
+- docs/codex_source/project/assistant_codex_workflow_rules.md
+- docs/codex_source/project/safe_boundaries.md
+- docs/codex_source/project/source_vs_runtime.md
+- docs/codex_source/project/technical_spec.md
+- docs/codex_source/project/project_overview.md
+
+Instructions:
+- Vendor docs are under `docs/codex_source/vendor/**`.
+- Roadmap/context are historical/project memory, not vendor source-of-truth.
+- For technical tasks, read the active task card and exact required docs.
+- For append-only updates, Codex must read manifest + tail only, not the entire large context.
+
+Read order:
+1. `docs/codex_source/index.yaml`
+2. `docs/codex_source/project/current_status.md`
+3. `docs/codex_source/project/project_snapshot.md`
+4. `docs/codex_source/project/module_map.md`
+5. `docs/codex_source/context/context_manifest.yaml`
+6. `docs/codex_source/roadmap/roadmap_manifest.yaml`
+7. `docs/codex_source/module_map/module_map_manifest.yaml`
+8. `docs/codex_source/task_cards/<active_task>.yaml` if active_task exists
+9. Exact vendor/project docs required by the task card
+
+Notes:
+- If the task card is missing or a required doc is still `stub`/`needs_import`, future fix-runs must stop with `STOP_DOCS_MISSING`.
+- The project memory layer is separate from application code and separate from vendor docs.
