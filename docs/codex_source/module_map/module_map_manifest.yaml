@@ -1,5 +1,12 @@
 module_map_file: docs/codex_source/module_map/module_map.md
 append_only: true
-last_append_id: MM_20260516_0001
+last_append_id: MM_20260516_0002
+current_snapshot_id: MODULE_MAP_SNAPSHOT_20260516
+current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
+safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
+source_kind: bounded_repo_inventory_plus_imported_docs
+status: imported_current_snapshot
+task_card_reevaluation_required: true
+last_updated_utc: 2026-05-16T12:12:41Z
 no_destructive_rewrite: true
 tail_lines_for_codex: 160

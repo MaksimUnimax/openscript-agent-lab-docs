@@ -497,3 +497,26 @@ Still pending:
 - task card readiness re-evaluation after module map import.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_RULES_REPO_DOCS_ACCESS_V2 -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260516_IMPORTED_MODULE_MAP_SNAPSHOT source=codex_repo_inventory accepted_by_user=yes -->
+
+## 2026-05-16 — Imported module map / safe boundaries snapshot
+
+Facts:
+- No separate user-provided module map document existed.
+- Codex generated a bounded current module map snapshot from repo inventory and imported project docs.
+- The snapshot is docs-only and does not change application code.
+- The module map records source/runtime/public/private boundaries.
+- The module map records that `docs/codex_source/**` is the project documentation source-of-truth for ChatGPT/Codex.
+- The public docs repo mirrors only `docs/codex_source/**`.
+- `agent_lab/**` is application/backend/UI code and must not be touched in docs import runs.
+- `agent-packages/**` are source packages for agents and must not be accidentally staged in unrelated runs.
+- Hermes runtime under `/var/lib/openscript-agent-lab/hermes/**` is runtime state, not source-of-truth.
+- Secrets/auth/runtime state must not go to git or public docs.
+- Future feature/fix prompts must name affected modules and use module map/safe boundaries before changing code.
+
+Next:
+- Re-evaluate task cards using imported ТЗ v0.3, roadmap v0.7, rules pack and module map.
+- Then decide whether Telegram user_id allowlist UI is ready for proof/design/fix.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_MODULE_MAP_SNAPSHOT -->

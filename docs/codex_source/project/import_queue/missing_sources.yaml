@@ -36,9 +36,19 @@ items:
     notes: rules repo access model v2 has been imported
     must_not_invent: true
   - id: module_map_expansion
-    status: missing
-    expected_target_path: docs/codex_source/module_map/module_map.md
-    notes: module map seed exists, but detailed module ownership blocks still need import
+    status: imported_current_snapshot
+    expected_target_path: docs/codex_source/module_map/imported/current_module_map_snapshot.md
+    notes: bounded repo inventory snapshot imported
+    must_not_invent: true
+  - id: safe_boundaries_snapshot
+    status: imported_current_snapshot
+    expected_target_path: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
+    notes: consolidated safe boundaries snapshot imported
+    must_not_invent: true
+  - id: task_card_reevaluation
+    status: needed
+    expected_target_path: docs/codex_source/task_cards/*
+    notes: task cards need re-evaluation after module map import
     must_not_invent: true
   - id: runtime_git_canon
     status: imported
