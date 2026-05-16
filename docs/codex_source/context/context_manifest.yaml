@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
 last_append_id: CTX_20260516_0001
-last_append_title: Project docs / memory foundation
-last_updated_utc: 2026-05-16T10:46:58Z
+last_append_title: Public docs repo visibility verified
+last_updated_utc: 2026-05-16T11:26:31Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

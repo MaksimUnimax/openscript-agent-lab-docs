@@ -1,5 +1,15 @@
 queue_version: 0.1
 items:
+  - id: public_docs_repo_visibility
+    status: done
+    expected_target_path: docs/codex_source/project/current_status.md
+    notes: public docs repo was created, exported, and verified visible through web
+    must_not_invent: true
+  - id: external_git_private_push
+    status: done
+    expected_target_path: docs/codex_source/project/runtime_git_canon.md
+    notes: private source repo push succeeded and origin/main matched HEAD before this sync
+    must_not_invent: true
   - id: technical_spec
     status: missing
     expected_target_path: docs/codex_source/project/technical_spec.md

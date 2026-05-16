@@ -17,9 +17,21 @@ rules:
   - Project ТЗ не заменяет vendor/runtime/API docs.
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
+repo_visibility:
+  private_source_repo:
+    url: git@github.com:MaksimUnimax/openscript-agent-lab.git
+    head_before_sync: 793fa8df4afd4d993badc8cabf693a45dc061bb3
+    status: pushed_and_verified
+  public_docs_repo:
+    url: https://github.com/MaksimUnimax/openscript-agent-lab-docs
+    export_head_before_sync: 11af8d0cd270139436414d5ac6edf475bf00fd3a
+    web_visible_via_chatgpt: yes
+    contains_only_docs_codex_source: yes
 entrypoint:
   - path: docs/codex_source/ENTRYPOINT_FOR_CHATGPT.md
-    status: initial
+    status: verified
+    public_docs_visible: yes
+    public_repo_url: https://github.com/MaksimUnimax/openscript-agent-lab-docs
 vendor_docs:
   overview:
     - path: docs/codex_source/vendor/hermes/README.md

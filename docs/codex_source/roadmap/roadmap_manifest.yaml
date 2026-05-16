@@ -1,6 +1,6 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
 last_append_id: RM_20260516_0001
-last_status: initial
-active_phase: documentation-memory-foundation
+last_status: public_docs_visible
+active_phase: import_actual_project_docs
 no_destructive_rewrite: true

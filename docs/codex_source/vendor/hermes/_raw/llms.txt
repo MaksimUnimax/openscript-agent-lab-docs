@@ -44,7 +44,7 @@ Repo: https://github.com/NousResearch/hermes-agent
 - [Context References](https://hermes-agent.nousresearch.com/docs/user-guide/features/context-references): Inline @-syntax for attaching files, folders, git diffs, and URLs directly into your messages
 - [Personality & SOUL.md](https://hermes-agent.nousresearch.com/docs/user-guide/features/personality): Customize Hermes Agent's personality with a global SOUL.md, built-in personalities, and custom persona definitions
 - [Plugins](https://hermes-agent.nousresearch.com/docs/user-guide/features/plugins): Extend Hermes with custom tools, hooks, and integrations via the plugin system
-- [Built-in Plugins](https://hermes-agent.nousresearch.com/docs/user-guide/features/built-in-plugins): Plugins shipped with Hermes Agent that run automatically via lifecycle hooks — diREDACTED_SK_PREFIXcleanup and friends
+- [Built-in Plugins](https://hermes-agent.nousresearch.com/docs/user-guide/features/built-in-plugins): Plugins shipped with Hermes Agent that run automatically via lifecycle hooks — diREDACTED_SKPREFIXcleanup and friends
 
 ## Automation
 

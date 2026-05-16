@@ -32,7 +32,7 @@ FACTS:
 - vendor docs and project docs are separate source-of-truth layers.
 
 CONTRACT:
-- read taREDACTED_SK_PREFIXcard required docs first.
+- read taREDACTED_SKPREFIXcard required docs first.
 - if a required doc is stub, future fix-runs must stop with `STOP_DOCS_MISSING`.
 
 NON_GOALS:

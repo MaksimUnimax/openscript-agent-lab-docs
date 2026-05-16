@@ -9,7 +9,19 @@ Purpose:
 Do not rely on memory before reading this entrypoint.
 
 Current known HEAD:
-- 3eb2ce35026f75928d45865ba9e6919650be98e2
+- Private source repo:
+  - git@github.com:MaksimUnimax/openscript-agent-lab.git
+  - HEAD before this sync: `793fa8df4afd4d993badc8cabf693a45dc061bb3`
+- Public docs repo:
+  - https://github.com/MaksimUnimax/openscript-agent-lab-docs
+  - export HEAD before this sync: `11af8d0cd270139436414d5ac6edf475bf00fd3a`
+- Public docs repo visible to ChatGPT via web: yes
+- Main read path for ChatGPT: public docs repo -> `docs/codex_source/ENTRYPOINT_FOR_CHATGPT.md`
+- Public docs repo contains only `docs/codex_source/**`: yes
+
+Note:
+- Do not rely on memory before reading this entrypoint.
+- This file reflects the pre-sync source state; the current post-sync private HEAD is reported in the run output, not claimed here.
 
 Current active docs index:
 - docs/codex_source/index.yaml
