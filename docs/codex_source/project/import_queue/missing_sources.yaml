@@ -16,9 +16,9 @@ items:
     notes: current product TЗ v0.3 from `Тз(2).md` is imported into the repo memory layer
     must_not_invent: true
   - id: roadmap_current
-    status: missing
+    status: imported
     expected_target_path: docs/codex_source/roadmap/roadmap.md
-    notes: current roadmap v0.7 / current roadmap content is not imported yet
+    notes: current roadmap v0.7 is imported from inline roadmap content and appended in repo memory
     must_not_invent: true
   - id: working_context
     status: imported
@@ -59,4 +59,9 @@ items:
     status: imported
     expected_target_path: docs/codex_source/project/technical_spec.md
     notes: v0.3 OpenScript Agent Lab + Расходы с характером is now the current technical spec
+    must_not_invent: true
+  - id: actual_roadmap_v0_7
+    status: imported
+    expected_target_path: docs/codex_source/roadmap/roadmap.md
+    notes: current roadmap v0.7 imported from inline prompt content
     must_not_invent: true

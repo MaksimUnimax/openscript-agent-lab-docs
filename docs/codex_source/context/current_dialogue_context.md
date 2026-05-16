@@ -454,3 +454,25 @@ Next:
 - Then re-evaluate task cards before main feature work.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_TZ_V0_3 -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260516_IMPORTED_ROADMAP_V0_7 source=chatgpt_inline_roadmap accepted_by_user=yes -->
+
+## 2026-05-16 — Imported actual roadmap v0.7
+
+Facts:
+- Actual roadmap v0.7 was provided inline to Codex by ChatGPT.
+- v0.7 is the current roadmap state.
+- v0.7 records final Telegram voice / universal Hermes path server-side success.
+- Telegram voice proof includes recognized=yes, provider_call_success=yes, answer_created=yes, telegram_send_success=yes, telegram_message_id=155.
+- Delivery to same inbound chat_id was proven.
+- Auth/voice/send block is no longer the active blocker unless new proof shows a new issue.
+- v0.6 remains useful for documentation-baseline/auth/process rules, but its active auth blocker is superseded by v0.7.
+- v0.5 Slice B getFile/download gate is historical/superseded.
+- v0.2 is historical product origin only.
+
+Next:
+- Import rules pack.
+- Import module map/safe boundaries.
+- Then re-evaluate task cards before main feature work.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_ROADMAP_V0_7 -->

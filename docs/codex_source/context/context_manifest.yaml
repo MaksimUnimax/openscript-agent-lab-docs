@@ -1,7 +1,7 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260516_IMPORTED_TZ_V0_3
-last_append_title: Imported current ТЗ v0.3 “OpenScript Agent Lab + Расходы с характером”
+last_append_id: CTX_20260516_IMPORTED_ROADMAP_V0_7
+last_append_title: Imported actual roadmap v0.7
 last_updated_utc: 2026-05-16T11:38:46Z
 read_policy:
   codex_append: read manifest + tail only

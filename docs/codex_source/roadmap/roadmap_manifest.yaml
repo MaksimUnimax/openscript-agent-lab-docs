@@ -1,6 +1,14 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260516_0001
-last_status: public_docs_visible
-active_phase: import_actual_project_docs
+last_append_id: RM_20260516_IMPORTED_ROADMAP_V0_7_CURRENT
+last_status: roadmap_v0_7_current_imported
+active_phase: import_rules_pack_then_module_map
+current_roadmap_version: v0.7
+current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
+historical_versions:
+  - v0.2
+  - v0.3
+  - v0.4
+  - v0.5
+  - v0.6
 no_destructive_rewrite: true

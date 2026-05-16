@@ -274,17 +274,23 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260516_IMPORTED_WORKING_CONTEXT_V1
-      last_append_title: Imported working context from uploaded ChatGPT handoff files
+      last_append_id: CTX_20260516_IMPORTED_ROADMAP_V0_7
+      last_append_title: Imported actual roadmap v0.7
     - path: docs/codex_source/context/context_manifest.yaml
-      status: initial
+      status: imported
   roadmap:
     - path: docs/codex_source/roadmap/README.md
-      status: initial
+      status: imported
     - path: docs/codex_source/roadmap/roadmap.md
-      status: initial
+      status: imported
+      current_roadmap_version: v0.7
+      current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
     - path: docs/codex_source/roadmap/roadmap_manifest.yaml
-      status: initial
+      status: imported
+    - path: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
+      status: imported
+    - path: docs/codex_source/roadmap/imported/roadmap_lineage_summary.md
+      status: imported
   module_map:
     - path: docs/codex_source/module_map/README.md
       status: initial
