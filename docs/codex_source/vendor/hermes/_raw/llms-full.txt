@@ -331,7 +331,7 @@ The easiest way to set values correctly is through the CLI:
 ```bash
 hermes config set model anthropic/claude-opus-4.6
 hermes config set terminal.backend docker
-hermes config set OPENROUTER_API_KEY REDACTED_SKPREFIXor-...
+hermes config set OPENROUTER_API_KEY sk-or-...
 ```
 
 The right value goes to the right file automatically.
@@ -468,7 +468,7 @@ mcp_servers:
     command: npx
     args: ["-y", "@modelcontextprotocol/server-github"]
     env:
-      GITHUB_PERSONAL_ACCESS_TOKEN: "REDACTED_GHPREFIXxxx"
+      GITHUB_PERSONAL_ACCESS_TOKEN: "ghp_xxx"
 ```
 
 ### Editor integration (ACP)
@@ -1280,10 +1280,10 @@ This module requires NixOS. For non-NixOS systems (macOS, other Linux distros), 
 That's it. `nixos-rebuild switch` creates the `hermes` user, generates `config.yaml`, wires up secrets, and starts the gateway — a long-running service that connects the agent to messaging platforms (Telegram, Discord, etc.) and listens for incoming messages.
 
 :::warning Secrets are required
-The `environmentFiles` line above assumes you have [sops-nix](https://github.com/Mic92/sops-nix) or [agenix](https://github.com/ryantm/agenix) configured. The file should contain at least one LLM provider key (e.g., `OPENROUTER_API_KEY=REDACTED_SKPREFIXor-...`). See [Secrets Management](#secrets-management) for full setup. If you don't have a secrets manager yet, you can use a plain file as a starting point — just ensure it's not world-readable:
+The `environmentFiles` line above assumes you have [sops-nix](https://github.com/Mic92/sops-nix) or [agenix](https://github.com/ryantm/agenix) configured. The file should contain at least one LLM provider key (e.g., `OPENROUTER_API_KEY=sk-or-...`). See [Secrets Management](#secrets-management) for full setup. If you don't have a secrets manager yet, you can use a plain file as a starting point — just ensure it's not world-readable:
 
 ```bash
-echo "OPENROUTER_API_KEY=REDACTED_SKPREFIXor-your-key" | sudo install -m 0600 -o hermes /dev/stdin /var/lib/hermes/env
+echo "OPENROUTER_API_KEY=sk-or-your-key" | sudo install -m 0600 -o hermes /dev/stdin /var/lib/hermes/env
 ```
 
 ```nix
@@ -1533,9 +1533,9 @@ The secrets file contains key-value pairs:
 ```yaml
 # secrets/hermes.yaml (encrypted with sops)
 hermes-env: |
-    OPENROUTER_API_KEY=REDACTED_SKPREFIXor-...
-    REDACTED_TELEGRAM_SECRET=123456:ABC...
-    ANTHROPIC_API_KEY=REDACTED_SKPREFIXant-...
+    OPENROUTER_API_KEY=sk-or-...
+    TELEGRAM_BOT_TOKEN=123456:ABC...
+    ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 ### agenix
@@ -2848,7 +2848,7 @@ hermes config migrate      # Interactively add missing options
 # Examples:
 hermes config set model anthropic/claude-opus-4
 hermes config set terminal.backend docker
-hermes config set OPENROUTER_API_KEY REDACTED_SKPREFIXor-...  # Saves to .env
+hermes config set OPENROUTER_API_KEY sk-or-...  # Saves to .env
 ```
 
 :::tip
@@ -3828,7 +3828,7 @@ auxiliary:
 ```yaml
 # In ~/.hermes/.env:
 # OPENAI_BASE_URL=https://api.openai.com/v1
-# OPENAI_API_KEY=REDACTED_SKPREFIX...
+# OPENAI_API_KEY=sk-...
 
 auxiliary:
   vision:
@@ -5893,8 +5893,8 @@ API keys are read from `/opt/data/.env` inside the container. You can also pass 
 ```sh
 docker run -it --rm \
   -v ~/.hermes:/opt/data \
-  -e ANTHROPIC_API_KEY="REDACTED_SKPREFIXant-..." \
-  -e OPENAI_API_KEY="REDACTED_SKPREFIX..." \
+  -e ANTHROPIC_API_KEY="sk-ant-..." \
+  -e OPENAI_API_KEY="sk-..." \
   nousresearch/hermes-agent
 ```
 
@@ -5921,7 +5921,7 @@ services:
       # Uncomment to forward specific env vars instead of using .env file:
       # - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       # - OPENAI_API_KEY=${OPENAI_API_KEY}
-      # - REDACTED_TELEGRAM_SECRET=${REDACTED_TELEGRAM_SECRET}
+      # - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
     deploy:
       resources:
         limits:
@@ -6521,7 +6521,7 @@ For production gateway deployments, use `docker`, `modal`, `daytona`, or `vercel
 :::
 
 :::warning
-If you add names to `terminal.docker_forward_env`, those variables are intentionally injected into the container for terminal commands. This is useful for taREDACTED_SKPREFIXspecific credentials like `GITHUB_TOKEN`, but it also means code running in the container can read and exfiltrate them.
+If you add names to `terminal.docker_forward_env`, those variables are intentionally injected into the container for terminal commands. This is useful for task-specific credentials like `GITHUB_TOKEN`, but it also means code running in the container can read and exfiltrate them.
 :::
 
 ## Terminal Backend Security Comparison
@@ -6642,15 +6642,15 @@ mcp_servers:
     command: "npx"
     args: ["-y", "@modelcontextprotocol/server-github"]
     env:
-      GITHUB_PERSONAL_ACCESS_TOKEN: "REDACTED_GHPREFIX..."  # Only this is passed
+      GITHUB_PERSONAL_ACCESS_TOKEN: "ghp_..."  # Only this is passed
 ```
 
 ### Credential Redaction
 
 Error messages from MCP tools are sanitized before being returned to the LLM. The following patterns are replaced with `[REDACTED]`:
 
-- GitHub PATs (`REDACTED_GHPREFIX...`)
-- OpenAI-style keys (`REDACTED_SKPREFIX...`)
+- GitHub PATs (`ghp_...`)
+- OpenAI-style keys (`sk-...`)
 - Bearer tokens
 - `token=`, `key=`, `API_KEY=`, `password=`, `secret=` parameters
 
@@ -8808,7 +8808,7 @@ Cloud memory API with hybrid search (Vector + BM25 + Reranking), 7 memory types,
 | **Data storage** | RetainDB Cloud |
 | **Cost** | $20/month |
 
-**Tools:** `retaindb_profile` (user profile), `retaindb_search` (semantic search), `retaindb_context` (taREDACTED_SKPREFIXrelevant context), `retaindb_remember` (store with type + importance), `retaindb_forget` (delete memories)
+**Tools:** `retaindb_profile` (user profile), `retaindb_search` (semantic search), `retaindb_context` (task-relevant context), `retaindb_remember` (store with type + importance), `retaindb_forget` (delete memories)
 
 **Setup:**
 ```bash
@@ -9386,7 +9386,7 @@ A good SOUL file is:
 - stable across contexts
 - broad enough to apply in many conversations
 - specific enough to materially shape the voice
-- focused on communication and identity, not taREDACTED_SKPREFIXspecific instructions
+- focused on communication and identity, not task-specific instructions
 
 ### Example
 
@@ -9719,7 +9719,7 @@ User plugins at `~/.hermes/plugins/model-providers/<name>/` and `~/.hermes/plugi
 plugins:
   enabled:
     - my-tool-plugin
-    - diREDACTED_SKPREFIXcleanup
+    - disk-cleanup
   disabled:       # optional deny-list — always wins if a name appears in both
     - noisy-plugin
 ```
@@ -9854,7 +9854,7 @@ Plugins
   General Plugins
  → [✓] my-tool-plugin — Custom search tool
    [ ] webhook-notifier — Event hooks
-   [ ] diREDACTED_SKPREFIXcleanup — Auto-cleanup of ephemeral files [bundled]
+   [ ] disk-cleanup — Auto-cleanup of ephemeral files [bundled]
 
   Provider Plugins
      Memory Provider          ▸ honcho
@@ -9934,7 +9934,7 @@ The `PluginManager` scans four sources, in order:
 3. **Project** — `./.hermes/plugins/<name>/` (requires `HERMES_ENABLE_PROJECT_PLUGINS=1`)
 4. **Pip entry points** — `hermes_agent.plugins`
 
-On name collision, later sources win — a user plugin named `diREDACTED_SKPREFIXcleanup` would replace the bundled one.
+On name collision, later sources win — a user plugin named `disk-cleanup` would replace the bundled one.
 
 `plugins/memory/` and `plugins/context_engine/` are deliberately excluded from bundled scanning. Those directories use their own discovery paths because memory providers and context engines are single-select providers configured through `hermes memory setup` / `context.engine` in config.
 
@@ -9943,7 +9943,7 @@ On name collision, later sources win — a user plugin named `diREDACTED_SKPREFI
 Bundled plugins ship disabled. Discovery finds them (they appear in `hermes plugins list` and the interactive `hermes plugins` UI), but none load until you explicitly enable them:
 
 ```bash
-hermes plugins enable diREDACTED_SKPREFIXcleanup
+hermes plugins enable disk-cleanup
 ```
 
 Or via `~/.hermes/config.yaml`:
@@ -9951,7 +9951,7 @@ Or via `~/.hermes/config.yaml`:
 ```yaml
 plugins:
   enabled:
-    - diREDACTED_SKPREFIXcleanup
+    - disk-cleanup
 ```
 
 This is the same mechanism user-installed plugins use. Bundled plugins are never auto-enabled — not on fresh install, not for existing users upgrading to a newer Hermes. You always opt in explicitly.
@@ -9959,7 +9959,7 @@ This is the same mechanism user-installed plugins use. Bundled plugins are never
 To turn a bundled plugin off again:
 
 ```bash
-hermes plugins disable diREDACTED_SKPREFIXcleanup
+hermes plugins disable disk-cleanup
 # or: remove it from plugins.enabled in config.yaml
 ```
 
@@ -9969,7 +9969,7 @@ The repo ships these bundled plugins under `plugins/`. All are opt-in — enable
 
 | Plugin | Kind | Purpose |
 |---|---|---|
-| `diREDACTED_SKPREFIXcleanup` | hooks + slash command | Auto-track ephemeral files and clean them on session end |
+| `disk-cleanup` | hooks + slash command | Auto-track ephemeral files and clean them on session end |
 | `observability/langfuse` | hooks | Trace turns / LLM calls / tools to [Langfuse](https://langfuse.com) |
 | `spotify` | backend (7 tools) | Native Spotify playback, queue, search, playlists, albums, library |
 | `google_meet` | standalone | Join Meet calls, live-caption transcription, optional realtime duplex audio |
@@ -9981,7 +9981,7 @@ The repo ships these bundled plugins under `plugins/`. All are opt-in — enable
 
 Memory providers (`plugins/memory/*`) and context engines (`plugins/context_engine/*`) are listed separately on [Memory Providers](./memory-providers.md) — they're managed through `hermes memory` and `hermes plugins` respectively. The full per-plugin detail for the two long-running hooks-based plugins follows.
 
-### diREDACTED_SKPREFIXcleanup
+### disk-cleanup
 
 Auto-tracks and removes ephemeral files created during sessions — test scripts, temp outputs, cron logs, stale chrome profiles — without requiring the agent to remember to call a tool.
 
@@ -10004,18 +10004,18 @@ Auto-tracks and removes ephemeral files created during sessions — test scripts
 | `chrome-profile` | >14 days since tracked | Always (deep only) |
 | files >500 MB | never auto | Always (deep only) |
 
-**Slash command** — `/diREDACTED_SKPREFIXcleanup` available in both CLI and gateway sessions:
+**Slash command** — `/disk-cleanup` available in both CLI and gateway sessions:
 
 ```
-/diREDACTED_SKPREFIXcleanup status                     # breakdown + top-10 largest
-/diREDACTED_SKPREFIXcleanup dry-run                    # preview without deleting
-/diREDACTED_SKPREFIXcleanup quick                      # run safe cleanup now
-/diREDACTED_SKPREFIXcleanup deep                       # quick + list items needing confirmation
-/diREDACTED_SKPREFIXcleanup track <path> <category>    # manual tracking
-/diREDACTED_SKPREFIXcleanup forget <path>              # stop tracking (does not delete)
+/disk-cleanup status                     # breakdown + top-10 largest
+/disk-cleanup dry-run                    # preview without deleting
+/disk-cleanup quick                      # run safe cleanup now
+/disk-cleanup deep                       # quick + list items needing confirmation
+/disk-cleanup track <path> <category>    # manual tracking
+/disk-cleanup forget <path>              # stop tracking (does not delete)
 ```
 
-**State** — everything lives at `$HERMES_HOME/diREDACTED_SKPREFIXcleanup/`:
+**State** — everything lives at `$HERMES_HOME/disk-cleanup/`:
 
 | File | Contents |
 |---|---|
@@ -10023,11 +10023,11 @@ Auto-tracks and removes ephemeral files created during sessions — test scripts
 | `tracked.json.bak` | Atomic-write backup of the above |
 | `cleanup.log` | Append-only audit trail of every track / skip / reject / delete |
 
-**Safety** — cleanup only ever touches paths under `HERMES_HOME` or `/tmp/hermes-*`. Windows mounts (`/mnt/c/...`) are rejected. Well-known top-level state dirs (`logs/`, `memories/`, `sessions/`, `cron/`, `cache/`, `skills/`, `plugins/`, `diREDACTED_SKPREFIXcleanup/` itself) are never removed even when empty — a fresh install does not get gutted on first session end.
+**Safety** — cleanup only ever touches paths under `HERMES_HOME` or `/tmp/hermes-*`. Windows mounts (`/mnt/c/...`) are rejected. Well-known top-level state dirs (`logs/`, `memories/`, `sessions/`, `cron/`, `cache/`, `skills/`, `plugins/`, `disk-cleanup/` itself) are never removed even when empty — a fresh install does not get gutted on first session end.
 
-**Enabling:** `hermes plugins enable diREDACTED_SKPREFIXcleanup` (or check the box in `hermes plugins`).
+**Enabling:** `hermes plugins enable disk-cleanup` (or check the box in `hermes plugins`).
 
-**Disabling again:** `hermes plugins disable diREDACTED_SKPREFIXcleanup`.
+**Disabling again:** `hermes plugins disable disk-cleanup`.
 
 ### observability/langfuse
 
@@ -10054,7 +10054,7 @@ Then put the credentials in `~/.hermes/.env`:
 
 ```bash
 HERMES_LANGFUSE_PUBLIC_KEY=pk-lf-...
-HERMES_LANGFUSE_SECRET_KEY=REDACTED_SKPREFIXlf-...
+HERMES_LANGFUSE_SECRET_KEY=sk-lf-...
 HERMES_LANGFUSE_BASE_URL=https://cloud.langfuse.com   # or your self-hosted URL
 ```
 
@@ -11390,7 +11390,7 @@ kanban_create(
 kanban_complete(summary="decomposed into 2 research tasks + 1 writer; linked dependencies")
 ```
 
-The "(Orchestrators)" tools — `kanban_list`, `kanban_create`, `kanban_link`, `kanban_unblock`, and `kanban_comment` on foreign tasks — are available through the same toolset; the convention (enforced by the `kanban-orchestrator` skill) is that worker profiles don't fan out or route unrelated work, and orchestrator profiles don't execute implementation work. Dispatcher-spawned workers are still taREDACTED_SKPREFIXscoped for destructive lifecycle operations and cannot mutate unrelated tasks.
+The "(Orchestrators)" tools — `kanban_list`, `kanban_create`, `kanban_link`, `kanban_unblock`, and `kanban_comment` on foreign tasks — are available through the same toolset; the convention (enforced by the `kanban-orchestrator` skill) is that worker profiles don't fan out or route unrelated work, and orchestrator profiles don't execute implementation work. Dispatcher-spawned workers are still task-scoped for destructive lifecycle operations and cannot mutate unrelated tasks.
 
 ### Why tools instead of shelling to `hermes kanban`
 
@@ -12207,7 +12207,7 @@ When a worker on task B is spawned and calls `kanban_show()`, the `worker_contex
 
 This replaces the "dig through comments and the work output" dance that plagues flat kanban systems. A PM writes acceptance criteria in the spec's metadata, and the engineer's worker sees them structurally in the parent handoff. An engineer records which tests they ran and how many passed, and the reviewer's worker has that list in hand before opening a diff.
 
-The bulk-close guard exists because this data is per-run. `hermes kanban complete a b c --summary X` (you, from the CLI) is refused — copy-pasting the same summary to three tasks is almost always wrong. Bulk close without the handoff flags still works for the common "I finished a pile of admin tasks" case. The tool surface doesn't expose a bulk variant at all; `kanban_complete` is always single-taREDACTED_SKPREFIXat-a-time for the same reason.
+The bulk-close guard exists because this data is per-run. `hermes kanban complete a b c --summary X` (you, from the CLI) is refused — copy-pasting the same summary to three tasks is almost always wrong. Bulk close without the handoff flags still works for the common "I finished a pile of admin tasks" case. The tool surface doesn't expose a bulk variant at all; `kanban_complete` is always single-task-at-a-time for the same reason.
 
 ## Inspecting a task currently running
 
@@ -12724,30 +12724,30 @@ Handlers registered for `command:*` fire for any `command:` event (`command:mode
 Send yourself a message when the agent takes more than 10 steps:
 
 ```yaml
-# ~/.hermes/hooks/long-taREDACTED_SKPREFIXalert/HOOK.yaml
-name: long-taREDACTED_SKPREFIXalert
+# ~/.hermes/hooks/long-task-alert/HOOK.yaml
+name: long-task-alert
 description: Alert when agent is taking many steps
 events:
   - agent:step
 ```
 
 ```python
-# ~/.hermes/hooks/long-taREDACTED_SKPREFIXalert/handler.py
+# ~/.hermes/hooks/long-task-alert/handler.py
 import os
 import httpx
 
 THRESHOLD = 10
-REDACTED_SECRET_TOKEN = os.getenv("REDACTED_TELEGRAM_SECRET")
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_HOME_CHANNEL")
 
 async def handle(event_type: str, context: dict):
     iteration = context.get("iteration", 0)
-    if iteration == THRESHOLD and REDACTED_SECRET_TOKEN and CHAT_ID:
+    if iteration == THRESHOLD and BOT_TOKEN and CHAT_ID:
         tools = ", ".join(context.get("tool_names", []))
         text = f"⚠️ Agent has been running for {iteration} steps. Last tools: {tools}"
         async with httpx.AsyncClient() as client:
             await client.post(
-                f"https://api.telegram.org/bot{REDACTED_SECRET_TOKEN}/sendMessage",
+                f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
                 json={"chat_id": CHAT_ID, "text": text},
             )
 ```
@@ -13665,7 +13665,7 @@ def my_callback(
 
 ```python
 import re
-SECRET = re.compile(r"REDACTED_SKPREFIX[A-Za-z0-9]{32,}")
+SECRET = re.compile(r"sk-[A-Za-z0-9]{32,}")
 
 def redact_secrets(tool_name, result, **kwargs):
     if SECRET.search(result):
@@ -14496,7 +14496,7 @@ The bot auto-loads the codec from:
 # ~/.hermes/.env
 
 # Discord bot (already configured for text)
-DISCORD_REDACTED_SECRET_TOKEN=your-bot-token
+DISCORD_BOT_TOKEN=your-bot-token
 DISCORD_ALLOWED_USERS=your-user-id
 
 # STT — local provider needs no key (pip install faster-whisper)
@@ -14622,7 +14622,7 @@ ELEVENLABS_API_KEY=***             # ElevenLabs (premium quality)
 # VOICE_TOOLS_OPENAI_KEY above also enables OpenAI TTS
 
 # Discord voice channel
-DISCORD_REDACTED_SECRET_TOKEN=...
+DISCORD_BOT_TOKEN=...
 DISCORD_ALLOWED_USERS=...
 ```
 
@@ -16622,7 +16622,7 @@ Select **Telegram** when prompted. The wizard asks for your bot token and allowe
 Add the following to `~/.hermes/.env`:
 
 ```bash
-REDACTED_TELEGRAM_SECRET=123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
+TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
 TELEGRAM_ALLOWED_USERS=123456789    # Comma-separated for multiple users
 ```
 
@@ -17413,7 +17413,7 @@ Numeric YAML keys are automatically normalized to strings.
 
 | Problem | Solution |
 |---------|----------|
-| Bot not responding at all | Verify `REDACTED_TELEGRAM_SECRET` is correct. Check `hermes gateway` logs for errors. |
+| Bot not responding at all | Verify `TELEGRAM_BOT_TOKEN` is correct. Check `hermes gateway` logs for errors. |
 | Bot responds with "unauthorized" | Your user ID is not in `TELEGRAM_ALLOWED_USERS`. Double-check with @userinfobot. |
 | Bot ignores group messages | Privacy mode is likely on. Disable it (Step 3) or make the bot a group admin. **Remember to remove and re-add the bot after changing privacy.** |
 | Voice messages not transcribed | Verify STT is available: install `faster-whisper` for local transcription, or set `GROQ_API_KEY` / `VOICE_TOOLS_OPENAI_KEY` in `~/.hermes/.env`. |
@@ -17696,7 +17696,7 @@ Add the following to your `~/.hermes/.env` file:
 
 ```bash
 # Required
-DISCORD_REDACTED_SECRET_TOKEN=your-bot-token
+DISCORD_BOT_TOKEN=your-bot-token
 DISCORD_ALLOWED_USERS=284102345871466496
 
 # Multiple allowed users (comma-separated)
@@ -17723,7 +17723,7 @@ Discord behavior is controlled through two files: **`~/.hermes/.env`** for crede
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `DISCORD_REDACTED_SECRET_TOKEN` | **Yes** | — | Bot token from the [Discord Developer Portal](https://discord.com/developers/applications). |
+| `DISCORD_BOT_TOKEN` | **Yes** | — | Bot token from the [Discord Developer Portal](https://discord.com/developers/applications). |
 | `DISCORD_ALLOWED_USERS` | **Yes** | — | Comma-separated Discord user IDs allowed to interact with the bot. Without this **or** `DISCORD_ALLOWED_ROLES`, the gateway denies all users. |
 | `DISCORD_ALLOWED_ROLES` | No | — | Comma-separated Discord role IDs. Any member with one of these roles is authorized — OR semantics with `DISCORD_ALLOWED_USERS`. Auto-enables the **Server Members Intent** on connect. Useful when moderation teams churn: new mods get access as soon as the role is granted, no config push needed. |
 | `DISCORD_HOME_CHANNEL` | No | — | Channel ID where the bot sends proactive messages (cron output, reminders, notifications). |
@@ -18138,7 +18138,7 @@ Refreshing the directory (`/channels refresh` on platforms that expose it, or a 
 
 **Cause**: The Hermes gateway isn't running, or the token is incorrect.
 
-**Fix**: Check that `hermes gateway` is running. Verify `DISCORD_REDACTED_SECRET_TOKEN` in your `.env` file. If you recently reset the token, update it.
+**Fix**: Check that `hermes gateway` is running. Verify `DISCORD_BOT_TOKEN` in your `.env` file. If you recently reset the token, update it.
 
 ### "User not allowed" / Bot ignores you
 
@@ -18373,7 +18373,7 @@ Even with all the correct scopes and event subscriptions, Slack will not allow u
 2. Click **Install to Workspace**
 3. Review the permissions and click **Allow**
 4. After authorization, you'll see a **Bot User OAuth Token** starting with `xoxb-`
-5. **Copy this token** — this is your `SLACK_REDACTED_SECRET_TOKEN`
+5. **Copy this token** — this is your `SLACK_BOT_TOKEN`
 
 :::tip
 If you change scopes or event subscriptions later, you **must reinstall the app** for the changes
@@ -18403,7 +18403,7 @@ Add the following to your `~/.hermes/.env` file:
 
 ```bash
 # Required
-SLACK_REDACTED_SECRET_TOKEN=xoxb-your-bot-token-here
+SLACK_BOT_TOKEN=xoxb-your-bot-token-here
 SLACK_APP_TOKEN=xapp-your-app-token-here
 SLACK_ALLOWED_USERS=U01ABC2DEF3              # Comma-separated Member IDs
 
@@ -18677,11 +18677,11 @@ Hermes can connect to **multiple Slack workspaces** simultaneously using a singl
 
 ### Configuration
 
-Provide multiple bot tokens as a **comma-separated list** in `SLACK_REDACTED_SECRET_TOKEN`:
+Provide multiple bot tokens as a **comma-separated list** in `SLACK_BOT_TOKEN`:
 
 ```bash
 # Multiple bot tokens — one per workspace
-SLACK_REDACTED_SECRET_TOKEN=xoxb-workspace1-token,xoxb-workspace2-token,xoxb-workspace3-token
+SLACK_BOT_TOKEN=xoxb-workspace1-token,xoxb-workspace2-token,xoxb-workspace3-token
 
 # A single app-level token is still used for Socket Mode
 SLACK_APP_TOKEN=xapp-your-app-token
@@ -18714,7 +18714,7 @@ This file is a JSON object mapping team IDs to token entries:
 }
 ```
 
-Tokens from this file are merged with any tokens specified via `SLACK_REDACTED_SECRET_TOKEN`. Duplicate tokens are automatically deduplicated.
+Tokens from this file are merged with any tokens specified via `SLACK_BOT_TOKEN`. Duplicate tokens are automatically deduplicated.
 
 ### How it works
 
@@ -20019,7 +20019,7 @@ Hermes detects this condition on startup and refuses to enable E2EE, logging: `d
    ```
    Or via the Synapse admin API (note the URL-encoded user ID):
    ```bash
-   curl -X DELETE -H "Authorization: [REDACTED] ADMIN_TOKEN" \
+   curl -X DELETE -H "Authorization: Bearer ADMIN_TOKEN" \
      'https://your-server/_synapse/admin/v2/users/%40hermes%3Ayour-server/devices/DEVICE_ID'
    ```
    Note: deleting a device via the admin API may also invalidate the associated access token. You may need to generate a new token afterward.
@@ -20072,7 +20072,7 @@ To find a Room ID: in Element, go to the room → **Settings** → **Advanced** 
 **Fix**: Verify `MATRIX_HOMESERVER` points to your homeserver (include `https://`, no trailing slash). Check that `MATRIX_ACCESS_TOKEN` is valid — try it with curl:
 
 ```bash
-curl -H "Authorization: [REDACTED] YOUR_TOKEN" \
+curl -H "Authorization: Bearer YOUR_TOKEN" \
   https://your-server/_matrix/client/v3/account/whoami
 ```
 
@@ -20472,7 +20472,7 @@ Your User ID is **not** your username. The username is what appears after `@` (e
 **Alternative**: You can also get your User ID via the API:
 
 ```bash
-curl -H "Authorization: [REDACTED] YOUR_TOKEN" \
+curl -H "Authorization: Bearer YOUR_TOKEN" \
   https://your-mattermost-server/api/v4/users/me | jq .id
 ```
 
@@ -20621,7 +20621,7 @@ location /api/v4/websocket {
 **Fix**: Verify `MATTERMOST_URL` points to your Mattermost server (include `https://`, no trailing slash). Check that `MATTERMOST_TOKEN` is valid — try it with curl:
 
 ```bash
-curl -H "Authorization: [REDACTED] YOUR_TOKEN" \
+curl -H "Authorization: Bearer YOUR_TOKEN" \
   https://your-server/api/v4/users/me
 ```
 
@@ -21724,19 +21724,19 @@ hermes chat --provider copilot --model gpt-5.4
 If no token is found, `hermes model` offers an **OAuth device code login** — the same flow used by the Copilot CLI and opencode.
 
 :::warning Token types
-The Copilot API does **not** support classic Personal Access Tokens (`REDACTED_GHPREFIX*`). Supported token types:
+The Copilot API does **not** support classic Personal Access Tokens (`ghp_*`). Supported token types:
 
 | Type | Prefix | How to get |
 |------|--------|------------|
 | OAuth token | `gho_` | `hermes model` → GitHub Copilot → Login with GitHub |
-| Fine-grained PAT | `REDACTED_GITHUBPAT` | GitHub Settings → Developer settings → Fine-grained tokens (needs **Copilot Requests** permission) |
+| Fine-grained PAT | `github_pat_` | GitHub Settings → Developer settings → Fine-grained tokens (needs **Copilot Requests** permission) |
 | GitHub App token | `ghu_` | Via GitHub App installation |
 
-If your `gh auth token` returns a `REDACTED_GHPREFIX*` token, use `hermes model` to authenticate via OAuth instead.
+If your `gh auth token` returns a `ghp_*` token, use `hermes model` to authenticate via OAuth instead.
 :::
 
 :::info Copilot auth behavior in Hermes
-Hermes sends a supported GitHub token (`gho_*`, `REDACTED_GITHUBPAT*`, or `ghu_*`) directly to `api.githubcopilot.com` and includes Copilot-specific headers (`Editor-Version`, `Copilot-Integration-Id`, `Openai-Intent`, `x-initiator`).
+Hermes sends a supported GitHub token (`gho_*`, `github_pat_*`, or `ghu_*`) directly to `api.githubcopilot.com` and includes Copilot-specific headers (`Editor-Version`, `Copilot-Integration-Id`, `Openai-Intent`, `x-initiator`).
 
 On HTTP 401, Hermes now performs a one-shot credential recovery before fallback:
 
@@ -22573,11 +22573,11 @@ model_list:
   - model_name: "best"
     litellm_params:
       model: anthropic/claude-sonnet-4
-      api_key: REDACTED_SKPREFIXant-...
+      api_key: sk-ant-...
   - model_name: "best"
     litellm_params:
       model: openai/gpt-4o
-      api_key: REDACTED_SKPREFIX...
+      api_key: sk-...
 router_settings:
   routing_strategy: "latency-based-routing"
 ```
@@ -23837,7 +23837,7 @@ Point any OpenAI-compatible client at `http://localhost:8642/v1`:
 ```bash
 # Test with curl
 curl http://localhost:8642/v1/chat/completions \
-  -H "Authorization: [REDACTED] change-me-local-dev" \
+  -H "Authorization: Bearer change-me-local-dev" \
   -H "Content-Type: application/json" \
   -d '{"model": "hermes-agent", "messages": [{"role": "user", "content": "Hello!"}]}'
 ```
@@ -24112,7 +24112,7 @@ This means you can customize behavior per-frontend without losing capabilities:
 Bearer token auth via the `Authorization` header:
 
 ```
-Authorization: [REDACTED] ***
+Authorization: Bearer ***
 ```
 
 Configure the key via `API_SERVER_KEY` env var. If you need a browser to call Hermes directly, also set `API_SERVER_CORS_ORIGINS` to an explicit allowlist.
@@ -25088,10 +25088,10 @@ If you already have an API key set in `.env`, Hermes auto-discovers it as a 1-ke
 
 ```bash
 # Add a second OpenRouter key
-hermes auth add openrouter --api-key REDACTED_SKPREFIXor-v1-your-second-key
+hermes auth add openrouter --api-key sk-or-v1-your-second-key
 
 # Add a second Anthropic key
-hermes auth add anthropic --type api-key --api-key REDACTED_SKPREFIXant-api03-your-second-key
+hermes auth add anthropic --type api-key --api-key sk-ant-api03-your-second-key
 
 # Add an Anthropic OAuth credential (requires Claude Max plan + extra usage credits)
 hermes auth add anthropic --type oauth
@@ -25203,7 +25203,7 @@ hermes auth list
 #     #1  config key    api_key config:Together.ai ←
 
 # Add a second key for the same endpoint:
-hermes auth add Together.ai --api-key REDACTED_SKPREFIXtogether-second-key
+hermes auth add Together.ai --api-key sk-together-second-key
 ```
 
 Custom endpoint pools are stored in `auth.json` under `credential_pool` with a `custom:` prefix:
@@ -25272,7 +25272,7 @@ Pool state is stored in `~/.hermes/auth.json` under the `credential_pool` key:
         "auth_type": "api_key",
         "priority": 0,
         "source": "env:OPENROUTER_API_KEY",
-        "access_token": "REDACTED_SKPREFIXor-v1-...",
+        "access_token": "sk-or-v1-...",
         "last_status": "ok",
         "request_count": 142
       }
@@ -26129,7 +26129,7 @@ Add these lines to `~/.hermes/.env`:
 
 ```bash
 # Telegram bot token from BotFather
-REDACTED_TELEGRAM_SECRET=7123456789:AAH1bGciOiJSUzI1NiIsInR5cCI6Ikp...
+TELEGRAM_BOT_TOKEN=7123456789:AAH1bGciOiJSUzI1NiIsInR5cCI6Ikp...
 
 # Your Telegram user ID (numeric)
 TELEGRAM_ALLOWED_USERS=123456789
@@ -26544,7 +26544,7 @@ agent = AIAgent(
 
 result = agent.run_conversation(
     user_message="Search for recent Python 3.13 features",
-    task_id="my-taREDACTED_SKPREFIX1",
+    task_id="my-task-1",
 )
 
 print(result["final_response"])
@@ -28984,15 +28984,15 @@ Hermes connects to each server at startup, lists its tools, and registers them a
 Drop a manifest + handler into `~/.hermes/hooks/<name>/`:
 
 ```yaml
-# ~/.hermes/hooks/long-taREDACTED_SKPREFIXalert/HOOK.yaml
-name: long-taREDACTED_SKPREFIXalert
+# ~/.hermes/hooks/long-task-alert/HOOK.yaml
+name: long-task-alert
 description: Send a push notification when a long task finishes
 events:
   - agent:end
 ```
 
 ```python
-# ~/.hermes/hooks/long-taREDACTED_SKPREFIXalert/handler.py
+# ~/.hermes/hooks/long-task-alert/handler.py
 async def handle(event_type: str, context: dict) -> None:
     if context.get("duration_seconds", 0) > 120:
         # send notification …
@@ -30332,7 +30332,7 @@ cp cli-config.yaml.example ~/.hermes/config.yaml
 touch ~/.hermes/.env
 
 # Add at minimum an LLM provider key:
-echo 'OPENROUTER_API_KEY=REDACTED_SKPREFIXor-v1-your-key' >> ~/.hermes/.env
+echo 'OPENROUTER_API_KEY=sk-or-v1-your-key' >> ~/.hermes/.env
 ```
 
 ### Run
@@ -34781,7 +34781,7 @@ Manage credential pools for same-provider key rotation. See [Credential Pools](/
 hermes auth                                              # Interactive wizard
 hermes auth list                                         # Show all pools
 hermes auth list openrouter                              # Show specific provider
-hermes auth add openrouter --api-key REDACTED_SKPREFIXor-v1-xxx        # Add API key
+hermes auth add openrouter --api-key sk-or-v1-xxx        # Add API key
 hermes auth add anthropic --type oauth                   # Add OAuth credential
 hermes auth remove openrouter 2                          # Remove by index
 hermes auth reset openrouter                             # Clear cooldowns
@@ -36380,7 +36380,7 @@ All variables go in `~/.hermes/.env`. You can also set them with `hermes config 
 | `AI_GATEWAY_BASE_URL` | Override AI Gateway base URL (default: `https://ai-gateway.vercel.sh/v1`) |
 | `OPENAI_API_KEY` | API key for custom OpenAI-compatible endpoints (used with `OPENAI_BASE_URL`) |
 | `OPENAI_BASE_URL` | Base URL for custom endpoint (VLLM, SGLang, etc.) |
-| `COPILOT_GITHUB_TOKEN` | GitHub token for Copilot API — first priority (OAuth `gho_*` or fine-grained PAT `REDACTED_GITHUBPAT*`; classic PATs `REDACTED_GHPREFIX*` are **not supported**) |
+| `COPILOT_GITHUB_TOKEN` | GitHub token for Copilot API — first priority (OAuth `gho_*` or fine-grained PAT `github_pat_*`; classic PATs `ghp_*` are **not supported**) |
 | `GH_TOKEN` | GitHub token — second priority for Copilot (also used by `gh` CLI) |
 | `GITHUB_TOKEN` | GitHub token — third priority for Copilot |
 | `HERMES_COPILOT_ACP_COMMAND` | Override Copilot ACP CLI binary path (default: `copilot`) |
@@ -36519,7 +36519,7 @@ Environment variables for the bundled [`observability/langfuse`](/docs/user-guid
 | Variable | Description |
 |----------|-------------|
 | `HERMES_LANGFUSE_PUBLIC_KEY` | Langfuse project public key (`pk-lf-...`). Required. |
-| `HERMES_LANGFUSE_SECRET_KEY` | Langfuse project secret key (`REDACTED_SKPREFIXlf-...`). Required. |
+| `HERMES_LANGFUSE_SECRET_KEY` | Langfuse project secret key (`sk-lf-...`). Required. |
 | `HERMES_LANGFUSE_BASE_URL` | Langfuse server URL (default: `https://cloud.langfuse.com`). Set for self-hosted. |
 | `HERMES_LANGFUSE_ENV` | Environment tag on traces (`production`, `staging`, …) |
 | `HERMES_LANGFUSE_RELEASE` | Release/version tag on traces |
@@ -36592,7 +36592,7 @@ For cloud sandbox backends, persistence is filesystem-oriented. `TERMINAL_LIFETI
 
 | Variable | Description |
 |----------|-------------|
-| `REDACTED_TELEGRAM_SECRET` | Telegram bot token (from @BotFather) |
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token (from @BotFather) |
 | `TELEGRAM_ALLOWED_USERS` | Comma-separated user IDs allowed to use the bot (applies to DMs, groups, and forums) |
 | `TELEGRAM_GROUP_ALLOWED_USERS` | Comma-separated sender user IDs authorized in groups/forums only (does NOT grant DM access). Chat-ID-shaped values (starting with `-`) are still honored as chat IDs for backward compat with pre-#17686 configs, with a deprecation warning. |
 | `TELEGRAM_GROUP_ALLOWED_CHATS` | Comma-separated group/forum chat IDs; any member is authorized |
@@ -36605,7 +36605,7 @@ For cloud sandbox backends, persistence is filesystem-oriented. `TERMINAL_LIFETI
 | `TELEGRAM_REPLY_TO_MODE` | Reply-reference behavior: `off`, `first` (default), or `all`. Matches the Discord pattern. |
 | `TELEGRAM_IGNORED_THREADS` | Comma-separated Telegram forum topic/thread IDs where the bot never responds |
 | `TELEGRAM_PROXY` | Proxy URL for Telegram connections — overrides `HTTPS_PROXY`. Supports `http://`, `https://`, `socks5://` |
-| `DISCORD_REDACTED_SECRET_TOKEN` | Discord bot token |
+| `DISCORD_BOT_TOKEN` | Discord bot token |
 | `DISCORD_ALLOWED_USERS` | Comma-separated Discord user IDs allowed to use the bot |
 | `DISCORD_ALLOWED_ROLES` | Comma-separated Discord role IDs allowed to use the bot (OR with `DISCORD_ALLOWED_USERS`). Auto-enables the Members intent. Useful when moderation teams churn — role grants propagate automatically. |
 | `DISCORD_ALLOWED_CHANNELS` | Comma-separated Discord channel IDs. When set, the bot only responds in these channels (plus DMs if allowed). Overrides `config.yaml` `discord.allowed_channels`. |
@@ -36624,7 +36624,7 @@ For cloud sandbox backends, persistence is filesystem-oriented. `TERMINAL_LIFETI
 | `DISCORD_ALLOW_MENTION_ROLES` | Allow the bot to ping `@role` mentions (default: `false`). |
 | `DISCORD_ALLOW_MENTION_USERS` | Allow the bot to ping individual `@user` mentions (default: `true`). |
 | `DISCORD_ALLOW_MENTION_REPLIED_USER` | Ping the author when replying to their message (default: `true`). |
-| `SLACK_REDACTED_SECRET_TOKEN` | Slack bot token (`xoxb-...`) |
+| `SLACK_BOT_TOKEN` | Slack bot token (`xoxb-...`) |
 | `SLACK_APP_TOKEN` | Slack app-level token (`xapp-...`, required for Socket Mode) |
 | `SLACK_ALLOWED_USERS` | Comma-separated Slack user IDs |
 | `SLACK_HOME_CHANNEL` | Default Slack channel for cron delivery |
@@ -36953,7 +36953,7 @@ Older configs with `compression.summary_model`, `compression.summary_provider`, 
 | `AUXILIARY_WEB_EXTRACT_BASE_URL` | Direct OpenAI-compatible endpoint for web extraction/summarization |
 | `AUXILIARY_WEB_EXTRACT_API_KEY` | API key paired with `AUXILIARY_WEB_EXTRACT_BASE_URL` |
 
-For taREDACTED_SKPREFIXspecific direct endpoints, Hermes uses the task's configured API key or `OPENAI_API_KEY`. It does not reuse `OPENROUTER_API_KEY` for those custom endpoints.
+For task-specific direct endpoints, Hermes uses the task's configured API key or `OPENAI_API_KEY`. It does not reuse `OPENROUTER_API_KEY` for those custom endpoints.
 
 ## Fallback Providers (config.yaml only)
 
@@ -37201,7 +37201,7 @@ Registered on the `hermes-discord` platform toolset (gateway only). Uses the sam
 
 | Tool | Description | Requires environment |
 |------|-------------|----------------------|
-| `discord` | Read and participate in a Discord server. Actions include `search_members`, `fetch_messages`, `send_message`, `react`, `fetch_channel`, `list_channels`, and more. | `DISCORD_REDACTED_SECRET_TOKEN` |
+| `discord` | Read and participate in a Discord server. Actions include `search_members`, `fetch_messages`, `send_message`, `react`, `fetch_channel`, `list_channels`, and more. | `DISCORD_BOT_TOKEN` |
 
 ## `discord_admin` toolset
 
@@ -37209,7 +37209,7 @@ Registered on the `hermes-discord` platform toolset. Moderation actions require 
 
 | Tool | Description | Requires environment |
 |------|-------------|----------------------|
-| `discord_admin` | Manage a Discord server via the REST API: list guilds/channels/roles, create/edit/delete channels, manage role grants, timeouts, kicks, and bans. | `DISCORD_REDACTED_SECRET_TOKEN` + bot permissions |
+| `discord_admin` | Manage a Discord server via the REST API: list guilds/channels/roles, create/edit/delete channels, manage role grants, timeouts, kicks, and bans. | `DISCORD_BOT_TOKEN` + bot permissions |
 
 ## `spotify` toolset
 
@@ -38429,7 +38429,7 @@ hermes config show
 hermes model
 
 # Or set directly
-hermes config set OPENROUTER_API_KEY REDACTED_SKPREFIXor-v1-xxxxxxxxxxxx
+hermes config set OPENROUTER_API_KEY sk-or-v1-xxxxxxxxxxxx
 ```
 
 :::warning
@@ -39173,7 +39173,7 @@ So ACP advertises and uses the currently configured Hermes provider/credentials.
 
 ACP sessions carry an editor cwd.
 
-The session manager binds that cwd to the ACP session ID via taREDACTED_SKPREFIXscoped terminal/file overrides, so file and terminal tools operate relative to the editor workspace.
+The session manager binds that cwd to the ACP session ID via task-scoped terminal/file overrides, so file and terminal tools operate relative to the editor workspace.
 
 ## Duplicate same-name tool calls
 
@@ -43086,7 +43086,7 @@ Everything that works on LLM jobs (pause, resume, manual trigger, delivery targe
 ## Worked Example: Disk Space Alert
 
 ```bash
-cat > ~/.hermes/scripts/diREDACTED_SKPREFIXalert.sh <<'EOF'
+cat > ~/.hermes/scripts/disk-alert.sh <<'EOF'
 #!/usr/bin/env bash
 # Alert when / or /home is over 90% full.
 THRESHOLD=90
@@ -43096,13 +43096,13 @@ df -h / /home 2>/dev/null | awk -v t="$THRESHOLD" '
   }
 '
 EOF
-chmod +x ~/.hermes/scripts/diREDACTED_SKPREFIXalert.sh
+chmod +x ~/.hermes/scripts/disk-alert.sh
 
 hermes cron create "*/15 * * * *" \
   --no-agent \
-  --script diREDACTED_SKPREFIXalert.sh \
+  --script disk-alert.sh \
   --deliver telegram \
-  --name "diREDACTED_SKPREFIXalert"
+  --name "disk-alert"
 ```
 
 Silent when both filesystems are under 90%; fires exactly one line per over-threshold filesystem when one fills up.
@@ -43184,9 +43184,9 @@ Delivery targets are case-sensitive and require the correct platform to be confi
 
 | Target | Requires |
 |--------|----------|
-| `telegram` | `REDACTED_TELEGRAM_SECRET` in `~/.hermes/.env` |
-| `discord` | `DISCORD_REDACTED_SECRET_TOKEN` in `~/.hermes/.env` |
-| `slack` | `SLACK_REDACTED_SECRET_TOKEN` in `~/.hermes/.env` |
+| `telegram` | `TELEGRAM_BOT_TOKEN` in `~/.hermes/.env` |
+| `discord` | `DISCORD_BOT_TOKEN` in `~/.hermes/.env` |
+| `slack` | `SLACK_BOT_TOKEN` in `~/.hermes/.env` |
 | `whatsapp` | WhatsApp gateway configured |
 | `signal` | Signal gateway configured |
 | `matrix` | Matrix homeserver configured |
@@ -43846,7 +43846,7 @@ model:
 platforms:
   telegram:
     enabled: true
-    token: "YOUR_REDACTED_TELEGRAM_SECRET"
+    token: "YOUR_TELEGRAM_BOT_TOKEN"
 ```
 
 3. Start the gateway:
@@ -43866,7 +43866,7 @@ Now message your bot on Telegram — it responds using your local model.
 platforms:
   discord:
     enabled: true
-    token: "YOUR_DISCORD_REDACTED_SECRET_TOKEN"
+    token: "YOUR_DISCORD_BOT_TOKEN"
 ```
 
 3. Start: `hermes gateway`
@@ -44260,11 +44260,11 @@ TTS settings are read from **two** OpenClaw config locations with this priority:
 
 | Platform | OpenClaw config path | Hermes `.env` variable | Notes |
 |----------|---------------------|----------------------|-------|
-| Telegram | `channels.telegram.botToken` or `.accounts.default.botToken` | `REDACTED_TELEGRAM_SECRET` | Token can be string or [SecretRef](#secretref-handling). Both flat and accounts layout supported. |
+| Telegram | `channels.telegram.botToken` or `.accounts.default.botToken` | `TELEGRAM_BOT_TOKEN` | Token can be string or [SecretRef](#secretref-handling). Both flat and accounts layout supported. |
 | Telegram | `credentials/telegram-default-allowFrom.json` | `TELEGRAM_ALLOWED_USERS` | Comma-joined from `allowFrom[]` array |
-| Discord | `channels.discord.token` or `.accounts.default.token` | `DISCORD_REDACTED_SECRET_TOKEN` | |
+| Discord | `channels.discord.token` or `.accounts.default.token` | `DISCORD_BOT_TOKEN` | |
 | Discord | `channels.discord.allowFrom` or `.accounts.default.allowFrom` | `DISCORD_ALLOWED_USERS` | |
-| Slack | `channels.slack.botToken` or `.accounts.default.botToken` | `SLACK_REDACTED_SECRET_TOKEN` | |
+| Slack | `channels.slack.botToken` or `.accounts.default.botToken` | `SLACK_BOT_TOKEN` | |
 | Slack | `channels.slack.appToken` or `.accounts.default.appToken` | `SLACK_APP_TOKEN` | |
 | Slack | `channels.slack.allowFrom` or `.accounts.default.allowFrom` | `SLACK_ALLOWED_USERS` | |
 | WhatsApp | `channels.whatsapp.allowFrom` or `.accounts.default.allowFrom` | `WHATSAPP_ALLOWED_USERS` | Auth via Baileys QR pairing — requires re-pairing after migration |
@@ -44272,7 +44272,7 @@ TTS settings are read from **two** OpenClaw config locations with this priority:
 | Signal | `channels.signal.httpUrl` or `.accounts.default.httpUrl` | `SIGNAL_HTTP_URL` | |
 | Signal | `channels.signal.allowFrom` or `.accounts.default.allowFrom` | `SIGNAL_ALLOWED_USERS` | |
 | Matrix | `channels.matrix.accessToken` or `.accounts.default.accessToken` | `MATRIX_ACCESS_TOKEN` | Uses `accessToken` (not `botToken`) |
-| Mattermost | `channels.mattermost.botToken` or `.accounts.default.botToken` | `MATTERMOST_REDACTED_SECRET_TOKEN` | |
+| Mattermost | `channels.mattermost.botToken` or `.accounts.default.botToken` | `MATTERMOST_BOT_TOKEN` | |
 
 ### Other config
 
@@ -44320,7 +44320,7 @@ Config values take priority. Each subsequent source fills any remaining gaps.
 
 ### Supported key targets
 
-`OPENROUTER_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY`, `GEMINI_API_KEY`, `ZAI_API_KEY`, `MINIMAX_API_KEY`, `ELEVENLABS_API_KEY`, `REDACTED_TELEGRAM_SECRET`, `VOICE_TOOLS_OPENAI_KEY`
+`OPENROUTER_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `DEEPSEEK_API_KEY`, `GEMINI_API_KEY`, `ZAI_API_KEY`, `MINIMAX_API_KEY`, `ELEVENLABS_API_KEY`, `TELEGRAM_BOT_TOKEN`, `VOICE_TOOLS_OPENAI_KEY`
 
 Keys not in this allowlist are never copied.
 
@@ -44333,10 +44333,10 @@ OpenClaw config values for tokens and API keys can be in three formats:
 "channels": { "telegram": { "botToken": "123456:ABC-DEF..." } }
 
 // Environment template
-"channels": { "telegram": { "botToken": "${REDACTED_TELEGRAM_SECRET}" } }
+"channels": { "telegram": { "botToken": "${TELEGRAM_BOT_TOKEN}" } }
 
 // SecretRef object
-"channels": { "telegram": { "botToken": { "source": "env", "id": "REDACTED_TELEGRAM_SECRET" } } }
+"channels": { "telegram": { "botToken": { "source": "env", "id": "TELEGRAM_BOT_TOKEN" } } }
 ```
 
 The migration resolves all three formats. For env templates and SecretRef objects with `source: "env"`, it looks up the value in `~/.openclaw/.env` and the `openclaw.json` env sub-object. SecretRef objects with `source: "file"` or `source: "exec"` can't be resolved automatically — the migration warns about these, and those values must be added to Hermes manually via `hermes config set`.
@@ -48206,7 +48206,7 @@ Any OpenAI-compatible app config takes the same triple:
 
 ```
 Base URL:   http://127.0.0.1:8645/v1
-API key:    anything (e.g. "REDACTED_SKPREFIXunused")
+API key:    anything (e.g. "sk-unused")
 Model:      Hermes-4-70B    # or Hermes-4.3-36B, Hermes-4-405B
 ```
 
@@ -48334,7 +48334,7 @@ The proxy is intentionally minimal. Per request:
 
 1. Receive `POST /v1/chat/completions` from your app
 2. Look up the adapter's current credential (refresh if expiring)
-3. Forward the request body verbatim, with `Authorization: [REDACTED] <minted-key>`
+3. Forward the request body verbatim, with `Authorization: Bearer <minted-key>`
 4. Stream the response back unchanged (SSE preserved)
 
 No transformation. No logging of request bodies. No agent loop. The
@@ -51152,7 +51152,7 @@ You should see:
 curl -s http://127.0.0.1:8642/health
 # {"status": "ok", ...}
 
-curl -s -H "Authorization: [REDACTED] your-secret-key" http://127.0.0.1:8642/v1/models
+curl -s -H "Authorization: Bearer your-secret-key" http://127.0.0.1:8642/v1/models
 # {"object":"list","data":[{"id":"hermes-agent", ...}]}
 ```
 
@@ -51302,7 +51302,7 @@ With streaming enabled (the default), you'll see brief inline indicators as tool
 
 - **Check the URL has `/v1` suffix**: `http://host.docker.internal:8642/v1` (not just `:8642`)
 - **Verify the gateway is running**: `curl http://localhost:8642/health` should return `{"status": "ok"}`
-- **Check model listing**: `curl -H "Authorization: [REDACTED] your-secret-key" http://localhost:8642/v1/models` should return a list with `hermes-agent`
+- **Check model listing**: `curl -H "Authorization: Bearer your-secret-key" http://localhost:8642/v1/models` should return a list with `hermes-agent`
 - **Docker networking**: From inside Docker, `localhost` means the container, not your host. Use `host.docker.internal` or `--network=host`.
 - **Empty Ollama backend shadowing the picker**: If you omitted `ENABLE_OLLAMA_API=false`, Open WebUI shows an empty Ollama section above your Hermes models. Restart the container with `-e ENABLE_OLLAMA_API=false` or disable Ollama in **Admin Settings → Connections**.
 
@@ -52649,7 +52649,7 @@ The adapter will restore saved credentials, connect to the iLink API, and begin 
 - **DM messaging** — configurable access policies; group messaging depends on iLink actually delivering group events for the connected identity (often not the case for iLink bot accounts — see the warning above)
 - **Media support** — images, video, files, and voice messages
 - **AES-128-ECB encrypted CDN** — automatic encryption/decryption for all media transfers
-- **Context token persistence** — diREDACTED_SKPREFIXbacked reply continuity across restarts
+- **Context token persistence** — disk-backed reply continuity across restarts
 - **Markdown formatting** — preserves Markdown, including headers, tables, and code blocks, so WeChat clients that support Markdown can render it natively
 - **Smart message chunking** — messages stay as a single bubble when under the limit; only oversized payloads split at logical boundaries
 - **Typing indicators** — shows "typing…" status in the WeChat client while the agent processes
@@ -52757,7 +52757,7 @@ All outbound media goes through the encrypted CDN upload flow:
 
 ## Context Token Persistence
 
-The iLink Bot API requires a `context_token` to be echoed back with each outbound message for a given peer. The adapter maintains a diREDACTED_SKPREFIXbacked context token store:
+The iLink Bot API requires a `context_token` to be echoed back with each outbound message for a given peer. The adapter maintains a disk-backed context token store:
 
 - Tokens are saved per account+peer to `~/.hermes/weixin/accounts/<account_id>.context-tokens.json`
 - On startup, previously saved tokens are restored
@@ -54298,7 +54298,7 @@ Top-to-bottom, in order:
 4. **Installs portable Git** — if `git` is already on PATH the installer uses it; otherwise it downloads a trimmed, self-contained **PortableGit** (~45 MB, from the official `git-for-windows` release) to `%LOCALAPPDATA%\hermes\git`. No admin, no Windows installer registry, no interference with anything else on the box.
 5. **Clones the repo** to `%LOCALAPPDATA%\hermes\hermes-agent` and creates a virtualenv inside it.
 6. **Tiered `uv pip install`** — tries `.[all]` first, falls back to progressively smaller sets (`[messaging,dashboard,ext]` → `[messaging]` → `.`) if a `git+https` dep flakes on rate-limited GitHub. Prevents "single flake drops you to a bare install" failure mode.
-7. **Auto-installs messaging SDKs** keyed off `.env` — if `REDACTED_TELEGRAM_SECRET` / `DISCORD_REDACTED_SECRET_TOKEN` / `SLACK_REDACTED_SECRET_TOKEN` / `SLACK_APP_TOKEN` / `WHATSAPP_ENABLED` are present, runs `python -m ensurepip --upgrade` and targeted `pip install` calls so each platform's SDK is actually importable.
+7. **Auto-installs messaging SDKs** keyed off `.env` — if `TELEGRAM_BOT_TOKEN` / `DISCORD_BOT_TOKEN` / `SLACK_BOT_TOKEN` / `SLACK_APP_TOKEN` / `WHATSAPP_ENABLED` are present, runs `python -m ensurepip --upgrade` and targeted `pip install` calls so each platform's SDK is actually importable.
 8. **Sets `HERMES_GIT_BASH_PATH`** to the resolved `bash.exe` so Hermes finds it deterministically in fresh shells.
 9. **Adds `%LOCALAPPDATA%\hermes\bin` to User PATH** — exposes the `hermes` command after you open a new terminal.
 10. **Runs `hermes setup`** — the normal first-run wizard (model, provider, toolsets). Skip with `-SkipSetup`.
@@ -54459,8 +54459,8 @@ hermes --version
 Hermes honors both `$env:X` (process-scope) and User environment variables (permanent, set in System Properties → Environment Variables). Setting API keys in `%USERPROFILE%\.hermes\.env` is the normal path — same as Linux:
 
 ```
-OPENROUTER_API_KEY=REDACTED_SKPREFIXor-...
-REDACTED_TELEGRAM_SECRET=...
+OPENROUTER_API_KEY=sk-or-...
+TELEGRAM_BOT_TOKEN=...
 ```
 
 Don't put secrets in User environment variables unless you specifically want every Windows process to see them (it isn't what you want).

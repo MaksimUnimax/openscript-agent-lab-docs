@@ -50,3 +50,8 @@ items:
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: future append blocks should be provided by ChatGPT, not invented locally
     must_not_invent: true
+  - id: working_context_normalized_import
+    status: imported
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: normalized working context from uploaded ChatGPT handoff files was appended to the repo memory layer
+    must_not_invent: true

@@ -273,7 +273,9 @@ project_memory:
     - path: docs/codex_source/context/README.md
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
-      status: initial
+      status: imported
+      last_append_id: CTX_20260516_IMPORTED_WORKING_CONTEXT_V1
+      last_append_title: Imported working context from uploaded ChatGPT handoff files
     - path: docs/codex_source/context/context_manifest.yaml
       status: initial
   roadmap:

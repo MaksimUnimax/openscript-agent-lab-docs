@@ -13,7 +13,7 @@ What still must be imported:
 - product goals
 - architecture constraints
 - runtime expectations
-- taREDACTED_SKPREFIXspecific implementation rules
+- task-specific implementation rules
 
 Forbidden:
 - inventing missing technical requirements from memory

@@ -27,7 +27,7 @@ NON_GOALS:
 - secret management
 
 FORBIDDEN_MISUSE:
-- echoing a full `https://telegram-file-download-redacted<token>/...` URL in any report
+- echoing a full `https://api.telegram.org/file/bot<token>/...` URL in any report
 
 OPEN_QUESTIONS:
 - whether any runtime debug path needs a dedicated redaction helper
