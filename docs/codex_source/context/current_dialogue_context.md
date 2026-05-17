@@ -651,3 +651,21 @@ Facts:
 - Manual allowed-user Telegram proof is still required after any follow-up reply-path fix.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_TELEGRAM_POLLING_STAGE_INSTRUMENTED_OR_FIXED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_HERMES_PRE_REPLY_AUTH_GATE_IMPLEMENTED source=codex_auth_readiness_gate_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Hermes pre-reply auth readiness gate implemented
+
+Facts:
+- Telegram input, polling and allowlist were already working, but Hermes/provider auth degradation could still produce a silent Telegram no-reply.
+- The root cause had been narrowed to missing Hermes profile auth for the active agent while Codex CLI auth was available and recoverable through the existing UI flow.
+- A pre-reply readiness gate is now implemented so the Telegram reply path does not call Hermes blindly when auth/provider readiness is false.
+- Auth-not-ready and empty-Hermes-reply states now produce safe explicit status/reason instead of silent no-reply.
+- The existing Codex-CLI recovery/check authorization flow remains intact and is still the approved way to restore Hermes readiness.
+- No provider credentials, Hermes auth store, Codex auth, or Telegram token were changed.
+
+Manual proof still required:
+- with auth ready, allowed Telegram user_id `286579139` should receive replies;
+- if auth degrades again, Telegram/user/operator should see an explicit safe auth-not-ready signal instead of silence.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_HERMES_PRE_REPLY_AUTH_GATE_IMPLEMENTED -->

@@ -120,6 +120,11 @@ items:
     expected_target_path: docs/codex_source/project/current_status.md
     notes: safe live runtime stage diagnostics were added to polling/runtime status; current proof shows the canonical service reaches before_reply and Hermes reply is failing
     must_not_invent: true
+  - id: hermes_pre_reply_auth_gate
+    status: done
+    expected_target_path: docs/codex_source/project/current_status.md
+    notes: pre-reply Hermes auth/provider readiness gate is implemented so Telegram replies fail closed with a safe reason instead of silently returning an empty Hermes response
+    must_not_invent: true
   - id: telegram_identity_from_id_vs_chat_id
     status: imported
     expected_target_path: docs/codex_source/vendor/telegram/update_identity_from_id_vs_chat_id.md

@@ -24,6 +24,9 @@ primary_implementation_gate: docs_gate_plus_combined_guard
 live_telegram_polling_stage_diagnostics:
   status: active
   notes: safe runtime status now exposes loop and cycle stages for live Telegram polling diagnosis
+hermes_pre_reply_auth_gate:
+  status: active
+  notes: Telegram reply path now fails closed with a safe auth/provider readiness reason instead of silently calling Hermes when readiness is degraded
 repo_visibility:
   private_source_repo:
     url: git@github.com:MaksimUnimax/openscript-agent-lab.git

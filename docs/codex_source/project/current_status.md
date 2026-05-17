@@ -60,3 +60,7 @@ Additional current direction:
 - current live proof shows the canonical polling loop entering the update and reply path, with `current_cycle_stage: before_reply` and the last completed cycle failing with `reply_failed` / `Hermes runtime did not return a reply`.
 - the remaining blocker is now in the reply/Hermes path, not in Telegram inbound polling, webhook configuration, or allowlist matching.
 - next step is targeted reply-path diagnosis using the new stage fields, or a separate narrow fix run if the exact module becomes proven.
+- Hermes pre-reply auth readiness gate has now been implemented in the reply path.
+- Telegram replies now fail closed with a safe reason when Hermes/auth/provider readiness is degraded, instead of silently calling Hermes and returning an empty reply.
+- The reply path now carries safe status fields for auth block reasons, and the UI can surface that Telegram replies are blocked by auth.
+- Existing Codex-CLI recovery flow remains intact and is still the approved way to restore Hermes readiness.
