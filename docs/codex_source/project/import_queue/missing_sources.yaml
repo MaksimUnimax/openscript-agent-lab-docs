@@ -220,6 +220,26 @@ items:
     expected_target_path: docs/codex_source/task_cards/fin_tool_tab_rename_and_allowlist_ui.yaml
     notes: planned UI surface for the renamed “Фин инструмент” tab was superseded for this run by a UI-only rollback to the working Telegram baseline; financial blocks are deferred until user review; not ready for fix run
     must_not_invent: true
+  - id: current_dialogue_context_after_ui_rollback
+    status: imported
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: current dialogue context now records the UI rollback stop-point and the Telegram no-reply blocker; do not resume Fin Instrument UI work yet
+    must_not_invent: true
+  - id: telegram_no_reply_existing_kto_ty_prompt
+    status: preserved_unsent
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: the preserved next diagnostic prompt is embedded in the current dialogue context append and must be used next
+    must_not_invent: true
+  - id: fin_instrument_ui_readd
+    status: deferred
+    expected_target_path: docs/codex_source/task_cards/fin_instrument_financial_tool_foundation.yaml
+    notes: financial UI re-add stays deferred until Telegram reply restoration
+    must_not_invent: true
+  - id: telegram_reply_restoration
+    status: needed
+    expected_target_path: docs/codex_source/project/current_status.md
+    notes: the active blocker is the existing no-reply problem for message `кто ты`
+    must_not_invent: true
   - id: agent_farm_task_runtime
     status: planned_needs_design_proof
     expected_target_path: docs/codex_source/task_cards/agent_farm_foundation.yaml

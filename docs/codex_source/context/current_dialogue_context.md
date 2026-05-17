@@ -847,3 +847,745 @@ Facts:
 - Financial UI re-add is deferred until after the user manually verifies the restored Telegram-only tab.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_UI_ONLY_ROLLBACK_TO_WORKING_TELEGRAM_BASELINE -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_UI_ROLLBACK_AND_TELEGRAM_NO_REPLY_CURRENT_STOPPOINT source=chatgpt_inline_current_dialogue accepted_by_user=yes -->
+2026-05-17 — UI rollback completed; Telegram no-reply unresolved; last diagnostic prompt not sent
+1. Current situation
+
+The project is still OpenScript Agent Lab.
+
+The immediate active incident is no longer Fin Instrument feature work.
+
+Current emergency state:
+
+UI was rolled back to the last working Telegram UI baseline before Telegram UI was removed/hidden.
+User must verify old Telegram/voice UI manually.
+After rollback, user reported that the Telegram bot does not answer.
+A proof run incorrectly stopped earlier because it did not see a fresh update.
+User then clarified that he had already sent the Telegram message кто ты.
+The next correct action is to diagnose the already-sent message кто ты, not ask the user for another fresh message.
+2. Important user correction
+
+The user explicitly corrected the intended rollback target.
+
+Wrong target:
+
+commit f12467d911c7e5df5321a150ad8eb94e60eed374f35b as “clean Fin Instrument UI”.
+That state was not accepted as the rollback target because it was after Telegram UI removal/hiding.
+
+Correct target:
+
+last working Telegram UI before Telegram UI removal/hiding.
+This was identified as:
+9dd3685e1225b436d707c30111f592ff29f14336
+
+The user also explicitly required:
+
+first restore old Telegram UI only;
+no Fin Instrument UI addition during rollback;
+user manually checks old forms first;
+only after user confirms old Telegram/voice forms work may Fin Instrument UI be re-added in a separate run.
+3. UI-only rollback run
+
+Run:
+
+OPENSCRIPT_AGENT_LAB_UI_ONLY_ROLLBACK_TO_WORKING_TELEGRAM_TAB_20260517_01
+
+Result:
+
+SUCCESS
+
+Private commit:
+
+b38a8bd35095dc0cf7117227215bd483fd2f3df1
+message: Restore working Telegram UI baseline
+
+Public docs commit:
+
+1d1b578
+
+Selected baseline:
+
+9dd3685e1225b436d707c30111f592ff29f14336
+
+Reason selected:
+
+Telegram-only UI with:
+Telegram-бот
+Доступ к боту
+Бот-роутер
+allowlist controls
+voice settings
+without finance UI blocks.
+
+What rollback changed:
+
+restored agent_lab/static/index.html from selected baseline;
+restored agent_lab/static/app.js from selected baseline;
+updated tests/docs;
+did not add Fin Instrument UI.
+
+Final UI after rollback:
+
+contains Telegram bot controls;
+contains access control;
+contains bot router;
+contains voice settings if baseline had them;
+does not contain financial storage;
+does not contain recent expenses;
+does not contain month summary;
+duplicate IDs check passed.
+
+Important:
+
+financial backend/storage/runtime DB were preserved;
+production DB was preserved;
+Telegram backend was not changed;
+no Telegram API calls;
+no model calls;
+no auth/provider changes;
+no security middleware.
+
+Checks passed:
+
+compileall;
+admin_server tests;
+telegram_connector tests;
+telegram_polling tests;
+telegram_voice_transport tests;
+fin contracts tests;
+fin initializer tests;
+fin storage tests;
+duplicate_ids_ok;
+service active;
+healthz 200.
+4. Current Fin Instrument backend state after UI rollback
+
+UI rollback did not remove backend financial work.
+
+Preserved backend/storage:
+
+Fin Instrument contracts;
+storage initializer;
+deterministic storage scripts;
+production runtime/DB;
+read-only endpoints.
+
+Previously completed financial backend work:
+
+agent_lab/fin_instrument/schema.py
+agent_lab/fin_instrument/storage_initializer.py
+agent_lab/fin_instrument/storage.py
+expense_add
+expense_recent
+expense_month_summary
+production DB:
+/var/lib/openscript-agent-lab/fin-instrument/finance.sqlite3
+
+But after UI rollback:
+
+Fin Instrument UI is intentionally absent.
+Financial UI re-add is deferred until after user confirms Telegram/voice forms work.
+5. Bad UI branch superseded
+
+Two previous UI runs are superseded for UI behavior:
+
+OPENSCRIPT_AGENT_LAB_FIN_INSTRUMENT_RESTORE_TELEGRAM_CONTROLS_20260517_01
+commit: 1dafe2926030fcb253434a93c6f3a94a9edb6f97
+problem: restored Telegram controls by un-hiding legacy UI container, which was not the desired recovery strategy.
+OPENSCRIPT_AGENT_LAB_FIN_INSTRUMENT_RESTORE_AGENT_VOICE_CHECKBOXES_20260517_01
+commit: e4da01c4cf37ac7660d98f17c7872a0aeb986eab
+problem: continued fixing voice checkboxes on top of the wrong legacy restore path.
+
+These runs should not be used as the future UI target.
+
+6. Telegram no-reply after rollback
+
+After UI-only rollback, the user reported:
+
+bot does not answer in Telegram.
+
+A proof run was attempted:
+
+Run:
+
+OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_AFTER_UI_ROLLBACK_20260517_01
+
+Result:
+
+STOP
+
+Important report facts:
+
+source head before:
+b38a8bd35095dc0cf7117227215bd483fd2f3df1
+service active: yes
+healthz: 200
+bot username: FinancAgent_bot
+webhook URL empty: yes
+pending_update_count: 0
+live poller running: yes
+last_seen_update_id == last_processed_update_id == 255681829
+getUpdates from a second client returned HTTP 409 Conflict because live poller owns the long-poll session
+allowlist was configured for expected user_id 286579139
+selected agent from state: squidward
+no files changed
+no commit
+no source changes
+
+STOP reason:
+
+Codex said no fresh Telegram update was available to exercise the reply path.
+
+User correction after this STOP:
+
+the user had already written кто ты in Telegram.
+the next prompt must diagnose this existing message, not ask the user for another fresh message.
+7. Relevant earlier same-day breakage patterns
+
+The next diagnosis must not ignore prior same-day Telegram incidents.
+
+Earlier today similar breakages included:
+
+Telegram API could see updates, but local polling state did not consume them.
+Polling stage instrumentation showed cycles reaching before_reply.
+A failure mode existed where reply path reached Hermes but Hermes returned no reply:
+Hermes runtime did not return a reply
+There was a stale/manual UI process problem:
+live Telegram polling was running in stale manual UI process, not canonical systemd service.
+After stopping stale process / restoring canonical service ownership, updates could be consumed and replies sent.
+There was also a send confirmation/state issue where telegram_message_id needed to be captured before commit_state().
+
+Therefore the next run must verify:
+
+current source still contains backend stage telemetry/fixes;
+live server process is canonical systemd service;
+no stale manual process owns polling/runtime;
+message кто ты appears in logs/state or was consumed;
+allowlist/router/Hermes/send chain stage;
+whether Hermes/auth/provider is currently failing again.
+8. Current correct stop-point
+
+Current stop-point:
+
+UI-only rollback is done.
+Do not add Fin Instrument UI yet.
+Do not do manual expense UI.
+Do not do Telegram/voice → financial tool integration yet.
+First restore Telegram bot reply behavior.
+
+Next exact action:
+
+run the unsent diagnostic prompt below:
+OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01
+9. Unsent next prompt to preserve
+
+The following prompt was prepared by ChatGPT but user did not send it yet. It must be preserved so the next dialogue/run can continue exactly from this state.
+
+UNSENT_NEXT_PROMPT_BEGIN
+
+Сделай TELEGRAM BOT NO REPLY FOR EXISTING MESSAGE "КТО ТЫ" ROOT CAUSE/FIX RUN:
+OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01.
+
+RUN_MODE:
+
+combined_proof_design_fix
+
+Тип run:
+
+live Telegram no-reply proof/fix.
+Проверить уже отправленное пользователем сообщение "кто ты".
+НЕ просить пользователя снова отправлять сообщение, пока не доказано, что это сообщение отсутствует в Telegram/local state.
+Minimal fix only if exact root cause is proven.
+НЕ UI work.
+НЕ Fin Instrument UI.
+НЕ security/auth middleware.
+НЕ Agent Farm.
+НЕ broad refactor.
+НЕ provider change.
+НЕ fallback.
+НЕ direct manual Telegram send в обход нормального bot reply path.
+
+Пользователь уже отправил в Telegram:
+
+text: кто ты
+expected user_id: 286579139
+bot: FinancAgent_bot
+
+Проблема:
+После UI-only rollback к working Telegram baseline бот не отвечает в Telegram.
+Нельзя снова отвечать "нет fresh update", не проверив конкретно сообщение "кто ты" в:
+
+Telegram pending/consumed updates;
+local polling state;
+runtime status stage telemetry;
+journal logs;
+persisted polling state;
+reply/Hermes/send status.
+
+Контекст сегодняшних уже известных похожих поломок:
+
+Ранее Telegram API видел updates, а local polling state не двигался.
+Затем stage instrumentation доказал, что canonical loop consuming updates and reaching before_reply, but reply failed with:
+"Hermes runtime did not return a reply".
+Ранее уже была поломка stale/manual process: live Telegram polling ran in stale manual UI process, not canonical systemd service; после остановки stale process canonical service consumed updates and sent reply.
+Ранее send confirmation тоже был отдельным исправлением: telegram_message_id должен сохраняться в last_send до commit_state().
+Нельзя откатываться до состояния, где эти backend fixes/stage instrumentation потеряны.
+UI rollback должен был быть UI-only, но надо проверить, что backend fixes still present in current HEAD and live service process actually runs this HEAD.
+
+Последний UI rollback:
+
+RUN_ID: OPENSCRIPT_AGENT_LAB_UI_ONLY_ROLLBACK_TO_WORKING_TELEGRAM_TAB_20260517_01
+RESULT: SUCCESS
+current commit after rollback:
+b38a8bd35095dc0cf7117227215bd483fd2f3df1
+selected UI baseline:
+9dd3685e1225b436d707c30111f592ff29f14336
+rollback changed static UI/tests/docs only according to report.
+But now bot does not answer, so verify live runtime, process, config and reply path.
+
+SOURCE PRIVATE REPO:
+
+/opt/openscript-agent-lab
+
+EXPECTED CURRENT HEAD:
+
+b38a8bd35095dc0cf7117227215bd483fd2f3df1
+If HEAD differs but contains b38a8bd35095dc0cf7117227215bd483fd2f3df1 as ancestor, continue and report.
+If HEAD does not contain it, STOP.
+
+PRECHECK:
+cd /opt/openscript-agent-lab
+
+Run:
+git rev-parse HEAD
+git log --oneline -20
+git status --short
+git status -sb
+git fetch origin main
+git rev-parse HEAD
+git rev-parse origin/main
+
+Requirements:
+
+origin/main must equal HEAD before edits.
+If origin/main != HEAD, STOP.
+Do not stage runtime/db/config/auth files.
+Pre-existing dirty agent-packages/** must remain untouched.
+
+BACKEND FIX PRESENCE CHECK:
+Before live diagnosis, prove whether today’s known backend fixes/stage telemetry still exist in current source.
+
+Run targeted checks:
+git log --oneline -- agent_lab/telegram_polling.py agent_lab/telegram_runtime.py agent_lab/agent_reply.py | head -40
+
+grep -R "current_cycle_stage|last_cycle_reason|last_cycle_error|before_reply|reply_failed|last_fetch_update_ids_preview|lock_holder_pid" -n agent_lab/telegram_polling.py agent_lab/telegram_runtime.py agent_lab/admin_server.py || true
+grep -R "telegram_message_id|last_send|commit_state" -n agent_lab/telegram_polling.py agent_lab/telegram_connector.py || true
+grep -R "Hermes runtime did not return a reply|response_text_length|auth_configured|token_invalidated" -n agent_lab/agent_reply.py agent_lab/hermes_binding.py agent_lab/admin_server.py || true
+
+Report:
+
+stage_telemetry_present: yes/no
+send_confirmation_fix_present: yes/no
+hermes_empty_reply_detection_present: yes/no
+current source contains today’s reply-path diagnostics: yes/no
+
+DOCS_TO_READ EXACTLY:
+
+docs/codex_source/ENTRYPOINT_FOR_CHATGPT.md
+docs/codex_source/index.yaml
+docs/codex_source/project/current_status.md
+docs/codex_source/project/telegram_router.md
+docs/codex_source/project/access_control.md
+docs/codex_source/project/telegram_voice_pipeline.md
+docs/codex_source/project/source_vs_runtime.md
+docs/codex_source/project/runtime_git_canon.md
+docs/codex_source/rules/workflow_run_modes.md
+docs/codex_source/rules/codex_prompt_rules.md
+docs/codex_source/rules/documentation_gate_rules.md
+docs/codex_source/rules/repo_documentation_access_rules.md
+docs/codex_source/rules/runtime_git_rules.md
+docs/codex_source/context/context_manifest.yaml
+docs/codex_source/context/current_dialogue_context.md
+read_policy: tail/latest relevant append only
+
+CODE_TO_READ EXACTLY:
+
+agent_lab/admin_server.py
+read_policy: targeted Telegram/status/Hermes auth status sections only
+agent_lab/telegram_connector.py
+read_policy: targeted config/allowlist/router/send/state sections only
+agent_lab/telegram_runtime.py
+read_policy: targeted runtime/status/thread/stage telemetry sections only
+agent_lab/telegram_polling.py
+read_policy: targeted polling cycle/update/allowlist/reply/send/stage telemetry sections only
+agent_lab/agent_reply.py
+read_policy: targeted selected-agent reply/Hermes invocation sections only
+agent_lab/hermes_binding.py
+read_policy: targeted Hermes readiness/invocation sections only
+tests/test_telegram_connector.py
+tests/test_telegram_polling.py
+tests/test_admin_server.py
+tests/test_telegram_voice_transport.py
+
+DO NOT READ:
+
+Do not read auth files directly.
+Do not read /root/.codex/auth.json.
+Do not read /root/.hermes/auth.json.
+Do not print secrets/tokens.
+Do not modify UI/static files in this run.
+Do not modify Fin Instrument files.
+Do not touch agent-packages/**.
+Do not add security middleware.
+Do not change provider.
+Do not add fallback.
+Do not manually send Telegram message except through the normal bot reply path.
+
+LIVE PROOF REQUIRED:
+
+Service/process proof:
+Run:
+systemctl is-active openscript-agent-lab-ui.service || true
+systemctl show openscript-agent-lab-ui.service -p MainPID -p ExecStart -p WorkingDirectory --no-pager || true
+ps -ef | grep -E "openscript|agent_lab|uvicorn|python|app/main.py" | grep -v grep || true
+ss -ltnp | grep -E "18765|180|agent|python|uvicorn" || true
+curl -sS -o /tmp/agent_lab_healthz_kto_ty.out -w '%{http_code}\\n' http://127.0.0.1:18765/healthz || true
+cat /tmp/agent_lab_healthz_kto_ty.out || true
+
+Must report:
+
+canonical systemd MainPID
+any extra/stale manual UI process
+who listens on port 18765
+whether live server process is the canonical systemd service
+
+If stale/manual competing process exists:
+
+classify possible stale process issue.
+Do not kill blindly unless process owner/path proves it is old manual UI process conflicting with canonical service.
+If proven stale process blocks polling or owns lock, stop only that stale process or restart canonical service as minimal runtime action; report exact command and proof.
+Local status proof:
+Run:
+curl -sS http://127.0.0.1:18765/api/state 2>/dev/null > /tmp/agent_lab_state_kto_ty.json || true
+curl -sS http://127.0.0.1:18765/api/telegram/status 2>/dev/null > /tmp/agent_lab_telegram_status_kto_ty.json || true
+
+Print redacted safe summary only:
+
+bot mode
+selected/direct agent
+router mode
+allowlist enabled
+whether 286579139 is allowed
+polling_allowed
+thread_running
+processing_busy
+last_seen_update_id
+last_processed_update_id
+current_cycle_stage
+last_cycle_reason
+last_cycle_error
+last_fetch_update_count
+last_fetch_update_ids_preview
+last_router_stage
+lock_holder_pid
+last reply/send status if present
+Hermes/auth status if API exposes safe status
+
+Do not print tokens/secrets.
+
+Search current logs for the exact message:
+Run:
+journalctl -u openscript-agent-lab-ui.service -n 500 --no-pager > /tmp/agent_lab_journal_kto_ty.txt || true
+
+Search safely:
+grep -i -C 5 "кто ты" /tmp/agent_lab_journal_kto_ty.txt || true
+grep -E -i -C 3 "255681|before_reply|reply_failed|Hermes runtime did not return a reply|send|sendMessage|telegram_message_id|allowlist|denied|selected_agent|router|processing_busy|timeout|exception|traceback|token_invalidated|401|auth" /tmp/agent_lab_journal_kto_ty.txt || true
+
+Report whether "кто ты" appears in logs.
+
+Persisted Telegram state proof:
+Find only known safe state files, do not print secrets:
+/var/lib/openscript-agent-lab/telegram/polling_state.json if exists
+any app state JSON path already used by project docs/code
+
+Print redacted summary only:
+
+last_seen_update_id
+last_processed_update_id
+last_message text preview if available
+last_message from_id
+last_message chat_id
+last_message update_id
+last_error
+last_send status/message_id if available
+current stage fields if persisted
+
+Do not print raw token/file_id/secrets.
+
+Telegram API proof:
+Because live poller owns long-poll, do NOT repeat direct getUpdates unless needed.
+Allowed:
+getMe
+getWebhookInfo
+Report:
+bot username
+webhook empty yes/no
+pending_update_count
+last_error redacted
+
+If pending_update_count=0 and local state/logs show update consumed, continue chain proof from local state.
+If pending_update_count>0 and local state not consuming, classify polling issue.
+
+Chain proof for message "кто ты":
+Determine exact path:
+
+A. MESSAGE_NOT_VISIBLE_ANYWHERE
+
+"кто ты" not in logs/state and Telegram pending_update_count=0.
+This means live poller may have consumed it but logging/state lacks text, or message was before current log window.
+Then use last_seen/processed/stage to determine if no-reply happened after consumption.
+Do not ask user for another message until checking stage telemetry and last errors.
+
+B. POLLING_CONSUMED_BUT_REPLY_FAILED
+
+local state/logs/stage show update consumed, current/last cycle before_reply/reply_failed/Hermes empty.
+
+C. POLLING_STUCK_OR_STALE_PROCESS
+
+fresh/pending update visible but local last_seen/processed does not move OR lock holder/stale process owns polling.
+
+D. ALLOWLIST_DENIED
+
+update from 286579139 reached gate but denied.
+
+E. ROUTER_NO_AGENT_SELECTED
+
+update passed allowlist but no selected agent.
+
+F. HERMES_AUTH_OR_EMPTY_REPLY
+
+reply reached Hermes; no response text; auth_configured false/token_invalidated/401 or response empty.
+
+G. SEND_FAILED
+
+reply created, send reached, Telegram send failed.
+
+H. BOT_REPLIED_SUCCESSFULLY
+
+send_result ok and telegram_message_id present.
+
+I. UNKNOWN_NOT_PROVEN
+
+only if evidence insufficient after all checks.
+
+COMBINED FIX GUARD:
+Proceed to edit or runtime action only if:
+
+exact class is proven;
+exact owner is proven;
+minimal fix is safe.
+
+Allowed minimal runtime action if proven:
+
+restart canonical service if live service is stale or processing_busy stuck.
+stop stale manual process if proven non-canonical and conflicting.
+do not commit for runtime-only restart.
+
+Allowed minimal code fix if proven:
+
+only in exact owner files:
+telegram_runtime.py
+telegram_polling.py
+telegram_connector.py
+agent_reply.py
+hermes_binding.py
+tests matching changed owner
+no UI/static changes.
+
+Specific handling:
+
+If F = Hermes auth/token_invalidated:
+do not patch around auth.
+report that user must use existing UI “Модель и авторизация” → “Войти заново”.
+if existing auth recover endpoint/UI exists, verify status only.
+no provider change, no fallback.
+If F = Hermes empty reply but auth active:
+use today’s previous diagnostics and exact response_text_length=0 proof.
+fix only if exact reason in agent_reply/Hermes invocation is proven.
+If C = stale process:
+fix runtime process, verify canonical service consumes next update.
+no code changes unless source bug caused duplicate process.
+If D:
+preserve user_id/from.id identity.
+do not change to chat_id.
+
+TESTS IF CODE CHANGED:
+python3 -m compileall agent_lab tests
+python3 -m unittest tests.test_admin_server -v
+python3 -m unittest tests.test_telegram_connector -v
+python3 -m unittest tests.test_telegram_polling -v
+python3 -m unittest tests.test_telegram_voice_transport -v
+
+SERVICE IF CODE CHANGED OR RUNTIME ACTION:
+systemctl restart openscript-agent-lab-ui.service
+systemctl is-active openscript-agent-lab-ui.service || true
+curl -sS -o /tmp/agent_lab_healthz_kto_ty_after.out -w '%{http_code}\\n' http://127.0.0.1:18765/healthz || true
+cat /tmp/agent_lab_healthz_kto_ty_after.out || true
+
+DOCS UPDATE:
+If root cause/fix is proven, append context.
+
+Update:
+
+docs/codex_source/project/current_status.md
+docs/codex_source/context/current_dialogue_context.md
+docs/codex_source/context/context_manifest.yaml
+docs/codex_source/index.yaml
+
+Append context:
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_TELEGRAM_NO_REPLY_KTO_TY_AFTER_UI_ROLLBACK_DIAGNOSED source=codex_proof_fix accepted_by_user=yes -->
+2026-05-17 — Telegram no-reply for existing “кто ты” after UI rollback diagnosed
+
+Facts:
+
+After UI-only rollback to the working Telegram baseline, the user sent кто ты in Telegram and reported no bot reply.
+Codex diagnosed the existing message instead of asking for another fresh message.
+The proof checked canonical service process, stale/manual process risk, polling state, stage telemetry, allowlist, router, Hermes reply and Telegram send path.
+The root cause classification and any minimal fix/runtime action are recorded in the run report.
+No Fin Instrument UI, financial integration, Agent Farm or security middleware was added in this run.
+<!-- CONTEXT_APPEND_END id=CTX_20260517_TELEGRAM_NO_REPLY_KTO_TY_AFTER_UI_ROLLBACK_DIAGNOSED -->
+
+CHECKS:
+Run:
+git diff --check -- docs/codex_source
+git status --short
+
+GIT:
+If code/docs changed:
+
+Stage only intended files.
+Do not stage agent-packages/**.
+Do not stage runtime/db/config/auth files.
+Commit message:
+Diagnose Telegram no-reply after UI rollback
+Push private origin main.
+Verify origin/main == HEAD.
+
+If no source changes:
+
+Do not create empty commit.
+Report no source changes.
+
+PUBLIC DOCS REFRESH:
+If docs/codex_source/** changed:
+
+refresh public docs repo and verify it contains only docs/codex_source/**.
+
+REPORT:
+Print final report between CHATGPT_REPORT_BEGIN and CHATGPT_REPORT_END.
+Save report through codex_report_inbox.py only if current reporting path is available.
+
+CHATGPT_REPORT_BEGIN
+
+RUN_ID: OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01
+
+RESULT:
+
+SUCCESS / STOP / FAIL
+
+BASELINE:
+
+source_repo:
+source_branch:
+source_head_before:
+private_origin_main_before:
+public_docs_head_before:
+working_tree_status:
+
+DOCS:
+
+docs_to_read_provided:
+docs_read:
+docs_missing:
+docs_stub:
+docs_contradictions:
+documentation_gate_passed:
+
+CONTEXT_APPEND:
+
+append_added:
+append_id:
+append_duplicate_found:
+append_target:
+unsent_next_prompt_preserved:
+unsent_next_prompt_run_id:
+file_download_created: no
+
+DOCS_UPDATED:
+
+context_manifest:
+current_status:
+task_card:
+import_queue:
+index_updated:
+
+CHECKS:
+
+git_diff_check_docs_only:
+required_files_check:
+yaml_check:
+source_change_guard:
+context_append_unique:
+
+PRIVATE_SOURCE_GIT:
+
+commit:
+head_after:
+push_success:
+origin_main_equals_head:
+no_source_changes:
+
+PUBLIC_DOCS_REFRESH:
+
+public_remote:
+export_dir:
+public_commit:
+public_push_success:
+public_head_after:
+contains_only_docs_codex_source:
+context_append_exists_public:
+
+FILES_CHANGED:
+
+...
+
+SECURITY:
+
+secrets_printed: no
+tokens_printed: no
+auth_files_read: no
+model_calls_run: report actual
+telegram_api_calls_run: report actual safe calls
+services_restarted: no
+
+NEXT_STEP:
+
+Run preserved prompt OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01.
+Do not resume Fin Instrument UI work until Telegram reply is restored.
+
+CHATGPT_REPORT_END
+
+UNSENT_NEXT_PROMPT_END
+
+10. Next exact step after this docs context append
+
+After this docs-only context append is committed and public docs are refreshed:
+
+Send the preserved diagnostic prompt:
+OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01
+Do not resume Fin Instrument UI work.
+Do not add financial UI blocks back into the tab.
+Do not ask the user to send another message until the already-sent кто ты has been checked in logs/state/runtime.
+<!-- CONTEXT_APPEND_END id=CTX_20260517_UI_ROLLBACK_AND_TELEGRAM_NO_REPLY_CURRENT_STOPPOINT -->

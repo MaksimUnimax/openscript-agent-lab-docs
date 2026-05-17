@@ -99,3 +99,9 @@ Additional current direction:
 - the UI-only emergency rollback restored the working Telegram-only tab baseline before the Telegram interface was hidden/removed.
 - the financial blocks are deferred again for this run; the production DB/backend remain preserved, but the visible tab is Telegram-only now.
 - the previously mixed Fin Instrument UI layers were superseded in the frontend by the rollback baseline from the last working Telegram tab.
+- UI-only rollback to the working Telegram baseline completed at private commit `b38a8bd35095dc0cf7117227215bd483fd2f3df1`.
+- financial UI re-add is deferred until the Telegram reply path is restored and the user reviews the Telegram-only baseline again.
+- Fin Instrument backend/storage/production DB remain preserved, but are currently not shown in the visible UI.
+- the active blocker after rollback is Telegram no-reply for the already-sent message `кто ты`.
+- the next exact run is `OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01`.
+- Fin Instrument UI work must not resume until Telegram reply behavior is restored.

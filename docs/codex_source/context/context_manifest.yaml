@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260517_UI_ONLY_ROLLBACK_TO_WORKING_TELEGRAM_BASELINE
-last_append_title: "UI-only rollback to working Telegram baseline"
-last_updated_utc: 2026-05-17T06:15:06Z
+last_append_id: CTX_20260517_UI_ROLLBACK_AND_TELEGRAM_NO_REPLY_CURRENT_STOPPOINT
+last_append_title: UI rollback completed; Telegram no-reply unresolved; unsent diagnostic prompt preserved
+last_updated_utc: 2026-05-17T06:51:20Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks
