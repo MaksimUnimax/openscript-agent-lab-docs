@@ -18,10 +18,10 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
-  latest_context_append_id: CTX_20260517_UI_ROLLBACK_AND_TELEGRAM_NO_REPLY_CURRENT_STOPPOINT
-  active_blocker: telegram_no_reply_after_ui_rollback
-  next_exact_run: OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01
-  financial_ui_readd: deferred
+  latest_context_append_id: CTX_20260517_FIN_PRODUCT_SCHEMA_V2_SUCCESS
+  active_blocker: none
+  next_exact_run: docs_only_append_after_fin_product_schema_v2_success
+  financial_ui_readd: completed
 repo_documentation_access_model: repo_documentation_access_v2
 current_workflow_mode_policy: risk_based_combined_runs_v1
 task_card_blocking_gate_logic: deprecated

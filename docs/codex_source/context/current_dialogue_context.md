@@ -1589,3 +1589,25 @@ Do not resume Fin Instrument UI work.
 Do not add financial UI blocks back into the tab.
 Do not ask the user to send another message until the already-sent кто ты has been checked in logs/state/runtime.
 <!-- CONTEXT_APPEND_END id=CTX_20260517_UI_ROLLBACK_AND_TELEGRAM_NO_REPLY_CURRENT_STOPPOINT -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_PRODUCT_SCHEMA_V2_SUCCESS source=chatgpt -->
+## 2026-05-17 — Fin Instrument schema v2 / product-field success
+
+Facts:
+- Run `OPENSCRIPT_AGENT_LAB_FIN_EXPENSE_PRODUCT_FIELD_SCHEMA_UI_FIX_20260517_01` completed SUCCESS.
+- Private commit `f0235cbeed7f27392c5d3bcca88a44c6315654dd` was pushed to `origin/main`.
+- Fin expense schema is now v2.
+- `expense_records` now has a dedicated `product` column.
+- `product` / `Товар` is required and stored separately from `description`.
+- `category` is optional and defaults to `Без категории` / `bez_kategorii`.
+- `description` is now optional comment text.
+- Legacy description-only add payloads are rejected safely.
+- Live controlled POST `amount=12, product=хлеб, currency=RUB, payment_source=card` returned 200.
+- `/api/state` now shows `product=хлеб` and `category=Без категории`.
+- Tests passed: 143.
+- Service was active and healthz returned 200.
+- Telegram UI/auth/provider paths were left untouched.
+
+Next:
+- Any follow-up feature work must be separate and must not touch Telegram/Hermes without proof.
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_PRODUCT_SCHEMA_V2_SUCCESS -->

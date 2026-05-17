@@ -105,3 +105,12 @@ Additional current direction:
 - the active blocker after rollback is Telegram no-reply for the already-sent message `кто ты`.
 - the next exact run is `OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01`.
 - Fin Instrument UI work must not resume until Telegram reply behavior is restored.
+- Fin Instrument schema v2 / product-field work completed successfully at private commit `f0235cbeed7f27392c5d3bcca88a44c6315654dd`.
+- the expense model now has a dedicated required `product` / `Товар` field stored separately from `description`;
+- `category` is now optional and defaults to `Без категории` / `bez_kategorii`;
+- `description` is now optional comment text;
+- legacy description-only add payloads are rejected safely;
+- live controlled POST proof succeeded with `amount=12`, `product=хлеб`, `currency=RUB`, `payment_source=card`;
+- `/api/state` now shows `product=хлеб` and `category=Без категории`;
+- the test baseline reached 143 passed tests and the service/healthz remained healthy;
+- Telegram UI/auth/provider paths were left untouched by this docs update.
