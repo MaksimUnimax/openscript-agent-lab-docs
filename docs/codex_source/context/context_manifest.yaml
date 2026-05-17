@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260517_FIN_TOOL_LABEL_AND_TELEGRAM_NO_REPLY_FIXED
-last_append_title: "Fixed “Фин инструмент” label and Telegram no-reply after allowlist"
-last_updated_utc: 2026-05-17T02:40:58Z
+last_append_id: CTX_20260517_TELEGRAM_POLLING_STAGE_INSTRUMENTED_OR_FIXED
+last_append_title: Telegram polling stage instrumentation and reply-path blocker diagnosed
+last_updated_utc: 2026-05-17T04:37:44Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

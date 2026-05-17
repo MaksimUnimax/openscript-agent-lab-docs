@@ -22,8 +22,8 @@ Confirmed facts:
 - unrelated dirty state exists under `agent-packages/**`
 
 Needs confirmation:
-- STATUS: NEEDS_CONFIRMATION service `openscript-agent-lab-ui.service` is active
-- STATUS: NEEDS_CONFIRMATION UI listener is `127.0.0.1:18765`
+- STATUS: CONFIRMED service `openscript-agent-lab-ui.service` is active
+- STATUS: CONFIRMED UI listener is `127.0.0.1:18765`
 - STATUS: CONFIRMED task card re-evaluation for Telegram user_id allowlist has completed and the task card is advisory/history-only
 
 Next planned step:
@@ -56,3 +56,7 @@ Additional current direction:
 - the visible Telegram tab label has now been updated to “Фин инструмент” and the live UI service was restarted to load the current bundle.
 - allowlist normalization was verified for both string and integer `user_id` values.
 - next step is controlled manual verification of allowed/denied Telegram user_id behavior through the UI/runtime path, if needed.
+- live polling stage instrumentation is now exposed through safe runtime status fields for the canonical service (`runtime_loop` and `polling_cycle`).
+- current live proof shows the canonical polling loop entering the update and reply path, with `current_cycle_stage: before_reply` and the last completed cycle failing with `reply_failed` / `Hermes runtime did not return a reply`.
+- the remaining blocker is now in the reply/Hermes path, not in Telegram inbound polling, webhook configuration, or allowlist matching.
+- next step is targeted reply-path diagnosis using the new stage fields, or a separate narrow fix run if the exact module becomes proven.

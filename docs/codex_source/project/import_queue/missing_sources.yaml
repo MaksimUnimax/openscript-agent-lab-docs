@@ -115,6 +115,11 @@ items:
     expected_target_path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
     notes: Telegram user_id allowlist access control is implemented; visible tab label is now “Фин инструмент”; task card remains advisory only and stale ready_for_fix_run=false no longer blocks guarded combined runs
     must_not_invent: true
+  - id: telegram_polling_stage_instrumentation
+    status: done
+    expected_target_path: docs/codex_source/project/current_status.md
+    notes: safe live runtime stage diagnostics were added to polling/runtime status; current proof shows the canonical service reaches before_reply and Hermes reply is failing
+    must_not_invent: true
   - id: telegram_identity_from_id_vs_chat_id
     status: imported
     expected_target_path: docs/codex_source/vendor/telegram/update_identity_from_id_vs_chat_id.md

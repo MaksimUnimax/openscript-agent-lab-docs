@@ -635,3 +635,19 @@ Facts:
 - Controlled manual Telegram proof is still required after the fix.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_TOOL_LABEL_AND_TELEGRAM_NO_REPLY_FIXED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_TELEGRAM_POLLING_STAGE_INSTRUMENTED_OR_FIXED source=codex_live_polling_stage_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Telegram polling stage instrumentation added; reply-path blocker diagnosed
+
+Facts:
+- Safe runtime-stage diagnostics were added to the canonical Telegram polling path.
+- `/api/telegram/status` now exposes `runtime_loop` and `polling_cycle` stage fields without leaking secrets.
+- Live proof on the canonical service shows the polling loop is active and holding `polling.lock` from PID `313491`.
+- The current live cycle stage is `before_reply`, meaning Telegram updates are being consumed and the blocker is downstream of inbound polling.
+- The last completed cycle failed with `reply_failed` and the live runtime error `Hermes runtime did not return a reply`.
+- This narrows the remaining blocker to the reply/Hermes path rather than allowlist, webhook, or inbound update ingestion.
+- No token/auth/webhook/send-delivery rewrite was performed in this run.
+- Manual allowed-user Telegram proof is still required after any follow-up reply-path fix.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_TELEGRAM_POLLING_STAGE_INSTRUMENTED_OR_FIXED -->
