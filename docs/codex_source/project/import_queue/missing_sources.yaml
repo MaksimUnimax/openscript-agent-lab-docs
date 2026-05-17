@@ -145,6 +145,11 @@ items:
     expected_target_path: docs/codex_source/project/fin_instrument_sqlite_schema.md
     notes: docs-only SQLite schema design for the Fin Instrument financial tool; no DB or migration file created
     must_not_invent: true
+  - id: fin_instrument_runtime_storage_initializer_design
+    status: proposed
+    expected_target_path: docs/codex_source/project/fin_instrument_runtime_storage_initializer.md
+    notes: docs-only runtime storage initializer design for the Fin Instrument financial tool; no runtime directory or DB file created
+    must_not_invent: true
   - id: agent_farm_task_runtime_design
     status: deferred_after_fin_instrument
     expected_target_path: docs/codex_source/roadmap/roadmap.md

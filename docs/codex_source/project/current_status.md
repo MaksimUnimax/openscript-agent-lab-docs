@@ -74,3 +74,6 @@ Additional current direction:
 - the Fin Instrument SQLite schema design has now been proposed as a docs-only slice.
 - the schema proposal stays source-only and does not create a database or migration file.
 - the next slice should stay narrow: runtime storage initializer proof/design or source SQL migration skeleton.
+- the Fin Instrument runtime storage initializer design has now been proposed as a docs-only slice.
+- the initializer proposal stays source-only and does not create a runtime directory, database file, or migration file.
+- the next slice should be the runtime storage initializer implementation with temp-dir tests, not UI or Telegram integration.

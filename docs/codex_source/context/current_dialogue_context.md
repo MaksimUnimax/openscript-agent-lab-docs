@@ -720,3 +720,19 @@ Facts:
 - The next step is user/ChatGPT review and then a minimal runtime storage initializer proof/design or a source SQL migration skeleton.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_SQLITE_SCHEMA_DESIGN_PROPOSED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_DESIGN_PROPOSED source=codex_proof_design accepted_by_user=pending -->
+
+## 2026-05-17 — Fin Instrument runtime storage initializer design proposed
+
+Facts:
+- The Financial Tool contracts skeleton exists.
+- SQLite schema design exists.
+- No DB or runtime storage has been created yet.
+- A runtime storage initializer for the Fin Instrument runtime has now been proposed under `/var/lib/openscript-agent-lab/fin-instrument/finance.sqlite3`.
+- The initializer design covers runtime root creation, SQLite bootstrap, schema versioning, migration tracking, readiness states, permissions, failure modes and tests.
+- This was docs-only design and does not create a database, runtime directory, migration files or application code.
+- Agents still must not write SQL directly; deterministic scripts/storage functions will own all reads and writes.
+- The next step is user/ChatGPT review and then a minimal implementation slice for the initializer using temp-dir tests and no production auto-init.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_DESIGN_PROPOSED -->

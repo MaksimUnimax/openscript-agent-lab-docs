@@ -260,6 +260,8 @@ project_docs:
     status: proposed
   - path: docs/codex_source/project/fin_instrument_sqlite_schema.md
     status: proposed
+  - path: docs/codex_source/project/fin_instrument_runtime_storage_initializer.md
+    status: proposed
   - path: docs/codex_source/project/project_snapshot.md
     status: initial
   - path: docs/codex_source/project/module_map.md
@@ -294,8 +296,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
-      last_append_title: "Product direction expanded: “Фин инструмент”, Agent Farm and Agent Tools"
+      last_append_id: CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_DESIGN_PROPOSED
+      last_append_title: "Fin Instrument runtime storage initializer design proposed"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:
