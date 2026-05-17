@@ -18,6 +18,7 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 repo_documentation_access_model: repo_documentation_access_v2
+current_workflow_mode_policy: risk_based_combined_runs_v1
 repo_visibility:
   private_source_repo:
     url: git@github.com:MaksimUnimax/openscript-agent-lab.git
@@ -326,6 +327,8 @@ project_memory:
       status: imported_current_snapshot
   rules:
     - path: docs/codex_source/rules/README.md
+      status: imported
+    - path: docs/codex_source/rules/workflow_run_modes.md
       status: imported
     - path: docs/codex_source/rules/repo_documentation_access_rules.md
       status: imported

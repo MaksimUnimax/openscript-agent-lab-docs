@@ -16,6 +16,8 @@ New access model:
 - assistant must point Codex to exact paths
 - Codex should not read all docs by default
 - Codex should read only the exact sources required by the task card and prompt
+- passing the docs gate is required but not sufficient for a combined edit
+- a combined edit also requires exact affected modules, allowed scope match, and the combined-run guard
 
 DOCS_TO_READ rule:
 - if a prompt does not list exact docs to read, Codex must stop or request clarification
@@ -26,3 +28,5 @@ STOP conditions:
 - an active task card says `ready_for_fix_run: false`
 - project docs contradict runtime facts and the prompt does not define which source wins
 - guessing from memory, code or previous reports is forbidden
+- if the docs gate fails, STOP before editing
+- if the combined-run guard fails, STOP before editing

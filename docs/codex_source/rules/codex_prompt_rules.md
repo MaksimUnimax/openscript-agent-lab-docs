@@ -10,6 +10,10 @@ Prompt contract:
 - for append-only files, Codex reads manifest + tail only
 - `DOCS_TO_READ` is mandatory for OpenScript Agent Lab technical tasks
 - each `DOCS_TO_READ` entry must include path, why, and required yes/no
+- `RUN_MODE` is mandatory for every technical prompt
+- allowed `RUN_MODE` values are `docs_only`, `proof_only`, `design_only`, `combined_proof_design_fix`, `fix_after_approved_design`, and `repeat_proof`
+- when `RUN_MODE: combined_proof_design_fix`, the prompt must include `COMBINED_RUN_GUARD`
+- combined runs must include a `COMBINED_RUN` report block
 
 Stop rules:
 - if a required doc is `stub`, `needs_import`, or missing, stop with `STOP_DOCS_MISSING`
@@ -19,6 +23,8 @@ Stop rules:
 - do not infer missing task facts from memory alone
 - if docs contradict each other and the prompt does not name the winning source, stop
 - if the active task card says `ready_for_fix_run: false`, do not force a fix run
+- if `RUN_MODE: combined_proof_design_fix` is requested without `COMBINED_RUN_GUARD`, stop
+- if a combined run cannot satisfy the guard, stop before editing
 
 Repository docs rule:
 - the docs are available under `docs/codex_source/**`
@@ -29,3 +35,21 @@ Baseline modes:
 - Mode A: assistant-provided baseline plus exact docs
 - Mode B: exact repo-docs baseline extracted from listed files
 - high-risk tasks should prefer one of these two modes
+
+Prompt template rule:
+Every technical prompt should include:
+
+- ТЗ проверено.
+- `DOCS_TO_READ`.
+- `RUN_MODE`.
+- `DOCUMENTATION_GATE`.
+- `DOCUMENTATION_BASELINE` or instruction to extract exact baseline from listed docs.
+- `RUNTIME_BASELINE`.
+- `UNIVERSALITY_CHECK`.
+- `ALLOWED_SCOPE`.
+- `FORBIDDEN_SCOPE`.
+- `CHECKS`.
+- `ACCEPTANCE`.
+- `REPORT`.
+- If `RUN_MODE: combined_proof_design_fix`, also include `COMBINED_RUN_GUARD`.
+- If combined mode is used, `REPORT` must include `COMBINED_RUN`.

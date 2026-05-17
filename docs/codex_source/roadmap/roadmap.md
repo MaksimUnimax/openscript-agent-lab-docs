@@ -183,3 +183,23 @@ After allowlist:
 - design/proof for Agent Farm / Task Runtime.
 
 <!-- ROADMAP_APPEND_END id=RM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS source=chatgpt_inline_user_clarification accepted_by_user=yes -->
+
+## 2026-05-17 — Workflow optimization: risk-based combined runs
+
+The project workflow is updated to reduce unnecessary Codex runs.
+
+Old default:
+- separate proof/design before most fixes.
+
+New default:
+- docs-only runs remain docs-only;
+- narrow ordinary fixes may use combined proof/design/fix in one run;
+- high-risk or unclear tasks still require separate design approval.
+
+For the Telegram user_id allowlist line:
+- after task-card readiness, prefer a guarded combined proof/design/fix run if scope is narrow;
+- if exact affected modules are unclear or high-risk paths are involved, STOP before editing.
+
+<!-- ROADMAP_APPEND_END id=RM_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS -->

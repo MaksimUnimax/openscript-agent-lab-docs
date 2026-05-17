@@ -567,3 +567,20 @@ Next:
 - Do not start implementation until the task card is promoted beyond proof/design readiness.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FILLED_TELEGRAM_ACCESS_CONTROL_STUB_DOCS -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS source=chatgpt_inline_user_clarification accepted_by_user=yes -->
+
+## 2026-05-17 — Workflow rules updated: risk-based combined runs
+
+Facts:
+- The user clarified that the old mandatory separate design-run before almost every fix is no longer efficient.
+- That rule was created when models were weaker and both ChatGPT and Codex needed to separately inspect most designs.
+- Current observed workflow: most Codex designs are accepted, so mandatory separate design runs create too many prompts and circular work.
+- New priority rule: use risk-based workflow.
+- Narrow ordinary fixes may use `combined_proof_design_fix`: proof -> design summary -> minimal fix -> tests/checks -> git push -> report in one run.
+- Codex may edit in a combined run only if docs gate passes, exact affected modules are found, scope matches allowed scope, and no high-risk/unclear condition appears.
+- If combined-run guard fails, Codex must STOP before editing.
+- Separate design approval remains mandatory for high-risk/unclear tasks: auth, secrets, provider, Telegram delivery/send, systemd/nginx/deploy, runtime storage migrations, DB schema, paid-resource paths, large UI refactors, new architecture such as Agent Farm/task runtime, external APIs like YouTube/Twitch, broad multi-module changes, or docs/code contradictions.
+- Docs/import/task-card re-evaluation runs remain docs-only.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS -->

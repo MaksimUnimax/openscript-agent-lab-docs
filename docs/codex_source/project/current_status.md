@@ -44,3 +44,7 @@ Additional current direction:
 - none of these new tool families are implemented by this docs update.
 - Telegram identity/privacy/access-control STUB docs were filled in this run;
 - the next step after this docs-only unblock is to rerun task-card re-evaluation for `telegram_user_id_allowlist_ui`.
+- workflow rules were updated to risk-based combined runs;
+- separate design-run is no longer mandatory by default for narrow ordinary fixes;
+- high-risk or unclear tasks still require separate design approval;
+- the next active project step remains Telegram user_id allowlist task-card re-evaluation, then a possible combined proof/design/fix run if the task card allows it.

@@ -10,6 +10,7 @@ ChatGPT workflow:
 5. Read the relevant manifests before reading any append-only tail.
 6. Read the active task card and only the exact files listed there.
 7. For repo-documentation tasks, include `DOCS_TO_READ` with exact paths before asking Codex to act.
+8. For narrow ordinary fixes, prefer `combined_proof_design_fix` only when `docs/codex_source/rules/workflow_run_modes.md` allows it and the combined-run guard is satisfied.
 
 Rules:
 - do not rely on memory before reading the entrypoint
@@ -20,4 +21,9 @@ Rules:
 - do not treat roadmap/context as vendor docs
 - do not say "read everything" when a smaller exact source set is sufficient
 - do not rely on inline-only wording now that repo docs exist
+- separate design approval is no longer mandatory by default for narrow ordinary fixes
+- separate design approval remains mandatory for high-risk or unclear-scope tasks
+- docs-only tasks remain docs-only
+- keep proof-first and no-guessing
+- keep user/manual approval where the task card requires it
 - stop if the needed docs are missing, stubbed, contradictory, or not named
