@@ -520,3 +520,30 @@ Next:
 - Then decide whether Telegram user_id allowlist UI is ready for proof/design/fix.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260516_IMPORTED_MODULE_MAP_SNAPSHOT -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS source=chatgpt_inline_product_update accepted_by_user=yes -->
+
+## 2026-05-16 — Product direction expanded: “Фин инструмент”, Agent Farm and Agent Tools
+
+Facts:
+- The user clarified that the financial tool should not be a separate new tab.
+- The current UI tab named “Телеграмм” is already specialized for the financial agent with Telegram and voice.
+- This tab should be renamed/treated as “Фин инструмент”.
+- Telegram user_id allowlist/access control belongs in the “Фин инструмент” tab.
+- Future financial tool work also belongs in the “Фин инструмент” product surface.
+- First, close access to the Telegram bot through user_id allowlist/access control.
+- Then build a universal agent farm where many agents can live, receive tasks, run with their own instructions/tools, and have execution monitored.
+- The next major tool after access control should be the Financial Agent Business Tool.
+- The financial tool is not just a database. It is database + scripts + receipt reading/ingestion + reports + safe contracts.
+- Financial agents must call scripts/tools; they must not write SQL or mutate the DB directly.
+- Planned future tool families also include Telegram post publishing and YouTube parsing.
+- Several other future tasks remain unspecified and must stay placeholders until the user defines them.
+- This update is documentation only. No implementation was requested.
+
+Next:
+- Still re-evaluate `telegram_user_id_allowlist_ui` task card.
+- The re-evaluation must include placement in the “Фин инструмент” tab.
+- After access control, design/proof Agent Farm / Task Runtime.
+- After that, design/proof Financial Agent Business Tool.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS -->

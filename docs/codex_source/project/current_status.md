@@ -33,3 +33,12 @@ Next planned step:
 Notes:
 - This file is a live project status marker, not a replacement for the technical spec.
 - If a fact is not proven by repo docs or current git state, it should stay marked as `NEEDS_CONFIRMATION`.
+
+Additional current direction:
+- product direction expanded to “Фин инструмент” plus a universal agent farm and agent tools;
+- the immediate next step remains Telegram user_id allowlist task-card re-evaluation;
+- that re-evaluation must account for moving/placing the allowlist inside the renamed “Фин инструмент” tab;
+- after bot access is closed, the next strategic block is Agent Farm / Task Runtime design/proof;
+- the financial tool is not just a database; it is a deterministic business tool with scripts, receipt handling and reports;
+- Telegram publisher and YouTube parser are planned future tool families;
+- none of these new tool families are implemented by this docs update.

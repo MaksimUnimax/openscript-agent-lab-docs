@@ -1,8 +1,10 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260516_IMPORTED_ROADMAP_V0_7_CURRENT
-last_status: roadmap_v0_7_current_imported
-active_phase: import_rules_pack_then_module_map
+last_append_id: RM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+last_status: product_direction_expanded_fin_tool_tab_agent_farm_and_tools
+active_phase: telegram_user_id_allowlist_task_card_reevaluation
+current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
+next_phase_after_allowlist: agent_farm_task_runtime_design_proof
 current_roadmap_version: v0.7
 current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
 historical_versions:
@@ -12,3 +14,4 @@ historical_versions:
   - v0.5
   - v0.6
 no_destructive_rewrite: true
+last_updated_utc: 2026-05-17T01:06:37Z

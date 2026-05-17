@@ -1,8 +1,10 @@
 snapshot_file: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
 append_only: false
-status: initial
-snapshot_kind: repo-tree-lightweight-index
-source_basis: safe tree inspection only
-generated_from_command: find . -maxdepth 2 -type d | sort
-generated_at_utc: 2026-05-16T10:46:58Z
+status: imported_current_snapshot
+snapshot_kind: bounded_codex_repo_snapshot
+source_kind: bounded_codex_repo_snapshot
+last_snapshot_id: PROJECT_SNAPSHOT_20260516_FIN_TOOL_TAB_AGENT_FARM_TZ_EXPANSION
+private_head_at_snapshot: dd19a8752bcb46f073cc290cc60e0b9f42a3985c
+last_updated_utc: 2026-05-17T01:06:37Z
+scope: bounded inventory, no secrets
 needs_future_refresh: true

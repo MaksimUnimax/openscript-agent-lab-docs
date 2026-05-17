@@ -241,6 +241,8 @@ project_docs:
     status: imported
   - path: docs/codex_source/project/technical_spec.md
     status: imported
+  - path: docs/codex_source/project/technical_spec_extensions/fin_tool_tab_agent_farm_and_agent_tools_v0_4.md
+    status: imported
   - path: docs/codex_source/project/project_snapshot.md
     status: initial
   - path: docs/codex_source/project/module_map.md
@@ -275,8 +277,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260516_IMPORTED_MODULE_MAP_SNAPSHOT
-      last_append_title: Imported module map / safe boundaries snapshot
+      last_append_id: CTX_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+      last_append_title: "Product direction expanded: “Фин инструмент”, Agent Farm and Agent Tools"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:
@@ -286,6 +288,9 @@ project_memory:
       status: imported
       current_roadmap_version: v0.7
       current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
+      last_append_id: RM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+      current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
+      next_phase_after_allowlist: agent_farm_task_runtime_design_proof
     - path: docs/codex_source/roadmap/roadmap_manifest.yaml
       status: imported
     - path: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
@@ -301,6 +306,8 @@ project_memory:
       current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
       safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
       task_card_reevaluation_required: true
+      last_append_id: MM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+      current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
     - path: docs/codex_source/module_map/module_map_manifest.yaml
       status: imported_current_snapshot
     - path: docs/codex_source/module_map/imported/current_module_map_snapshot.md
@@ -311,9 +318,10 @@ project_memory:
     - path: docs/codex_source/project_snapshot/README.md
       status: initial
     - path: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
-      status: initial
+      status: imported_current_snapshot
+      last_snapshot_id: PROJECT_SNAPSHOT_20260516_FIN_TOOL_TAB_AGENT_FARM_TZ_EXPANSION
     - path: docs/codex_source/project_snapshot/project_snapshot_manifest.yaml
-      status: initial
+      status: imported_current_snapshot
   rules:
     - path: docs/codex_source/rules/README.md
       status: imported
@@ -337,6 +345,7 @@ project_memory:
 task_cards:
   - path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
     status: extracted
+    current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
     required_docs:
       vendor:
         - docs/codex_source/vendor/telegram/identity/from_user_id.md

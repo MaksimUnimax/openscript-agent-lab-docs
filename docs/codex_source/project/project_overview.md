@@ -30,3 +30,10 @@ Missing next imports:
 - rules pack;
 - module map expansion;
 - remaining project architecture docs such as Telegram router, voice pipeline, Hermes reply path and access control.
+
+Expanded product direction:
+- Agent Lab is evolving into a universal multi-agent farm, not only a single-agent Telegram scenario.
+- The current UI tab named “Телеграмм” should become “Фин инструмент”.
+- “Фин инструмент” is the financial tool surface for agents, not merely Telegram settings.
+- The financial agent scenario remains the first applied scenario, but it is no longer the only future agent line.
+- Planned future tool families include the Financial Agent Business Tool, Telegram post publishing, and YouTube parsing.

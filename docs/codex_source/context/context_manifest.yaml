@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260516_IMPORTED_MODULE_MAP_SNAPSHOT
-last_append_title: Imported module map / safe boundaries snapshot
-last_updated_utc: 2026-05-16T12:12:41Z
+last_append_id: CTX_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+last_append_title: "Product direction expanded: “Фин инструмент”, Agent Farm and Agent Tools"
+last_updated_utc: 2026-05-17T01:06:37Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

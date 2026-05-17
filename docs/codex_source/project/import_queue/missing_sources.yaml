@@ -80,3 +80,53 @@ items:
     expected_target_path: docs/codex_source/roadmap/roadmap.md
     notes: current roadmap v0.7 imported from inline prompt content
     must_not_invent: true
+  - id: technical_spec_extension_fin_tool_tab_agent_farm_and_tools
+    status: imported
+    expected_target_path: docs/codex_source/project/technical_spec_extensions/fin_tool_tab_agent_farm_and_agent_tools_v0_4.md
+    notes: product direction extension for “Фин инструмент”, Agent Farm, and agent tools imported
+    must_not_invent: true
+  - id: roadmap_fin_tool_tab_agent_farm_and_tools_update
+    status: imported
+    expected_target_path: docs/codex_source/roadmap/roadmap.md
+    notes: roadmap append block for the expanded product direction has been imported
+    must_not_invent: true
+  - id: module_map_fin_tool_tab_agent_farm_and_tools_update
+    status: imported
+    expected_target_path: docs/codex_source/module_map/module_map.md
+    notes: module map append block for the expanded product direction has been imported
+    must_not_invent: true
+  - id: telegram_user_id_allowlist_ui
+    status: pending_task_card_reevaluation
+    expected_target_path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
+    notes: task card remains next for re-evaluation; placement must account for “Фин инструмент”
+    must_not_invent: true
+  - id: fin_instrument_ui_surface
+    status: planned_needs_task_card_reevaluation_design_proof
+    expected_target_path: docs/codex_source/task_cards/fin_tool_tab_rename_and_allowlist_ui.yaml
+    notes: planned UI surface for the renamed “Фин инструмент” tab; not ready for fix run
+    must_not_invent: true
+  - id: agent_farm_task_runtime
+    status: planned_needs_design_proof
+    expected_target_path: docs/codex_source/task_cards/agent_farm_foundation.yaml
+    notes: planned universal multi-agent farm and task runtime; not implemented in this docs update
+    must_not_invent: true
+  - id: financial_agent_business_tool
+    status: planned_needs_design_proof
+    expected_target_path: docs/codex_source/task_cards/financial_agent_business_tool.yaml
+    notes: planned deterministic financial tool with scripts, receipts, and reports; not a raw DB
+    must_not_invent: true
+  - id: telegram_post_publisher
+    status: planned_needs_design_proof
+    expected_target_path: docs/codex_source/task_cards/telegram_post_publisher_agent.yaml
+    notes: planned future Telegram post publishing tool family; separate from access control
+    must_not_invent: true
+  - id: youtube_parsing_tool
+    status: planned_needs_design_proof
+    expected_target_path: docs/codex_source/task_cards/youtube_parsing_agent.yaml
+    notes: planned YouTube parsing tool family; requires separate vendor/legal/API proof
+    must_not_invent: true
+  - id: future_task_tools_tbd
+    status: planned_placeholder_needs_spec
+    expected_target_path: docs/codex_source/task_cards/*
+    notes: unspecified future task tools remain placeholders until the user defines them
+    must_not_invent: true

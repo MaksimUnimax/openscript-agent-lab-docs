@@ -106,3 +106,80 @@ Before main feature work continues, still import:
 - prompt templates if needed.
 
 <!-- ROADMAP_APPEND_END id=RM_20260516_IMPORTED_ROADMAP_V0_7_CURRENT -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS source=chatgpt_inline_product_update accepted_by_user=yes -->
+
+## 2026-05-16 — Product direction expanded: “Фин инструмент”, Agent Farm and Agent Tools
+
+### Context
+
+The user clarified the next project direction and corrected the UI placement.
+
+The financial tool must not be created as a separate new tab.
+
+The current UI tab named “Телеграмм” is already specialized around the financial agent workflow, Telegram input and voice. It should become the “Фин инструмент” tab.
+
+This is a documentation/product-direction update only.
+No implementation is included in this update.
+
+### Current priority order
+
+1. Re-evaluate the Telegram user_id allowlist task card:
+   - include placement in the current “Телеграмм” tab, to be renamed/treated as “Фин инструмент”.
+
+2. Close access to the Telegram bot:
+   - Telegram user_id allowlist UI/access control;
+   - deny unknown users before resource use;
+   - use from.id/user_id, not chat_id, as identity;
+   - place this in “Фин инструмент”.
+
+3. Build the universal Agent Farm:
+   - many agents;
+   - separate agent tasks;
+   - task runtime;
+   - task assignment;
+   - execution tracking;
+   - monitoring of completion/failure/repair needs.
+
+4. Add first major agent business tool:
+   - Financial Agent Business Tool;
+   - not just a database;
+   - database + scripts + receipt ingestion + reports + safe tool contract;
+   - financial agents must call this tool and must not write SQL directly;
+   - product surface belongs under “Фин инструмент”.
+
+5. Add future tool families:
+   - Telegram Post Publisher Agent/Tool;
+   - YouTube Parsing Agent/Tool;
+   - Additional task tools TBD.
+
+### Status
+
+- “Фин инструмент” tab direction: PLANNED / NEEDS_TASK_CARD_REEVALUATION / NEEDS_DESIGN / NEEDS_PROOF.
+- Telegram user_id allowlist: pending task-card re-evaluation.
+- Agent Farm / Task Runtime: PLANNED / NEEDS_DESIGN / NEEDS_PROOF.
+- Financial Agent Business Tool: PLANNED / NEEDS_DESIGN / NEEDS_PROOF.
+- Telegram Post Publisher: PLANNED / NEEDS_DESIGN / NEEDS_PROOF.
+- YouTube Parser: PLANNED / NEEDS_DESIGN / NEEDS_PROOF.
+- Other future tools: PLANNED_PLACEHOLDER / NEEDS_SPEC.
+
+### Rules
+
+- Do not create a separate new tab for the financial tool if the current “Телеграмм” tab is the intended financial tool surface.
+- Do not implement Agent Farm before closing bot access and completing proof/design.
+- Do not implement Financial Tool as a raw DB exposed to agents.
+- Do not let agents write SQL or mutate DB directly.
+- Do not mix Telegram access-control with Telegram post publishing.
+- Do not implement YouTube parsing without separate vendor/legal/API docs proof.
+- Do not mark any new tool family DONE from this docs update.
+
+### Next step
+
+Still next:
+- task-card re-evaluation for `telegram_user_id_allowlist_ui`;
+- the re-evaluation must include the “Фин инструмент” tab placement/rename decision.
+
+After allowlist:
+- design/proof for Agent Farm / Task Runtime.
+
+<!-- ROADMAP_APPEND_END id=RM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS -->
