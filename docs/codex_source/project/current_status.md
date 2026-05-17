@@ -54,6 +54,8 @@ Additional current direction:
 - Telegram user_id allowlist access control has now been implemented in code and verified by tests.
 - the task card remains advisory/checklist metadata and should not be read as a blocking permission gate.
 - the visible Telegram tab label has now been updated to “Фин инструмент” and the live UI service was restarted to load the current bundle.
+- the same “Фин инструмент” tab now again shows the existing Telegram bot controls/status, access control, bot-router and voice readiness blocks alongside the financial storage/read-only sections.
+- the internal compatibility route slug remains `telegram`; only the visible product label is “Фин инструмент”.
 - allowlist normalization was verified for both string and integer `user_id` values.
 - next step is controlled manual verification of allowed/denied Telegram user_id behavior through the UI/runtime path, if needed.
 - live polling stage instrumentation is now exposed through safe runtime status fields for the canonical service (`runtime_loop` and `polling_cycle`).
@@ -90,5 +92,6 @@ Additional current direction:
 - Fin Instrument status now reports `schema_ready`/`ready` after initialization and the next likely slice is a read-only expense view or a later Telegram/voice design slice.
 - the read-only Fin Instrument expense view is now implemented in the shared UI/backend surface.
 - recent expenses and current-month summary now render read-only from the shared Fin Instrument SQLite database.
+- the combined Fin Instrument surface now keeps the Telegram controls/status visible instead of hiding them behind the legacy wrapper.
 - no expense write UI, Telegram/voice integration, Agent Farm integration, or new security middleware was added in this slice.
 - the next slice should now move to controlled manual expense add UI or, separately, Telegram/voice financial-tool integration design.

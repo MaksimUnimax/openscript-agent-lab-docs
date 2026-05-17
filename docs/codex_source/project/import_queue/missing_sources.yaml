@@ -113,7 +113,7 @@ items:
   - id: telegram_user_id_allowlist_ui
     status: done
     expected_target_path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
-    notes: Telegram user_id allowlist access control is implemented; visible tab label is now “Фин инструмент”; task card remains advisory only and stale ready_for_fix_run=false no longer blocks guarded combined runs
+    notes: Telegram user_id allowlist access control is implemented; visible tab label is now “Фин инструмент”; the same tab also shows Telegram bot controls/status, voice readiness, and Fin Instrument financial blocks again; task card remains advisory only and stale ready_for_fix_run=false no longer blocks guarded combined runs
     must_not_invent: true
   - id: telegram_polling_stage_instrumentation
     status: done
@@ -163,7 +163,7 @@ items:
   - id: fin_instrument_ui_readiness_surface
     status: done
     expected_target_path: agent_lab/admin_server.py, agent_lab/static/app.js, agent_lab/static/index.html
-    notes: read-only Fin Instrument status surface is implemented in the UI and backend without creating production runtime storage
+    notes: read-only Fin Instrument status surface is implemented in the UI and backend without creating production runtime storage; the combined tab surface keeps Telegram bot controls/status visible alongside the finance blocks
     must_not_invent: true
   - id: fin_instrument_controlled_runtime_initialization_operator_action
     status: done

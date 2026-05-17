@@ -396,7 +396,7 @@ project_memory:
     ready_for_combined_proof_design_fix: false
     ready_for_full_implementation: false
     requires_user_acceptance: true
-    reason: Fin Instrument runtime storage initializer, deterministic storage scripts, read-only UI readiness surface, controlled initialization, and read-only expense view are implemented; the next slice must stay narrow.
+    reason: Fin Instrument runtime storage initializer, deterministic storage scripts, read-only UI readiness surface, controlled initialization, read-only expense view, and restored Telegram controls/status are implemented; the next slice must stay narrow.
     slice_progress:
       contracts_skeleton: implemented
       sqlite_schema_design: proposed
@@ -407,6 +407,7 @@ project_memory:
       ui_readiness_surface: implemented
       controlled_runtime_initialization_operator_action: implemented
       read_only_expense_view: implemented
+      telegram_controls_restored_inside_fin_instrument: implemented
       production_runtime_initialized: true
     next_allowed_slice: controlled_manual_expense_add_ui_or_telegram_voice_fin_tool_integration_design
     required_project_docs:

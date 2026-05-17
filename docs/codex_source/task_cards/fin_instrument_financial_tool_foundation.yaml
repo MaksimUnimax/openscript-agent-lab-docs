@@ -9,7 +9,7 @@ ready_for_implementation: false
 ready_for_combined_proof_design_fix: false
 ready_for_full_implementation: false
 requires_user_acceptance: true
-reason: Runtime storage initializer, deterministic storage scripts, read-only UI readiness surface, controlled initialization action, and read-only expense view are implemented; production runtime storage is now live
+reason: Runtime storage initializer, deterministic storage scripts, read-only UI readiness surface, controlled initialization action, read-only expense view, and restored Telegram controls/status are implemented; production runtime storage is now live
 active_product_surface: Фин инструмент
 runtime_scope: inside_fin_instrument_for_current_stage
 agent_farm_dependency: deferred
@@ -24,6 +24,7 @@ slice_progress:
   ui_readiness_surface: implemented
   controlled_runtime_initialization_operator_action: implemented
   read_only_expense_view: implemented
+  telegram_controls_restored_inside_fin_instrument: implemented
   production_runtime_initialized: true
 next_allowed_slice: controlled_manual_expense_add_ui_or_telegram_voice_fin_tool_integration_design
 non_goals:

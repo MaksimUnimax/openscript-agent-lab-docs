@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260517_FIN_INSTRUMENT_READ_ONLY_EXPENSE_VIEW_IMPLEMENTED
-last_append_title: "Fin Instrument read-only expense view implemented"
-last_updated_utc: 2026-05-17T05:52:24Z
+last_append_id: CTX_20260517_FIN_INSTRUMENT_TELEGRAM_CONTROLS_RESTORED
+last_append_title: "Telegram controls restored inside Fin Instrument tab"
+last_updated_utc: 2026-05-17T06:05:25Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

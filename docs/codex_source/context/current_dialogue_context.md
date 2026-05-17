@@ -808,3 +808,16 @@ Facts:
 - The next slice should move to controlled manual expense add UI or a later Telegram/voice design slice, not a DB/security rewrite.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_READ_ONLY_EXPENSE_VIEW_IMPLEMENTED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_TELEGRAM_CONTROLS_RESTORED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Telegram controls restored inside Fin Instrument tab
+
+Facts:
+- The Fin Instrument tab now shows the existing Telegram bot controls/status again instead of hiding them behind the legacy wrapper.
+- The same tab still contains the financial storage/read-only blocks: “Финансовое хранилище”, “Последние расходы”, and “Сводка за месяц”.
+- Telegram access control remains user_id/from.id based and lives in the same tab.
+- The internal compatibility slug `telegram` remains unchanged; only the visible product label is “Фин инструмент”.
+- This run did not add Telegram-to-expense integration, voice runtime enablement, expense write UI, Agent Farm, or new security middleware.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_TELEGRAM_CONTROLS_RESTORED -->
