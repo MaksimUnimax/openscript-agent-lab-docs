@@ -24,7 +24,7 @@ Confirmed facts:
 Needs confirmation:
 - STATUS: NEEDS_CONFIRMATION service `openscript-agent-lab-ui.service` is active
 - STATUS: NEEDS_CONFIRMATION UI listener is `127.0.0.1:18765`
-- STATUS: NEEDS_CONFIRMATION task card re-evaluation has not yet been completed after module map import
+- STATUS: CONFIRMED task card re-evaluation for Telegram user_id allowlist has completed and the task card is advisory/history-only
 
 Next planned step:
 - re-evaluate task cards using imported ТЗ v0.3, roadmap v0.7, rules pack and module map
@@ -53,4 +53,6 @@ Additional current direction:
 - the next Telegram user_id allowlist pass should proceed as a guarded combined run if docs gate and combined guard pass.
 - Telegram user_id allowlist access control has now been implemented in code and verified by tests.
 - the task card remains advisory/checklist metadata and should not be read as a blocking permission gate.
+- the visible Telegram tab label has now been updated to “Фин инструмент” and the live UI service was restarted to load the current bundle.
+- allowlist normalization was verified for both string and integer `user_id` values.
 - next step is controlled manual verification of allowed/denied Telegram user_id behavior through the UI/runtime path, if needed.

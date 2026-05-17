@@ -618,3 +618,20 @@ Facts:
 - Tests were added/updated for allowed and denied users.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_TELEGRAM_USER_ID_ALLOWLIST_FIN_TOOL_IMPLEMENTED_AFTER_GATE_DEMOTION -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_TOOL_LABEL_AND_TELEGRAM_NO_REPLY_FIXED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Fixed “Фин инструмент” label and Telegram no-reply after allowlist
+
+Facts:
+- The visible Telegram UI tab/section was updated to “Фин инструмент”.
+- The user had already configured Telegram user_id `286579139` as allowed, and the live runtime state now reads that allowlist correctly.
+- I did not hardcode `286579139` in source code; it was used only as runtime/manual proof input.
+- The live UI service was restarted so the current bundle and runtime process are active.
+- The narrow regression fix added normalization coverage so string and integer `user_id` values both match inbound `from.id`.
+- Allowlist identity remains Telegram `from.id` / `user_id`; `chat_id` remains delivery target only.
+- Unknown users remain denied before resource use.
+- Tests were updated and passed for the fixed path.
+- Controlled manual Telegram proof is still required after the fix.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_TOOL_LABEL_AND_TELEGRAM_NO_REPLY_FIXED -->

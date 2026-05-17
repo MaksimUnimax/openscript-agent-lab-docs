@@ -43,5 +43,5 @@ ready_for_combined_proof_design_fix: true
 ready_for_fix_run: false
 readiness_note: "Combined run may proceed if docs gate and combined guard pass; direct fix-only run remains false."
 implementation_status: implemented
-implementation_note: "Telegram user_id allowlist access control is implemented; readiness flags remain advisory metadata for history."
-reason: Telegram user_id allowlist access control is now implemented; this task card is retained as historical advisory/checklist metadata.
+implementation_note: "Telegram user_id allowlist access control is implemented; the visible tab label is now 'Фин инструмент'; readiness flags remain advisory metadata for history."
+reason: Telegram user_id allowlist access control is implemented and the visible tab label has been updated to 'Фин инструмент'; this task card is retained as historical advisory/checklist metadata.
