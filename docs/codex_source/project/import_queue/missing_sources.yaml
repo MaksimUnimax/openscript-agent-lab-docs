@@ -140,6 +140,11 @@ items:
     expected_target_path: docs/codex_source/task_cards/fin_instrument_financial_tool_foundation.yaml
     notes: source-only financial tool contracts skeleton and deterministic no-op handlers are implemented; SQLite/schema/runtime/UI remain pending
     must_not_invent: true
+  - id: fin_instrument_sqlite_schema_design
+    status: proposed
+    expected_target_path: docs/codex_source/project/fin_instrument_sqlite_schema.md
+    notes: docs-only SQLite schema design for the Fin Instrument financial tool; no DB or migration file created
+    must_not_invent: true
   - id: agent_farm_task_runtime_design
     status: deferred_after_fin_instrument
     expected_target_path: docs/codex_source/roadmap/roadmap.md

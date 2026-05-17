@@ -71,3 +71,6 @@ Additional current direction:
 - the slice added deterministic contracts, no-op handlers, readiness summary, and regression tests only.
 - no SQLite schema, runtime storage writes, UI integration, Telegram integration, voice integration, or Agent Farm implementation was added in this slice.
 - the next slice should be reviewed separately: SQLite schema design or runtime storage initializer proof/design, not both blindly.
+- the Fin Instrument SQLite schema design has now been proposed as a docs-only slice.
+- the schema proposal stays source-only and does not create a database or migration file.
+- the next slice should stay narrow: runtime storage initializer proof/design or source SQL migration skeleton.

@@ -4,22 +4,23 @@ description: >
   Docs-only foundation task card for the financial agent / “Фин инструмент” line.
   The current stage finishes the financial tool before any shared Agent Farm runtime.
 status: in_progress
-implementation_status: contracts_skeleton_implemented
+implementation_status: sqlite_schema_design_proposed
 ready_for_implementation: false
 ready_for_combined_proof_design_fix: false
 ready_for_full_implementation: false
 requires_user_acceptance: true
-reason: source-only financial tool contracts skeleton has been implemented; SQLite schema and runtime storage slices remain pending
+reason: SQLite schema design is proposed; runtime storage and SQL migration slices remain pending
 active_product_surface: Фин инструмент
 runtime_scope: inside_fin_instrument_for_current_stage
 agent_farm_dependency: deferred
 allowed_next_run: user_review_or_design_refinement
 slice_progress:
   contracts_skeleton: implemented
-  storage_schema: pending
+  sqlite_schema_design: proposed
   runtime_storage_initializer: pending
-  ui_integration: pending
-next_allowed_slice: SQLite schema design OR runtime storage initializer proof/design
+  deterministic_storage_scripts: pending
+  ui_readiness_surface: pending
+next_allowed_slice: runtime_storage_initializer_proof_design OR source_sql_migration_skeleton
 non_goals:
   - general Agent Farm runtime now
   - Telegram Publisher now

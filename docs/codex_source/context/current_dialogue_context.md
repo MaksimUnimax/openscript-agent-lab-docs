@@ -705,3 +705,18 @@ Facts:
 - Next slice should be reviewed separately: SQLite schema design or runtime storage initializer, not both blindly.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_TOOL_CONTRACTS_SKELETON_IMPLEMENTED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_SQLITE_SCHEMA_DESIGN_PROPOSED source=codex_proof_design accepted_by_user=pending -->
+
+## 2026-05-17 — Fin Instrument SQLite schema design proposed
+
+Facts:
+- The Financial Tool contracts skeleton exists and remains source-only.
+- No DB or runtime storage has been created yet.
+- A SQLite schema for the Fin Instrument runtime has now been proposed under `/var/lib/openscript-agent-lab/fin-instrument/`.
+- The schema design covers expenses, receipt drafts, categories, payment sources, operation/audit logs and versioning.
+- Agents still must not write SQL directly; deterministic scripts/storage functions will own all reads and writes.
+- This was docs-only design and does not create a database or migration file.
+- The next step is user/ChatGPT review and then a minimal runtime storage initializer proof/design or a source SQL migration skeleton.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_SQLITE_SCHEMA_DESIGN_PROPOSED -->
