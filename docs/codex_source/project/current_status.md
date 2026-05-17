@@ -85,3 +85,6 @@ Additional current direction:
 - the production runtime root `/var/lib/openscript-agent-lab/fin-instrument/` was not created in this run.
 - the read-only UI readiness surface for Fin Instrument is now implemented.
 - the next slice should be a controlled runtime initialization operator action, not a UI/Telegram mix.
+- the controlled runtime initialization operator action is now implemented through the live admin endpoint.
+- the shared production Fin Instrument runtime root `/var/lib/openscript-agent-lab/fin-instrument/` now exists and the shared SQLite DB `finance.sqlite3` was created through the controlled endpoint.
+- Fin Instrument status now reports `schema_ready`/`ready` after initialization and the next likely slice is a read-only expense view or a later Telegram/voice design slice.

@@ -165,6 +165,11 @@ items:
     expected_target_path: agent_lab/admin_server.py, agent_lab/static/app.js, agent_lab/static/index.html
     notes: read-only Fin Instrument status surface is implemented in the UI and backend without creating production runtime storage
     must_not_invent: true
+  - id: fin_instrument_controlled_runtime_initialization_operator_action
+    status: done
+    expected_target_path: agent_lab/admin_server.py, agent_lab/static/app.js, agent_lab/static/index.html
+    notes: controlled Fin Instrument initialization action is implemented and the shared production runtime storage is now live
+    must_not_invent: true
   - id: agent_farm_task_runtime_design
     status: deferred_after_fin_instrument
     expected_target_path: docs/codex_source/roadmap/roadmap.md

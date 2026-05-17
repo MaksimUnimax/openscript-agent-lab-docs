@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260517_FIN_INSTRUMENT_UI_READINESS_SURFACE_IMPLEMENTED
-last_append_title: "Fin Instrument UI read-only readiness surface implemented"
-last_updated_utc: 2026-05-17T05:29:43Z
+last_append_id: CTX_20260517_FIN_INSTRUMENT_CONTROLLED_RUNTIME_INIT_ACTION_IMPLEMENTED
+last_append_title: "Fin Instrument controlled runtime initialization action implemented"
+last_updated_utc: 2026-05-17T05:40:33Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

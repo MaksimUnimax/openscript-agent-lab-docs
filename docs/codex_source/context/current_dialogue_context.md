@@ -780,3 +780,18 @@ Facts:
 - The next slice should be a controlled runtime initialization operator action, still separate from Telegram/voice expense entry.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_UI_READINESS_SURFACE_IMPLEMENTED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_CONTROLLED_RUNTIME_INIT_ACTION_IMPLEMENTED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Fin Instrument controlled runtime initialization action implemented
+
+Facts:
+- A controlled operator action was added for Fin Instrument runtime storage initialization.
+- The action creates the shared Fin Instrument SQLite storage only after explicit typed confirmation.
+- The shared DB is for all financial agents and must be accessed only through Fin Instrument tools/storage, not direct agent SQL.
+- Read-only status remains safe and does not create runtime storage.
+- Production runtime storage was created live through the controlled admin endpoint in this run.
+- Telegram/voice expense entry, expense write UI, Agent Farm and old expense-bot import were not added.
+- The next slice should be a read-only expense view or a later Telegram/voice design slice, not another uncontrolled init path.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_CONTROLLED_RUNTIME_INIT_ACTION_IMPLEMENTED -->
