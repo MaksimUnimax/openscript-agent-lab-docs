@@ -83,4 +83,5 @@ Additional current direction:
 - deterministic storage scripts for the Fin Instrument financial tool are now implemented.
 - `expense_add`, `expense_recent`, and `expense_month_summary` now have deterministic SQLite-backed storage paths that require an explicit runtime root.
 - the production runtime root `/var/lib/openscript-agent-lab/fin-instrument/` was not created in this run.
-- the next slice should be a read-only UI readiness surface or a controlled runtime initialization operator action, not a UI/Telegram mix.
+- the read-only UI readiness surface for Fin Instrument is now implemented.
+- the next slice should be a controlled runtime initialization operator action, not a UI/Telegram mix.

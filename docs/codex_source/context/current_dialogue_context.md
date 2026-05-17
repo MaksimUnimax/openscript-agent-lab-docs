@@ -766,3 +766,17 @@ Facts:
 - Tests cover add/recent/month summary, integer money, audit/operation rows, validation and no production runtime writes.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_DETERMINISTIC_STORAGE_SCRIPTS_IMPLEMENTED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_UI_READINESS_SURFACE_IMPLEMENTED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Fin Instrument UI read-only readiness surface implemented
+
+Facts:
+- A read-only readiness/status surface was added for the Fin Instrument.
+- The UI can now show financial storage and tool readiness inside the “Фин инструмент” tab.
+- The status surface reports whether the Fin Instrument runtime root and SQLite DB exist, schema readiness, tool readiness and the next required operator action.
+- This run did not create production runtime storage or `finance.sqlite3`.
+- This run did not add a DB init action, expense write UI, Telegram/voice integration, Agent Farm or old expense-bot import.
+- The next slice should be a controlled runtime initialization operator action, still separate from Telegram/voice expense entry.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_UI_READINESS_SURFACE_IMPLEMENTED -->

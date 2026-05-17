@@ -4,16 +4,16 @@ description: >
   Docs-only foundation task card for the financial agent / “Фин инструмент” line.
   The current stage finishes the financial tool before any shared Agent Farm runtime.
 status: in_progress
-implementation_status: deterministic_storage_scripts_implemented
+implementation_status: ui_readiness_surface_implemented
 ready_for_implementation: false
 ready_for_combined_proof_design_fix: false
 ready_for_full_implementation: false
 requires_user_acceptance: true
-reason: Runtime storage initializer is implemented; deterministic storage scripts are implemented and UI readiness remains pending
+reason: Runtime storage initializer and deterministic storage scripts are implemented; read-only UI readiness surface is implemented and controlled initialization remains pending
 active_product_surface: Фин инструмент
 runtime_scope: inside_fin_instrument_for_current_stage
 agent_farm_dependency: deferred
-allowed_next_run: user_review_or_design_refinement
+allowed_next_run: controlled_runtime_initialization_operator_action
 slice_progress:
   contracts_skeleton: implemented
   sqlite_schema_design: proposed
@@ -21,9 +21,10 @@ slice_progress:
   runtime_storage_initializer_implementation: implemented
   source_sql_migration_skeleton: included_in_initializer_or_not_needed_v1
   deterministic_storage_scripts: implemented
-  ui_readiness_surface: pending
+  ui_readiness_surface: implemented
+  controlled_runtime_initialization_operator_action: pending
   production_runtime_initialized: false
-next_allowed_slice: ui_read_only_readiness_surface OR controlled_runtime_init_operator_action
+next_allowed_slice: controlled_runtime_initialization_operator_action
 non_goals:
   - general Agent Farm runtime now
   - Telegram Publisher now
