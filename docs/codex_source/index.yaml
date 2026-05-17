@@ -351,9 +351,10 @@ project_memory:
       status: imported
   task_cards:
   - path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
-    status: extracted
+    status: implemented
     current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
     task_card_readiness_policy: advisory_only
+    implementation_status: implemented
     required_docs:
       vendor:
         - docs/codex_source/vendor/telegram/identity/from_user_id.md

@@ -111,9 +111,9 @@ items:
     notes: module map append block for the expanded product direction has been imported
     must_not_invent: true
   - id: telegram_user_id_allowlist_ui
-    status: ready_for_guarded_combined_run_if_docs_gate_and_guard_pass
+    status: done
     expected_target_path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
-    notes: task card is advisory only; stale ready_for_fix_run=false must not block guarded combined run; placement still accounts for “Фин инструмент”
+    notes: Telegram user_id allowlist access control is implemented; task card remains advisory only and stale ready_for_fix_run=false no longer blocks guarded combined runs
     must_not_invent: true
   - id: telegram_identity_from_id_vs_chat_id
     status: imported

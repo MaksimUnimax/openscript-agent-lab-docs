@@ -604,3 +604,17 @@ Next:
 - Do not let stale task-card `ready_for_fix_run: false` block the run by itself.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_TELEGRAM_USER_ID_ALLOWLIST_FIN_TOOL_IMPLEMENTED_AFTER_GATE_DEMOTION source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Implemented Telegram user_id allowlist for “Фин инструмент” after task-card gate demotion
+
+Facts:
+- Telegram bot access control by Telegram `from.id` / `user_id` was implemented.
+- `chat.id` remains delivery/conversation target and is not allowlist identity.
+- Unknown users are denied before resource use, including covered voice/download/STT/provider/model/Hermes/tool/agent handoff paths.
+- Allowlist configuration lives in the current Telegram/“Фин инструмент” UI surface.
+- The implementation is universal for Telegram-bound agents using the shared path and does not hardcode a specific agent or user in source code.
+- Tests were added/updated for allowed and denied users.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_TELEGRAM_USER_ID_ALLOWLIST_FIN_TOOL_IMPLEMENTED_AFTER_GATE_DEMOTION -->

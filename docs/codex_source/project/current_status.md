@@ -51,3 +51,6 @@ Additional current direction:
 - task-card readiness is now advisory metadata rather than the primary permission gate;
 - stale `ready_for_fix_run: false` should not block a guarded combined run by itself;
 - the next Telegram user_id allowlist pass should proceed as a guarded combined run if docs gate and combined guard pass.
+- Telegram user_id allowlist access control has now been implemented in code and verified by tests.
+- the task card remains advisory/checklist metadata and should not be read as a blocking permission gate.
+- next step is controlled manual verification of allowed/denied Telegram user_id behavior through the UI/runtime path, if needed.
