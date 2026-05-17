@@ -821,3 +821,16 @@ Facts:
 - This run did not add Telegram-to-expense integration, voice runtime enablement, expense write UI, Agent Farm, or new security middleware.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_TELEGRAM_CONTROLS_RESTORED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_AGENT_VOICE_CHECKBOXES_RESTORED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Per-agent voice checkboxes restored inside Fin Instrument tab
+
+Facts:
+- The “Голос для Telegram-агентов” section again renders per-agent Telegram voice checkboxes.
+- The setting remains Telegram-owned per-agent config and uses `telegram_agent_settings[agent_slug].telegram_voice_enabled`.
+- Future non-system agents appear automatically with the voice checkbox defaulting to false when no config exists yet.
+- Restoring the checkbox list does not enable STT/TTS runtime, does not call Telegram API, and does not connect voice to financial tools.
+- The same “Фин инструмент” tab still contains the Telegram controls/status and the financial storage/read-only blocks.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_AGENT_VOICE_CHECKBOXES_RESTORED -->

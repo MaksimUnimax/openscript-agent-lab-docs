@@ -93,5 +93,6 @@ Additional current direction:
 - the read-only Fin Instrument expense view is now implemented in the shared UI/backend surface.
 - recent expenses and current-month summary now render read-only from the shared Fin Instrument SQLite database.
 - the combined Fin Instrument surface now keeps the Telegram controls/status visible instead of hiding them behind the legacy wrapper.
+- the “Голос для Telegram-агентов” section now again shows per-agent Telegram voice checkboxes, using Telegram-owned per-agent config with default-false behavior for future agents.
 - no expense write UI, Telegram/voice integration, Agent Farm integration, or new security middleware was added in this slice.
 - the next slice should now move to controlled manual expense add UI or, separately, Telegram/voice financial-tool integration design.
