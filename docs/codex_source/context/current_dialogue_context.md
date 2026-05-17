@@ -795,3 +795,16 @@ Facts:
 - The next slice should be a read-only expense view or a later Telegram/voice design slice, not another uncontrolled init path.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_CONTROLLED_RUNTIME_INIT_ACTION_IMPLEMENTED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_READ_ONLY_EXPENSE_VIEW_IMPLEMENTED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Fin Instrument read-only expense view implemented
+
+Facts:
+- The Fin Instrument UI/backend now shows read-only recent expenses and current-month summary from the shared SQLite database.
+- The shared Fin Instrument runtime DB remains the single database for all financial agents and is accessed only through the Fin Instrument tools/storage layer.
+- The read-only view handles empty state safely and does not add any expense write controls.
+- No Telegram, voice, Agent Farm, or new security middleware was added in this slice.
+- The next slice should move to controlled manual expense add UI or a later Telegram/voice design slice, not a DB/security rewrite.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_READ_ONLY_EXPENSE_VIEW_IMPLEMENTED -->

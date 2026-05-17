@@ -88,3 +88,7 @@ Additional current direction:
 - the controlled runtime initialization operator action is now implemented through the live admin endpoint.
 - the shared production Fin Instrument runtime root `/var/lib/openscript-agent-lab/fin-instrument/` now exists and the shared SQLite DB `finance.sqlite3` was created through the controlled endpoint.
 - Fin Instrument status now reports `schema_ready`/`ready` after initialization and the next likely slice is a read-only expense view or a later Telegram/voice design slice.
+- the read-only Fin Instrument expense view is now implemented in the shared UI/backend surface.
+- recent expenses and current-month summary now render read-only from the shared Fin Instrument SQLite database.
+- no expense write UI, Telegram/voice integration, Agent Farm integration, or new security middleware was added in this slice.
+- the next slice should now move to controlled manual expense add UI or, separately, Telegram/voice financial-tool integration design.
