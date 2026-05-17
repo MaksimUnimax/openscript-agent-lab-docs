@@ -203,3 +203,23 @@ For the Telegram user_id allowlist line:
 - if exact affected modules are unclear or high-risk paths are involved, STOP before editing.
 
 <!-- ROADMAP_APPEND_END id=RM_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE source=chatgpt_inline_user_clarification accepted_by_user=yes -->
+
+## 2026-05-17 — Workflow optimization: task cards no longer block by themselves
+
+Task cards are now advisory planning/checklist docs, not the primary permission gate.
+
+Primary implementation gate:
+- docs gate;
+- combined-run guard;
+- exact affected modules;
+- allowed scope;
+- tests/checks.
+
+For Telegram user_id allowlist:
+- do not run a separate prompt only to flip task-card readiness;
+- rerun as guarded combined proof/design/fix;
+- stale `ready_for_fix_run: false` must not block by itself.
+
+<!-- ROADMAP_APPEND_END id=RM_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE -->

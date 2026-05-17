@@ -56,9 +56,14 @@ items:
     notes: consolidated safe boundaries snapshot imported
     must_not_invent: true
   - id: task_card_reevaluation
-    status: needed
+    status: advisory
     expected_target_path: docs/codex_source/task_cards/*
-    notes: task cards need re-evaluation after module map import
+    notes: task cards remain useful as planning/checklist docs, but are no longer hard blocking gates
+    must_not_invent: true
+  - id: task_card_blocking_gate_logic
+    status: deprecated
+    expected_target_path: docs/codex_source/rules/workflow_run_modes.md
+    notes: task-card readiness is advisory metadata; docs gate and combined-run guard are the primary implementation gates
     must_not_invent: true
   - id: runtime_git_canon
     status: imported
@@ -106,9 +111,9 @@ items:
     notes: module map append block for the expanded product direction has been imported
     must_not_invent: true
   - id: telegram_user_id_allowlist_ui
-    status: pending_task_card_reevaluation_after_docs_update
+    status: ready_for_guarded_combined_run_if_docs_gate_and_guard_pass
     expected_target_path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
-    notes: task card remains next for re-evaluation; placement must account for “Фин инструмент”; docs blockers resolved
+    notes: task card is advisory only; stale ready_for_fix_run=false must not block guarded combined run; placement still accounts for “Фин инструмент”
     must_not_invent: true
   - id: telegram_identity_from_id_vs_chat_id
     status: imported

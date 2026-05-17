@@ -25,8 +25,9 @@ DOCS_TO_READ rule:
 
 STOP conditions:
 - required docs are missing, stub, contradictory, or not listed in `DOCS_TO_READ`
-- an active task card says `ready_for_fix_run: false`
 - project docs contradict runtime facts and the prompt does not define which source wins
 - guessing from memory, code or previous reports is forbidden
 - if the docs gate fails, STOP before editing
 - if the combined-run guard fails, STOP before editing
+- task-card stale readiness is not a docs gate failure
+- task cards are planning/context docs, not the primary permission gate

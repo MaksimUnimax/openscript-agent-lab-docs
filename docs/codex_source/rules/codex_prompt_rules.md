@@ -22,9 +22,11 @@ Stop rules:
 - if a task requires project docs, do not substitute roadmap/context history
 - do not infer missing task facts from memory alone
 - if docs contradict each other and the prompt does not name the winning source, stop
-- if the active task card says `ready_for_fix_run: false`, do not force a fix run
 - if `RUN_MODE: combined_proof_design_fix` is requested without `COMBINED_RUN_GUARD`, stop
 - if a combined run cannot satisfy the guard, stop before editing
+- task-card readiness metadata alone does not block a guarded combined run
+- if a task card has stale readiness metadata, report it instead of stopping automatically
+- if a task card contains a real safety contradiction with source-of-truth docs, stop
 
 Repository docs rule:
 - the docs are available under `docs/codex_source/**`
@@ -53,3 +55,5 @@ Every technical prompt should include:
 - `REPORT`.
 - If `RUN_MODE: combined_proof_design_fix`, also include `COMBINED_RUN_GUARD`.
 - If combined mode is used, `REPORT` must include `COMBINED_RUN`.
+- If combined mode is used, `REPORT` must also include `TASK_CARD_STATUS`.
+- `TASK_CARD_STATUS` must expose `task_card_read`, `task_card_stale`, `task_card_blocked_run`, and `task_card_updated`.

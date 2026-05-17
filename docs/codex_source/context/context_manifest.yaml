@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS
-last_append_title: "Workflow rules updated: risk-based combined runs"
-last_updated_utc: 2026-05-17T02:05:06Z
+last_append_id: CTX_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE
+last_append_title: "Task cards demoted from blocking gate"
+last_updated_utc: 2026-05-17T02:18:29Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

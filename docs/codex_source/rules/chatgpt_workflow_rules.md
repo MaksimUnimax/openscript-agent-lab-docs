@@ -8,9 +8,10 @@ ChatGPT workflow:
 3. Read `docs/codex_source/project/current_status.md`.
 4. Read `docs/codex_source/project/project_snapshot.md` when a task needs repo layout context.
 5. Read the relevant manifests before reading any append-only tail.
-6. Read the active task card and only the exact files listed there.
-7. For repo-documentation tasks, include `DOCS_TO_READ` with exact paths before asking Codex to act.
-8. For narrow ordinary fixes, prefer `combined_proof_design_fix` only when `docs/codex_source/rules/workflow_run_modes.md` allows it and the combined-run guard is satisfied.
+ 6. Read the active task card when it exists, but treat it as context/checklist rather than a hard permission gate.
+ 7. For repo-documentation tasks, include `DOCS_TO_READ` with exact paths before asking Codex to act.
+ 8. For narrow ordinary fixes, prefer `combined_proof_design_fix` only when `docs/codex_source/rules/workflow_run_modes.md` allows it and the combined-run guard is satisfied.
+ 9. Do not create a separate run only to flip stale task-card readiness if docs gate and combined guard already allow the change.
 
 Rules:
 - do not rely on memory before reading the entrypoint
@@ -26,4 +27,6 @@ Rules:
 - docs-only tasks remain docs-only
 - keep proof-first and no-guessing
 - keep user/manual approval where the task card requires it
+- task cards are advisory context, not the universal permission gate
+- stale task-card readiness should not force an extra readiness-flip run
 - stop if the needed docs are missing, stubbed, contradictory, or not named

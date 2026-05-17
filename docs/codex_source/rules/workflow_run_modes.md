@@ -106,11 +106,51 @@ Task-card re-evaluation can promote a task to:
 - ready_for_combined_proof_design_fix;
 - ready_for_fix_run.
 
-New preferred state for narrow implementation tasks:
-- ready_for_combined_proof_design_fix: true
-- ready_for_fix_run: false unless exact affected modules and full implementation scope are already proven
+Task-card readiness fields are advisory metadata, not a hard permission gate.
+
+For narrow implementation tasks:
+- ready_for_combined_proof_design_fix: true is a useful hint;
+- ready_for_fix_run: false does not block a guarded combined run by itself if docs gate and combined-run guard pass;
+- stale readiness flags should be reported and, when appropriate, updated, but not used as automatic STOP conditions.
 
 This lets the next run combine proof/design/fix with STOP-before-edit safeguards.
+
+## 6.1. Task cards are not blocking gates
+
+Task cards are:
+- task summaries;
+- acceptance checklists;
+- planning notes;
+- optional context;
+- useful documentation.
+
+Task cards are not:
+- the final permission system for code changes;
+- a reason to stop if docs gate and combined-run guard pass;
+- a reason to require a separate run only to flip readiness flags.
+
+Main implementation permission comes from:
+- required docs are read;
+- documentation gate passes;
+- exact affected modules are found;
+- scope matches `ALLOWED_SCOPE`;
+- `COMBINED_RUN_GUARD` passes;
+- high-risk conditions are absent;
+- tests/checks are available.
+
+If a task card has stale fields such as `ready_for_fix_run: false`, but current docs and combined-run guard allow proceeding:
+- Codex may proceed;
+- Codex must report that the task card was stale;
+- Codex may update the task card in docs as part of the same run if docs update is in scope;
+- Codex must not stop only because of an old readiness flag.
+
+If a task card contains a real contradiction with current source-of-truth docs:
+- current imported docs/rules/TЗ/roadmap/module map win unless prompt says otherwise;
+- Codex must report the contradiction;
+- if contradiction affects safety or scope, STOP before editing;
+- if contradiction is only stale readiness metadata, update/report it and continue if guard passes.
+
+For high-risk tasks, task cards may still require separate design approval, but that is because the task is high-risk, not because the task card is a universal blocker.
 
 ## 7. Required prompt field
 
@@ -159,6 +199,12 @@ COMBINED_RUN:
 - tests_run:
 - manual_test_needed:
 - git_push_status:
+
+TASK_CARD_STATUS:
+- task_card_read:
+- task_card_stale:
+- task_card_blocked_run:
+- task_card_updated:
 
 If Codex edits without satisfying combined-run guard, the run is invalid.
 

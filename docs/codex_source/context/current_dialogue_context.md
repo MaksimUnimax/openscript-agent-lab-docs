@@ -584,3 +584,23 @@ Facts:
 - Docs/import/task-card re-evaluation runs remain docs-only.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE source=chatgpt_inline_user_clarification accepted_by_user=yes -->
+
+## 2026-05-17 — Task cards demoted from blocking gate
+
+Facts:
+- The user rejected the remaining task-card permission gate as unnecessary overhead.
+- The previous combined allowlist run stopped only because `telegram_user_id_allowlist_ui.yaml` still had `ready_for_fix_run: false`, despite required docs being filled.
+- This showed that task cards had become an outdated blocking layer.
+- New rule: task cards remain useful as summaries/checklists, but they are not the primary permission gate.
+- The primary gate is now docs gate + combined-run guard + exact affected modules + allowed scope + tests/checks.
+- A stale task-card readiness flag must not force a separate run just to flip metadata.
+- If a task card contradicts current docs in a safety-relevant way, Codex must report/STOP.
+- If a task card only has stale readiness metadata, Codex may update/report it and continue if combined guard passes.
+
+Next:
+- Re-run Telegram user_id allowlist as guarded combined proof/design/fix.
+- Do not let stale task-card `ready_for_fix_run: false` block the run by itself.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE -->

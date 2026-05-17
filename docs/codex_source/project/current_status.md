@@ -48,3 +48,6 @@ Additional current direction:
 - separate design-run is no longer mandatory by default for narrow ordinary fixes;
 - high-risk or unclear tasks still require separate design approval;
 - the next active project step remains Telegram user_id allowlist task-card re-evaluation, then a possible combined proof/design/fix run if the task card allows it.
+- task-card readiness is now advisory metadata rather than the primary permission gate;
+- stale `ready_for_fix_run: false` should not block a guarded combined run by itself;
+- the next Telegram user_id allowlist pass should proceed as a guarded combined run if docs gate and combined guard pass.

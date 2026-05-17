@@ -20,9 +20,11 @@ Current access model:
 - no blanket inline-only requirement
 - no guesswork when docs are missing or stubbed
 - risk-based combined runs are the current default for narrow ordinary fixes
+- task cards are support docs/checklists, not blocking permission gates
 
 Important change:
 - the old general rule "Codex has no docs and must rely only on inline text" is no longer current
 - the current rule is repo-based docs access with exact path targeting and risk-based combined runs
+- stale task-card readiness flags do not automatically block guarded combined runs
 
 This directory exists to prevent vague prompts and memory-based guessing.

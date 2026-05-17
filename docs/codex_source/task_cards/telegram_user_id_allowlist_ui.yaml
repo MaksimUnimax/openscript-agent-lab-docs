@@ -35,9 +35,11 @@ stop_conditions:
   - stop if exact update identity docs are absent
 acceptance_summary:
   - task card enumerates exact required docs
-  - ready_for_fix_run is false until docs are extracted
+  - readiness flags are advisory after workflow update
 report_contract:
   required: true
   must_state: STOP_DOCS_MISSING when required docs are stub
+ready_for_combined_proof_design_fix: true
 ready_for_fix_run: false
+readiness_note: "Combined run may proceed if docs gate and combined guard pass; direct fix-only run remains false."
 reason: Project docs memory layer exists, but required project docs still need import/extraction from current ТЗ/context/module map.

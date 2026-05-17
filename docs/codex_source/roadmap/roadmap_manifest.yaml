@@ -1,7 +1,7 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260517_WORKFLOW_RULES_RISK_BASED_COMBINED_RUNS
-last_status: workflow_optimized_risk_based_combined_runs
+last_append_id: RM_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE
+last_status: task_cards_demoted_from_blocking_gate
 active_phase: telegram_user_id_allowlist_task_card_reevaluation
 current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
 next_phase_after_allowlist: agent_farm_task_runtime_design_proof
@@ -14,4 +14,4 @@ historical_versions:
   - v0.5
   - v0.6
 no_destructive_rewrite: true
-last_updated_utc: 2026-05-17T02:05:06Z
+last_updated_utc: 2026-05-17T02:18:29Z
