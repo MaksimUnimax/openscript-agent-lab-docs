@@ -44,4 +44,4 @@ ready_for_fix_run: false
 readiness_note: "Combined run may proceed if docs gate and combined guard pass; direct fix-only run remains false."
 implementation_status: implemented
 implementation_note: "Telegram user_id allowlist access control is implemented; readiness flags remain advisory metadata for history."
-reason: Project docs memory layer exists, but required project docs still need import/extraction from current ТЗ/context/module map.
+reason: Telegram user_id allowlist access control is now implemented; this task card is retained as historical advisory/checklist metadata.
