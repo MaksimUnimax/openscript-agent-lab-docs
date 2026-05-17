@@ -736,3 +736,18 @@ Facts:
 - The next step is user/ChatGPT review and then a minimal implementation slice for the initializer using temp-dir tests and no production auto-init.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_DESIGN_PROPOSED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_IMPLEMENTED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Fin Instrument runtime storage initializer implemented
+
+Facts:
+- The Fin Instrument runtime storage initializer was implemented as source code with temp-dir tests.
+- The implementation can create and validate a SQLite database using the designed schema when explicitly called with a configured root.
+- Production runtime storage `/var/lib/openscript-agent-lab/fin-instrument/` was not created in this run.
+- The initializer is not wired into UI, Telegram, service startup or Agent Farm.
+- The initializer is idempotent and records schema version and migration state.
+- Financial handlers still must not write expenses until deterministic storage scripts are implemented in a later slice.
+- Tests prove temp-dir initialization, idempotence, required tables, no float money columns and no production runtime writes.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_IMPLEMENTED -->

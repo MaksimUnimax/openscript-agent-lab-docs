@@ -296,8 +296,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_DESIGN_PROPOSED
-      last_append_title: "Fin Instrument runtime storage initializer design proposed"
+      last_append_id: CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_IMPLEMENTED
+      last_append_title: "Fin Instrument runtime storage initializer implemented"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:

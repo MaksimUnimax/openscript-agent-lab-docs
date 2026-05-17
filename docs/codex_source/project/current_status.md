@@ -77,3 +77,6 @@ Additional current direction:
 - the Fin Instrument runtime storage initializer design has now been proposed as a docs-only slice.
 - the initializer proposal stays source-only and does not create a runtime directory, database file, or migration file.
 - the next slice should be the runtime storage initializer implementation with temp-dir tests, not UI or Telegram integration.
+- the Fin Instrument runtime storage initializer has now been implemented as source code with temp-dir tests.
+- the implementation stays source-only, does not auto-create the production runtime root, and is not wired into UI, Telegram, service startup or Agent Farm.
+- the next slice should be deterministic storage scripts or a read-only readiness surface, not an immediate UI/Telegram mix.
