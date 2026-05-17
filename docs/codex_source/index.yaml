@@ -296,8 +296,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_IMPLEMENTED
-      last_append_title: "Fin Instrument runtime storage initializer implemented"
+      last_append_id: CTX_20260517_FIN_INSTRUMENT_DETERMINISTIC_STORAGE_SCRIPTS_IMPLEMENTED
+      last_append_title: "Fin Instrument deterministic storage scripts implemented"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:
@@ -387,7 +387,7 @@ project_memory:
   - path: docs/codex_source/task_cards/fin_instrument_financial_tool_foundation.yaml
     status: in_progress
     task_card_readiness_policy: advisory_only
-    implementation_status: sqlite_schema_design_proposed
+    implementation_status: deterministic_storage_scripts_implemented
     active_product_surface: Фин инструмент
     runtime_scope: inside_fin_instrument_for_current_stage
     agent_farm_dependency: deferred
@@ -396,14 +396,17 @@ project_memory:
     ready_for_combined_proof_design_fix: false
     ready_for_full_implementation: false
     requires_user_acceptance: true
-    reason: Fin Instrument SQLite schema design is proposed; runtime storage and SQL migration slices remain pending.
+    reason: Fin Instrument deterministic storage scripts are implemented; UI readiness remains pending while runtime initialization stays controlled.
     slice_progress:
       contracts_skeleton: implemented
       sqlite_schema_design: proposed
-      runtime_storage_initializer: pending
-      deterministic_storage_scripts: pending
+      runtime_storage_initializer_design: proposed
+      runtime_storage_initializer_implementation: implemented
+      source_sql_migration_skeleton: included_in_initializer_or_not_needed_v1
+      deterministic_storage_scripts: implemented
       ui_readiness_surface: pending
-    next_allowed_slice: runtime_storage_initializer_proof_design OR source_sql_migration_skeleton
+      production_runtime_initialized: false
+    next_allowed_slice: ui_read_only_readiness_surface OR controlled_runtime_init_operator_action
     required_project_docs:
       - docs/codex_source/project/current_status.md
       - docs/codex_source/project/project_overview.md

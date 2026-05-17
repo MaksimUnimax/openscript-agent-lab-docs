@@ -155,6 +155,11 @@ items:
     expected_target_path: agent_lab/fin_instrument/storage_initializer.py
     notes: source-owned runtime storage initializer implemented with temp-dir tests; production runtime is not auto-created
     must_not_invent: true
+  - id: fin_instrument_deterministic_storage_scripts
+    status: done
+    expected_target_path: agent_lab/fin_instrument/storage.py
+    notes: explicit-root deterministic storage layer implemented for expense_add, expense_recent, and expense_month_summary; no production runtime creation in this run
+    must_not_invent: true
   - id: agent_farm_task_runtime_design
     status: deferred_after_fin_instrument
     expected_target_path: docs/codex_source/roadmap/roadmap.md

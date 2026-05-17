@@ -80,3 +80,7 @@ Additional current direction:
 - the Fin Instrument runtime storage initializer has now been implemented as source code with temp-dir tests.
 - the implementation stays source-only, does not auto-create the production runtime root, and is not wired into UI, Telegram, service startup or Agent Farm.
 - the next slice should be deterministic storage scripts or a read-only readiness surface, not an immediate UI/Telegram mix.
+- deterministic storage scripts for the Fin Instrument financial tool are now implemented.
+- `expense_add`, `expense_recent`, and `expense_month_summary` now have deterministic SQLite-backed storage paths that require an explicit runtime root.
+- the production runtime root `/var/lib/openscript-agent-lab/fin-instrument/` was not created in this run.
+- the next slice should be a read-only UI readiness surface or a controlled runtime initialization operator action, not a UI/Telegram mix.

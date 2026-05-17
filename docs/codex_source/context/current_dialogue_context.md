@@ -751,3 +751,18 @@ Facts:
 - Tests prove temp-dir initialization, idempotence, required tables, no float money columns and no production runtime writes.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_RUNTIME_STORAGE_INITIALIZER_IMPLEMENTED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_DETERMINISTIC_STORAGE_SCRIPTS_IMPLEMENTED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Fin Instrument deterministic storage scripts implemented
+
+Facts:
+- Deterministic storage functions were implemented for the Fin Instrument financial tool layer.
+- The storage layer uses the existing runtime storage initializer and SQLite schema when explicitly called with a configured root.
+- `expense_add`, `expense_recent`, and `expense_month_summary` can now operate against initialized temp/runtime storage through deterministic code.
+- Production runtime storage `/var/lib/openscript-agent-lab/fin-instrument/` was not created in this run.
+- UI, Telegram, voice, Agent Farm and old expense-bot integration were not added.
+- Financial writes are still owned by deterministic storage functions; agents do not write SQL directly.
+- Tests cover add/recent/month summary, integer money, audit/operation rows, validation and no production runtime writes.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_DETERMINISTIC_STORAGE_SCRIPTS_IMPLEMENTED -->
