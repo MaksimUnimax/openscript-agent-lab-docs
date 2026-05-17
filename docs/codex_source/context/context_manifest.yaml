@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
-last_append_title: "Product direction expanded: “Фин инструмент”, Agent Farm and Agent Tools"
-last_updated_utc: 2026-05-17T01:06:37Z
+last_append_id: CTX_20260517_FILLED_TELEGRAM_ACCESS_CONTROL_STUB_DOCS
+last_append_title: Filled Telegram identity/privacy/access-control STUB docs
+last_updated_utc: 2026-05-17T01:20:17Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

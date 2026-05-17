@@ -96,9 +96,34 @@ items:
     notes: module map append block for the expanded product direction has been imported
     must_not_invent: true
   - id: telegram_user_id_allowlist_ui
-    status: pending_task_card_reevaluation
+    status: pending_task_card_reevaluation_after_docs_update
     expected_target_path: docs/codex_source/task_cards/telegram_user_id_allowlist_ui.yaml
-    notes: task card remains next for re-evaluation; placement must account for “Фин инструмент”
+    notes: task card remains next for re-evaluation; placement must account for “Фин инструмент”; docs blockers resolved
+    must_not_invent: true
+  - id: telegram_identity_from_id_vs_chat_id
+    status: imported
+    expected_target_path: docs/codex_source/vendor/telegram/update_identity_from_id_vs_chat_id.md
+    notes: identity contract imported; from.id/user_id is allowlist identity and chat.id is delivery target
+    must_not_invent: true
+  - id: telegram_privacy_mode_limits
+    status: imported
+    expected_target_path: docs/codex_source/vendor/telegram/privacy_mode_limits.md
+    notes: privacy mode contract imported; privacy mode is not access control
+    must_not_invent: true
+  - id: telegram_router_contract
+    status: imported
+    expected_target_path: docs/codex_source/project/telegram_router.md
+    notes: project Telegram router contract imported with access-control gate placement
+    must_not_invent: true
+  - id: telegram_voice_pipeline_contract
+    status: imported
+    expected_target_path: docs/codex_source/project/telegram_voice_pipeline.md
+    notes: project voice pipeline contract imported with deny-before-resource-use gate points
+    must_not_invent: true
+  - id: access_control_contract
+    status: imported
+    expected_target_path: docs/codex_source/project/access_control.md
+    notes: universal access-control contract imported for “Фин инструмент”
     must_not_invent: true
   - id: fin_instrument_ui_surface
     status: planned_needs_task_card_reevaluation_design_proof

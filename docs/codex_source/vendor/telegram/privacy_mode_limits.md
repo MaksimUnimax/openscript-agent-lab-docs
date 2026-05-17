@@ -1,18 +1,25 @@
 # Telegram privacy mode limits
 
-STATUS: STUB
+STATUS: IMPORTED_CONTRACT
 
-Do not use for fix-run yet.
-This file must be filled by a dedicated docs extraction run.
+Purpose:
+- explain what Telegram privacy mode does and does not do.
+- prevent privacy mode from being mistaken for app-level access control.
 
-Expected content outline:
-- privacy mode behavior.
-- group visibility limits.
-- command visibility rules.
-- implications for router design.
+Privacy mode limits:
+- privacy mode controls which updates a bot may receive in some group contexts.
+- privacy mode is not access control.
+- privacy mode does not guarantee that unwanted users cannot consume bot resources.
+- privacy mode does not replace a user_id allowlist.
 
-Source collection planned:
-- Telegram Bot API docs
+Project contract:
+- app-level allowlist remains required.
+- deny-before-resource-use remains required.
+- the same access-control rule applies in private chats and group contexts as appropriate for the bot flow.
+- do not rely on BotFather privacy mode as the security boundary.
 
-Not valid for fix-run until status becomes extracted/verified.
+Operational rule:
+- unknown users must still be denied before STT, download, provider/model calls, tool execution or other expensive paths.
 
+UI placement:
+- allowlist controls belong in “Фин инструмент”, not in a separate tab.

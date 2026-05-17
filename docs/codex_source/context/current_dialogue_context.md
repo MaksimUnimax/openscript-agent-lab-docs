@@ -547,3 +547,23 @@ Next:
 - After that, design/proof Financial Agent Business Tool.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FILLED_TELEGRAM_ACCESS_CONTROL_STUB_DOCS source=codex_docs_update accepted_by_user=yes -->
+
+## 2026-05-17 — Filled Telegram identity/privacy/access-control STUB docs
+
+Facts:
+- The previous task-card re-evaluation for `telegram_user_id_allowlist_ui` stopped because required Telegram identity/privacy and project access-control docs were STUB.
+- This run filled the STUB docs needed to unblock the next task-card re-evaluation.
+- The contract is: allowlist identity is Telegram `from.id` / `user_id`, not `chat.id`.
+- `chat.id` remains delivery / conversation target for replies.
+- Telegram privacy mode is not sufficient access control.
+- Unknown users must be denied before voice download/STT, provider/model/Hermes calls, tool execution or other resource-spending operations.
+- Allowlist controls belong in the “Фин инструмент” UI surface.
+- This run is docs-only and does not implement allowlist.
+
+Next:
+- Re-run task-card re-evaluation for `telegram_user_id_allowlist_ui`.
+- Do not start implementation until the task card is promoted beyond proof/design readiness.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FILLED_TELEGRAM_ACCESS_CONTROL_STUB_DOCS -->

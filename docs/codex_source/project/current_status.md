@@ -42,3 +42,5 @@ Additional current direction:
 - the financial tool is not just a database; it is a deterministic business tool with scripts, receipt handling and reports;
 - Telegram publisher and YouTube parser are planned future tool families;
 - none of these new tool families are implemented by this docs update.
+- Telegram identity/privacy/access-control STUB docs were filled in this run;
+- the next step after this docs-only unblock is to rerun task-card re-evaluation for `telegram_user_id_allowlist_ui`.

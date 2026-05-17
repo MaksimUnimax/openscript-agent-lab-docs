@@ -186,6 +186,8 @@ vendor_docs:
       status: extracted_with_gaps
     - path: docs/codex_source/vendor/telegram/identity/chat_id_vs_user_id.md
       status: extracted_with_gaps
+    - path: docs/codex_source/vendor/telegram/update_identity_from_id_vs_chat_id.md
+      status: imported
     - path: docs/codex_source/vendor/telegram/identity/callback_query_identity.md
       status: verified
     - path: docs/codex_source/vendor/telegram/updates/get_updates.md
@@ -215,7 +217,7 @@ vendor_docs:
     - path: docs/codex_source/vendor/telegram/messaging/direct_messages_topic_id.md
       status: verified
     - path: docs/codex_source/vendor/telegram/privacy/privacy_mode_limits.md
-      status: verified
+      status: imported
     - path: docs/codex_source/vendor/telegram/privacy/private_chat_visibility.md
       status: verified
     - path: docs/codex_source/vendor/telegram/privacy/group_visibility.md
@@ -262,15 +264,15 @@ project_docs:
   - path: docs/codex_source/project/agent_package_vs_runtime_profile.md
     status: stub
   - path: docs/codex_source/project/telegram_router.md
-    status: stub
+    status: imported
   - path: docs/codex_source/project/telegram_voice_pipeline.md
-    status: stub
+    status: imported
   - path: docs/codex_source/project/universal_hermes_reply_path.md
     status: stub
   - path: docs/codex_source/project/llm_connection_binding.md
     status: stub
   - path: docs/codex_source/project/access_control.md
-    status: stub
+    status: imported
 project_memory:
   context:
     - path: docs/codex_source/context/README.md
@@ -359,7 +361,7 @@ task_cards:
         - docs/codex_source/project/access_control.md
         - docs/codex_source/project/project_snapshot.md
     ready_for_fix_run: false
-    reason: Project docs memory layer exists, but required project docs still need import/extraction from current ТЗ/context/module map.
+    reason: Required identity/privacy/access-control docs are now imported; task card still awaits re-evaluation and remains not ready for fix run.
   - path: docs/codex_source/task_cards/telegram_voice_final_proof.yaml
     status: extracted
     required_docs:
