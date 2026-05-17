@@ -834,3 +834,16 @@ Facts:
 - The same “Фин инструмент” tab still contains the Telegram controls/status and the financial storage/read-only blocks.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_AGENT_VOICE_CHECKBOXES_RESTORED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_UI_ONLY_ROLLBACK_TO_WORKING_TELEGRAM_BASELINE source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — UI-only rollback to working Telegram baseline
+
+Facts:
+- The user requested an emergency UI-only rollback to the last working Telegram tab baseline before the Telegram interface was hidden/removed.
+- The frontend was rolled back to the working Telegram-only tab baseline and the visible financial blocks were removed from the tab for this run.
+- The production Fin Instrument runtime storage, schema, initializer and backend endpoints remain preserved and were not mutated by this rollback.
+- No Telegram API calls, model calls, auth/provider changes, new security middleware, or Agent Farm changes were added.
+- Financial UI re-add is deferred until after the user manually verifies the restored Telegram-only tab.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_UI_ONLY_ROLLBACK_TO_WORKING_TELEGRAM_BASELINE -->

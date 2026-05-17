@@ -96,3 +96,6 @@ Additional current direction:
 - the “Голос для Telegram-агентов” section now again shows per-agent Telegram voice checkboxes, using Telegram-owned per-agent config with default-false behavior for future agents.
 - no expense write UI, Telegram/voice integration, Agent Farm integration, or new security middleware was added in this slice.
 - the next slice should now move to controlled manual expense add UI or, separately, Telegram/voice financial-tool integration design.
+- the UI-only emergency rollback restored the working Telegram-only tab baseline before the Telegram interface was hidden/removed.
+- the financial blocks are deferred again for this run; the production DB/backend remain preserved, but the visible tab is Telegram-only now.
+- the previously mixed Fin Instrument UI layers were superseded in the frontend by the rollback baseline from the last working Telegram tab.
