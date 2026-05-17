@@ -223,3 +223,18 @@ For Telegram user_id allowlist:
 - stale `ready_for_fix_run: false` must not block by itself.
 
 <!-- ROADMAP_APPEND_END id=RM_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED source=codex_proof_design accepted_by_user=pending -->
+
+## 2026-05-17 — Priority correction: Fin Instrument first
+
+The active roadmap is corrected:
+
+- do not move directly to a universal Agent Farm / Task Runtime yet;
+- first finish the financial agent / “Фин инструмент” line;
+- for the current stage, the financial runtime belongs inside the “Фин инструмент” tab;
+- after Fin Instrument is progressed, decide whether future runtime is common for all agents, per-tool, or hybrid;
+- Financial Tool remains a deterministic business tool: scripts, storage, reports and audit, not direct agent-owned SQL;
+- Telegram Post Publisher and YouTube Parser stay later.
+
+<!-- ROADMAP_APPEND_END id=RM_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED -->

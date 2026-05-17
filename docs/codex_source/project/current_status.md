@@ -64,3 +64,6 @@ Additional current direction:
 - Telegram replies now fail closed with a safe reason when Hermes/auth/provider readiness is degraded, instead of silently calling Hermes and returning an empty reply.
 - The reply path now carries safe status fields for auth block reasons, and the UI can surface that Telegram replies are blocked by auth.
 - Existing Codex-CLI recovery flow remains intact and is still the approved way to restore Hermes readiness.
+- current next active block is now the Fin Instrument / Financial Tool line, not the Agent Farm line.
+- Agent Farm / Task Runtime is deferred until the Fin Instrument financial-tool design/proof block is progressed.
+- this run is docs-only product correction; no application code was implemented.

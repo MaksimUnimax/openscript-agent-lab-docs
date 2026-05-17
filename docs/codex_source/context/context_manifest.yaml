@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260517_HERMES_PRE_REPLY_AUTH_GATE_IMPLEMENTED
-last_append_title: Hermes pre-reply auth readiness gate implemented
-last_updated_utc: 2026-05-17T03:40:42Z
+last_append_id: CTX_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED
+last_append_title: "Priority correction: finish Fin Instrument / Financial Tool before Agent Farm"
+last_updated_utc: 2026-05-17T04:11:51Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

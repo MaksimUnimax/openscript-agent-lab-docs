@@ -125,6 +125,36 @@ items:
     expected_target_path: docs/codex_source/project/current_status.md
     notes: pre-reply Hermes auth/provider readiness gate is implemented so Telegram replies fail closed with a safe reason instead of silently returning an empty Hermes response
     must_not_invent: true
+  - id: fin_instrument_runtime_design
+    status: proposed
+    expected_target_path: docs/codex_source/project/fin_instrument_runtime.md
+    notes: docs-only runtime design for the current “Фин инструмент” surface; Agent Farm is deferred
+    must_not_invent: true
+  - id: financial_agent_business_tool_design
+    status: proposed
+    expected_target_path: docs/codex_source/project/financial_agent_business_tool.md
+    notes: docs-only business-tool design for the financial agent line; deterministic scripts own storage and calculations
+    must_not_invent: true
+  - id: financial_tool_implementation
+    status: blocked_pending_user_acceptance
+    expected_target_path: docs/codex_source/task_cards/fin_instrument_financial_tool_foundation.yaml
+    notes: implementation remains blocked until the design task card is reviewed/accepted
+    must_not_invent: true
+  - id: agent_farm_task_runtime_design
+    status: deferred_after_fin_instrument
+    expected_target_path: docs/codex_source/roadmap/roadmap.md
+    notes: Agent Farm / Task Runtime is deferred until Fin Instrument progress is reviewed
+    must_not_invent: true
+  - id: telegram_publisher
+    status: future
+    expected_target_path: docs/codex_source/project/project_overview.md
+    notes: Telegram post publishing remains a later future tool family
+    must_not_invent: true
+  - id: youtube_parser
+    status: future
+    expected_target_path: docs/codex_source/project/project_overview.md
+    notes: YouTube parsing remains a later future tool family
+    must_not_invent: true
   - id: telegram_identity_from_id_vs_chat_id
     status: imported
     expected_target_path: docs/codex_source/vendor/telegram/update_identity_from_id_vs_chat_id.md

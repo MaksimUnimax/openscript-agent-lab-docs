@@ -3,7 +3,7 @@ STATUS: IMPORTED_PRODUCT_DIRECTION_UPDATE
 SOURCE_KIND: chatgpt_inline_user_clarification
 DATE: 2026-05-17
 RELATION_TO_TZ_V0_3: extends v0.3, does not replace it
-CURRENT_PRIORITY: first Telegram user_id allowlist inside “Фин инструмент”, then Agent Farm / Task Runtime, then Financial Agent Business Tool
+CURRENT_PRIORITY: finish Fin Instrument / Financial Tool first, keep Agent Farm deferred, then revisit shared runtime architecture later
 
 ## 1. Why this update exists
 
@@ -150,6 +150,18 @@ Current active near-term order:
    - Telegram Post Publisher Agent/Tool;
    - YouTube Parsing Agent/Tool;
    - other task tools TBD.
+
+## 6.1 Priority correction: finish Fin Instrument first
+
+The active near-term order is corrected again after the later proof/design work:
+
+1. finish the Telegram access/auth/no-silent-reply line when needed;
+2. continue the Financial Agent Business Tool inside “Фин инструмент”;
+3. treat the shared Agent Farm / Task Runtime question as deferred until Fin Instrument is progressed;
+4. decide later whether the runtime architecture is common for all agents, per-tool, or hybrid;
+5. keep Telegram Post Publisher and YouTube Parser as later tool families.
+
+Historical ordering in this document remains as context, but the active priority is the Fin Instrument / Financial Tool line first.
 
 ## 7. Telegram Post Publisher Agent/Tool
 

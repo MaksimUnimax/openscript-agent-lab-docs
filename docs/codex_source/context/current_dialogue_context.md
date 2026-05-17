@@ -669,3 +669,24 @@ Manual proof still required:
 - if auth degrades again, Telegram/user/operator should see an explicit safe auth-not-ready signal instead of silence.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_HERMES_PRE_REPLY_AUTH_GATE_IMPLEMENTED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED source=codex_proof_design accepted_by_user=pending -->
+
+## 2026-05-17 — Priority correction: finish Fin Instrument / Financial Tool before Agent Farm
+
+Facts:
+- The user corrected the direction after the assistant proposed moving directly to Agent Farm / Task Runtime.
+- Current priority is to finish the financial agent / “Фин инструмент” first.
+- For the current stage, financial runtime/settings/status live inside the “Фин инструмент” tab.
+- The future architecture question remains open: common runtime for all agents, per-tool runtime tabs, or hybrid.
+- Agent Farm is deferred until after the Fin Instrument / Financial Tool line is reviewed and progressed.
+- Financial Tool is a business tool package for financial agents, not just a raw database.
+- Agents must not write SQL directly or mutate storage uncontrolled; deterministic scripts own reads/writes/calculations.
+- This run created docs-only design and did not implement application code.
+
+Next:
+- review the Fin Instrument / Financial Tool design docs;
+- then choose the first minimal implementation slice inside “Фин инструмент”;
+- do not implement Agent Farm until the Fin Instrument priority is accepted/progressed.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED -->

@@ -1,0 +1,58 @@
+task_id: OPENSCRIPT_AGENT_LAB_FIN_INSTRUMENT_FINANCIAL_TOOL_FOUNDATION_20260517_01
+task_type: design-run
+description: >
+  Docs-only foundation task card for the financial agent / “Фин инструмент” line.
+  The current stage finishes the financial tool before any shared Agent Farm runtime.
+status: proposed
+ready_for_implementation: false
+ready_for_combined_proof_design_fix: false
+requires_user_acceptance: true
+reason: storage/business-tool design must be reviewed first
+active_product_surface: Фин инструмент
+runtime_scope: inside_fin_instrument_for_current_stage
+agent_farm_dependency: deferred
+allowed_next_run: user_review_or_design_refinement
+non_goals:
+  - general Agent Farm runtime now
+  - Telegram Publisher now
+  - YouTube Parser now
+  - application code implementation
+  - DB/schema migration
+  - runtime mutation
+  - secrets or auth changes
+future_slices:
+  - Slice A: proof/design docs plus task card
+  - Slice B: source-only financial tool contracts and no-op scripts
+  - Slice C: SQLite schema and migration design, no live mutation
+  - Slice D: safe runtime storage initializer
+  - Slice E: deterministic expense scripts and summaries
+  - Slice F: Fin Instrument UI status/read-only surface
+  - Slice G: Telegram/voice integration to the financial tool with confirmation
+  - Slice H: old expense-bot extraction/refactor only after separate proof
+acceptance_criteria:
+  - current product order explicitly keeps Fin Instrument before Agent Farm
+  - financial runtime lives inside the current “Фин инструмент” surface for the current stage
+  - deterministic business tool contracts are defined
+  - storage boundaries are defined without runtime mutation
+  - Agent Farm remains deferred rather than removed
+  - no application code is changed in the design run
+required_project_docs:
+  - docs/codex_source/project/current_status.md
+  - docs/codex_source/project/project_overview.md
+  - docs/codex_source/project/technical_spec.md
+  - docs/codex_source/project/technical_spec_extensions/fin_tool_tab_agent_farm_and_agent_tools_v0_4.md
+  - docs/codex_source/project/source_vs_runtime.md
+  - docs/codex_source/project/safe_boundaries.md
+  - docs/codex_source/project/runtime_git_canon.md
+  - docs/codex_source/project/telegram_router.md
+  - docs/codex_source/project/access_control.md
+  - docs/codex_source/project/telegram_voice_pipeline.md
+required_vendor_docs: []
+forbidden_substitutes:
+  - roadmap
+  - continuity/handoff
+  - memory-based assumptions
+  - Agent Farm implementation docs as a substitute for financial-tool design
+report_contract:
+  required: true
+  must_state: docs_only
