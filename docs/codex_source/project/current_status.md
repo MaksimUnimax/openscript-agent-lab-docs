@@ -67,3 +67,7 @@ Additional current direction:
 - current next active block is now the Fin Instrument / Financial Tool line, not the Agent Farm line.
 - Agent Farm / Task Runtime is deferred until the Fin Instrument financial-tool design/proof block is progressed.
 - this run is docs-only product correction; no application code was implemented.
+- first source-only Fin Instrument financial-tool contracts skeleton has now been implemented.
+- the slice added deterministic contracts, no-op handlers, readiness summary, and regression tests only.
+- no SQLite schema, runtime storage writes, UI integration, Telegram integration, voice integration, or Agent Farm implementation was added in this slice.
+- the next slice should be reviewed separately: SQLite schema design or runtime storage initializer proof/design, not both blindly.

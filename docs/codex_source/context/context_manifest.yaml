@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED
-last_append_title: "Priority correction: finish Fin Instrument / Financial Tool before Agent Farm"
-last_updated_utc: 2026-05-17T04:11:51Z
+last_append_id: CTX_20260517_FIN_INSTRUMENT_TOOL_CONTRACTS_SKELETON_IMPLEMENTED
+last_append_title: "Fin Instrument financial tool contracts skeleton implemented"
+last_updated_utc: 2026-05-17T04:24:42Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

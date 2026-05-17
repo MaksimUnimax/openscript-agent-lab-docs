@@ -136,9 +136,9 @@ items:
     notes: docs-only business-tool design for the financial agent line; deterministic scripts own storage and calculations
     must_not_invent: true
   - id: financial_tool_implementation
-    status: blocked_pending_user_acceptance
+    status: contracts_skeleton_implemented
     expected_target_path: docs/codex_source/task_cards/fin_instrument_financial_tool_foundation.yaml
-    notes: implementation remains blocked until the design task card is reviewed/accepted
+    notes: source-only financial tool contracts skeleton and deterministic no-op handlers are implemented; SQLite/schema/runtime/UI remain pending
     must_not_invent: true
   - id: agent_farm_task_runtime_design
     status: deferred_after_fin_instrument

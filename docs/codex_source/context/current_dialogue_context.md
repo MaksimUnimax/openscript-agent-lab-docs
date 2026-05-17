@@ -690,3 +690,18 @@ Next:
 - do not implement Agent Farm until the Fin Instrument priority is accepted/progressed.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260517_FIN_INSTRUMENT_TOOL_CONTRACTS_SKELETON_IMPLEMENTED source=codex_combined_fix accepted_by_user=yes -->
+
+## 2026-05-17 — Fin Instrument financial tool contracts skeleton implemented
+
+Facts:
+- The first implementation slice for the Financial Tool was added inside the Fin Instrument line.
+- This slice created source-owned financial tool contracts and deterministic no-op/skeleton handlers.
+- No SQLite schema, migration, runtime storage write, Telegram integration, voice integration, UI integration or Agent Farm implementation was added.
+- Tool contracts now exist for `expense_add`, `expense_recent`, `expense_month_summary`, `receipt_photo_draft`, `receipt_manual_complete`, `cancel_pending`, and `tool_status`.
+- The skeleton enforces the rule that agents must not write SQL directly and that financial writes will later be owned by deterministic scripts/storage.
+- Tests cover JSON-serializable responses, validation, storage-not-initialized behavior, and no runtime file writes.
+- Next slice should be reviewed separately: SQLite schema design or runtime storage initializer, not both blindly.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_INSTRUMENT_TOOL_CONTRACTS_SKELETON_IMPLEMENTED -->
