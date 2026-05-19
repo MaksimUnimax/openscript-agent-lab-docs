@@ -105,6 +105,8 @@ Additional current direction:
 - the active blocker after rollback is Telegram no-reply for the already-sent message `кто ты`.
 - the next exact run is `OPENSCRIPT_AGENT_LAB_TELEGRAM_NO_REPLY_EXISTING_KTO_TY_AFTER_UI_ROLLBACK_20260517_01`.
 - Fin Instrument UI work must not resume until Telegram reply behavior is restored.
+
+Additional current direction:
 - Fin Instrument schema v2 / product-field work completed successfully at private commit `f0235cbeed7f27392c5d3bcca88a44c6315654dd`.
 - the expense model now has a dedicated required `product` / `Товар` field stored separately from `description`;
 - `category` is now optional and defaults to `Без категории` / `bez_kategorii`;
@@ -114,3 +116,8 @@ Additional current direction:
 - `/api/state` now shows `product=хлеб` and `category=Без категории`;
 - the test baseline reached 143 passed tests and the service/healthz remained healthy;
 - Telegram UI/auth/provider paths were left untouched by this docs update.
+- current dialogue context was appended with the full CONTEXT/TOOLS/VOICE working block for the pending universal voice/tool capability prompt.
+- CONTEXT receipt hydration remains reported live-ready via commit `8cdba40` (`Hydrate receipt context for next turns`).
+- TOOLS Hermes receipt tool loop remains reported live-ready via commit `fb6f892569dc78db5d24bc8541d297fc9ab22556` (`Add Hermes receipt tool loop`).
+- VOICE remains the next unresolved architecture task and is preserved here as the next pending prompt instead of being executed in this docs-only run.
+- the pending next Codex prompt is `OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01`.

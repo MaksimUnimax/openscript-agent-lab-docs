@@ -76,7 +76,7 @@ items:
     notes: prompt templates were not created in this run and need a dedicated import if desired
     must_not_invent: true
   - id: current_dialogue_append_block
-    status: missing
+    status: imported
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: future append blocks should be provided by ChatGPT, not invented locally
     must_not_invent: true
@@ -84,6 +84,21 @@ items:
     status: imported
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: normalized working context from uploaded ChatGPT handoff files was appended to the repo memory layer
+    must_not_invent: true
+  - id: current_dialogue_context_append
+    status: imported
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: current dialogue context was appended with CONTEXT, TOOLS, and the preserved pending VOICE prompt
+    must_not_invent: true
+  - id: context_tools_voice_pending_prompt
+    status: imported
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: the preserved next prompt was saved in repo context as an append-only block and is not executed in this run
+    must_not_invent: true
+  - id: voice_universal_tool_capability
+    status: pending_prompt_saved
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: universal voice/tool capability work remains the next pending prompt and was preserved only, not run
     must_not_invent: true
   - id: actual_tz_v0_3
     status: imported

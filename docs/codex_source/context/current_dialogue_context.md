@@ -1611,3 +1611,492 @@ Facts:
 Next:
 - Any follow-up feature work must be separate and must not touch Telegram/Hermes without proof.
 <!-- CONTEXT_APPEND_END id=CTX_20260517_FIN_PRODUCT_SCHEMA_V2_SUCCESS -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1 source=chatgpt_inline_current_dialogue accepted_by_user=yes -->
+## 2026-05-19 — Current dialogue context: CONTEXT, TOOLS, and pending universal VOICE tool/capability prompt
+### 1. Main tasks that must be repeated until solved
+The user explicitly required that these tasks be repeated in every relevant working answer until they are solved:
+1. CONTEXT:
+   - The next Telegram turn must see the full receipt context:
+     - receipt_draft;
+     - receipt_item_lines;
+     - last action/result;
+     - prior assistant reply.
+   - The next turn must not see only the total amount.
+   - If the bot showed a receipt with item rows, the following turn must be able to use those item rows.
+2. TOOLS:
+   - Telegram live agent must be Hermes tool-capable:
+     - Fin tools are available to the agent;
+     - agent/model semantically chooses the needed tool;
+     - tool reads/writes DB;
+     - tool result returns to the agent/model;
+     - final answer is based on tool result.
+   - This must not be implemented through keyword matchers, phrase routers, prompt-memory workarounds, or direct LLM DB writes.
+3. VOICE:
+   - Voice must be a universal Hermes tool/capability, not a separate business-logic branch.
+   - Voice must be:
+     Telegram voice/audio -> STT transcript -> same canonical text/Hermes agent/tool loop.
+   - Voice must not own Fin business logic.
+   - Voice must not own confirmation logic.
+   - Voice must not own receipt logic.
+   - Voice must not own DB write logic.
+### 2. Why this context append is needed
+The user clarified that the previous Codex prompt for the VOICE task was not sent/executed and must be saved in repo-based context, using the correct context append prompt format.
+This append stores:
+- the current accepted task framing;
+- the proven status of CONTEXT and TOOLS;
+- the fact that VOICE still needs a universal tool/capability implementation;
+- the full pending Codex prompt that should be used next when the user asks to proceed.
+### 3. Proven CONTEXT status
+A proof/design/fix and finalize sequence was completed for receipt context hydration.
+Important run:
+- OPENSCRIPT_AGENT_LAB_FIX_RECEIPT_CONTEXT_HYDRATION_NEXT_TURN_20260519_01
+Finalize run:
+- OPENSCRIPT_AGENT_LAB_FINALIZE_RECEIPT_CONTEXT_HYDRATION_COMMIT_RESTART_20260519_01
+Reported final facts:
+- context fix committed: 8cdba40 (Hydrate receipt context for next turns)
+- pushed to origin/main
+- service restarted
+- healthz ok
+- final repo clean
+What became live:
+- Next Telegram turns now carry receipt_context with:
+  - receipt_draft
+  - receipt_item_lines
+  - last_action_result
+  - prior_assistant_reply
+- Hermes prompt serialization includes that receipt context block.
+- The context fix was explicitly not the tools implementation.
+CONTEXT is considered source/runtime live-ready by the report, but future live failures must still be proven from runtime before new fixes.
+### 4. Proven TOOLS status
+A canonical proof showed the old broken state:
+- Telegram live fallback used prompt/session-resume only.
+- agent_reply.py / hermes_execution.py launched the live subprocess with enabled_toolsets=[].
+- Fin receipt operations were app-local handlers, not Hermes-visible tools.
+- Therefore the live Telegram agent could not call Fin tools.
+Then a tool-loop implementation was reported:
+- commit: fb6f892569dc78db5d24bc8541d297fc9ab22556
+- message: Add Hermes receipt tool loop
+Reported changes:
+- Telegram live reply forwards enabled Fin toolset into Hermes instead of hardcoding enabled_toolsets=[].
+- Hermes smoke execution instantiates AIAgent with those toolsets.
+- Added Hermes-visible fin.receipt toolset with:
+  - receipt_current
+  - receipt_items
+  - receipt_confirm
+  - last_receipt
+- Tools are wired to existing Fin handlers and deterministic confirm/write path.
+- Fin storage read shape fixed so last_receipt can rehydrate linked receipt items.
+- Service restarted.
+- healthz 200.
+- HEAD == origin/main.
+- working tree clean.
+Verification run:
+- OPENSCRIPT_AGENT_LAB_VERIFY_HERMES_RECEIPT_TOOL_LOOP_LIVE_20260519_01
+Reported verification:
+- current_head: fb6f892569dc78db5d24bc8541d297fc9ab22556
+- service_loaded_commit: fb6f892569dc78db5d24bc8541d297fc9ab22556
+- context_status: preserved and proven in source/tests
+- fin_receipt_tool_registration: registered and discoverable via Hermes registry
+- telegram_enabled_toolsets_actual: non-empty for the Fin-capable Telegram path; includes fin.receipt
+- AIAgent receives enabled_toolsets from payload
+- receipt_current dispatch works in test fixture
+- receipt_items dispatch works in test fixture
+- receipt_confirm uses deterministic confirm/write and only temp test DB
+- tool result return path proven by registry dispatch plus Hermes role: tool message append back into the loop
+- no provider/model calls by Codex
+- no Telegram API calls by Codex
+- no production side effects
+TOOLS is considered implemented and verified by source/runtime/tests, but a full manual live dialogue with provider/model tool calls still requires observation if failures continue.
+### 5. New live VOICE problem after tool setup
+After tools were configured, the user reported that voice stopped answering.
+A proof-only voice root-cause run found:
+- live voice update was seen;
+- polling active;
+- service active and healthz 200;
+- voice gate passed;
+- STT/download/transcript path succeeded;
+- transcript reached the model request;
+- reply died at the provider request validation step;
+- sendMessage was not attempted;
+- first failing step: MODEL_REQUEST_REJECTED_INVALID_TOOL_NAME.
+Important live failure:
+- provider request included tool name: fin.expense_add
+- provider rejected it because the endpoint only accepts tool names matching:
+  ^[a-zA-Z0-9_-]+$
+- root cause classification:
+  provider request rejected due invalid tool name serialization.
+This matters because:
+- voice was not dead at polling/STT level;
+- voice reached the model/tool path;
+- the failure exposed that legacy voice/tool serialization is still not aligned with the provider-safe Hermes tool contract.
+### 6. User correction about VOICE architecture
+The user clarified:
+- voice is a tool/capability.
+- voice must not be a separate костыльная branch.
+- voice must be configured universally, not under one agent.
+- voice must not be hardcoded to plankton or any other specific agent.
+- voice must use the same selected_agent/capability/toolset configuration as text.
+- voice must become:
+  audio -> transcript -> canonical text/Hermes agent/tool loop.
+Important accepted wording:
+- Voice = transport/capability.
+- Voice should not own business logic.
+- After transcript, voice must enter the same canonical path as text.
+- Any fix must be universal for all agents and future tools.
+### 7. Universal requirement for the next VOICE prompt
+The next implementation must be generic for all agents and future tools.
+Do not hardcode:
+- plankton;
+- any specific agent_slug;
+- any specific chat_id/user_id;
+- a one-off Fin-only voice path;
+- a one-off receipt-only voice path;
+- a one-off confirmation phrase path;
+- a one-off Telegram-only business branch.
+Use existing generic configuration:
+- selected_agent;
+- agent capability settings;
+- agent tool allowlist;
+- resolved enabled_toolsets for that selected agent;
+- shared voice/STT capability settings;
+- shared canonical text -> Hermes agent path.
+Tests must prove:
+- voice transcript enters the same canonical path as text;
+- voice path carries the same enabled_toolsets as text for the same Fin-capable agent;
+- voice path can access fin.receipt tools through provider-safe names;
+- provider request does not contain invalid dot-named tool names;
+- provider-safe tool call maps back to the correct internal handler;
+- non-Fin agent does not receive fin.receipt tools by accident;
+- no agent slug is hardcoded;
+- no chat/user id is hardcoded;
+- voice branch no longer owns confirmation/receipt business logic;
+- context hydration remains intact;
+- Fin receipt tool loop remains intact.
+### 8. Pending next Codex prompt to run when user asks to proceed
+The following prompt was prepared in the current ChatGPT dialogue but not yet sent/executed. Save it as pending next prompt context.
+PENDING_CODEX_PROMPT_BEGIN
+RUN_ID:
+OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01
+RUN_MODE:
+proof_design_fix_universal_voice_tool_capability
+Follow AGENTS.md.
+MAIN_TASKS_TO_SOLVE:
+1. CONTEXT:
+Next Telegram turn must see full receipt context:
+receipt_draft + receipt_item_lines + last action/result + prior assistant reply.
+Not only total.
+Context hydration is already live-ready and must remain intact.
+2. TOOLS:
+Telegram live agent must be Hermes tool-capable:
+Fin tools available to the selected agent -> model chooses tool -> tool reads/writes DB -> tool result returns to model.
+Hermes receipt tool loop is already implemented and must remain intact.
+3. VOICE:
+Voice must be a universal Hermes tool/capability, not a separate business-logic branch.
+Voice must be:
+Telegram voice/audio
+-> STT transcript
+-> same canonical text/Hermes agent/tool path as normal text.
+UNIVERSALITY REQUIREMENT:
+This implementation must be generic for all agents and future tools.
+Do not hardcode:
+- plankton;
+- any specific agent slug;
+- any specific chat_id/user_id;
+- a one-off Fin-only voice path;
+- a one-off receipt-only voice path;
+- a one-off confirmation phrase path;
+- a one-off Telegram-only business branch.
+Use existing generic configuration:
+- selected_agent;
+- agent capability settings;
+- agent tool allowlist;
+- resolved enabled_toolsets for that selected agent;
+- shared voice/STT capability settings;
+- shared canonical text -> Hermes agent path.
+Voice is a transport/capability.
+Voice must not own Fin business logic.
+Voice must not own confirmation logic.
+Voice must not own receipt logic.
+Voice must not own DB write logic.
+After STT, voice transcript must enter the same path as text.
+TASK:
+Refactor/repair the live Telegram voice path so voice is treated as a universal Hermes tool/capability feeding the same canonical agent/tool loop as text.
+This run must not create another agent-specific workaround.
+This run must not create another phrase matcher.
+This run must not create another receipt-specific voice branch.
+BASELINE:
+Context hydration is live-ready:
+- receipt_draft + receipt_item_lines + last_action_result + prior_assistant_reply are carried into next-turn context.
+Hermes receipt tools are live-ready:
+- Telegram Fin-capable path includes non-empty enabled_toolsets.
+- fin.receipt is Hermes-visible.
+- receipt_current, receipt_items, receipt_confirm, last_receipt are registered and dispatch in tests.
+- Service loaded commit fb6f892569dc78db5d24bc8541d297fc9ab22556.
+Latest live voice proof showed:
+- voice update was seen;
+- voice gate passed;
+- STT/download/transcript produced text;
+- transcript reached the model request;
+- failure happened at provider request validation because a dot-named tool was serialized as fin.expense_add.
+This means voice is not dead.
+Voice is entangled with the tool path, but the implementation still has legacy voice_branch behavior and invalid provider tool-name serialization.
+SYMPTOM:
+Live voice messages do not reliably produce normal agent replies through the same tool-capable path as text.
+SUSPECTED HIGHER-LEVEL CAUSE:
+The current voice implementation still contains legacy branch-specific routing and does not cleanly use the universal Hermes tool/capability contract.
+Possible failure classes:
+- VOICE_STILL_HAS_BUSINESS_LOGIC_BRANCH
+- VOICE_NOT_MODELED_AS_UNIVERSAL_CAPABILITY
+- VOICE_TRANSCRIPT_NOT_HANDOFF_TO_CANONICAL_TEXT_AGENT_PATH
+- VOICE_PATH_USES_DIFFERENT_ENABLED_TOOLSETS_THAN_TEXT
+- VOICE_PATH_SERIALIZES_INVALID_TOOL_NAMES
+- TOOL_NAME_CANONICALIZATION_MISSING
+- INTERNAL_TOOL_ID_NOT_MAPPED_BACK_FROM_PROVIDER_SAFE_NAME
+- TOOL_RESULT_NOT_RETURNED_TO_AGENT_LOOP
+- OLD_VOICE_DRY_RUN_PATH_STILL_CONTROLS_REPLY
+- AGENT_SLUG_HARDCODE
+- NON_UNIVERSAL_FIX_ATTEMPT
+- UNKNOWN_STOP
+PROVE:
+Before changing code, prove:
+1. Current voice path:
+   - where voice/audio is normalized;
+   - where voice gate/dry_run/voice_branch controls routing;
+   - where STT transcript is produced;
+   - where transcript is handed to reply generation;
+   - where old voice-specific business logic still exists.
+2. Current text canonical path:
+   - where normal text enters Telegram routing;
+   - where context envelope is built;
+   - where selected_agent is resolved;
+   - where enabled_toolsets are resolved;
+   - where agent_reply invokes Hermes;
+   - where tool results return.
+3. Voice vs text comparison:
+   - same selected_agent?
+   - same conversation key?
+   - same context hydration?
+   - same enabled_toolsets?
+   - same provider-safe tool name mapping?
+   - same tool result loop?
+   - same reply sending path?
+4. Tool name problem:
+   - where internal tool ids such as fin.expense_add / fin.receipt are serialized into provider request;
+   - whether provider accepts dots in tool names;
+   - where provider-safe names must be generated;
+   - how provider-safe names map back to internal tool ids;
+   - whether this mapping is generic for all tools, not only Fin.
+5. Universal configuration:
+   - where selected_agent tool allowlist lives;
+   - how enabled_toolsets are resolved per agent;
+   - how to ensure Fin tools are only enabled for agents that have them;
+   - how to ensure non-Fin agents do not receive Fin tools accidentally.
+NOT A SOLUTION:
+- no agent-specific hardcode;
+- no plankton-only logic;
+- no chat/user hardcode;
+- no new keyword matcher;
+- no receipt/OCR/item parser changes;
+- no Fin DB schema changes;
+- no UI/static changes;
+- no prompt-memory workaround;
+- no separate voice confirmation logic;
+- no direct LLM DB writes;
+- no provider/model calls in tests;
+- no Telegram API calls in tests;
+- no production expense creation by Codex;
+- no broad unrelated refactor.
+TASK-SPECIFIC DOCS:
+Read only these exact docs/source because this task depends on Hermes tools and voice capability.
+Hermes tools:
+- docs/codex_source/vendor/hermes/tools/tools_runtime.md
+- docs/codex_source/vendor/hermes/tools/tool_gateway.md
+- docs/codex_source/vendor/hermes/runtime/api_server.md
+- vendor/hermes-agent/tools/registry.py
+- vendor/hermes-agent/model_tools.py
+- vendor/hermes-agent/gateway/platforms/api_server.py
+Voice / Telegram source owners:
+- agent_lab/telegram_connector.py
+- agent_lab/telegram_polling.py
+- agent_lab/telegram_voice_transport.py
+- agent_lab/agent_reply.py
+- agent_lab/hermes_execution.py
+- agent_lab/hermes_binding.py
+- agent_lab/storage.py
+- agent_lab/tool_registry.py
+Existing tool source owners:
+- vendor/hermes-agent/tools/fin_receipt_tool.py
+- vendor/hermes-agent/tools/fin_expense_add_tool.py
+- agent_lab/fin_instrument/receipt_hermes_adapter.py
+Do not read current_dialogue_context.md.
+Do not read current_status.md.
+Do not read module_map.md.
+Do not scan docs broadly.
+If a listed file directly references another exact voice/tool runtime file required for implementation, read only that file and report why.
+ALLOWED_SCOPE:
+- universal voice tool/capability wrapper;
+- Telegram voice transcript handoff;
+- voice path routing into canonical text/Hermes agent path;
+- enabled_toolsets parity between text and voice;
+- provider-safe tool name serialization;
+- internal tool id mapping back from provider-safe names;
+- tests for voice -> transcript -> canonical agent path;
+- tests for provider-safe tool names;
+- tests proving Fin tools remain available on voice path when selected_agent has them;
+- tests proving Fin tools are not available to an agent without that allowlist.
+FORBIDDEN_TASK_SPECIFIC_SCOPE:
+- AGENTS.md;
+- ChatGPT workflow rules docs;
+- OCR parser/item parser;
+- Fin DB schema migration;
+- UI/static files;
+- broad Hermes vendor rewrite;
+- Telegram tokens/config secrets;
+- real Telegram API calls;
+- real provider/model calls in tests;
+- production expense creation by Codex;
+- hardcoded selected agent;
+- hardcoded plankton;
+- hardcoded chat/user;
+- one-off receipt-only solution.
+PLAN:
+1. Map current voice path:
+   Telegram voice/audio
+   -> normalize_update
+   -> voice gate
+   -> STT/download
+   -> transcript
+   -> routing
+   -> reply/model request.
+2. Map canonical text path:
+   Telegram text
+   -> selected_agent
+   -> context envelope
+   -> agent_reply
+   -> Hermes enabled_toolsets
+   -> tool-capable response path.
+3. Compare voice vs text:
+   - same selected_agent;
+   - same context hydration;
+   - same enabled_toolsets;
+   - same tool name serialization;
+   - same tool result loop;
+   - same final reply path.
+4. Implement universal voice capability behavior:
+   - voice/STT layer only materializes transcript and safe metadata;
+   - after transcript, route into the same canonical text/Hermes agent path;
+   - keep voice gate only for transport readiness/safety;
+   - remove or neutralize old voice-specific business decision points;
+   - do not let voice branch decide Fin intent;
+   - do not let voice branch decide receipt confirmation.
+5. Implement provider-safe tool name mapping if required:
+   - internal tool ids may stay dot-named internally;
+   - provider request must use safe names matching ^[a-zA-Z0-9_-]+$;
+   - map provider-safe names back to internal tool ids on tool call execution;
+   - make mapping generic for all tools, not Fin-only;
+   - preserve Hermes registry semantics internally.
+6. Preserve agent-specific tool allowlists:
+   - selected_agent drives enabled_toolsets;
+   - Fin tools only appear for agents that have Fin toolsets enabled;
+   - voice path and text path use the same allowlist resolver.
+7. Add tests:
+   - voice transcript enters the same canonical path as text;
+   - voice path carries the same enabled_toolsets as text for the same Fin-capable agent;
+   - voice path can access fin.receipt tools through provider-safe names;
+   - provider request does not contain invalid dot-named tool names;
+   - provider-safe tool call maps back to correct internal handler;
+   - non-Fin agent does not receive fin.receipt tools by accident;
+   - implementation does not hardcode plankton;
+   - implementation does not hardcode chat/user id;
+   - voice branch no longer owns confirmation/receipt business logic;
+   - context hydration remains intact;
+   - no provider/model calls;
+   - no Telegram API calls;
+   - no production DB writes.
+8. Commit and push.
+9. Restart service if runtime Python changed, then healthz.
+TARGETED_CHECKS:
+Run focused tests for:
+- tests.test_telegram_connector
+- tests.test_telegram_polling
+- tests.test_telegram_voice_transport
+- tests.test_agent_reply
+- tests.test_hermes_execution
+- tests.test_fin_receipt_hermes_tools
+- tool registry / Hermes tool tests if separate
+Also run:
+- python -m compileall agent_lab tests
+- git diff --check
+ACCEPTANCE:
+- Voice is a universal transport/tool capability, not a separate business-logic branch.
+- Voice transcript is routed through the same canonical text -> Hermes agent path.
+- Voice path receives the same enabled_toolsets as text for the same selected_agent.
+- Fin tools are not exposed to agents that do not have them in their allowlist.
+- Provider request does not contain invalid dot-named tool names.
+- Internal tool ids still map to correct handlers.
+- Tool results return to the agent loop.
+- Context hydration remains intact.
+- Fin receipt tool loop remains intact.
+- No provider/model calls in tests.
+- No Telegram API calls in tests.
+- No production expense created by Codex.
+- No agent slug hardcode.
+- No chat/user hardcode.
+- Commit pushed.
+- Service restarted if source changed.
+- Working tree clean.
+REPORT:
+Use AGENTS.md report contract.
+Add task-specific fields:
+- MAIN_TASKS_REPEATED
+- universal_scope_proof
+- voice_current_path
+- canonical_text_path_reuse
+- voice_tool_capability_design
+- voice_business_logic_removed_or_neutralized
+- selected_agent_tool_allowlist_source
+- enabled_toolsets_text_vs_voice
+- non_fin_agent_safety
+- provider_tool_name_mapping
+- internal_tool_id_mapping
+- voice_transcript_to_agent_tests
+- voice_toolset_tests
+- provider_safe_name_tests
+- no_agent_slug_hardcode_proof
+- no_chat_user_hardcode_proof
+- context_hydration_preserved
+- fin_receipt_tools_preserved
+- production_side_effects
+PENDING_CODEX_PROMPT_END
+### 9. Current stop-point after this append
+Current stop-point:
+- CONTEXT source/runtime fix is reported live-ready.
+- TOOLS receipt tool loop is reported implemented and verified by source/runtime/tests.
+- VOICE is the next unresolved architecture task.
+- The pending next Codex prompt is OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01.
+- Do not run a new OCR, matcher, receipt parser, DB schema, or context-router fix before the VOICE/tool capability task unless new proof changes the root cause.
+### 10. What not to do next
+Do not:
+- fix more confirmation words;
+- add another matcher;
+- add another receipt-specific voice branch;
+- hardcode plankton;
+- hardcode chat/user IDs;
+- treat voice as Fin-specific;
+- change OCR/item parsing;
+- change DB schema;
+- change UI;
+- run provider/model calls in tests;
+- run Telegram API calls in tests;
+- create production expenses by Codex.
+### 11. Next exact step
+When the user asks to proceed, use the pending prompt:
+OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01
+Purpose:
+- make voice a universal transport/tool capability;
+- make voice transcript enter the same canonical text -> Hermes agent/tool path;
+- preserve CONTEXT and TOOLS fixes;
+- add provider-safe tool name mapping if required;
+- prove no agent-specific hardcode.
+<!-- CONTEXT_APPEND_END id=CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1 -->
