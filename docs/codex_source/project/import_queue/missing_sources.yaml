@@ -100,6 +100,11 @@ items:
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: universal voice/tool capability work remains the next pending prompt and was preserved only, not run
     must_not_invent: true
+  - id: project_docs_update_context_tools_voice_status
+    status: imported
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: current project docs update was appended with the CONTEXT / TOOLS / VOICE status block and saved to repo memory
+    must_not_invent: true
   - id: actual_tz_v0_3
     status: imported
     expected_target_path: docs/codex_source/project/technical_spec.md

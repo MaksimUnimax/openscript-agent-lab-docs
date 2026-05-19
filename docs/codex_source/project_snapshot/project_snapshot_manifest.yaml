@@ -3,8 +3,8 @@ append_only: false
 status: imported_current_snapshot
 snapshot_kind: bounded_codex_repo_snapshot
 source_kind: bounded_codex_repo_snapshot
-last_snapshot_id: PROJECT_SNAPSHOT_20260516_FIN_TOOL_TAB_AGENT_FARM_TZ_EXPANSION
-private_head_at_snapshot: dd19a8752bcb46f073cc290cc60e0b9f42a3985c
-last_updated_utc: 2026-05-17T01:06:37Z
+last_snapshot_id: PROJECT_SNAPSHOT_20260519_CONTEXT_TOOLS_VOICE_STATUS
+private_head_at_snapshot: ea0bc2b4e03b12f1895c9520ca8ad24fbfd0a1fe
+last_updated_utc: 2026-05-19T05:53:20Z
 scope: bounded inventory, no secrets
-needs_future_refresh: true
+needs_future_refresh: false

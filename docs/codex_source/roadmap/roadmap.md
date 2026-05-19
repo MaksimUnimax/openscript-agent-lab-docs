@@ -238,3 +238,84 @@ The active roadmap is corrected:
 - Telegram Post Publisher and YouTube Parser stay later.
 
 <!-- ROADMAP_APPEND_END id=RM_20260517_FIN_INSTRUMENT_FIRST_FINANCIAL_TOOL_DESIGN_PROPOSED -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260519_CONTEXT_TOOLS_VOICE_STATUS source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## 2026-05-19 — CONTEXT / TOOLS / VOICE project status update
+
+### Main tasks
+
+The active Telegram-Hermes-Fin work is now tracked through three explicit tasks:
+
+1. **CONTEXT**
+   - The next Telegram turn must see the full receipt context:
+     `receipt_draft`, `receipt_item_lines`, last action/result, and prior assistant reply.
+   - It must not see only the total amount.
+
+2. **TOOLS**
+   - Telegram live agent must be Hermes tool-capable.
+   - Fin tools must be available to the selected agent.
+   - The model must be able to choose tools semantically.
+   - Tools read/write DB.
+   - Tool result returns to the model/agent.
+
+3. **VOICE**
+   - Voice must be a universal transport/tool capability.
+   - Voice must not be a separate business-logic branch.
+   - Voice must be: audio -> transcript -> canonical text/Hermes agent/tool path.
+
+### Completed
+
+CONTEXT is reported live-ready:
+- commit: `8cdba40`
+- receipt context hydration now carries:
+  - `receipt_draft`
+  - `receipt_item_lines`
+  - `last_action_result`
+  - `prior_assistant_reply`
+
+TOOLS is reported live-ready:
+- commit: `fb6f892569dc78db5d24bc8541d297fc9ab22556`
+- Telegram Fin-capable path now carries non-empty enabled toolsets.
+- `fin.receipt` is Hermes-visible.
+- `receipt_current`, `receipt_items`, `receipt_confirm`, `last_receipt` are registered and dispatch in tests.
+
+Docs context for the pending next prompt is saved:
+- commit: `ea0bc2b4e03b12f1895c9520ca8ad24fbfd0a1fe`
+- context append id: `CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1`
+
+### Current active blocker
+
+VOICE remains unresolved.
+
+Latest voice proof found:
+- voice update reaches STT and model request;
+- failure is not polling or STT;
+- provider rejected tool name `fin.expense_add`;
+- provider requires tool names matching `^[a-zA-Z0-9_-]+$`;
+- root cause: invalid provider tool-name serialization.
+
+### Next step
+
+Run:
+
+`OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01`
+
+This run must:
+- make voice a universal transport/tool capability;
+- route transcript into the same canonical text/Hermes agent/tool loop as text;
+- preserve CONTEXT and TOOLS fixes;
+- implement generic provider-safe tool-name mapping if required;
+- avoid agent-specific hardcode.
+
+### Not next
+
+Do not continue:
+- confirmation-word fixes;
+- OCR/item parser work;
+- receipt-specific voice branches;
+- UI work;
+- DB schema work;
+- unrelated task-card implementation.
+
+<!-- ROADMAP_APPEND_END id=RM_20260519_CONTEXT_TOOLS_VOICE_STATUS -->

@@ -18,10 +18,14 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
-  latest_context_append_id: CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1
+  latest_context_append_id: CTX_20260519_PROJECT_DOCS_UPDATE_CONTEXT_TOOLS_VOICE_STATUS
+  latest_roadmap_append_id: RM_20260519_CONTEXT_TOOLS_VOICE_STATUS
+  latest_module_map_append_id: MM_20260519_CONTEXT_TOOLS_VOICE_BOUNDARIES
+  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260519_CONTEXT_TOOLS_VOICE_STATUS
   active_blocker: none
   next_exact_run: OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01
   financial_ui_readd: completed
+  pending_next_prompt_id: OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01
 repo_documentation_access_model: repo_documentation_access_v2
 current_workflow_mode_policy: risk_based_combined_runs_v1
 task_card_blocking_gate_logic: deprecated

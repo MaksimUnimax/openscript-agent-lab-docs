@@ -2100,3 +2100,43 @@ Purpose:
 - add provider-safe tool name mapping if required;
 - prove no agent-specific hardcode.
 <!-- CONTEXT_APPEND_END id=CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1 -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260519_PROJECT_DOCS_UPDATE_CONTEXT_TOOLS_VOICE_STATUS source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## 2026-05-19 — Project docs update: CONTEXT / TOOLS / VOICE status
+
+This append records the project-level documentation update after the context and tool-loop work.
+
+Main tasks to keep visible:
+
+1. CONTEXT:
+   - next Telegram turn must carry full receipt context;
+   - not just total amount;
+   - reported live-ready via commit `8cdba40`.
+
+2. TOOLS:
+   - Telegram live agent must be Hermes tool-capable;
+   - Fin tools available to selected agent;
+   - model chooses tools semantically;
+   - tools read/write DB;
+   - tool results return to model/agent;
+   - reported live-ready via commit `fb6f892569dc78db5d24bc8541d297fc9ab22556`.
+
+3. VOICE:
+   - next unresolved architecture task;
+   - must be universal transport/tool capability;
+   - not a separate business branch;
+   - not hardcoded to one agent;
+   - transcript must enter canonical text/Hermes agent/tool loop.
+
+Latest saved context:
+- `CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1`
+- private commit: `ea0bc2b4e03b12f1895c9520ca8ad24fbfd0a1fe`
+- public docs commit: `170fbf31d35b69882b69936a26e4b9684391579f`
+
+Next exact prompt:
+- `OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01`
+
+Do not run local symptom fixes before the VOICE task unless new proof changes the root cause.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260519_PROJECT_DOCS_UPDATE_CONTEXT_TOOLS_VOICE_STATUS -->

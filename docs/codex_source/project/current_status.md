@@ -121,3 +121,7 @@ Additional current direction:
 - TOOLS Hermes receipt tool loop remains reported live-ready via commit `fb6f892569dc78db5d24bc8541d297fc9ab22556` (`Add Hermes receipt tool loop`).
 - VOICE remains the next unresolved architecture task and is preserved here as the next pending prompt instead of being executed in this docs-only run.
 - the pending next Codex prompt is `OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01`.
+- current project docs update has now been appended to repo memory with the CONTEXT / TOOLS / VOICE project-status block.
+- the project docs update records the active next step as `OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01`.
+- do not mark unrelated task cards ready in this run.
+- do not resume Telegram user_id allowlist work unless the user explicitly switches priority.

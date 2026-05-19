@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1
-last_append_title: "Current dialogue context: CONTEXT, TOOLS, and pending universal VOICE tool/capability prompt"
-last_updated_utc: 2026-05-19T05:41:36Z
+last_append_id: CTX_20260519_PROJECT_DOCS_UPDATE_CONTEXT_TOOLS_VOICE_STATUS
+last_append_title: "Project docs update: CONTEXT / TOOLS / VOICE status"
+last_updated_utc: 2026-05-19T05:53:20Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

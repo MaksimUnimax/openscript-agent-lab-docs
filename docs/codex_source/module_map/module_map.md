@@ -160,3 +160,93 @@ Immediate active work remains:
 Do not start implementation of the planned module families from this docs update.
 
 <!-- MODULE_MAP_APPEND_END id=MM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS -->
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260519_CONTEXT_TOOLS_VOICE_BOUNDARIES source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## 2026-05-19 — CONTEXT / TOOLS / VOICE module boundaries
+
+### CONTEXT boundary
+
+Receipt context must be projected into the next Telegram turn as structured context, not as LLM memory.
+
+Owned by source modules around:
+- Telegram context envelope;
+- receipt context hydration;
+- Hermes prompt serialization.
+
+Known live-ready commit:
+- `8cdba40`
+
+Context must include:
+- `receipt_draft`
+- `receipt_item_lines`
+- `last_action_result`
+- `prior_assistant_reply`
+
+### TOOLS boundary
+
+Fin operations must be exposed as Hermes tools, not only app-local handlers.
+
+Known live-ready commit:
+- `fb6f892569dc78db5d24bc8541d297fc9ab22556`
+
+Current Hermes-visible receipt toolset:
+- `fin.receipt`
+- `receipt_current`
+- `receipt_items`
+- `receipt_confirm`
+- `last_receipt`
+
+The model may decide when a tool is needed.
+The tool executor reads/writes DB.
+The final answer must be based on tool result.
+
+The LLM must not write DB directly.
+
+### VOICE boundary
+
+Voice must be a universal transport/tool capability.
+
+Voice must do only:
+- receive Telegram voice/audio;
+- perform STT/transcription;
+- produce transcript + safe metadata;
+- hand off to canonical text/Hermes agent/tool path.
+
+Voice must not own:
+- receipt logic;
+- confirmation logic;
+- Fin business logic;
+- DB write logic;
+- agent-specific tool policy.
+
+### Provider-safe tool names
+
+Provider-facing tool names must satisfy provider validation.
+
+Latest failure:
+- provider rejected `fin.expense_add`
+- accepted regex: `^[a-zA-Z0-9_-]+$`
+
+Therefore a generic provider-safe tool-name mapping may be required:
+- internal tool ids may stay dot-named;
+- provider request names must be safe;
+- provider-safe calls must map back to internal tool ids;
+- mapping must be generic, not Fin-only.
+
+### Universality boundary
+
+Do not hardcode:
+- `plankton`;
+- any selected agent slug;
+- chat/user IDs;
+- Fin-only voice path;
+- receipt-only voice path.
+
+Use:
+- selected_agent;
+- capability settings;
+- agent tool allowlist;
+- resolved enabled_toolsets.
+
+<!-- MODULE_MAP_APPEND_END id=MM_20260519_CONTEXT_TOOLS_VOICE_BOUNDARIES -->

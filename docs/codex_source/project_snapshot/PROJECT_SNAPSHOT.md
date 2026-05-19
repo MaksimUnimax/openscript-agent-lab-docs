@@ -2,16 +2,16 @@
 
 STATUS: BOUNDED_CODEX_REPO_SNAPSHOT
 SOURCE_KIND: bounded_codex_repo_snapshot
-SNAPSHOT_ID: PROJECT_SNAPSHOT_20260516_FIN_TOOL_TAB_AGENT_FARM_TZ_EXPANSION
-DATE_UTC: 2026-05-17T01:06:37Z
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260519_CONTEXT_TOOLS_VOICE_STATUS
+DATE_UTC: 2026-05-19T05:53:20Z
 
 ## Git State
 
-- private source repo HEAD at snapshot: `dd19a8752bcb46f073cc290cc60e0b9f42a3985c`
+- private source repo HEAD at snapshot: `ea0bc2b4e03b12f1895c9520ca8ad24fbfd0a1fe`
 - current branch: `main`
 - `origin/main` matched `HEAD` before edits
-- working tree status: dirty
-- dirty summary: pre-existing `agent-packages/**` modifications and untracked files were present
+- working tree status: clean
+- dirty summary: none detected in this run; `agent-packages/` exists in the tree but was not dirty
 - docs-only snapshot scope: `docs/codex_source/**` only
 - no auth files were read
 - no secrets were printed
@@ -30,7 +30,7 @@ Bounded top-level directories observed:
 Bounded top-level directory notes:
 - `agent-templates/` was not present in the bounded inventory
 - `vendor/hermes-agent/` exists under `vendor/`
-- `.venv-hermes/` was referenced by imported docs as runtime/environment state, not inventoried as source
+- hidden cache directories were ignored in the bounded snapshot
 
 ## docs/codex_source Status
 
@@ -46,10 +46,10 @@ Current docs roots:
 
 Current imported direction:
 - current technical spec remains v0.3
-- new technical spec extension v0.4 records “Фин инструмент”, Agent Farm, and agent tools
 - roadmap v0.7 remains imported and append-only
 - module map and safe boundaries remain imported and append-only
 - current dialogue context remains append-only
+- current dialogue context now also records the CONTEXT / TOOLS / VOICE project-docs update
 - public docs repo content rule remains `docs/codex_source/**` only
 
 ## Application Module File List Summary
@@ -69,17 +69,18 @@ Utility / tests / registry inventory from bounded commands:
 - `tool-registry/tools.json`
 - tests present under `tests/test_*.py`
 
-## Bounded Inventory Notes
+High-level symbol inventory from the bounded scan:
+- `agent_lab` contains the expected Telegram, Hermes, storage, conversation, fin-instrument, and reply orchestration functions/classes
+- `tools` contains the agent toggle and vendor restore utility entry points
+- `tests` contains focused regression modules for the same layers
+- no secrets or auth payloads were read while collecting the inventory
 
-- `agent-packages/**` remained dirty/untracked and unrelated to this docs run
-- `agent_lab/__pycache__`, `tests/__pycache__`, `tools/__pycache__`, and `vendor/hermes-agent/__pycache__` were visible in the bounded tree output but are not treated as source-of-truth
-- `vendor/hermes-agent/` was only inventoried at the top level
-- no runtime secret files were read
-- no Telegram API calls were run
-- no model calls were run
+## Current Project Status
 
-## Snapshot Scope
-
-This snapshot is intentionally bounded.
-It records repo shape, docs roots, and current state markers only.
-It does not rewrite application code, runtime state, or secrets.
+- CONTEXT live-ready via commit `8cdba40`
+- TOOLS live-ready via commit `fb6f892569dc78db5d24bc8541d297fc9ab22556`
+- current dialogue context append saved with id `CTX_20260519_CONTEXT_TOOLS_VOICE_PENDING_PROMPT_V1`
+- current project docs update append saved with id `CTX_20260519_PROJECT_DOCS_UPDATE_CONTEXT_TOOLS_VOICE_STATUS`
+- voice remains the next unresolved architecture task
+- pending next prompt: `OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01`
+- do not resume Telegram user_id allowlist work unless the user explicitly switches priority
