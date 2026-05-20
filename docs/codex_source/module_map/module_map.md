@@ -250,3 +250,92 @@ Use:
 - resolved enabled_toolsets.
 
 <!-- MODULE_MAP_APPEND_END id=MM_20260519_CONTEXT_TOOLS_VOICE_BOUNDARIES -->
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260520_RECEIPT_EXTRACTION_BOUNDARY_AND_DOCS_WORKFLOW source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## 2026-05-20 — Receipt extraction boundary and docs-update workflow clarification
+
+### Context
+
+The current failing product area is receipt extraction inside the Fin/business layer.
+
+The docs-update workflow was also clarified: ChatGPT must synthesize explicit append blocks after checking the last saved repo-docs point; Codex must not invent what to append.
+
+### Receipt extraction boundary
+
+Receipt extraction belongs to the deterministic business layer, not to the agent language layer.
+
+The route is:
+
+Telegram photo
+-> selected agent / Hermes
+-> `receipt_photo_draft`
+-> receipt OCR/preprocessing
+-> receipt parser
+-> structured tool result
+-> Hermes explanation/clarifying question
+-> Telegram reply
+
+### Business layer owns
+
+The business layer owns:
+
+- OCR/preprocessing for receipt image;
+- extraction of merchant;
+- extraction of date/time;
+- extraction of total;
+- extraction of item lines;
+- extraction of quantities;
+- extraction of item prices;
+- extraction of item sums;
+- structured missing_fields;
+- draft persistence;
+- deterministic confirmation rules.
+
+### Agent/Hermes owns
+
+Agent/Hermes owns:
+
+- deciding to use receipt tool when presented with receipt photo;
+- asking the user for missing information;
+- explaining what was extracted;
+- style and character of the answer.
+
+### Documentation workflow boundary
+
+For future docs updates:
+
+- ChatGPT owns context synthesis.
+- ChatGPT must read current public repo-docs first.
+- ChatGPT must find the last saved append/snapshot point.
+- ChatGPT must use only new dialogue content after that point.
+- ChatGPT must write explicit context/roadmap/module-map append blocks inline.
+- Codex owns applying those exact blocks to repo docs, checks, commit/push and public docs refresh.
+- Codex must not reconstruct history from memory or old prompts.
+
+### Forbidden boundary violations
+
+Do not:
+
+- make the agent invent totals or item lines;
+- put receipt parsing in prompt text;
+- hardcode one receipt total/date/item list;
+- answer from app layer instead of Hermes;
+- write final expense without confirmation;
+- treat one receipt image as architecture;
+- grant receipt tools to non-Fin agents;
+- ask Codex to invent docs append content;
+- duplicate old already-saved context.
+
+### Current source areas for future receipt extraction work
+
+Future receipt extraction work should focus on the narrow owners:
+
+- `agent_lab/fin_instrument/**`
+- `vendor/hermes-agent/tools/fin_receipt_tool.py`
+- `tools/hermes_vendor_overlay/hermes-agent/tools/fin_receipt_tool.py`
+- receipt OCR/parser tests under `tests/`
+
+Only inspect Telegram/Hermes routing if current proof shows `receipt_photo_draft` is not being called.
+
+<!-- MODULE_MAP_APPEND_END id=MM_20260520_RECEIPT_EXTRACTION_BOUNDARY_AND_DOCS_WORKFLOW -->

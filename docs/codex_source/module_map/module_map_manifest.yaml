@@ -1,14 +1,14 @@
 module_map_file: docs/codex_source/module_map/module_map.md
 append_only: true
-last_append_id: MM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+last_append_id: MM_20260520_RECEIPT_EXTRACTION_BOUNDARY_AND_DOCS_WORKFLOW
 current_snapshot_id: MODULE_MAP_SNAPSHOT_20260516
 current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
 safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
 source_kind: bounded_repo_inventory_plus_imported_docs
-status: imported_current_snapshot
+status: receipt_extraction_boundary_and_docs_workflow_clarified
 task_card_reevaluation_required: true
 current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
-last_status: planned_fin_tool_tab_and_module_families_added
+last_status: receipt_extraction_boundary_and_docs_workflow_clarified
 planned_module_families:
   - fin_instrument_ui_surface
   - agent_farm_task_runtime
@@ -16,6 +16,7 @@ planned_module_families:
   - telegram_post_publisher
   - youtube_parsing_tool
   - future_task_tools_tbd
-last_updated_utc: 2026-05-17T01:06:37Z
+current_active_block: receipt_ocr_amount_date_items_extraction
+last_updated_utc: 2026-05-20T05:12:01Z
 no_destructive_rewrite: true
 tail_lines_for_codex: 160

@@ -125,3 +125,12 @@ Additional current direction:
 - the project docs update records the active next step as `OPENSCRIPT_AGENT_LAB_VOICE_AS_UNIVERSAL_HERMES_TOOL_CAPABILITY_20260519_01`.
 - do not mark unrelated task cards ready in this run.
 - do not resume Telegram user_id allowlist work unless the user explicitly switches priority.
+
+Current docs update after receipt proof:
+- the current active blocker is receipt OCR/full structured extraction, not Telegram/auth/Hermes routing;
+- the latest real receipt photo reached `receipt_photo_draft` and the tool result returned `amount=null`;
+- the visible receipt total was not recovered by OCR, so the first failing step was `OCR_total_missing`;
+- date extraction came from OCR text and resolved to `28.05.2025`, which differs from the user-visible `24.05.2025 14:32`;
+- the next technical run should target full receipt extraction for merchant, date/time, total, item names, quantities, item prices, and item sums;
+- future Telegram/Hermes/Fin runs must end in a working bot state when live checks are in scope;
+- the docs-update workflow now requires ChatGPT to find the last saved docs point first and provide explicit inline append blocks to Codex.

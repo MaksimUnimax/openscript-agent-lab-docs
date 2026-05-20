@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260519_PROJECT_DOCS_UPDATE_CONTEXT_TOOLS_VOICE_STATUS
-last_append_title: "Project docs update: CONTEXT / TOOLS / VOICE status"
-last_updated_utc: 2026-05-19T05:53:20Z
+last_append_id: CTX_20260520_TELEGRAM_HERMES_FIN_RECEIPT_EXTRACTION_AND_DOCS_WORKFLOW
+last_append_title: "Telegram/Hermes/Fin receipt current state and docs-update workflow correction"
+last_updated_utc: 2026-05-20T05:12:01Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

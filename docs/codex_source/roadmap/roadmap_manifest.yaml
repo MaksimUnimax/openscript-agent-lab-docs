@@ -1,9 +1,10 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260517_DEMOTED_TASK_CARDS_FROM_BLOCKING_GATE
-last_status: task_cards_demoted_from_blocking_gate
-active_phase: telegram_user_id_allowlist_task_card_reevaluation
+last_append_id: RM_20260520_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCKER
+last_status: receipt_full_extraction_active_blocker
+active_phase: fin_receipt_full_extraction
 current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
+current_active_block: receipt_ocr_amount_date_items_extraction
 next_phase_after_allowlist: fin_instrument_financial_tool_design_proposed
 agent_farm_deferred_until_fin_instrument: true
 current_roadmap_version: v0.7
@@ -15,4 +16,4 @@ historical_versions:
   - v0.5
   - v0.6
 no_destructive_rewrite: true
-last_updated_utc: 2026-05-17T04:11:51Z
+last_updated_utc: 2026-05-20T05:12:01Z

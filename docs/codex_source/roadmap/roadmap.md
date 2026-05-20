@@ -319,3 +319,76 @@ Do not continue:
 - unrelated task-card implementation.
 
 <!-- ROADMAP_APPEND_END id=RM_20260519_CONTEXT_TOOLS_VOICE_STATUS -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260520_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCKER source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## 2026-05-20 — Receipt full extraction becomes active blocker
+
+### Context
+
+Recent Telegram/Hermes/Fin work proved the live routing chain far enough for receipt photos to reach `receipt_photo_draft` through Hermes.
+
+The current active blocker moved from Telegram/auth/routing to receipt extraction quality.
+
+### Proven current facts
+
+- Latest real receipt photo reached the bot.
+- It was routed to the selected agent.
+- `receipt_photo_draft` was called.
+- No stale draft/context was used.
+- Hermes replied based on the tool result.
+- Telegram delivery worked for the reply.
+
+### Current failure
+
+The visible product receipt contained total and item lines, but the tool result had:
+
+- `amount=null`
+- `item_count=0`
+- wrong or suspicious date from OCR.
+
+The first failing step was classified as:
+
+`OCR_total_missing`
+
+The selected OCR text did not contain a usable total line, so parser returned `amount=null`.
+
+### Important product correction
+
+The receipt tool must not extract only the final total.
+
+Per project ТЗ, the deterministic business layer must own the full financial facts. For receipts this means extracting, when visible:
+
+- merchant;
+- date/time;
+- total;
+- item names;
+- quantities;
+- item unit prices;
+- item sums;
+- tax/payment facts if available;
+- truthful missing_fields when OCR cannot recover data.
+
+### Next technical block
+
+Next run should be a shared receipt extraction proof/design/fix:
+
+- retain OCR diagnostics/artifacts safely;
+- improve OCR candidate generation/scoring;
+- improve amount parsing for values like `1 189.63`;
+- improve date/time parsing robustness;
+- improve product item-line extraction;
+- extract item names, quantities, unit prices and item sums;
+- test on multiple product receipt fixtures;
+- keep business logic deterministic;
+- keep Hermes as language/explanation layer only.
+
+### Not next
+
+- not Telegram pause fix unless new proof says polling is broken;
+- not auth fix unless new proof says auth is broken;
+- not all-agent routing proof unless new proof says routing is broken;
+- not hardcoding one receipt;
+- not only final total extraction.
+
+<!-- ROADMAP_APPEND_END id=RM_20260520_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCKER -->

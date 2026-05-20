@@ -2140,3 +2140,164 @@ Next exact prompt:
 Do not run local symptom fixes before the VOICE task unless new proof changes the root cause.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260519_PROJECT_DOCS_UPDATE_CONTEXT_TOOLS_VOICE_STATUS -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260520_TELEGRAM_HERMES_FIN_RECEIPT_EXTRACTION_AND_DOCS_WORKFLOW source=chatgpt_inline_current_dialogue accepted_by_user=yes -->
+
+## 2026-05-20 — Telegram/Hermes/Fin receipt current state and docs-update workflow correction
+
+### Summary
+
+The dialogue spent a long sequence isolating repeated failures in the Telegram -> agent -> Hermes -> tools -> Telegram chain.
+
+The user repeatedly emphasized:
+
+- do not fix one small piece and break another;
+- tests are valid only if they prove the whole system still works after the run;
+- completion is invalid if the bot is left paused or if only one agent is checked;
+- universal behavior across agents is mandatory;
+- receipt photo must go through `receipt_photo_draft`;
+- the receipt tool must extract all receipt information, not only final amount.
+
+### Proven chain facts from recent reports
+
+The chain was eventually proven for multiple normal agents:
+
+Fin-enabled agents:
+- `squidward`
+- `plankton`
+
+Non-Fin normal agent:
+- `runtime_apply_smoke_20260507`
+
+For Fin agents:
+- receipt photo reached `receipt_photo_draft` through Hermes;
+- next-turn context could answer “какая сумма?” from prior receipt result.
+
+For non-Fin agent:
+- `fin.receipt` was blocked as expected.
+
+### Telegram pause issue
+
+A later “agent does not answer” symptom was proven to be:
+
+- `worker_not_polling`
+- `bot_status=paused`
+- `live_enabled=false`
+- `thread_running=false`
+
+Cause:
+- persisted Telegram control state was paused in `/var/lib/openscript-agent-lab/telegram/connector_state.json`.
+
+Important rule learned:
+- after any Telegram/Hermes/Fin run, final state must be working;
+- run cannot be complete if bot is left paused.
+
+### Current receipt OCR issue
+
+The user sent a generated product receipt through Telegram.
+
+Visible on image:
+- grocery/product receipt;
+- visible total `1 189.63`;
+- visible item lines;
+- visible date appeared to be `24.05.2025 14:32`.
+
+Bot response:
+- draft saved;
+- merchant extracted;
+- date extracted as `28.05.2025`;
+- amount missing.
+
+Proof run conclusion:
+- current photo reached `receipt_photo_draft`;
+- no stale state;
+- first failing step: `OCR_total_missing`;
+- selected OCR candidate did not contain usable total line;
+- tool result had `amount=null`, `item_count=0`;
+- Hermes correctly reported missing amount from tool result.
+
+### Product correction
+
+The user clarified that per ТЗ the goal is not just final amount.
+
+The receipt business layer must extract the full useful receipt structure:
+
+- merchant;
+- date/time;
+- total;
+- item names;
+- quantities;
+- unit prices;
+- item sums;
+- taxes/payment lines when available;
+- structured missing fields when extraction fails.
+
+### Generated receipt images
+
+Receipt image #1:
+- supermarket receipt;
+- visible total `1 189.63`;
+- multiple product rows;
+- used in Telegram and failed OCR total extraction.
+
+Receipt image #2:
+- supermarket receipt;
+- visible total `1 421.56`;
+- rows include milk, bread, eggs, cheese, sausage, tomatoes, cucumbers, apples, tea, sugar, bag;
+- date: `24.05.2025 14:32`;
+- intended for further product receipt extraction testing.
+
+These must not be hardcoded.
+They are examples for the shared class: Telegram-compressed/product receipt OCR.
+
+### Corrected documentation-update workflow
+
+The user clarified a standing docs-update workflow rule.
+
+When project docs/context/roadmap/module-map need updating:
+
+1. ChatGPT must first check current repo docs/public docs.
+2. ChatGPT must identify the last saved docs point:
+   - context append id;
+   - roadmap append id;
+   - module map append id;
+   - current_status state;
+   - project snapshot id/time.
+3. ChatGPT must then use only new dialogue content after that saved point.
+4. ChatGPT must synthesize the new context/roadmap/module-map append text itself.
+5. The Codex prompt must include all append text explicitly inline.
+6. Codex must only apply the given text, update metadata, run checks, commit/push and refresh public docs.
+7. Codex must not be asked to “figure out what to append” from old docs or memory.
+
+### Current next technical step
+
+Next correct Codex run:
+- shared receipt extraction proof/design/fix.
+
+It should not start with Telegram/auth/Hermes unless fresh current proof says that is broken.
+
+It must focus on:
+
+- OCR artifact retention for diagnostics;
+- OCR candidate generation and scoring;
+- parsing amounts with thousand spaces and decimal dot/comma;
+- parsing date/time robustly;
+- extracting item names/quantities/prices/sums;
+- structured tool result;
+- tests over multiple product receipt fixtures.
+
+### Non-negotiable acceptance for future receipt fix
+
+A future receipt extraction run is not complete unless:
+
+- `receipt_photo_draft` is called through Hermes;
+- merchant/date/total/items are extracted when visible;
+- all item sums are present in structured output when visible;
+- missing fields are truthful;
+- no hardcoded one receipt;
+- no agent-invented facts;
+- no app-layer bypass;
+- no final expense without confirmation;
+- bot remains enabled and working at the end if live Telegram is in scope.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260520_TELEGRAM_HERMES_FIN_RECEIPT_EXTRACTION_AND_DOCS_WORKFLOW -->
