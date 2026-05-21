@@ -432,7 +432,7 @@ No source files are implemented yet for this block.
 
 Expected future ownership should be narrow and separated:
 
-- future YouTube search/provider module:
+- future YouTube search/provider module for `youtube.search_candidates`:
   - responsible for video search metadata only;
   - must not collect subtitles directly unless routed through the subtitle stage.
 
