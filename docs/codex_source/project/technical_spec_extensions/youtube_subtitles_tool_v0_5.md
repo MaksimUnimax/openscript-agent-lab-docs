@@ -158,3 +158,11 @@ Example user-facing format:
 [00:00:04] ...
 [00:00:08] ...
 ```
+
+## 8. Implementation gate
+
+This tool is documented only as a planned Hermes-visible agent tool.
+
+Implementation is blocked until vendor/API/legal proof and Hermes tool design are completed.
+
+The next allowed step is documentation proof and design work, not application code.

@@ -47,3 +47,11 @@ Status now:
 The product direction is recorded for future design and proof work.
 
 Do not implement now.
+
+## 4. Proof and design gate
+
+Implementation is blocked until vendor/API/legal proof and Hermes tool design are completed.
+
+This roadmap note records a planned future Hermes-visible tool only.
+
+The next allowed step is proof and design work, not application code.

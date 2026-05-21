@@ -20,6 +20,10 @@ Confirmed facts:
 - repo documentation access model v2 has now been imported
 - future Codex prompts must include exact DOCS_TO_READ paths
 - unrelated dirty state exists under `agent-packages/**`
+- 2026-05-21: the future tool family “Ютуб” has been specified in docs as a planned Hermes-visible agent tool, not as a standalone script, UI-only parser, app-local shortcut, or LLM-only transcript generator.
+- First planned capability: retrieve available YouTube subtitles/transcript segments with timings by YouTube video URL.
+- Implementation has not started.
+- Next allowed step for this tool is vendor/API/legal proof and Hermes tool design, not application code.
 
 Needs confirmation:
 - STATUS: CONFIRMED service `openscript-agent-lab-ui.service` is active
