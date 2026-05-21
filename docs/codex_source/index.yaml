@@ -263,6 +263,8 @@ project_docs:
     status: imported
   - path: docs/codex_source/project/technical_spec.md
     status: imported
+  - path: docs/codex_source/project/technical_spec_extensions/youtube_subtitles_tool_v0_5.md
+    status: imported
   - path: docs/codex_source/project/technical_spec_extensions/fin_tool_tab_agent_farm_and_agent_tools_v0_4.md
     status: imported
   - path: docs/codex_source/project/fin_instrument_runtime.md
@@ -326,6 +328,8 @@ project_memory:
     - path: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
       status: imported
     - path: docs/codex_source/roadmap/imported/roadmap_lineage_summary.md
+      status: imported
+    - path: docs/codex_source/roadmap/imported/roadmap_v0_8_youtube_hermes_tool_planned.md
       status: imported
   module_map:
     - path: docs/codex_source/module_map/README.md

@@ -15,5 +15,8 @@ historical_versions:
   - v0.4
   - v0.5
   - v0.6
+supplemental_imported_files:
+  - path: docs/codex_source/roadmap/imported/roadmap_v0_8_youtube_hermes_tool_planned.md
+    status: imported
 no_destructive_rewrite: true
 last_updated_utc: 2026-05-20T05:12:01Z
