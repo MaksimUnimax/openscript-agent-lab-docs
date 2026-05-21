@@ -145,3 +145,9 @@ Current docs update after receipt proof:
 - Language selection policy is now `ru -> en -> any available transcript`; operator language input is a priority hint, not a strict filter.
 - Do not repeat vendor/API/design/implementation work for this first YouTube subtitles capability unless a new regression is reported.
 - Next YouTube work, if requested, should be treated as extension/polish: long transcript chunking, continuation UX, summary/search modes, or adding the tool to other agents through UI.
+
+- 2026-05-21: after the successful “Ютуб” subtitles MVP, the next product direction is a future Telegram AI/Vibecoding Publisher Agent. The agent will eventually help run a Telegram public channel about neural networks, AI tools, coding agents, and vibe coding.
+- The next technical block is not publishing yet. It is the YouTube Research pipeline: search YouTube videos, store metadata in a database, collect subtitles via existing `youtube.subtitles_get`, deduplicate, rank/sort, and prepare candidates for later editorial evaluation.
+- Planned initial research tools/stages: `youtube.search_candidates`, `youtube.collect_subtitles_for_candidates`, `youtube.rank_candidates`, and `youtube.editorial_evaluate`.
+- Publication, image generation, and Telegram posting are later separate blocks and must not be mixed into the YouTube search MVP.
+- Next immediate step: discuss/evaluate YouTube search providers and design `youtube.search_candidates`.

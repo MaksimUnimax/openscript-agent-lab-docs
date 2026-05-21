@@ -88,3 +88,26 @@ Important boundary:
 - Agent attachment is controlled through UI/source-package flow.
 
 Current next work should not restart YouTube design. Future YouTube work is optional extension/polish only unless a regression appears.
+
+## 2026-05-21 — Snapshot update: next direction after YouTube subtitles MVP
+
+The next product direction is a future Telegram AI/Vibecoding Publisher Agent.
+
+Goal:
+
+- help prepare Telegram public-channel content about neural networks, AI tools, coding agents, and vibe coding.
+
+The next technical block is the YouTube Research pipeline.
+
+Initial planned stages:
+
+- `youtube.search_candidates`
+- `youtube.collect_subtitles_for_candidates`
+- `youtube.rank_candidates`
+- `youtube.editorial_evaluate`
+
+The completed `youtube.subtitles_get` tool is a dependency for the collection stage.
+
+The first next implementation topic is YouTube video search/provider selection and candidate storage design.
+
+Publishing, image generation, and Telegram post sending remain future separate blocks.

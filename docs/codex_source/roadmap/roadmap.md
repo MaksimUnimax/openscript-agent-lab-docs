@@ -455,3 +455,65 @@ Return to the broader active project task list:
 - CONTEXT preserved in every turn.
 
 The YouTube subtitles path is now a successful example of a Hermes-visible tool connected through UI and proven through Telegram.
+
+## 2026-05-21 — New roadmap block: Telegram AI/Vibecoding Publisher Agent
+
+After the successful “Ютуб” subtitles MVP, a new product direction was accepted for planning:
+
+Telegram public-channel agent for neural networks, AI tools, coding agents, and vibe coding.
+
+### Roadmap placement
+
+This is a future staged content pipeline.
+
+Do not jump directly to autonomous publishing.
+
+### Next active block
+
+`youtube_research_pipeline`
+
+First technical step:
+
+- evaluate/select the search provider for `youtube.search_candidates`;
+- design the database schema/state lifecycle for YouTube research candidates;
+- implement search/storage only after provider proof/design.
+
+### Planned staged tools
+
+1. `youtube.search_candidates`
+   - search YouTube;
+   - store metadata;
+   - deduplicate by `video_id` and other keys.
+
+2. `youtube.collect_subtitles_for_candidates`
+   - call existing `youtube.subtitles_get`;
+   - store transcript segments/full text/status.
+
+3. `youtube.rank_candidates`
+   - deterministic sorting/filtering;
+   - no LLM required.
+
+4. `youtube.editorial_evaluate`
+   - LLM-based editorial evaluation over already collected facts and transcripts.
+
+### Later blocks
+
+Not next:
+
+- Telegram post composer;
+- illustration generation;
+- Telegram publisher;
+- publication status finalization;
+- autopost scheduling.
+
+These must be separate future tools/design blocks.
+
+### Acceptance direction for next block
+
+The next block should produce:
+
+- provider choice/proof for YouTube search;
+- schema/state design for candidate storage;
+- no automatic publishing;
+- no monolithic all-in-one tool;
+- no hardcoded agent/channel/query/provider.

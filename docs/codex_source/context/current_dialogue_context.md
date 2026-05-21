@@ -2388,3 +2388,52 @@ Do not regress:
 - do not globally enable the tool for all agents;
 - do not remove the operator UI test path;
 - do not remove the agent-attachment UI path.
+
+## 2026-05-21 — New product direction: Telegram AI/Vibecoding Publisher Agent and YouTube Research pipeline
+
+After completing the first “Ютуб” subtitles tool MVP, the user defined the next product direction.
+
+The future product target is an agent that helps run a Telegram public channel about neural networks, AI tools, coding agents, and vibe coding.
+
+The future agent should use a staged pipeline:
+
+1. find relevant YouTube videos;
+2. store video metadata in a database;
+3. collect subtitles through the existing `youtube.subtitles_get`;
+4. store transcripts and lifecycle state;
+5. deduplicate already-known and already-published sources;
+6. rank/sort candidates;
+7. run an LLM-based editorial evaluation on already collected facts;
+8. later compose Telegram posts;
+9. later generate illustrations;
+10. later publish to Telegram.
+
+Critical decision:
+
+Do not implement this as one monolithic “agent searches and posts by itself” tool.
+
+The next technical block is the YouTube Research intake pipeline, starting with video search and storage.
+
+Initial conceptual tools/stages:
+
+- `youtube.search_candidates`
+- `youtube.collect_subtitles_for_candidates`
+- `youtube.rank_candidates`
+- `youtube.editorial_evaluate`
+
+Shared storage is required for:
+
+- video metadata;
+- channel name/channel id;
+- subtitles/transcripts;
+- candidate status;
+- publication status;
+- duplicate detection;
+- approximately 3-month transcript/full-text retention;
+- longer published markers to prevent reposting.
+
+Important product rule:
+
+Published videos must not be loaded back into the posting queue.
+
+The current next discussion/technical step is search-provider evaluation for `youtube.search_candidates`, not Telegram publishing, not image generation, and not full automation.

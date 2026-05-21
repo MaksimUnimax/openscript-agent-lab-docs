@@ -1,20 +1,21 @@
 module_map_file: docs/codex_source/module_map/module_map.md
 append_only: true
-last_append_id: MM_20260521_YOUTUBE_SUBTITLES_IMPLEMENTED_BOUNDARY
+last_append_id: MM_20260521_YOUTUBE_RESEARCH_PIPELINE_PLANNED_BOUNDARY
 current_snapshot_id: MODULE_MAP_SNAPSHOT_20260516
 current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
 safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
 source_kind: bounded_repo_inventory_plus_imported_docs
-status: youtube_subtitles_tool_implemented
+status: youtube_research_pipeline_planned
 task_card_reevaluation_required: true
 current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
-last_status: youtube_subtitles_tool_implemented
+last_status: youtube_research_pipeline_planned
 planned_module_families:
   - fin_instrument_ui_surface
   - agent_farm_task_runtime
   - financial_agent_business_tool
   - telegram_post_publisher
   - youtube_parsing_tool
+  - youtube_research_pipeline
   - future_task_tools_tbd
 current_active_block: receipt_ocr_amount_date_items_extraction
 last_updated_utc: 2026-05-21T00:00:00Z

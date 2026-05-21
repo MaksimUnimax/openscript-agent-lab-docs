@@ -1,7 +1,7 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260521_YOUTUBE_SUBTITLES_TOOL_LIVE_TELEGRAM_SUCCESS
-last_append_title: "YouTube subtitles tool implemented, UI-connected, and manually proven through Telegram"
+last_append_id: CTX_20260521_TELEGRAM_AI_PUBLISHER_YOUTUBE_RESEARCH_PIPELINE
+last_append_title: "New product direction: Telegram AI/Vibecoding Publisher Agent and YouTube Research pipeline"
 last_updated_utc: 2026-05-20T05:12:01Z
 read_policy:
   codex_append: read manifest + tail only

@@ -418,3 +418,56 @@ Forbidden regressions:
 - do not introduce video/audio download in this tool path;
 - do not globally enable the tool for all agents;
 - do not hardcode one agent, one video, one chat, or one provider.
+
+## 2026-05-21 — Module map planning: YouTube Research pipeline and Telegram publisher agent
+
+A new planned module family is introduced:
+
+- product direction: Telegram AI/Vibecoding Publisher Agent
+- first technical module family: YouTube Research pipeline
+
+### Planned source ownership
+
+No source files are implemented yet for this block.
+
+Expected future ownership should be narrow and separated:
+
+- future YouTube search/provider module:
+  - responsible for video search metadata only;
+  - must not collect subtitles directly unless routed through the subtitle stage.
+
+- existing `agent_lab/youtube_subtitles.py`:
+  - remains the subtitle extraction executor;
+  - should be reused by `youtube.collect_subtitles_for_candidates`.
+
+- future YouTube research storage module:
+  - responsible for video metadata, transcript storage, candidate status, duplicate/published state, retention.
+
+- future ranking module:
+  - deterministic scoring/filtering.
+
+- future editorial evaluation module/tool:
+  - LLM-assisted evaluation over stored facts/transcripts only.
+
+### Boundary decisions
+
+Do not mix in this first research block:
+
+- Telegram publishing;
+- image generation;
+- voice/STT;
+- Fin Instrument/receipt OCR;
+- Agent Farm task runtime;
+- Telegram access control.
+
+### Required future boundary
+
+The database/state layer must be shared by the YouTube research tools.
+
+Individual tools must not each invent their own storage/status model.
+
+### Important anti-repeat boundary
+
+Published content state must be stored and checked before returning candidates for post creation.
+
+Published videos must not re-enter the posting queue.

@@ -19,10 +19,10 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
-  latest_context_append_id: CTX_20260521_YOUTUBE_SUBTITLES_TOOL_LIVE_TELEGRAM_SUCCESS
-  latest_roadmap_append_id: RM_20260521_YOUTUBE_SUBTITLES_TOOL_MVP_DONE
-  latest_module_map_append_id: MM_20260521_YOUTUBE_SUBTITLES_IMPLEMENTED_BOUNDARY
-  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260521_YOUTUBE_SUBTITLES_TOOL_LIVE_TELEGRAM_SUCCESS
+  latest_context_append_id: CTX_20260521_TELEGRAM_AI_PUBLISHER_YOUTUBE_RESEARCH_PIPELINE
+  latest_roadmap_append_id: RM_20260521_TELEGRAM_AI_PUBLISHER_YOUTUBE_RESEARCH_NEXT_BLOCK
+  latest_module_map_append_id: MM_20260521_YOUTUBE_RESEARCH_PIPELINE_PLANNED_BOUNDARY
+  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260521_TELEGRAM_AI_PUBLISHER_YOUTUBE_RESEARCH_PIPELINE
   active_blocker: receipt_ocr_amount_date_items_extraction
   current_active_block: receipt_ocr_amount_date_items_extraction
   next_exact_run: OPENSCRIPT_AGENT_LAB_RECEIPT_FULL_EXTRACTION_PROOF_DESIGN_FIX_20260520_01
@@ -274,6 +274,8 @@ project_docs:
   - path: docs/codex_source/project/technical_spec.md
     status: imported
   - path: docs/codex_source/project/technical_spec_extensions/youtube_subtitles_tool_v0_5.md
+    status: imported
+  - path: docs/codex_source/project/technical_spec_extensions/telegram_ai_vibecoding_publisher_agent_v0_6.md
     status: imported
   - path: docs/codex_source/project/youtube_subtitles_transcript_api_design.md
     status: imported
