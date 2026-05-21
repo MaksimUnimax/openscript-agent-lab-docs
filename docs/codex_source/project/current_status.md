@@ -151,3 +151,5 @@ Current docs update after receipt proof:
 - Planned initial research tools/stages: `youtube.search_candidates`, `youtube.collect_subtitles_for_candidates`, `youtube.rank_candidates`, and `youtube.editorial_evaluate`.
 - Publication, image generation, and Telegram posting are later separate blocks and must not be mixed into the YouTube search MVP.
 - Next immediate step: discuss/evaluate YouTube search providers and design `youtube.search_candidates`.
+- 2026-05-21: `yt-search-python` vendor docs were imported as the primary proof candidate for the future `youtube.search_candidates` stage; it is not production-selected yet.
+- The search-provider design note records search-only usage, and the future `Поиск видео` subtab should expose editable profile parameters inside the subtab itself rather than a separate `Настройки` subtab.

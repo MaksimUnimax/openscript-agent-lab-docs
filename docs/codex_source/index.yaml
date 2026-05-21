@@ -10,6 +10,7 @@ directory_map:
   vendor_hermes: docs/codex_source/vendor/hermes
   vendor_telegram: docs/codex_source/vendor/telegram
   vendor_youtube_transcript_api: docs/codex_source/vendor/youtube_transcript_api
+  vendor_yt_search_python: docs/codex_source/vendor/yt_search_python
   project: docs/codex_source/project
   task_cards: docs/codex_source/task_cards
 rules:
@@ -266,6 +267,21 @@ vendor_docs:
       status: imported
     - path: docs/codex_source/vendor/youtube_transcript_api/upstream/LICENSE
       status: imported
+  yt_search_python:
+    - path: docs/codex_source/vendor/yt_search_python/README.md
+      status: imported
+    - path: docs/codex_source/vendor/yt_search_python/upstream/README.md
+      status: imported
+    - path: docs/codex_source/vendor/yt_search_python/upstream/docs.md
+      status: imported
+    - path: docs/codex_source/vendor/yt_search_python/upstream/search_examples.md
+      status: imported
+    - path: docs/codex_source/vendor/yt_search_python/upstream/pyproject.toml
+      status: imported
+    - path: docs/codex_source/vendor/yt_search_python/upstream/LICENSE
+      status: imported
+    - path: docs/codex_source/vendor/yt_search_python/upstream/pypi.json
+      status: imported
 project_docs:
   - path: docs/codex_source/project/README.md
     status: initial
@@ -276,6 +292,8 @@ project_docs:
   - path: docs/codex_source/project/technical_spec_extensions/youtube_subtitles_tool_v0_5.md
     status: imported
   - path: docs/codex_source/project/technical_spec_extensions/telegram_ai_vibecoding_publisher_agent_v0_6.md
+    status: imported
+  - path: docs/codex_source/project/youtube_search_provider_yt_search_python_design.md
     status: imported
   - path: docs/codex_source/project/youtube_subtitles_transcript_api_design.md
     status: imported
