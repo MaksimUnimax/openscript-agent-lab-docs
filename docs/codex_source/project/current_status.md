@@ -24,6 +24,7 @@ Confirmed facts:
 - First planned capability: retrieve available YouTube subtitles/transcript segments with timings by YouTube video URL.
 - Implementation has not started.
 - Next allowed step for this tool is vendor/API/legal proof and Hermes tool design, not application code.
+- 2026-05-21: exact upstream `youtube-transcript-api` docs were imported under `docs/codex_source/vendor/youtube_transcript_api/**`; the concrete planned mechanism is deterministic `video_id` extraction followed by `YouTubeTranscriptApi` transcript listing/fetching for public subtitles/transcripts only.
 
 Needs confirmation:
 - STATUS: CONFIRMED service `openscript-agent-lab-ui.service` is active

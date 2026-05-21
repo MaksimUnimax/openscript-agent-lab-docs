@@ -9,6 +9,7 @@ directory_map:
   vendor: docs/codex_source/vendor
   vendor_hermes: docs/codex_source/vendor/hermes
   vendor_telegram: docs/codex_source/vendor/telegram
+  vendor_youtube_transcript_api: docs/codex_source/vendor/youtube_transcript_api
   project: docs/codex_source/project
   task_cards: docs/codex_source/task_cards
 rules:
@@ -256,6 +257,15 @@ vendor_docs:
       status: extracted
     - path: docs/codex_source/vendor/telegram/source_map/project_mapping.md
       status: extracted_with_gaps
+  youtube_transcript_api:
+    - path: docs/codex_source/vendor/youtube_transcript_api/README.md
+      status: imported
+    - path: docs/codex_source/vendor/youtube_transcript_api/upstream/README.md
+      status: imported
+    - path: docs/codex_source/vendor/youtube_transcript_api/upstream/pyproject.toml
+      status: imported
+    - path: docs/codex_source/vendor/youtube_transcript_api/upstream/LICENSE
+      status: imported
 project_docs:
   - path: docs/codex_source/project/README.md
     status: initial
@@ -264,6 +274,8 @@ project_docs:
   - path: docs/codex_source/project/technical_spec.md
     status: imported
   - path: docs/codex_source/project/technical_spec_extensions/youtube_subtitles_tool_v0_5.md
+    status: imported
+  - path: docs/codex_source/project/youtube_subtitles_transcript_api_design.md
     status: imported
   - path: docs/codex_source/project/technical_spec_extensions/fin_tool_tab_agent_farm_and_agent_tools_v0_4.md
     status: imported
