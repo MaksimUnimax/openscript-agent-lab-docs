@@ -139,3 +139,9 @@ Current docs update after receipt proof:
 - the next technical run should target full receipt extraction for merchant, date/time, total, item names, quantities, item prices, and item sums;
 - future Telegram/Hermes/Fin runs must end in a working bot state when live checks are in scope;
 - the docs-update workflow now requires ChatGPT to find the last saved docs point first and provide explicit inline append blocks to Codex.
+
+- 2026-05-21: the first “Ютуб” capability is no longer only planned. `youtube.subtitles_get` has been implemented as a Hermes-visible agent tool, operator-tested through the `Ютуб` UI tab, connected to an agent through UI, and manually proven in Telegram with `squidward` returning subtitles.
+- Current YouTube status: IMPLEMENTED / UI_CONNECTED / AGENT_ATTACHABLE_VIA_UI / MANUALLY_TELEGRAM_PROVEN.
+- Language selection policy is now `ru -> en -> any available transcript`; operator language input is a priority hint, not a strict filter.
+- Do not repeat vendor/API/design/implementation work for this first YouTube subtitles capability unless a new regression is reported.
+- Next YouTube work, if requested, should be treated as extension/polish: long transcript chunking, continuation UX, summary/search modes, or adding the tool to other agents through UI.

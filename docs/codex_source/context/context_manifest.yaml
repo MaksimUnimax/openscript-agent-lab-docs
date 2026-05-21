@@ -1,7 +1,7 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260520_TELEGRAM_HERMES_FIN_RECEIPT_EXTRACTION_AND_DOCS_WORKFLOW
-last_append_title: "Telegram/Hermes/Fin receipt current state and docs-update workflow correction"
+last_append_id: CTX_20260521_YOUTUBE_SUBTITLES_TOOL_LIVE_TELEGRAM_SUCCESS
+last_append_title: "YouTube subtitles tool implemented, UI-connected, and manually proven through Telegram"
 last_updated_utc: 2026-05-20T05:12:01Z
 read_policy:
   codex_append: read manifest + tail only

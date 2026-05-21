@@ -40,17 +40,19 @@ The planned Hermes-visible tool should work like this:
 2. Deterministic executor validates the URL and extracts a single `video_id`.
 3. Deterministic executor creates `YouTubeTranscriptApi`.
 4. Deterministic executor uses `list(video_id)` when it needs to inspect available transcript languages/types.
-5. Deterministic executor chooses the transcript deterministically by language priority and transcript type.
-6. Deterministic executor fetches the transcript data with `fetch()` on the selected transcript, or with `fetch(video_id, languages=[...])` for the simple language-priority case.
+5. Deterministic executor chooses the transcript deterministically by the default language priority `ru -> en`, then any operator hints, then any remaining available transcript, while still preferring manual transcripts over generated transcripts when both are available.
+6. Deterministic executor fetches the transcript data with `fetch()` on the selected transcript.
 7. Deterministic executor converts the returned transcript snippets into structured factual result data with timings.
 8. Selected agent answers the user only from the structured tool result.
 
 Recommended transcript selection policy:
 
-- prefer a direct public transcript/subtitle for the requested or default language;
-- when multiple transcripts are available, select deterministically by explicit language priority;
+- prefer a direct public transcript/subtitle for the default priority `ru -> en`;
+- treat operator-provided languages as hints, not strict filters;
+- when multiple transcripts are available, select deterministically by the effective priority order and transcript type;
 - if both manual and generated transcripts are available, prefer manual unless the prompt or caller says otherwise;
-- if no transcript is available, return an unavailable/error result instead of guessing.
+- if no transcript is available, return an unavailable/error result instead of guessing or translating;
+- if the default priority has no match, fall back to any available transcript.
 
 ## 4. Explicit exclusions for the first version
 

@@ -392,3 +392,66 @@ Next run should be a shared receipt extraction proof/design/fix:
 - not only final total extraction.
 
 <!-- ROADMAP_APPEND_END id=RM_20260520_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCKER -->
+
+## 2026-05-21 — “Ютуб” subtitles tool MVP completed and manually accepted
+
+The previous planned YouTube tool direction has now produced a working first MVP.
+
+Completed capability:
+
+- `youtube.subtitles_get`
+- YouTube subtitles/transcript extraction with timings by video URL.
+
+Completed layers:
+
+- vendor mechanism selected and documented: `youtube-transcript-api`;
+- deterministic executor implemented;
+- Hermes-visible tool registration implemented;
+- operator UI tab `Ютуб` implemented;
+- manual operator subtitle test implemented;
+- language fallback implemented: `ru -> en -> any available transcript`;
+- UI-based agent attachment implemented;
+- Squidward attachment via UI completed;
+- manual Telegram proof completed: user confirmed the agent returned subtitles in Telegram.
+
+Current roadmap status for first YouTube capability:
+
+- IMPLEMENTED
+- UI_CONNECTED
+- AGENT_ATTACHABLE_VIA_UI
+- MANUALLY_TELEGRAM_PROVEN
+
+Still not part of this completed MVP:
+
+- video download;
+- audio download;
+- ASR over YouTube audio;
+- YouTube Data API;
+- OAuth/API key flow;
+- cookies;
+- proxies;
+- yt-dlp;
+- channel parsing;
+- playlist parsing;
+- mass scraping.
+
+Possible future YouTube extensions:
+
+1. Telegram-safe chunking/continuation for long transcripts.
+2. Summary/outline/search modes on top of factual subtitle segments.
+3. Explicit transcript export formats.
+4. Additional per-agent UI polish.
+5. Applying the tool to other agents through UI.
+6. Regression proof for new YouTube provider failures.
+
+Next project step:
+
+Do not loop on YouTube implementation unless the user reports a new failure.
+
+Return to the broader active project task list:
+
+- VOICE as universal path;
+- TOOLS in voice/text without breakage, including provider-safe names;
+- CONTEXT preserved in every turn.
+
+The YouTube subtitles path is now a successful example of a Hermes-visible tool connected through UI and proven through Telegram.

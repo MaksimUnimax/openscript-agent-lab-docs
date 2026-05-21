@@ -2301,3 +2301,90 @@ A future receipt extraction run is not complete unless:
 - bot remains enabled and working at the end if live Telegram is in scope.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260520_TELEGRAM_HERMES_FIN_RECEIPT_EXTRACTION_AND_DOCS_WORKFLOW -->
+
+## 2026-05-21 — YouTube subtitles tool implemented, UI-connected, and manually proven through Telegram
+
+The planned “Ютуб” tool family has advanced from planned/design state to a working MVP for the first capability: YouTube subtitles/transcript extraction with timings by video URL.
+
+Implemented tool slug:
+
+- `youtube.subtitles_get`
+
+Accepted product architecture remains:
+
+- Agent Lab -> selected agent -> Hermes runtime/profile -> tool call -> deterministic executor -> structured factual result -> agent answer.
+
+The tool is not a standalone script, not a UI-only parser, not a free-form LLM transcript generator, and not globally enabled for all agents.
+
+Completed/proven layers:
+
+1. Vendor mechanism imported and documented:
+   - local vendor docs for `youtube-transcript-api` were imported under `docs/codex_source/vendor/youtube_transcript_api/**`;
+   - first mechanism is direct public transcript retrieval by `video_id`;
+   - no YouTube Data API, OAuth, API keys, cookies, proxies, yt-dlp, video download, audio download, ASR, or LLM-generated transcript are used for the first version.
+
+2. Source implementation added:
+   - deterministic executor around `youtube-transcript-api`;
+   - YouTube URL -> `video_id` extraction;
+   - accepted URL types include `watch?v=`, `youtu.be/`, and `shorts/`;
+   - invalid/channel/search/playlist-only/arbitrary URLs are rejected by normalized errors;
+   - structured result includes timestamped subtitle segments.
+
+3. Operator UI added:
+   - top-level tab `Ютуб`;
+   - operator form for manual subtitle test;
+   - backend test route `POST /api/tools/youtube-subtitles/test`;
+   - route reuses the shared deterministic executor;
+   - operator test does not enable the tool for agents.
+
+4. Language selection corrected:
+   - old strict requested-language matching was removed;
+   - new policy: default priority `ru -> en -> any available transcript`;
+   - operator-provided languages are priority hints, not strict filters;
+   - if any transcript exists, the tool should not fail with `requested_language_unavailable` only because the requested language is unavailable.
+
+5. Agent attachment UI added:
+   - the `Ютуб` tab has agent connection controls;
+   - operator can attach `youtube.subtitles_get` to the selected agent through the UI;
+   - source package skill/doc and tool binding are created/updated by the existing source-package flow;
+   - Hermes apply remains the normal source -> runtime sync boundary;
+   - no global tool enablement is performed.
+
+6. Manual Telegram proof succeeded:
+   - the user connected the tool to `squidward` through the UI;
+   - `squidward` is available through Telegram bot/router;
+   - the user sent a YouTube request to Telegram;
+   - the bot/agent returned subtitles in Telegram;
+   - this proves the end-to-end path: Telegram message -> selected agent -> Hermes-visible YouTube tool -> deterministic subtitle extraction -> Telegram response.
+
+Current accepted status:
+
+- `youtube.subtitles_get`: IMPLEMENTED / UI_CONNECTED / AGENT_ATTACHABLE_VIA_UI / MANUALLY_TELEGRAM_PROVEN
+- operator UI test: DONE
+- agent attachment UI: DONE
+- language fallback `ru -> en -> any`: DONE
+- Telegram manual proof with Squidward: DONE
+
+Current stop-point:
+
+Do not restart YouTube vendor/API/design/implementation work from older planned-state docs.
+
+Next YouTube work, if requested, should be polish/extension only, such as:
+
+- long transcript chunking for Telegram limits;
+- continuation/pagination UX;
+- summary mode on top of returned subtitles;
+- language/source display polish;
+- applying the tool to additional agents through the UI;
+- regression proof if a new failure appears.
+
+Do not regress:
+
+- do not reclassify “Ютуб” as not implemented;
+- do not ask Codex to rediscover the vendor mechanism;
+- do not reintroduce YouTube Data API/OAuth/cookies/proxies/yt-dlp as the first path;
+- do not bypass Hermes with an app-local-only tool;
+- do not hardcode Squidward as the only supported agent;
+- do not globally enable the tool for all agents;
+- do not remove the operator UI test path;
+- do not remove the agent-attachment UI path.

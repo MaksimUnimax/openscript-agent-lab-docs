@@ -59,3 +59,32 @@ How to refresh this snapshot:
 - re-run safe tree inspection only
 - update this file and `docs/codex_source/project_snapshot/project_snapshot_manifest.yaml`
 - do not paste full file contents here
+
+## 2026-05-21 — Snapshot update: YouTube subtitles tool MVP completed
+
+The project now includes a working first implementation of the “Ютуб” tool family.
+
+Implemented tool:
+
+- `youtube.subtitles_get`
+
+Current status:
+
+- deterministic executor implemented;
+- vendor mechanism: `youtube-transcript-api`;
+- operator UI tab `Ютуб` implemented;
+- manual subtitle test route implemented;
+- language fallback `ru -> en -> any available transcript` implemented;
+- tool can be attached to selected agents through UI;
+- Squidward was used as the first manual Telegram proof agent;
+- user confirmed that Telegram returned subtitles.
+
+Important boundary:
+
+- The tool remains a Hermes-visible agent tool.
+- It is not a standalone script.
+- It is not an app-local-only shortcut.
+- It is not globally enabled for all agents.
+- Agent attachment is controlled through UI/source-package flow.
+
+Current next work should not restart YouTube design. Future YouTube work is optional extension/polish only unless a regression appears.

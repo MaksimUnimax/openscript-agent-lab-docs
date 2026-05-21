@@ -208,7 +208,7 @@ items:
   - id: youtube_parser
     status: future
     expected_target_path: docs/codex_source/project/project_overview.md
-    notes: YouTube parsing remains a later future tool family
+    notes: first YouTube subtitles MVP is implemented and proven; broader YouTube parsing remains a later future tool family
     must_not_invent: true
   - id: telegram_identity_from_id_vs_chat_id
     status: imported
@@ -278,7 +278,7 @@ items:
   - id: youtube_parsing_tool
     status: planned_needs_design_proof
     expected_target_path: docs/codex_source/task_cards/youtube_parsing_agent.yaml
-    notes: planned YouTube parsing tool family; requires separate vendor/legal/API proof
+    notes: first YouTube subtitles MVP is implemented and proven; broader YouTube parsing still requires separate vendor/legal/API proof
     must_not_invent: true
   - id: future_task_tools_tbd
     status: planned_placeholder_needs_spec

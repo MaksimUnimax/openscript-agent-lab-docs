@@ -1,7 +1,7 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260520_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCKER
-last_status: receipt_full_extraction_active_blocker
+last_append_id: RM_20260521_YOUTUBE_SUBTITLES_TOOL_MVP_DONE
+last_status: youtube_subtitles_tool_mvp_completed_and_manually_accepted
 active_phase: fin_receipt_full_extraction
 current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
 current_active_block: receipt_ocr_amount_date_items_extraction
@@ -19,4 +19,4 @@ supplemental_imported_files:
   - path: docs/codex_source/roadmap/imported/roadmap_v0_8_youtube_hermes_tool_planned.md
     status: imported
 no_destructive_rewrite: true
-last_updated_utc: 2026-05-20T05:12:01Z
+last_updated_utc: 2026-05-21T00:00:00Z

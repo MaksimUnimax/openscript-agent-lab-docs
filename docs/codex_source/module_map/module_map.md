@@ -339,3 +339,82 @@ Future receipt extraction work should focus on the narrow owners:
 Only inspect Telegram/Hermes routing if current proof shows `receipt_photo_draft` is not being called.
 
 <!-- MODULE_MAP_APPEND_END id=MM_20260520_RECEIPT_EXTRACTION_BOUNDARY_AND_DOCS_WORKFLOW -->
+
+## 2026-05-21 — Module map update: YouTube subtitles tool implemented
+
+Implemented module family:
+
+- user-facing tool family: `Ютуб`
+- internal tool slug: `youtube.subtitles_get`
+- capability: retrieve available YouTube subtitles/transcript segments with timings by video URL.
+
+Current source ownership:
+
+- `agent_lab/youtube_subtitles.py`
+  - deterministic executor;
+  - YouTube URL validation and `video_id` extraction;
+  - `youtube-transcript-api` adapter;
+  - transcript selection;
+  - timestamped segment normalization;
+  - normalized error model.
+
+- `agent_lab/admin_server.py`
+  - operator test route;
+  - UI attach route for selected agent;
+  - source-package update route for agent attachment.
+
+- `agent_lab/static/index.html`
+  - top-level `Ютуб` tab;
+  - operator test form;
+  - agent attachment UI section.
+
+- `agent_lab/static/app.js`
+  - operator test UI behavior;
+  - language priority payload handling;
+  - agent attachment UI behavior.
+
+- `tool-registry/tools.json`
+  - canonical registry entry for `youtube.subtitles_get`.
+
+- `tools/hermes_vendor_overlay/hermes-agent/tools/youtube_subtitles_tool.py`
+  - Hermes-visible tool wrapper/registration.
+
+- `agent-packages/<agent>/skills/youtube-subtitles-tool.md`
+  - per-agent skill/doc created when the tool is attached through UI.
+
+- `agent-packages/<agent>/tools.json`
+  - per-agent tool binding created/updated through UI source-package flow.
+
+- `tests/test_youtube_subtitles_tool.py`
+  - executor, URL parsing, language fallback, output/error behavior.
+
+- `tests/test_admin_server.py`
+  - operator route/UI/attachment route coverage.
+
+- `tests/test_runtime_apply.py`
+  - runtime apply mirroring for YouTube tool binding and registry snapshot.
+
+Runtime/source boundary:
+
+- source package is updated through UI;
+- Hermes runtime is updated through existing apply flow;
+- runtime profile is not the source-of-truth;
+- agent attachment is per selected agent, not global;
+- Squidward was used as a manual proof agent, not hardcoded in product source.
+
+This module family must remain separate from:
+
+- Fin Instrument / receipt OCR;
+- Telegram Post Publisher;
+- Telegram access control;
+- Voice/STT transport;
+- Agent Farm / Task Runtime.
+
+Forbidden regressions:
+
+- do not move YouTube transcript logic into Telegram routing;
+- do not move transcript logic into agent prompts only;
+- do not use LLM-generated transcripts;
+- do not introduce video/audio download in this tool path;
+- do not globally enable the tool for all agents;
+- do not hardcode one agent, one video, one chat, or one provider.
