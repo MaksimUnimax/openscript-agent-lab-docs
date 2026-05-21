@@ -17,6 +17,7 @@ Local upstream docs live in:
 
 Known safe use for the first YouTube Research block:
 
+- No API Key Required;
 - search YouTube videos without YouTube Data API v3;
 - keep the first stage limited to search metadata and candidate discovery;
 - use search profile parameters from the future `Поиск видео` subtab;

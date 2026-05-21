@@ -14,6 +14,8 @@ The future YouTube Research pipeline needs a search provider proof candidate bef
 
 `yt-search-python` is the current primary proof candidate for that stage.
 
+It is not production-selected as the final provider.
+
 This note records the search-only behavior that may be used for the first proof/design step.
 
 ## 2. What this provider candidate is for
