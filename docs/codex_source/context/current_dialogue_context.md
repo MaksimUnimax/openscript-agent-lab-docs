@@ -2692,3 +2692,161 @@ Expected:
 
 If the tool call works, the next technical stage is metadata pre-evaluation/ranking design.
 If the tool is visible but execution fails, diagnose the live tool execution path, not registry/wrapper/gate.
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_MANUAL_FIRST_HERMES_MEDIATED_TOOL source=chatgpt_inline -->
+
+## CTX_20260522_YOUTUBE_SELECT_CANDIDATES_MANUAL_FIRST_HERMES_MEDIATED_TOOL
+
+### Summary
+
+The next YouTube Research pipeline stage is `youtube.select_candidates`.
+
+This stage is a manual-first tool, but manual-first does not mean bypassing Hermes. The human operator must be able to start and review the selection manually, but the execution path must still use the same Hermes/tool contract that future agents will use.
+
+This decision prevents two incompatible implementations: one manual direct-backend path and one later Hermes/agent path.
+
+### Role separation
+
+Do not confuse these roles:
+
+1. **Human operator**
+
+   The operator manually starts candidate selection and reviews the proposed candidates.
+
+   The operator is not the curator agent and is not the future public-manager agent.
+
+   The operator-facing manual path must still be Hermes-mediated through the same tool contract, not a direct DB bypass.
+
+2. **`youtube.select_candidates` tool**
+
+   This is the independent sorting/selection tool.
+
+   It reads already stored YouTube candidates, performs deterministic pre-filter/pre-rank, may use an internal curator/evaluator Hermes profile for editorial judgement, asks for operator review when configured, writes candidate lifecycle statuses, and returns a structured result.
+
+   It must not call the next editing/formatting/publishing tool directly.
+
+3. **Internal curator/evaluator Hermes profile**
+
+   This is the LLM-backed evaluator used inside the selection tool.
+
+   It is not the agent that initiates the whole publication chain.
+
+   It evaluates stored factual candidate snapshots and learned/policy preferences. It must not browse YouTube, invent facts, publish to Telegram, or call the next pipeline tool.
+
+4. **Future public-manager agent**
+
+   This future agent will manage the Telegram public/channel workflow.
+
+   It may later call `youtube.select_candidates` through the same Hermes/tool contract that the operator uses manually.
+
+   It receives selected candidates and then decides whether and when to call the next independent editing/formatting tool.
+
+5. **Next editing/formatting tool**
+
+   This is a separate future tool.
+
+   `youtube.select_candidates` must only return candidates ready for the next stage. It must not invoke the editing/formatting tool itself.
+
+### Required execution model
+
+`youtube.select_candidates` must support:
+
+- operator/manual initiation first;
+- later future-agent initiation;
+- one shared Hermes/tool contract for both;
+- no separate direct DB bypass for manual use;
+- deterministic pre-rank/filter before LLM evaluation;
+- optional internal curator/evaluator Hermes profile for selection;
+- operator review when enabled;
+- structured output for the caller.
+
+### MVP operator feedback
+
+MVP feedback buttons are exactly:
+
+- `✅ Подходит`
+- `⏭ Пропустить`
+- `❌ Не подходит`
+
+Do not add these buttons in MVP:
+
+- `📄 Нужны субтитры`
+- `📝 Причина/заметка`
+
+### Candidate lifecycle meaning
+
+`✅ Подходит` means:
+
+- mark candidate as approved by operator;
+- mark candidate as ready for the next pipeline stage;
+- return it in `selected_candidates`.
+
+`⏭ Пропустить` means:
+
+- skip candidate for the current batch;
+- optionally apply cooldown / not-in-current-batch behavior;
+- do not treat it as a permanent rejection.
+
+`❌ Не подходит` means:
+
+- mark candidate as rejected;
+- do not suggest it again for this tool unless an explicit reset/reopen action is introduced later.
+
+### Storage and memory boundary
+
+The DB stores objective facts and lifecycle state:
+
+- candidate metadata;
+- candidate status;
+- shown/reviewed markers;
+- approved/skipped/rejected state;
+- ready-for-next-stage markers;
+- anti-repeat state;
+- published markers.
+
+The DB is not the primary learned taste memory.
+
+Hermes profile-local memory stores learned curator taste:
+
+- what the operator tends to approve;
+- what the operator tends to skip or reject;
+- recurring preference patterns.
+
+A source-managed policy document stores current editorial priorities and hard exclusions.
+
+Policy outranks learned memory.
+
+Learned memory may bias selection, but must never override:
+
+- objective DB facts;
+- anti-repeat;
+- published markers;
+- hard negative topics;
+- current policy priorities.
+
+### System agent boundary
+
+The existing `system_filter` protected system agent must not be reused for YouTube curator taste memory or editorial selection.
+
+`system_filter` remains a system-level gate/filter agent.
+
+The YouTube selector/curator must be a separate tool/profile design.
+
+### Current implementation order
+
+Do not implement the full curator immediately.
+
+The safe implementation order is:
+
+1. document this contract;
+2. design/prove current candidate storage/status owner;
+3. implement manual-first Hermes-mediated backend action;
+4. implement operator review UI/actions;
+5. add status transitions;
+6. add internal curator/evaluator profile;
+7. add learned memory update;
+8. add clear curator memory action;
+9. expose the same contract to future public-manager agent;
+10. implement the next editing/formatting tool separately.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_MANUAL_FIRST_HERMES_MEDIATED_TOOL -->

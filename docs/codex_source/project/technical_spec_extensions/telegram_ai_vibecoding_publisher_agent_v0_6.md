@@ -180,6 +180,61 @@ It must evaluate:
 
 The LLM must not search YouTube and must not invent source facts. It evaluates already collected data.
 
+### 5.5 `youtube.select_candidates`
+
+Purpose:
+
+Select stored YouTube candidates for the next pipeline stage.
+
+This stage is manual-first, but manual-first does not mean bypassing Hermes. The human operator can start and review selection manually, but the execution path must still use the same Hermes/tool contract that future agents will use.
+
+This tool is independent. It must return selected candidates and lifecycle/status updates. It must not directly call the next editing/formatting tool.
+
+Role separation:
+
+- human operator;
+- internal curator/evaluator Hermes profile;
+- future public-manager agent;
+- next editing/formatting tool.
+
+The internal curator profile is not the agent that initiates the whole publication chain. It evaluates stored factual candidate snapshots plus policy and learned taste.
+
+MVP operator feedback buttons are exactly:
+
+- `✅ Подходит`
+- `⏭ Пропустить`
+- `❌ Не подходит`
+
+Do not add in MVP:
+
+- `📄 Нужны субтитры`
+- `📝 Причина/заметка`
+
+State boundary:
+
+- DB stores objective facts and lifecycle state;
+- Hermes profile memory stores learned curator taste;
+- source-managed policy stores current priorities and hard exclusions.
+
+Policy outranks learned memory. Learned memory may bias selection, but must never override DB facts, anti-repeat, published markers, hard negative topics, or current policy priorities.
+
+The existing `system_filter` protected system agent must not be reused for YouTube curator taste memory or editorial selection.
+
+### 5.6 Future chain order
+
+The safe implementation order is:
+
+1. search and store candidate metadata;
+2. collect subtitles for stored candidates;
+3. deterministic rank/filter;
+4. editorial evaluation over stored data;
+5. selection with operator review;
+6. later editing/formatting;
+7. later publication.
+
+The selection stage must only return candidates ready for the next stage.
+It must not invoke the next stage itself.
+
 ## 6. Shared database/state layer
 
 The database is a shared state layer for the YouTube Research pipeline.

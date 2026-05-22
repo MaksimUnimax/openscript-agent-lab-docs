@@ -169,6 +169,13 @@ Current YouTube Research status:
 - fix commit: `df3a3b009132ada4ff3ada75178a97e46fd2a686`.
 - current validation stop point: manual Telegram acceptance of the search tool with Squidward.
 - next technical block after acceptance: metadata pre-evaluation/ranking for saved/enriched candidates.
+- the next YouTube Research pipeline tool is `youtube.select_candidates`.
+- this tool is manual-first, but manual-first does not mean bypassing Hermes: the operator-facing path must still use the same Hermes/tool contract that future agents will use.
+- `youtube.select_candidates` is independent and must not directly call the future editing/formatting tool.
+- the design must keep separate roles for human operator, selection tool, internal curator/evaluator Hermes profile, future public-manager agent, and the next editing/formatting tool.
+- operator MVP feedback buttons are exactly `✅ Подходит`, `⏭ Пропустить`, and `❌ Не подходит`.
+- DB stores objective facts/lifecycle state; Hermes memory stores learned curator taste; source policy stores current priorities and outranks learned memory.
+- the existing `system_filter` protected system agent must not be reused for curator taste memory or editorial selection.
 
 Important debugging lesson:
 

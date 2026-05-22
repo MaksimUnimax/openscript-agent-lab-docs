@@ -601,3 +601,77 @@ Do not modify for this class of bug unless fresh proof says they are first broke
 - DB cleanup/migrations;
 - model/provider auth;
 - session deletion/reset code.
+
+## 2026-05-22 — Module map boundary update: YouTube select_candidates contract
+
+### New planned tool boundary
+
+`youtube.select_candidates` is the next planned YouTube Research pipeline tool.
+
+It is an independent selection/sorting stage between stored YouTube search candidates and the future editing/formatting stage.
+
+### Manual-first but Hermes-mediated
+
+The tool must be manual-first: the operator must be able to start selection and review results manually before a future public-manager agent uses it.
+
+Manual-first does not mean direct backend bypass.
+
+The manual operator path must use the same Hermes/tool contract that future agents will use.
+
+### Owner boundary
+
+The selection tool owns:
+
+- reading stored YouTube candidates;
+- deterministic pre-filter/pre-rank;
+- optional internal curator/evaluator Hermes profile call;
+- operator review batch creation;
+- candidate lifecycle status updates;
+- structured selected-candidates result.
+
+The selection tool does not own:
+
+- YouTube search collection;
+- transcript collection;
+- editing/formatting next-stage content;
+- image generation;
+- public Telegram publishing;
+- system_filter behavior;
+- global agent orchestration.
+
+### Role boundary
+
+Do not confuse:
+
+- human operator;
+- manual selection tool;
+- internal curator/evaluator Hermes profile;
+- future public-manager agent;
+- future editing/formatting tool.
+
+The future public-manager agent may initiate `youtube.select_candidates`, but the selection tool must not initiate the next formatting/editing tool.
+
+### State boundary
+
+DB state is objective and lifecycle-oriented.
+
+Hermes memory is learned curator taste.
+
+Source policy is current editorial priority.
+
+Policy and DB facts outrank learned memory.
+
+### Forbidden coupling
+
+Do not hardcode:
+
+- Squidward;
+- Plankton;
+- one Telegram chat;
+- one operator;
+- one provider;
+- one query;
+- one channel;
+- one current video.
+
+Do not couple `youtube.select_candidates` directly to editing, formatting, image generation, or Telegram publishing.

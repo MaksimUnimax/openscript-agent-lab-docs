@@ -20,9 +20,9 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
-  latest_context_append_id: CTX_20260522_YOUTUBE_SEARCH_AGENT_TOOL_GATE_FIX_AND_VISIBILITY_RESOLUTION
+  latest_context_append_id: CTX_20260522_YOUTUBE_SELECT_CANDIDATES_MANUAL_FIRST_HERMES_MEDIATED_TOOL
   latest_roadmap_append_id: RM_20260522_YOUTUBE_SEARCH_AGENT_TOOL_VISIBILITY_FIXED
-  latest_module_map_append_id: MM_20260522_YOUTUBE_SEARCH_AGENT_TOOL_GATE_FIX_BOUNDARY
+  latest_module_map_append_id: MM_20260522_YOUTUBE_SELECT_CANDIDATES_TOOL_BOUNDARY
   latest_project_snapshot_id: PROJECT_SNAPSHOT_20260522_YOUTUBE_SEARCH_AGENT_VISIBILITY_FIXED
   active_blocker: youtube_search_agent_manual_telegram_acceptance
   current_active_block: youtube_search_agent_manual_telegram_acceptance
