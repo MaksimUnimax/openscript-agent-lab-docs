@@ -284,7 +284,7 @@ items:
     status: pending
     expected_target_path: docs/codex_source/project/youtube_search_provider_vendor_docs.md
     topic: youtube_search_provider_vendor_docs
-    reason: The next technical block is youtube.search_candidates, but no YouTube search provider has been selected or imported yet.
+    reason: Historical provider-docs placeholder for the initial YouTube search proof candidate. The YouTube search tool, gate/profile fix, and agent visibility resolution are now implemented; keep this item only if the separate vendor-docs bundle still needs an import.
     required_before: youtube.search_candidates implementation
     candidate_provider: yt-search-python
     candidate_docs_path:

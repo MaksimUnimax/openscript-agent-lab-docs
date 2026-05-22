@@ -1,10 +1,10 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260521_TELEGRAM_AI_PUBLISHER_YOUTUBE_RESEARCH_NEXT_BLOCK
-last_status: telegram_ai_vibecoding_publisher_youtube_research_next_block
-active_phase: fin_receipt_full_extraction
+last_append_id: RM_20260522_YOUTUBE_SEARCH_AGENT_TOOL_VISIBILITY_FIXED
+last_status: youtube_search_agent_tool_visibility_fixed_pending_manual_telegram_acceptance
+active_phase: youtube_research_agent_tool_acceptance
 current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
-current_active_block: youtube_research_pipeline
+current_active_block: youtube_search_agent_manual_telegram_acceptance
 next_phase_after_allowlist: youtube_search_provider_evaluation_and_schema_design
 agent_farm_deferred_until_fin_instrument: true
 current_roadmap_version: v0.7
@@ -19,4 +19,4 @@ supplemental_imported_files:
   - path: docs/codex_source/roadmap/imported/roadmap_v0_8_youtube_hermes_tool_planned.md
     status: imported
 no_destructive_rewrite: true
-last_updated_utc: 2026-05-21T00:00:00Z
+last_updated_utc: 2026-05-22T05:59:40Z

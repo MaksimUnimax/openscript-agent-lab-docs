@@ -2437,3 +2437,258 @@ Important product rule:
 Published videos must not be loaded back into the posting queue.
 
 The current next discussion/technical step is search-provider evaluation for `youtube.search_candidates`, not Telegram publishing, not image generation, and not full automation.
+
+## CTX_20260522_YOUTUBE_SEARCH_AGENT_TOOL_GATE_FIX_AND_VISIBILITY_RESOLUTION
+
+### Summary
+
+The YouTube Research pipeline advanced from subtitles-only to a working search/intake + full-description enrichment + agent-attachable Hermes tool path.
+
+Completed and proven:
+
+- `youtube.subtitles_get` was already implemented, UI-connected, attachable to agents, and manually proven through Telegram.
+- `youtube.search_candidates` search/intake stage was implemented for operator UI.
+- Search profile persistence was implemented.
+- Russian UI labels and language/region preset chips were added.
+- Runtime dependency `yt-search-python==2.0.0` was declared and installed for the live service runtime.
+- Test candidate DB was cleaned after setup/proof runs while preserving the saved search profile.
+- Full video description enrichment was proven and implemented as a separate stage over saved candidates, not as direct provider bypass.
+- Enrichment uses metadata-only `youtubesearchpython.Video.get(...)` through the application route/stage, not transcripts, not StreamURLFetcher, not yt-dlp, not cookies, not API keys.
+- `youtube.search_candidates` was made attachable to agents through UI/source-package/runtime/Hermes path.
+- Hermes wrapper propagation was fixed universally by invoking the Hermes vendor restore/sync helper on UI startup.
+- Final visibility issue was proven and fixed in the `youtube.search_candidates` gate/profile detection path.
+
+### Search and enrichment pipeline status
+
+The current YouTube Research backend/operator pipeline consists of:
+
+1. `youtube.search_candidates`
+   - reads saved UI profile;
+   - searches YouTube through the approved `yt-search-python` provider path;
+   - applies deterministic filters and deduplication;
+   - stores candidates in the YouTube Research SQLite DB.
+
+2. `youtube.enrich_candidate_metadata`
+   - operates only on already saved candidates;
+   - fetches full video descriptions through metadata-only provider path;
+   - stores fields such as `description_full`, `description_full_length`, `description_full_fetched_at`, provider/source/error metadata.
+
+3. Future stages remain separate:
+   - metadata pre-evaluation/ranking;
+   - subtitle collection;
+   - editorial/post formatting;
+   - image generation;
+   - Telegram publication.
+
+Do not merge future stages into the search tool.
+
+### DB cleanup status
+
+After search/enrichment proof runs, test candidate data was cleaned:
+
+- candidate rows before cleanup: 122;
+- enriched rows before cleanup: 12;
+- candidate rows after cleanup: 0;
+- enriched rows after cleanup: 0;
+- saved search profile rows after cleanup: 1;
+- DB schema preserved;
+- DB file not deleted;
+- backup created under `/tmp/openscript_youtube_research_cleanup_20260521/`.
+
+### Agent/Hermes attach status
+
+`youtube.search_candidates` is now attachable to a selected agent through the YouTube search UI.
+
+The attach path follows the same source/runtime pattern as `youtube.subtitles_get`:
+
+- UI attach card/button in `Ютуб → Поиск видео`;
+- source package binding in `agent-packages/<slug>/tools.json`;
+- skill doc `agent-packages/<slug>/skills/youtube-search-tool.md`;
+- runtime apply copies package/skills/registry snapshot into the Hermes profile;
+- Hermes wrapper exposes the tool to Hermes;
+- agent invokes the tool through narrow input contract.
+
+The tool remains saved-profile-driven. In v1, the agent must not invent arbitrary raw search queries or provider parameters. Operator edits the search profile in UI; agent invokes the saved profile.
+
+### Critical bug: agent did not see youtube.search_candidates
+
+Symptom:
+
+- User manually attached `youtube.search_candidates` to Squidward through UI and applied runtime.
+- Squidward in Telegram still said it did not have the YouTube search tool.
+- `youtube.subtitles_get` was visible and usable.
+- A separate manual test showed `youtube.subtitles_get` also worked for Plankton after adding it, so the cause could not be assumed to be a generic “session stale” issue.
+
+Wrong hypotheses that were investigated and rejected as final root cause:
+
+- session refresh as the primary fix;
+- `/new` or `/reset`;
+- session file deletion;
+- runtime apply missing;
+- Telegram routed to wrong agent;
+- wrapper missing from vendor path;
+- dot-vs-underscore naming mismatch;
+- registry metadata mismatch;
+- wrapper registration mismatch.
+
+Important diagnostic lesson:
+
+If a new tool is invisible but a similar working tool is visible, do not start by fixing sessions. First compare the working tool and broken tool across:
+
+- source registry;
+- root tool registry;
+- source package binding;
+- runtime profile binding;
+- runtime registry snapshot;
+- Hermes wrapper import;
+- wrapper registration;
+- safe registry check_fn/gate;
+- gateway discovery;
+- `agent.tools`;
+- `session_meta.tools`.
+
+### Session snapshot confusion: symptom, not root cause
+
+During debugging, `session_meta.tools` looked like the broken layer because the live Squidward session artifact contained `youtube_subtitles_get` but did not contain `youtube_search_candidates`.
+
+This led to a wrong intermediate hypothesis:
+
+- the session was stale;
+- the product needed `/new` or `/reset`;
+- session files should be deleted or rebuilt;
+- the system needed a per-turn runtime/toolset check;
+- runtime apply should invalidate all session tool contexts.
+
+This hypothesis was rejected after comparing the working `youtube.subtitles_get` path with the broken `youtube.search_candidates` path.
+
+Important conclusion:
+
+`session_meta.tools` was only the place where the symptom became visible. It was not the first broken layer.
+
+The actual first broken layer was earlier:
+
+`youtube.search_candidates` was filtered out by the Hermes safe registry gate before `agent.tools` was built.
+
+Therefore the correct solution was NOT:
+
+- session reset;
+- `/new`;
+- `/reset`;
+- manual session deletion;
+- session invalidation on every reply;
+- broad runtime/session refresh;
+- Squidward-specific patch.
+
+The correct solution was:
+
+- compare working subtitles gate and broken search gate;
+- inspect `inspect_youtube_search_candidates_gate()`;
+- inspect `check_youtube_search_candidates_available()`;
+- inspect `registry.get_definitions(...)`;
+- prove that search was excluded by the safe registry filter;
+- fix the search gate profile detection.
+
+Final fix:
+
+`agent_lab/youtube_search_candidates.py` was changed to resolve the active Hermes profile with the same live per-profile HERMES_HOME mechanism as the working subtitles tool:
+
+`hermes_constants.get_hermes_home()`
+
+instead of static:
+
+`paths.HERMES_HOME`
+
+After this fix and service restart, safe discovery returned both:
+
+- `youtube_search_candidates`;
+- `youtube_subtitles_get`.
+
+The agent then began seeing the search tool.
+
+Future debugging rule:
+
+If `session_meta.tools` lacks a tool, do not immediately fix session lifecycle. First prove whether the tool was filtered before `agent.tools` by checking gate/check_fn/discovery.
+
+### Final proven root cause
+
+Final proof established that `youtube.search_candidates` was filtered out by the Hermes safe registry before `agent.tools` was built.
+
+Working subtitles gate:
+
+- `agent_lab/youtube_subtitles.py` used the live per-profile Hermes home:
+  `hermes_constants.get_hermes_home()`;
+- with `HERMES_HOME=/var/lib/openscript-agent-lab/hermes/profiles/squidward`,
+  `_current_profile_slug()` resolved `squidward`;
+- `inspect_youtube_subtitles_gate().ok=true`;
+- gateway discovery returned `youtube_subtitles_get`.
+
+Broken search gate before fix:
+
+- `agent_lab/youtube_search_candidates.py` used static:
+  `paths.HERMES_HOME.resolve()`;
+- under live per-profile `HERMES_HOME=/var/lib/openscript-agent-lab/hermes/profiles/squidward`,
+  `_current_profile_slug()` returned null;
+- `inspect_youtube_search_candidates_gate()` returned `profile_missing`;
+- `check_youtube_search_candidates_available()` returned false;
+- patched safe registry filtered the tool out;
+- gateway discovery did not return `youtube_search_candidates`;
+- therefore the tool never reached `agent.tools`, `agent_result["tools"]`, or `session_meta.tools`.
+
+This was not a session-refresh bug and not a wrapper-registration bug.
+
+### Fix
+
+Commit:
+
+`df3a3b009132ada4ff3ada75178a97e46fd2a686`
+
+Fix summary:
+
+- changed `youtube.search_candidates` gate/profile detection to use the same live HERMES_HOME pattern as `youtube.subtitles_get`;
+- `_current_profile_slug()` now resolves the active profile slug correctly under per-profile HERMES_HOME;
+- search gate now returns ok when runtime profile has the tool, saved profile exists, and provider dependency is available;
+- focused tests added for per-profile HERMES_HOME, gate success/failure, and discovery.
+
+After service restart:
+
+- `openscript-agent-lab-ui.service` restarted successfully;
+- `/healthz` returned ok;
+- safe discovery with `HERMES_HOME=/var/lib/openscript-agent-lab/hermes/profiles/squidward` returned:
+  - `youtube_search_candidates`;
+  - `youtube_subtitles_get`;
+- user confirmed the agent began seeing the search tool.
+
+### Future rule for similar bugs
+
+For future Hermes tool visibility problems:
+
+1. Compare a working tool and broken tool side-by-side.
+2. Verify wrapper propagation and import, but do not stop there.
+3. Check safe registry gate/check_fn before blaming session snapshots.
+4. Explicitly inspect:
+   - `inspect_<tool>_gate()`;
+   - `check_<tool>_available()`;
+   - `registry.get_definitions(...)`;
+   - gateway discovered tool names.
+5. If working tool uses `hermes_constants.get_hermes_home()` and broken tool uses static `paths.HERMES_HOME`, fix the broken tool to use live per-profile HERMES_HOME.
+6. Do not use `/new`, `/reset`, manual session deletion, or per-turn runtime checks unless a separate proof proves a real session lifecycle bug.
+
+### Current stop point
+
+YouTube search agent tool visibility is fixed.
+
+Current recommended next step:
+
+- user manually tests the Squidward Telegram command:
+  `запусти поиск ютуб по сохранённому профилю и покажи результат`.
+
+Expected:
+
+- Squidward sees the tool;
+- calls `youtube.search_candidates`;
+- uses saved UI profile;
+- runs search + enrichment;
+- returns factual summary and candidate preview.
+
+If the tool call works, the next technical stage is metadata pre-evaluation/ranking design.
+If the tool is visible but execution fails, diagnose the live tool execution path, not registry/wrapper/gate.

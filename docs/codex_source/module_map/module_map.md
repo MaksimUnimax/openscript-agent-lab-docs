@@ -471,3 +471,133 @@ Individual tools must not each invent their own storage/status model.
 Published content state must be stored and checked before returning candidates for post creation.
 
 Published videos must not re-enter the posting queue.
+
+## 2026-05-22 — Module map boundary update: YouTube search agent tool gate fix
+
+### Module ownership update
+
+This block clarifies the module boundaries for YouTube Research agent tools and Hermes visibility.
+
+### YouTube search/intake owner
+
+Primary source area:
+
+- `agent_lab/youtube_search_candidates.py`
+
+Responsibilities:
+
+- saved profile handling;
+- YouTube search candidate collection;
+- deterministic filtering;
+- deduplication;
+- candidate DB writes;
+- metadata enrichment over saved candidates;
+- `youtube.search_candidates` gate/check function;
+- active Hermes profile detection for the search tool.
+
+Critical rule:
+
+The search tool gate must resolve the live per-profile Hermes home through the same pattern as working Hermes tools:
+
+- use `hermes_constants.get_hermes_home()`;
+- do not use static `paths.HERMES_HOME` when determining the active runtime profile.
+
+### YouTube subtitles baseline
+
+Primary source area:
+
+- `agent_lab/youtube_subtitles.py`
+
+This remains the known-good baseline for live per-profile HERMES_HOME resolution and gate/check_fn behavior.
+
+When a new YouTube/Hermes tool is invisible, compare it against the subtitles tool before assuming session/runtime issues.
+
+### Hermes wrapper propagation owner
+
+Primary source areas:
+
+- `tools/hermes_vendor_overlay/hermes-agent/tools/`
+- `tools/restore_hermes_vendor.py`
+- `tools/agentctl`
+
+Responsibilities:
+
+- tracked overlay wrappers;
+- copying/restoring wrappers into actual vendor checkout;
+- ensuring UI startup restores Hermes vendor wrappers.
+
+Resolved issue:
+
+`youtube_search_candidates_tool.py` initially existed only in overlay and not actual vendor path. Universal startup restore fixed this; do not manually copy wrappers for a single agent.
+
+### Agent source package / runtime apply boundary
+
+Primary source areas:
+
+- `agent_lab/storage.py`
+- `agent_lab/admin_server.py`
+- `agent_lab/runtime_apply.py`
+- `agent-packages/<slug>/tools.json`
+- `agent-packages/<slug>/skills/*.md`
+- `/var/lib/openscript-agent-lab/hermes/profiles/<slug>/.agent-lab/**`
+
+Boundary:
+
+- UI attach writes source package for selected agent.
+- Runtime apply copies package/skills/registry snapshot into runtime profile.
+- Codex must not connect tools to real agents as a normal implementation method.
+- User performs manual attach/runtime apply/Telegram tests.
+
+### Hermes safe registry / gateway discovery boundary
+
+Primary source areas:
+
+- `vendor/hermes-agent/tools/_provider_safe_registry.py`
+- `vendor/hermes-agent/model_tools.py`
+- `vendor/hermes-agent/gateway/run.py`
+
+Responsibilities:
+
+- tool wrapper registration;
+- check_fn/gate filtering;
+- provider-safe name mapping from dotted ids to underscore tool names;
+- gateway discovered tool definitions.
+
+Debug rule:
+
+If a tool is attached but invisible to the agent, inspect in this order:
+
+1. runtime profile binding;
+2. wrapper import;
+3. gate/check_fn result;
+4. `registry.get_definitions(...)`;
+5. gateway discovered tool names;
+6. only then inspect session artifacts.
+
+Do not start from session reset.
+
+### Session layer diagnostic boundary
+
+`session_meta.tools` can show where a tool is absent, but it is not automatically the root cause.
+
+Before modifying session lifecycle code, always prove whether the tool passed:
+
+- wrapper import;
+- check_fn/gate;
+- safe registry filtering;
+- gateway discovery;
+- `agent.tools`.
+
+For the YouTube search visibility bug, session code was not the owner. The owner was `agent_lab/youtube_search_candidates.py` gate/profile detection.
+
+### Explicit non-owner modules for this issue
+
+Do not modify for this class of bug unless fresh proof says they are first broken:
+
+- Telegram router;
+- Telegram delivery/send path;
+- YouTube search provider logic;
+- subtitles extraction logic;
+- DB cleanup/migrations;
+- model/provider auth;
+- session deletion/reset code.

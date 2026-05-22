@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260521_TELEGRAM_AI_PUBLISHER_YOUTUBE_RESEARCH_PIPELINE
-last_append_title: "New product direction: Telegram AI/Vibecoding Publisher Agent and YouTube Research pipeline"
-last_updated_utc: 2026-05-20T05:12:01Z
+last_append_id: CTX_20260522_YOUTUBE_SEARCH_AGENT_TOOL_GATE_FIX_AND_VISIBILITY_RESOLUTION
+last_append_title: "YouTube search agent tool gate/profile fix and visibility resolution"
+last_updated_utc: 2026-05-22T05:59:40Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

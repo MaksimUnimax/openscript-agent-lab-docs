@@ -153,3 +153,25 @@ Current docs update after receipt proof:
 - Next immediate step: discuss/evaluate YouTube search providers and design `youtube.search_candidates`.
 - 2026-05-21: `yt-search-python` vendor docs were imported as the primary proof candidate for the future `youtube.search_candidates` stage; it is not production-selected yet.
 - The search-provider design note records search-only usage, and the future `Поиск видео` subtab should expose editable profile parameters inside the subtab itself rather than a separate `Настройки` subtab.
+- 2026-05-21: `youtube.search_candidates` MVP is now implemented as operator-only intake with `yt-search-python` search/metadata, deterministic local filters, shared SQLite candidate storage, and a `Поиск видео` subtab in the existing `Ютуб` tab; trusted-channel provider-native search is still not approved.
+
+## 2026-05-22 — YouTube search agent visibility fixed
+
+Current YouTube Research status:
+
+- `youtube.subtitles_get` remains implemented, UI-connected, attachable, and Telegram-proven.
+- `youtube.search_candidates` search/intake is implemented and operator-proven.
+- full-description enrichment is implemented as a separate metadata-only stage over saved candidates.
+- the test candidate DB was cleaned after proof runs while preserving the saved search profile.
+- `youtube.search_candidates` is attachable to agents through the UI/source-package/runtime/Hermes path.
+- Hermes wrapper propagation was fixed universally through the UI startup restore flow.
+- the final visibility blocker was the search gate/profile detection path, not session refresh, wrapper propagation, runtime apply, or Telegram routing.
+- fix commit: `df3a3b009132ada4ff3ada75178a97e46fd2a686`.
+- current validation stop point: manual Telegram acceptance of the search tool with Squidward.
+- next technical block after acceptance: metadata pre-evaluation/ranking for saved/enriched candidates.
+
+Important debugging lesson:
+
+- compare the working tool and broken tool across gate/check_fn/discovery before blaming session snapshots.
+- `session_meta.tools` was a symptom layer, not the first broken layer.
+- the search gate used the wrong Hermes-home resolution path before the fix and returned `profile_missing`.

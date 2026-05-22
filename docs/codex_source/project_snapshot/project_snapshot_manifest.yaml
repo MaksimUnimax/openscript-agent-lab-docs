@@ -3,8 +3,8 @@ append_only: false
 status: imported_current_snapshot
 snapshot_kind: bounded_codex_repo_snapshot
 source_kind: bounded_codex_repo_snapshot
-last_snapshot_id: PROJECT_SNAPSHOT_20260520_RECEIPT_EXTRACTION_AND_DOCS_WORKFLOW
-private_head_at_snapshot: d731611e8ec96d31f8aa62398a157cd9282c1e18
-last_updated_utc: 2026-05-20T05:12:01Z
+last_snapshot_id: PROJECT_SNAPSHOT_20260522_YOUTUBE_SEARCH_AGENT_VISIBILITY_FIXED
+private_head_at_snapshot: df3a3b009132ada4ff3ada75178a97e46fd2a686
+last_updated_utc: 2026-05-22T05:59:40Z
 scope: bounded inventory, no secrets
 needs_future_refresh: false

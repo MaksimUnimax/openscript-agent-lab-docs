@@ -1,10 +1,11 @@
 # Project snapshot
 
-STATUS: PARTIAL_SNAPSHOT
+STATUS: CURRENT
 
-This is a lightweight summary of the repo shape, generated from repo tree inspection only.
+This lightweight snapshot reflects the current YouTube Research state.
 
 Current snapshot:
+
 - source-of-truth docs: `docs/codex_source/**`
 - vendor source: `docs/codex_source/vendor/**`
 - project memory: `docs/codex_source/project/**`, `docs/codex_source/context/**`, `docs/codex_source/roadmap/**`, `docs/codex_source/module_map/**`, `docs/codex_source/project_snapshot/**`, `docs/codex_source/rules/**`
@@ -14,100 +15,25 @@ Current snapshot:
 - registry: `tool-registry/`
 - local Hermes vendor source: `vendor/hermes-agent/`
 - package workspace: `agent-packages/`
-- local virtual environment: `.venv-hermes/`
 
-Source directories:
-- `agent_lab/` - runtime application code and static assets
-- `tests/` - automated tests
-- `tools/` - utility scripts
-- `tool-registry/` - tool registry data
-- `vendor/hermes-agent/` - local Hermes source checkout
+Current YouTube Research state:
 
-Runtime directories:
-- `.venv-hermes/` - local runtime environment
-- `agent_lab/static/` - static UI assets
+- `youtube.subtitles_get` is implemented, UI-connected, attachable, and Telegram-proven.
+- `youtube.search_candidates` is implemented, attachable, and now visible to Hermes after the gate/profile fix.
+- full-description enrichment is implemented as a separate metadata-only stage over saved candidates.
+- the test candidate DB was cleaned after proof runs while preserving the saved search profile.
+- Hermes wrapper propagation is fixed universally via UI startup restore.
+- the final visibility blocker was the search gate/profile detection path using the wrong Hermes-home resolution.
+- fix commit: `df3a3b009132ada4ff3ada75178a97e46fd2a686`.
 
-Agent packages:
-- `agent-packages/` exists and currently contains unrelated dirty/untracked work
-- do not stage or modify it unless the scope explicitly requires it
+Current stop point:
 
-Hermes profiles:
-- NEEDS_MAPPING
+- manual Telegram acceptance test for Squidward.
 
-Telegram runtime state:
-- NEEDS_MAPPING
+Next technical block after acceptance:
 
-Docs source-of-truth:
-- `docs/codex_source/index.yaml`
+- metadata pre-evaluation/ranking for saved and enriched candidates.
 
-Vendor docs:
-- `docs/codex_source/vendor/hermes/**`
-- `docs/codex_source/vendor/telegram/**`
+Important debugging lesson:
 
-Project docs:
-- `docs/codex_source/project/**`
-- append-only memory files under `docs/codex_source/context/**`, `docs/codex_source/roadmap/**`, `docs/codex_source/module_map/**`
-
-Things not to touch without explicit scope:
-- `agent-packages/**`
-- secrets and auth files
-- runtime config files
-- vendor source trees
-- generated caches
-
-How to refresh this snapshot:
-- re-run safe tree inspection only
-- update this file and `docs/codex_source/project_snapshot/project_snapshot_manifest.yaml`
-- do not paste full file contents here
-
-## 2026-05-21 — Snapshot update: YouTube subtitles tool MVP completed
-
-The project now includes a working first implementation of the “Ютуб” tool family.
-
-Implemented tool:
-
-- `youtube.subtitles_get`
-
-Current status:
-
-- deterministic executor implemented;
-- vendor mechanism: `youtube-transcript-api`;
-- operator UI tab `Ютуб` implemented;
-- manual subtitle test route implemented;
-- language fallback `ru -> en -> any available transcript` implemented;
-- tool can be attached to selected agents through UI;
-- Squidward was used as the first manual Telegram proof agent;
-- user confirmed that Telegram returned subtitles.
-
-Important boundary:
-
-- The tool remains a Hermes-visible agent tool.
-- It is not a standalone script.
-- It is not an app-local-only shortcut.
-- It is not globally enabled for all agents.
-- Agent attachment is controlled through UI/source-package flow.
-
-Current next work should not restart YouTube design. Future YouTube work is optional extension/polish only unless a regression appears.
-
-## 2026-05-21 — Snapshot update: next direction after YouTube subtitles MVP
-
-The next product direction is a future Telegram AI/Vibecoding Publisher Agent.
-
-Goal:
-
-- help prepare Telegram public-channel content about neural networks, AI tools, coding agents, and vibe coding.
-
-The next technical block is the YouTube Research pipeline.
-
-Initial planned stages:
-
-- `youtube.search_candidates`
-- `youtube.collect_subtitles_for_candidates`
-- `youtube.rank_candidates`
-- `youtube.editorial_evaluate`
-
-The completed `youtube.subtitles_get` tool is a dependency for the collection stage.
-
-The first next implementation topic is YouTube video search/provider selection and candidate storage design.
-
-Publishing, image generation, and Telegram post sending remain future separate blocks.
+- compare the working tool and broken tool through gate/check_fn/discovery before blaming sessions, runtime apply, wrapper propagation, or Telegram routing.

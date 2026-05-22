@@ -517,3 +517,91 @@ The next block should produce:
 - no automatic publishing;
 - no monolithic all-in-one tool;
 - no hardcoded agent/channel/query/provider.
+
+## 2026-05-22 — YouTube search agent tool visibility fixed
+
+The YouTube Research search/intake pipeline and the agent/Hermes attach path are now proven and the final visibility blocker is resolved.
+
+### Status
+
+The search tool is now attachable to selected agents through the `Ютуб → Поиск видео` UI and the final Hermes visibility blocker was fixed in the search gate/profile detection path.
+
+### Completed in this block
+
+- YouTube search/intake pipeline implemented:
+  - saved UI profile;
+  - deterministic filters;
+  - deduplication;
+  - SQLite candidate storage;
+  - candidate metadata capture.
+- Full-description enrichment implemented as a separate stage over saved candidates.
+- Test candidate DB cleaned after proof runs while preserving the search profile.
+- `youtube.search_candidates` made attachable to agents via UI/source-package/runtime/Hermes path.
+- Hermes wrapper propagation fixed universally on UI startup.
+- Final search-tool visibility bug fixed in the search gate/profile detection path.
+- Agent began seeing `youtube.search_candidates` after fix and service restart.
+
+### Important resolved blocker
+
+The final blocker was not session refresh, wrapper propagation, runtime apply, Telegram routing, or registry metadata.
+
+The resolved root cause:
+
+`youtube.search_candidates` gate used static `paths.HERMES_HOME.resolve()` instead of live per-profile `hermes_constants.get_hermes_home()`. This made the search gate return `profile_missing` under live per-profile HERMES_HOME and caused the safe registry to filter out the tool before gateway discovery.
+
+Fix commit:
+
+`df3a3b009132ada4ff3ada75178a97e46fd2a686`
+
+### Rejected session fix
+
+A session/tool-context fix was considered but rejected for this issue.
+
+Reason:
+
+The missing search tool was not caused by session lifecycle. It was filtered before session construction by the search gate returning `profile_missing`.
+
+Do not implement session refresh/invalidation for this bug unless a future proof shows a separate real session lifecycle failure.
+
+### Current active next step
+
+Manual user acceptance test:
+
+- In Telegram, ask Squidward:
+  `запусти поиск ютуб по сохранённому профилю и покажи результат`.
+
+Expected:
+
+- Squidward sees the tool;
+- calls `youtube.search_candidates`;
+- uses saved UI profile;
+- runs search + enrichment;
+- returns a factual summary and candidate preview.
+
+### Next technical phase after manual acceptance
+
+If the Telegram tool execution succeeds:
+
+1. Design metadata pre-evaluation/ranking stage:
+   - input: title, channel, URL, description_snippet, description_full, search profile metadata;
+   - output: keep/reject/maybe, relevance score, reason;
+   - no publication yet.
+
+2. Later stages:
+   - subtitle collection for selected candidates;
+   - editorial summary/post drafting;
+   - image generation;
+   - Telegram publication.
+
+### Not next
+
+Do not reopen:
+
+- session reset as a product fix;
+- wrapper propagation for this issue;
+- runtime apply for this issue;
+- Telegram routing for this issue;
+- search DB cleanup;
+- YouTube subtitles tool implementation.
+
+Do not implement publication/ranking/subtitles until the current search agent tool is manually accepted.
