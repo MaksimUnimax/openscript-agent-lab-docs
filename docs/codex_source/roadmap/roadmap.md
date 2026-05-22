@@ -605,3 +605,92 @@ Do not reopen:
 - YouTube subtitles tool implementation.
 
 Do not implement publication/ranking/subtitles until the current search agent tool is manually accepted.
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## RM_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS
+
+### Status
+
+The YouTube Research pipeline has advanced from search/intake and visibility fixes into the selection/curation stage.
+
+Completed layers:
+
+1. `youtube.select_candidates` deterministic response-only contract.
+2. Selection lifecycle storage.
+3. Protected `youtube_curator` source package.
+4. Offline selector-to-curator boundary.
+5. `youtube_curator` runtime profile creation.
+6. Read-only YouTube Curator UI/status panel.
+7. Source-policy editor for `youtube_curator/rules.md`.
+8. Apply preview/apply controls in `Ютуб → Сортировка`.
+
+### Current active product block
+
+Current active block:
+
+`youtube_select_candidates_curator_configuration_before_live_hermes`
+
+The user should be able to configure curator policy before any live Hermes-backed curator test.
+
+Current UI flow:
+
+1. open `Ютуб → Сортировка`;
+2. edit `youtube_curator/rules.md`;
+3. save source policy;
+4. run `Предпросмотр apply`;
+5. run `Применить правила в runtime`;
+6. only after that, proceed toward live Hermes adapter proof/design.
+
+### Next technical block
+
+Next technical block after manual UI/policy/apply verification:
+
+`youtube_select_candidates_live_hermes_curator_adapter_design`
+
+This must be a separate proof/design because it touches live Hermes/profile/provider boundaries.
+
+It must not start by calling provider/model.
+
+It must first prove:
+
+- runtime profile readiness;
+- exact Hermes invocation owner;
+- candidate snapshot shape;
+- curator response schema;
+- validation and failure handling;
+- no next editing/formatting tool call;
+- no Telegram publication;
+- no memory write unless separately designed.
+
+### Not next
+
+Not next:
+
+- Telegram router fix;
+- YouTube search provider redesign;
+- subtitles tool redesign;
+- image generation;
+- Telegram publishing;
+- editing/formatting tool implementation;
+- auto-mode;
+- memory learning/reset;
+- live provider/model call without readiness proof;
+- direct DB bypass.
+
+### Acceptance for future live curator work
+
+Future live curator work is acceptable only if:
+
+- policy was saved and applied to runtime;
+- `youtube_curator` runtime profile exists and is healthy;
+- candidate snapshot contains only stored facts;
+- source policy outranks learned memory;
+- runtime memory is profile-local;
+- `youtube_curator` does not browse YouTube;
+- `youtube_curator` does not publish to Telegram;
+- `youtube_curator` does not call the next tool;
+- `youtube.select_candidates` remains the only writer to selection storage;
+- `next_tool_called` remains false.
+
+END_ROADMAP_APPEND_TEXT

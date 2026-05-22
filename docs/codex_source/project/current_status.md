@@ -198,3 +198,42 @@ A future public-manager agent may initiate the tool through the Hermes/tool cont
 The selection tool must not call the next editing/formatting tool directly.
 
 A human review layer may be added later through Telegram buttons, but it is optional review, not the core backend execution model.
+
+## 2026-05-22 — YouTube select_candidates / youtube_curator runtime and UI configuration ready
+
+Current YouTube Research selection status:
+
+- `youtube.select_candidates` deterministic response-only contract is implemented.
+- Selection lifecycle storage is implemented with `youtube_selection_batches` and `youtube_candidate_selection_state`.
+- `youtube_curator` source package exists and is protected as a system/internal package.
+- Protected system agent registry includes `system_filter` and `youtube_curator`.
+- Offline selector-to-curator boundary is implemented with snapshot builder, fake backend, strict response validation, and planned selection actions.
+- `youtube_curator` runtime profile exists at `/var/lib/openscript-agent-lab/hermes/profiles/youtube_curator`.
+- `Ютуб → Сортировка` now has a read-only YouTube Curator status/settings panel.
+- The panel has a source-policy editor for `agent-packages/youtube_curator/rules.md`.
+- The panel has apply controls:
+  - `Предпросмотр apply`
+  - `Применить правила в runtime`
+- Apply controls reuse generic endpoints:
+  - `POST /api/agents/youtube_curator/runtime/apply-dry-run`
+  - `POST /api/agents/youtube_curator/runtime/apply`
+
+Current stop point:
+
+- User should hard-refresh browser and verify `Ютуб → Сортировка`.
+- User can edit/save source policy, preview apply, and explicitly apply to runtime.
+- No live Hermes-backed curator call has been implemented or tested yet.
+
+Next technical block after manual UI/apply verification:
+
+- design/proof for live Hermes-backed `youtube_curator` adapter inside `youtube.select_candidates`.
+
+Not active now:
+
+- Telegram/router fix;
+- YouTube search provider redesign;
+- subtitles redesign;
+- publishing;
+- image generation;
+- editing/formatting tool;
+- auto-mode.

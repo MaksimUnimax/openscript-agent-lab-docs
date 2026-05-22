@@ -2937,3 +2937,283 @@ The next editing/formatting tool is a separate independent tool.
 The public-manager agent, not the selection tool, decides when to call the next tool.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## CTX_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS
+
+### Summary
+
+After the previous correction that `youtube.select_candidates` uses a system Hermes sorting operator, the YouTube Research selection stack advanced through multiple implementation layers.
+
+The current stack now has:
+
+1. `youtube.select_candidates` source contract.
+2. Selection lifecycle storage.
+3. Protected `youtube_curator` source package.
+4. Offline selector-to-curator boundary.
+5. `youtube_curator` runtime profile.
+6. Read-only UI/status panel.
+7. Source-policy editor.
+8. UI apply preview/apply controls.
+
+This update records completed work only. It does not mean live Hermes-backed curator execution is enabled yet.
+
+### `youtube.select_candidates` contract
+
+The first source-level selector contract was implemented at commit:
+
+`2d0b62afa968ad685da49f25c62aaf16b20ce175`
+
+It added the deterministic response-only selector service, Hermes wrapper/overlay, registry metadata, and focused tests.
+
+Important properties:
+
+- deterministic selection only;
+- no live DB mutation from the public selection path;
+- no LLM/provider call;
+- no Telegram call;
+- no next editing/formatting tool call;
+- `next_tool_called: false`.
+
+This contract is the shared boundary that future callers use. It must not become a one-off UI shortcut.
+
+### Selection lifecycle storage
+
+Selection storage was implemented at commit:
+
+`a9f1c602e006523f71534750ead5b1efd5917e2e`
+
+Added tables:
+
+- `youtube_selection_batches`
+- `youtube_candidate_selection_state`
+
+The old `youtube_candidates.status` enum remains unchanged.
+
+Selection-specific states such as:
+
+- `approved`
+- `skipped`
+- `ready_for_next_stage`
+
+are stored in selection storage, not in the old base status enum.
+
+`rejected` remains a hard-block state and updates both selection state and the base candidate row.
+
+### `youtube_curator` source package and protection
+
+The `youtube_curator` source package was created at commit:
+
+`d8227f5c8486f5828d2cadfded871120e27e8ce0`
+
+Package files:
+
+- `manifest.json`
+- `SOUL.md`
+- `rules.md`
+- `examples.md`
+- `provider.defaults.json`
+- `README.md`
+- `skills/youtube-selection-policy.md`
+
+The multi protected system agent registry was implemented at commit:
+
+`efed938a224047d99f3d6749dc6df42c6944cc9d`
+
+Protected slugs now include:
+
+- `system_filter`
+- `youtube_curator`
+
+`youtube_curator` is protected/internal/system, non-deletable through normal product paths, not creatable through normal create, not cloneable into, and excluded as a Telegram command candidate.
+
+Manifest-only protection is not trusted as authority. The source-owned protected slug registry is the authority.
+
+### Telegram routing clarification
+
+A temporary investigation around the Telegram “Бот-роутер” UI clarified that the selected router agent shown there is the active/default/fallback routing target, not proof of a separate deleted LLM router brain.
+
+Current accepted state:
+
+- Telegram works.
+- Agents answer.
+- Agent switching works.
+- No Telegram/router fix is active now.
+- Do not create a new `telegram_router` system agent unless a future explicit architecture design proves it is needed.
+
+This is separate from `youtube_curator`.
+
+### Offline selector-to-curator boundary
+
+The offline curator boundary was implemented at commit:
+
+`cc60c9c82683fc71dff91fe2a8b745ccf4cce1a7`
+
+Implemented in:
+
+- `agent_lab/youtube_select_candidates.py`
+- `tests/test_youtube_select_candidates.py`
+
+Added:
+
+- compact curator snapshot builder;
+- policy snapshot loaded only from safe source package files:
+  - `agent-packages/youtube_curator/rules.md`
+  - `agent-packages/youtube_curator/SOUL.md`
+  - `agent-packages/youtube_curator/skills/youtube-selection-policy.md`
+- `memory_snapshot = null`;
+- pluggable curator backend interface;
+- offline fake curator backend;
+- strict response validation for unknown ids, invalid decisions, and `next_tool_called` / `next_tool_name` violations;
+- planned selection actions.
+
+The fake backend selects only known candidate ids. It does not invoke Hermes, provider/model, Telegram, YouTube live search, runtime memory, or live DB mutation.
+
+### Runtime profile
+
+The `youtube_curator` runtime profile was created through the approved runtime apply path.
+
+Runtime profile path:
+
+`/var/lib/openscript-agent-lab/hermes/profiles/youtube_curator`
+
+Last apply timestamp recorded:
+
+`2026-05-22T12:59:30.782514Z`
+
+The apply created/synced expected runtime files and dirs, including:
+
+- `SOUL.md`
+- `.agent-lab/source_docs/rules.md`
+- `.agent-lab/source_docs/examples.md`
+- `skills/youtube-selection-policy.md`
+- `.agent-lab/tool-registry.snapshot.json`
+- `.agent-lab/last_apply.json`
+- `memories/`
+- `sessions/`
+- `logs/`
+- `cron/`
+- `.agent-lab/secrets/`
+
+The apply did not call provider/model, Telegram, YouTube, or DB. It did not write or delete runtime memory.
+
+### Read-only UI/status panel
+
+The read-only YouTube Curator panel was implemented at commit:
+
+`bfc14480d35c84ad2d4d217028d3b3015e14ecfe`
+
+Changed:
+
+- `agent_lab/admin_server.py`
+- `agent_lab/static/index.html`
+- `agent_lab/static/app.js`
+- `tests/test_admin_server.py`
+
+It extended `/api/state` with sanitized `youtube_curator_status` and rendered a read-only panel in:
+
+`Ютуб → Сортировка`
+
+The panel shows:
+
+- source package status;
+- protected/internal status;
+- runtime profile status;
+- last apply status;
+- policy source presence;
+- selector defaults;
+- readiness.
+
+The panel does not expose secrets, runtime memory contents, sessions, logs, or `.agent-lab/secrets/`.
+
+A controlled service restart verified the live process:
+
+- service: `openscript-agent-lab-ui.service`
+- PID changed from `1296580` to `1343343`
+- `/healthz` stayed `200 / ok`
+- live `/api/state` now includes `youtube_curator_status`
+- static UI panel is present.
+
+### Source policy editor
+
+The source policy editor was implemented at commit:
+
+`d59bfde6f631b7fcb1fb800038e613d07818b72d`
+
+UI location:
+
+`Ютуб → Сортировка → YouTube Curator / Системный оператор отбора`
+
+Editable source file:
+
+`agent-packages/youtube_curator/rules.md`
+
+Endpoint reused:
+
+`/api/agents/youtube_curator/documents/rules.md`
+
+This editor writes source package policy only. It does not apply to runtime automatically.
+
+The UI warns that a separate runtime apply is required after saving.
+
+### Apply preview/apply controls
+
+Apply controls were implemented at commit:
+
+`d0b2eb970e7748d2e0a4254fefb0020bfe85cbb4`
+
+Controls:
+
+- `Предпросмотр apply`
+- `Применить правила в runtime`
+
+Existing generic endpoints are reused:
+
+- `POST /api/agents/youtube_curator/runtime/apply-dry-run`
+- `POST /api/agents/youtube_curator/runtime/apply`
+
+No custom backend route was added.
+
+Real apply is disabled while the policy editor is dirty. Preview is also disabled while dirty, so preview targets saved source only.
+
+Live verification after this commit proved:
+
+- static UI contains both buttons;
+- dirty/unsaved warning is present;
+- live curator test button is absent;
+- `/api/state` still contains sanitized `youtube_curator_status`;
+- no apply endpoint was called;
+- no runtime mutation occurred.
+
+### Current stop point
+
+Current user-facing next action:
+
+- hard-refresh browser;
+- open `Ютуб → Сортировка`;
+- verify the YouTube Curator panel, policy editor, and apply controls are visible.
+
+Current technical stop point:
+
+- Do not run live Hermes-backed curator yet.
+- First use the UI to edit/save policy, preview apply, and explicitly apply source policy to runtime.
+- After policy/apply verification, the next technical block is a separate proof/design for the live Hermes-backed curator adapter.
+
+### Do not repeat
+
+Do not repeat already completed work unless a fresh regression is reported:
+
+- `youtube.search_candidates` implementation;
+- search tool visibility/session debugging;
+- selection storage design;
+- `youtube_curator` package creation;
+- protected system-agent registry;
+- runtime profile creation;
+- read-only UI panel;
+- source policy editor;
+- apply controls.
+
+Do not restart Telegram/router work for this block. Telegram routing is not the current blocker.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS -->

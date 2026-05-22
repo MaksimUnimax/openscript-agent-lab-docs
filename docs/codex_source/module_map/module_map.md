@@ -724,3 +724,172 @@ The system sorting operator must not call the next editing/formatting tool direc
 The selection tool returns structured selected candidates only.
 
 <!-- MODULE_MAP_APPEND_END id=MM_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION -->
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260522_YOUTUBE_CURATOR_SELECT_CANDIDATES_RUNTIME_UI_BOUNDARY source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## MM_20260522_YOUTUBE_CURATOR_SELECT_CANDIDATES_RUNTIME_UI_BOUNDARY
+
+### Implemented module boundary
+
+The `youtube.select_candidates` / `youtube_curator` stack now spans these owners.
+
+### Selection tool owner
+
+Owner:
+
+- `agent_lab/youtube_select_candidates.py`
+
+Responsibilities:
+
+- read saved YouTube candidate facts;
+- deterministic pre-filter/pre-rank;
+- build compact curator snapshots;
+- validate curator responses;
+- return planned selection actions;
+- own writes to `youtube_selection_batches` and `youtube_candidate_selection_state`;
+- keep `next_tool_called: false`.
+
+Non-responsibilities:
+
+- live Telegram publication;
+- next editing/formatting tool call;
+- image generation;
+- YouTube provider search;
+- runtime memory editing;
+- `system_filter` behavior.
+
+### Candidate fact owner
+
+Owner:
+
+- `agent_lab/youtube_search_candidates.py`
+
+Responsibilities:
+
+- YouTube search/intake facts;
+- metadata enrichment facts;
+- saved candidate rows;
+- base candidate statuses such as `found`, `duplicate`, `rejected`, `published`, `expired`.
+
+Selection-specific lifecycle states must not be forced into the old base status enum.
+
+### Selection storage owner
+
+Tables:
+
+- `youtube_selection_batches`
+- `youtube_candidate_selection_state`
+
+Responsibilities:
+
+- selection batch state;
+- selected/approved/skipped/ready/rejected state;
+- cooldown for skipped candidates;
+- handoff marker for future next stage.
+
+`rejected` remains the hard-block state and updates the base candidate row too.
+
+### Curator source package owner
+
+Source package:
+
+- `agent-packages/youtube_curator/**`
+
+Important files:
+
+- `SOUL.md` — identity and boundaries;
+- `rules.md` — primary human-editable source policy;
+- `skills/youtube-selection-policy.md` — operational policy guidance;
+- `examples.md`;
+- `provider.defaults.json`;
+- `manifest.json`.
+
+The source package is protected/internal/system.
+
+Protected slugs currently include:
+
+- `system_filter`
+- `youtube_curator`
+
+Protection authority is source-owned code, not manifest-only user-editable metadata.
+
+### Runtime profile owner
+
+Runtime profile:
+
+- `/var/lib/openscript-agent-lab/hermes/profiles/youtube_curator`
+
+Created through:
+
+- `agent_lab/runtime_apply.py::apply_agent`
+- `agent_lab/agentctl_core.py::apply_agent`
+- admin runtime apply endpoints.
+
+Runtime profile stores runtime state, sessions, logs, and future profile-local memory.
+
+Runtime memory must not be edited by the YouTube Curator settings UI.
+
+### Admin API/UI owners
+
+Backend owner:
+
+- `agent_lab/admin_server.py`
+
+UI owners:
+
+- `agent_lab/static/index.html`
+- `agent_lab/static/app.js`
+
+Current UI location:
+
+- `Ютуб → Сортировка`
+
+Current UI capabilities:
+
+- read-only `youtube_curator_status` panel;
+- source-policy editor for `agent-packages/youtube_curator/rules.md`;
+- apply dry-run control;
+- explicit runtime apply control.
+
+Current UI non-capabilities:
+
+- no live curator test button;
+- no Telegram button;
+- no YouTube search call from curator panel;
+- no memory reset;
+- no auto-mode;
+- no next editing/formatting tool call.
+
+### Runtime apply boundary
+
+Existing endpoints reused:
+
+- `POST /api/agents/youtube_curator/runtime/apply-dry-run`
+- `POST /api/agents/youtube_curator/runtime/apply`
+
+No custom apply endpoint was added.
+
+Apply copies source package state into runtime and preserves runtime-owned files such as:
+
+- `.env`
+- `auth.json`
+- `memories/`
+- `sessions/`
+- `logs/`
+
+Apply must not call provider/model, Telegram API, YouTube live search, or DB mutation.
+
+### Telegram routing boundary
+
+The Telegram “Бот-роутер” UI confusion was resolved.
+
+Current accepted model:
+
+- the selected router agent shown in UI is active/default/fallback routing target;
+- it is not proof of a separate LLM router brain;
+- Telegram agents answer and switching works;
+- no Telegram/router fix is active for this YouTube curator block.
+
+Do not create a `telegram_router` system agent as part of YouTube curator work unless a later explicit architecture design approves it.
+
+END_MODULE_MAP_APPEND_TEXT

@@ -1,8 +1,8 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION
-last_append_title: "YouTube select_candidates system operator correction"
-last_updated_utc: 2026-05-22T09:35:01Z
+last_append_id: CTX_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS
+last_append_title: "YouTube select_candidates curator runtime UI progress"
+last_updated_utc: 2026-05-22T14:00:51Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks

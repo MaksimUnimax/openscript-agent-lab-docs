@@ -335,3 +335,14 @@ items:
     expected_target_path: docs/codex_source/project/current_status.md
     notes: next technical work is full receipt OCR/parsing extraction and not a product fix in this docs run
     must_not_invent: true
+  - id: youtube_curator_select_candidates_progress_20260522
+    status: no_new_vendor_import_required
+    reason: >
+      Latest completed work is project-internal YouTube selection/curator source,
+      runtime profile, and Admin UI progress. No new external vendor/API source
+      is required for the docs-only memory update.
+    future_vendor_docs_needed:
+      - >
+        A later live Hermes-backed curator adapter may require exact Hermes
+        runtime/provider documentation before provider/model calls are allowed.
+    active_next_docs_need: none_for_current_docs_update

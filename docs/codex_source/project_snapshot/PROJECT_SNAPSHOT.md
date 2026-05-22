@@ -67,3 +67,43 @@ Current imported direction:
 - This snapshot is intentionally lightweight.
 - It records the current YouTube Research state and the final proven root cause/fix for the visibility issue.
 - It does not replace the full project docs, vendor docs, or append-only memory tails.
+
+# Project Snapshot — 2026-05-22 — YouTube Curator selection UI/runtime configuration
+
+## Current active block
+
+`youtube_select_candidates_curator_configuration_before_live_hermes`
+
+## Completed since previous snapshot
+
+- `youtube.select_candidates` contract implemented.
+- Selection lifecycle storage implemented.
+- `youtube_curator` package created.
+- `youtube_curator` protected as system/internal agent.
+- Offline selector-to-curator boundary implemented.
+- Runtime profile for `youtube_curator` created through source-managed apply.
+- Read-only YouTube Curator UI/status panel implemented.
+- Source-policy editor for `youtube_curator/rules.md` implemented.
+- Apply preview/apply controls implemented using existing runtime apply endpoints.
+- Live UI verification showed apply controls are present and `/api/state` remains sanitized.
+
+## Current stop point
+
+The next user-facing step is manual browser verification:
+
+- hard-refresh browser;
+- open `Ютуб → Сортировка`;
+- verify status panel, policy editor, and apply controls.
+
+The next technical step after manual policy/apply verification is a separate proof/design for live Hermes-backed curator adapter.
+
+## Current hard boundaries
+
+- No live Hermes-backed curator call yet.
+- No provider/model call.
+- No Telegram API call.
+- No YouTube live search.
+- No next editing/formatting tool call.
+- No auto-mode.
+- Runtime memory remains profile-local and is not editable through current UI.
+- `system_filter` remains separate and must not be reused as YouTube curator.
