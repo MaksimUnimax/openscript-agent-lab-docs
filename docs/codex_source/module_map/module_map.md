@@ -675,3 +675,52 @@ Do not hardcode:
 - one current video.
 
 Do not couple `youtube.select_candidates` directly to editing, formatting, image generation, or Telegram publishing.
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## MM_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION
+
+### Boundary correction
+
+`youtube.select_candidates` must not be described as a direct human/manual backend path.
+
+The tool is Hermes-mediated.
+
+The sorting/evaluation actor is a system Hermes operator / curator profile inside the tool.
+
+### Correct owner boundary
+
+`youtube.select_candidates` owns:
+
+- reading stored YouTube candidate facts;
+- deterministic pre-filter/pre-rank;
+- invoking the system Hermes operator / curator profile for selection when enabled;
+- returning selected candidate IDs and status information;
+- recording candidate lifecycle statuses.
+
+It does not own:
+
+- direct manual DB bypass;
+- future public-manager orchestration;
+- next editing/formatting tool execution;
+- image generation;
+- Telegram publishing;
+- system_filter behavior.
+
+### Correct actor boundary
+
+Do not confuse:
+
+- future public-manager agent that initiates the tool;
+- `youtube.select_candidates` as the tool/business contract;
+- system Hermes operator / curator profile inside the tool;
+- optional human reviewer through Telegram buttons;
+- future editing/formatting tool.
+
+### Forbidden coupling
+
+The system sorting operator must not call the next editing/formatting tool directly.
+
+The selection tool returns structured selected candidates only.
+
+<!-- MODULE_MAP_APPEND_END id=MM_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION -->

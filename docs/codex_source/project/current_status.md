@@ -182,3 +182,19 @@ Important debugging lesson:
 - compare the working tool and broken tool across gate/check_fn/discovery before blaming session snapshots.
 - `session_meta.tools` was a symptom layer, not the first broken layer.
 - the search gate used the wrong Hermes-home resolution path before the fix and returned `profile_missing`.
+
+## 2026-05-22 — Correction: `youtube.select_candidates` uses a system Hermes sorting operator
+
+Correction to the previous wording:
+
+`youtube.select_candidates` is not a direct human/manual backend tool.
+
+It is a Hermes-mediated selection tool.
+
+The sorting actor is a system Hermes operator / curator profile inside the tool.
+
+A future public-manager agent may initiate the tool through the Hermes/tool contract and receive selected candidates.
+
+The selection tool must not call the next editing/formatting tool directly.
+
+A human review layer may be added later through Telegram buttons, but it is optional review, not the core backend execution model.

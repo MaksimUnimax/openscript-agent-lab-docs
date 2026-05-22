@@ -182,43 +182,120 @@ The LLM must not search YouTube and must not invent source facts. It evaluates a
 
 ### 5.5 `youtube.select_candidates`
 
-Purpose:
+### Purpose
 
-Select stored YouTube candidates for the next pipeline stage.
+`youtube.select_candidates` selects a small number of already stored YouTube candidates for the next pipeline stage.
 
-This stage is manual-first, but manual-first does not mean bypassing Hermes. The human operator can start and review selection manually, but the execution path must still use the same Hermes/tool contract that future agents will use.
+It is not a search tool.
 
-This tool is independent. It must return selected candidates and lifecycle/status updates. It must not directly call the next editing/formatting tool.
+It is not a publishing tool.
 
-Role separation:
+It is not the next editing/formatting tool.
 
-- human operator;
-- internal curator/evaluator Hermes profile;
-- future public-manager agent;
-- next editing/formatting tool.
+It consumes stored candidate facts and returns selected candidate IDs plus lifecycle/status information.
 
-The internal curator profile is not the agent that initiates the whole publication chain. It evaluates stored factual candidate snapshots plus policy and learned taste.
+### Initiation
 
-MVP operator feedback buttons are exactly:
+The tool is called through the Hermes/tool contract.
+
+A future public-manager agent may initiate it.
+
+The system sorting operator inside the tool performs the selection work.
+
+The tool must also remain testable and controllable through product/operator surfaces later, but this must not become a separate direct DB bypass.
+
+### System sorting operator
+
+The selection tool may use a dedicated system Hermes operator / curator profile.
+
+This profile is the internal evaluator for candidate selection.
+
+It has:
+
+- source-managed policy;
+- skills;
+- profile-local Hermes learned memory;
+- learned taste from prior approvals/skips/rejections.
+
+It must evaluate only stored factual candidate snapshots.
+
+It must not browse YouTube.
+
+It must not invent facts.
+
+It must not publish to Telegram.
+
+It must not call the next formatting/editing tool.
+
+### Future public-manager agent
+
+The future public-manager agent is separate from the system sorting operator.
+
+The public-manager agent may call `youtube.select_candidates`, receive selected candidates, and later decide whether to call the next independent editing/formatting tool.
+
+`youtube.select_candidates` must not make that decision itself.
+
+### Optional human review
+
+A human review layer may be added later if review mode is enabled.
+
+In that case, MVP review buttons are exactly:
 
 - `✅ Подходит`
 - `⏭ Пропустить`
 - `❌ Не подходит`
 
-Do not add in MVP:
+The MVP must not include:
 
 - `📄 Нужны субтитры`
 - `📝 Причина/заметка`
 
-State boundary:
+### Status transitions
 
-- DB stores objective facts and lifecycle state;
-- Hermes profile memory stores learned curator taste;
-- source-managed policy stores current priorities and hard exclusions.
+`✅ Подходит`:
 
-Policy outranks learned memory. Learned memory may bias selection, but must never override DB facts, anti-repeat, published markers, hard negative topics, or current policy priorities.
+- candidate becomes approved;
+- candidate becomes ready for next stage;
+- candidate is returned in `selected_candidates`.
 
-The existing `system_filter` protected system agent must not be reused for YouTube curator taste memory or editorial selection.
+`⏭ Пропустить`:
+
+- candidate is skipped for the current batch;
+- candidate may enter cooldown/not-in-current-batch state;
+- candidate is not permanently rejected.
+
+`❌ Не подходит`:
+
+- candidate is rejected;
+- candidate must not be suggested again unless an explicit reset/reopen path is implemented later.
+
+### Memory and policy
+
+Selection uses three separate layers:
+
+1. **DB facts and lifecycle state**
+
+   Objective candidate metadata, anti-repeat, reviewed markers, approved/skipped/rejected state, ready-for-next-stage state, and published markers.
+
+2. **Source-managed policy**
+
+   Current priority topics, hard exclusions, editorial preferences, and auto-mode gates.
+
+   Policy outranks learned memory.
+
+3. **Hermes learned memory**
+
+   Profile-local learned taste of the system sorting operator.
+
+   Learned memory is a soft bias and must never override DB facts, anti-repeat, published markers, hard negative topics, or current source policy.
+
+### Pipeline separation
+
+`youtube.select_candidates` must not call the next editing/formatting tool directly.
+
+The output of this tool is a structured selected-candidates result.
+
+The caller — future public-manager agent or later product control surface — decides when to start the next tool.
 
 ### 5.6 Future chain order
 

@@ -2850,3 +2850,90 @@ The safe implementation order is:
 10. implement the next editing/formatting tool separately.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_MANUAL_FIRST_HERMES_MEDIATED_TOOL -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION source=chatgpt_inline -->
+
+## CTX_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION
+
+### Correction
+
+The previous `youtube.select_candidates` documentation used misleading wording around “human operator”, “manual operator”, and “manual-first”.
+
+Correct product meaning:
+
+`youtube.select_candidates` is a Hermes-mediated selection tool.
+
+The sorting actor is a **system Hermes operator / curator profile** inside the tool, not a direct human/manual backend operator.
+
+This system operator works through Hermes.
+
+### Correct roles
+
+1. **Future public-manager agent**
+
+   This future agent manages the Telegram public/channel workflow.
+
+   It may initiate `youtube.select_candidates` through the Hermes/tool contract.
+
+   It receives the selected candidates and decides whether and when to call the next independent editing/formatting tool.
+
+2. **`youtube.select_candidates` tool**
+
+   This is the independent sorting/selection tool.
+
+   It consumes already stored YouTube candidate facts from DB.
+
+   It performs deterministic pre-filter/pre-rank, then may use a system Hermes operator/curator profile for LLM-assisted selection.
+
+   It returns selected candidates and lifecycle/status information.
+
+   It must not call the next editing/formatting/publishing tool directly.
+
+3. **System Hermes operator / curator profile**
+
+   This is the internal sorting/evaluation actor used by the selection tool.
+
+   It has its own policy, skills, profile-local Hermes memory, and learned taste.
+
+   It evaluates stored factual candidate snapshots only.
+
+   It must not browse YouTube, publish to Telegram, call the next pipeline tool, or invent facts.
+
+4. **Human reviewer, if enabled later**
+
+   A human may later confirm selection through Telegram review buttons if review mode is enabled.
+
+   That review is a confirmation layer, not a direct backend/manual mode.
+
+### Correct review buttons
+
+If human review is enabled later, MVP buttons remain exactly:
+
+- `✅ Подходит`
+- `⏭ Пропустить`
+- `❌ Не подходит`
+
+Do not add in MVP:
+
+- `📄 Нужны субтитры`
+- `📝 Причина/заметка`
+
+### Memory and policy
+
+The system Hermes operator/curator profile owns learned selection taste through Hermes profile-local memory.
+
+Source-managed policy stores current priorities and outranks learned memory.
+
+DB stores objective candidate facts, lifecycle states, anti-repeat and published markers.
+
+DB is not the learned taste memory.
+
+### Pipeline boundary
+
+`youtube.select_candidates` returns selected candidates.
+
+The next editing/formatting tool is a separate independent tool.
+
+The public-manager agent, not the selection tool, decides when to call the next tool.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_SYSTEM_OPERATOR_CORRECTION -->
