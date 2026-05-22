@@ -70,6 +70,8 @@ Current imported direction:
 
 # Project Snapshot — 2026-05-22 — YouTube Curator selection UI/runtime configuration
 
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260522_YOUTUBE_CURATOR_UI_READY
+
 ## Current active block
 
 `youtube_select_candidates_curator_configuration_before_live_hermes`
