@@ -497,3 +497,215 @@ Status now:
 - Technical spec: this extension records the staged concept.
 - Implementation: not started.
 - Next technical step: evaluate/select YouTube search provider and design `youtube.search_candidates`.
+
+## 2026-05-26 — Accepted design: ranked moderation stacks for YouTube candidate selection
+
+Title:
+Accepted design — YouTube ranked moderation stacks
+
+Status:
+ACCEPTED_PRODUCT_DESIGN / NOT_IMPLEMENTED_AS_FULL_PIPELINE_YET
+
+Context:
+The current `youtube.select_candidates` implementation already reads stored YouTube candidates from SQLite and calls `youtube_curator` through Hermes. The current selector result is planned-only and does not yet persist a full ranked moderation queue or final approved output. The UI currently has policy editing and runtime apply controls, but runtime apply is not the sorting launch.
+
+Accepted product behavior:
+The YouTube candidate selection stage must become a ranked moderation pipeline, not just a one-shot selector response.
+
+The pipeline has these stages:
+
+1. Candidate source
+Stored YouTube candidates are the source of truth for sorting input.
+The selection pipeline must not search YouTube again when showing moderation stacks.
+The selection pipeline must not fill the candidate database again when the operator only wants to continue moderation.
+The candidate source is the stored candidate pool, currently represented by SQLite candidate storage.
+
+2. Ranking / selection run
+A selection run starts by reading stored candidates from the candidate database.
+The backend invokes `youtube.select_candidates`.
+`youtube.select_candidates` calls YouTube Curator through Hermes.
+YouTube Curator ranks/selects candidates according to source-managed policy:
+- AI tools;
+- LLMs;
+- coding agents;
+- vibe coding;
+- developer automation;
+- agentic workflows;
+- practical demos and releases.
+
+The exact number of candidates that proceed must be controlled by backend settings or launch parameters, not only by natural-language policy.
+The policy explains how to prioritize.
+The backend controls how many items are taken.
+
+3. Ranked batch persistence
+The ranked output must be saved as a durable selection batch.
+A batch must keep enough state to resume moderation without rerunning search or reranking.
+The batch should include:
+- batch_id / selection_run_id;
+- video_id;
+- rank/order;
+- score/confidence if available;
+- curator reason;
+- moderation status;
+- lifecycle status;
+- timestamps.
+
+The batch state must allow:
+- pending moderation;
+- approved;
+- rejected/banned;
+- deferred/keep for later;
+- finalized/ready for next pipeline step.
+
+4. Moderation stack
+Moderation must happen in stacks.
+A stack is a slice of the already-ranked batch.
+The stack size is controlled by settings or launch parameters.
+Example:
+- rank 1-5 first stack;
+- rank 6-10 next stack;
+- rank 11-15 next stack.
+
+Showing the next stack must not rerun:
+- YouTube search;
+- candidate enrichment;
+- Hermes ranking;
+- `youtube.select_candidates`.
+
+Showing the next stack only reads the existing ranked batch and returns the next not-finalized, not-banned candidates.
+
+5. Telegram moderation
+The moderation flow must support Telegram inline buttons.
+
+Each candidate card should include:
+- title;
+- channel;
+- URL;
+- Russian summary/description;
+- curator reason;
+- rank/priority;
+- basic metadata if useful.
+
+The Russian card text can be prepared by the agent/Hermes from stored facts, but the agent must not change the deterministic moderation state directly.
+
+Inline moderation actions:
+- Approve;
+- Reject / ban;
+- Defer / keep for next time;
+- Show next stack;
+- Return/finalize result.
+
+Meanings:
+- Approve: include this video in the approved output for the current batch.
+- Reject / ban: do not use this video; mark it as rejected/banned so it does not appear again as a candidate unless explicitly reset.
+- Defer / keep for next time: do not include now, but do not ban; allow it to appear in a later stack or later run according to lifecycle rules.
+- Show next stack: show the next stack from the same ranked batch without rerunning ranking.
+- Return/finalize result: stop waiting for more moderation and produce the final approved output from all approved videos in the batch so far.
+
+6. UI operator moderation
+The same moderation operations must be available from the UI:
+- start ranking/selection run;
+- set target selected count and moderation stack size;
+- show current stack;
+- show next stack;
+- approve/reject/defer candidates;
+- finalize/return result;
+- clear ranked batch state.
+
+UI and Telegram must use the same backend moderation service and the same database state.
+There must not be separate UI-only or Telegram-only business logic.
+
+7. Telegram command to continue moderation
+A Telegram bot command must allow continuing moderation without rerunning search or sorting.
+
+Command behavior:
+- do not search YouTube;
+- do not call ranking again;
+- do not refill the candidate database;
+- find the active ranked batch or the latest resumable batch;
+- show the next stack of not-finalized, not-banned candidates;
+- use the configured stack size.
+
+Purpose:
+This lets the operator resume moderation later when the ranked batch already contains candidates.
+
+8. Final approved output
+When the operator presses Return/finalize result, the system must:
+- stop waiting for more moderation commands for that batch;
+- collect all approved videos in that batch;
+- mark them as ready for the next pipeline step;
+- make them available to the next script/tool.
+
+The next script/tool must read the finalized approved output from durable state, not from a transient UI response.
+
+9. Clear ranked batch state
+The UI and Telegram moderation surface must provide a clear/reset action for ranked selection state.
+
+Purpose:
+Allow the operator to discard old ranked batches and start the full chain again from fresh candidate search/ranking.
+
+Clear/reset must be scoped carefully:
+- it should clear ranked selection/moderation/output state;
+- it should not accidentally delete the full candidate database unless a separate destructive action is explicitly designed and confirmed.
+
+10. Runtime apply distinction
+`Применить правила в runtime` is not a sorting launch.
+It only syncs source package policy/docs/skills into the Hermes runtime profile.
+The business launch is a separate selection/ranking/moderation action.
+
+Correct operator sequence after editing policy:
+1. Save source policy.
+2. Apply policy to runtime.
+3. Start ranking/selection run.
+4. Moderate stack(s).
+5. Finalize/return approved result.
+
+11. Agent/tool boundary
+The agent must not own SQL or database mutation directly.
+The agent may call tools and generate human-readable moderation text.
+The deterministic backend layer owns:
+- reading candidates;
+- persisting ranked batches;
+- updating moderation statuses;
+- finalizing approved output;
+- clearing ranked state.
+
+The same backend service must be callable from:
+- UI;
+- Telegram inline buttons;
+- Telegram commands;
+- Hermes/tool path where applicable.
+
+12. Hard prohibitions
+The design must not introduce:
+- fake/offline/mock sorting paths;
+- UI-only selection logic;
+- Telegram-only state mutation logic;
+- direct SQL controlled by agent text;
+- automatic publication from `youtube.select_candidates`;
+- automatic call to the next editing/formatting/publishing tool inside `youtube.select_candidates`;
+- reranking when only the next moderation stack is requested;
+- YouTube search when only continuing moderation is requested.
+
+13. Implementation direction
+The next technical phase should design and implement a durable moderation queue/state layer around the existing `youtube.select_candidates` result.
+
+The implementation should likely use or extend existing selection tables:
+- `youtube_selection_batches`;
+- `youtube_candidate_selection_state`;
+
+or create narrowly-scoped additional tables only if the existing schema is insufficient.
+
+The next phase must start with proof/design of:
+- current selection DB schema;
+- exact persistence model;
+- stack pagination rules;
+- moderation status transitions;
+- final approved output shape;
+- UI actions;
+- Telegram inline callback commands;
+- Telegram resume command;
+- reset/clear semantics.
+
+Do not jump directly to publication.
+Do not connect the next post-generation script until approved output persistence is designed and proven.

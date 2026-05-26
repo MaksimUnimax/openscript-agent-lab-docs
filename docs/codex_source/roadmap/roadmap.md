@@ -694,3 +694,67 @@ Future live curator work is acceptable only if:
 - `next_tool_called` remains false.
 
 END_ROADMAP_APPEND_TEXT
+
+## RM_20260526_YOUTUBE_RANKED_MODERATION_STACKS_ACCEPTED
+
+### Status
+Accepted product design for the next YouTube Research phase.
+
+The current implementation already has:
+- stored YouTube candidates in SQLite;
+- `youtube.select_candidates`;
+- Hermes-backed `youtube_curator`;
+- agent/Hermes tool registration for selection;
+- policy editor and runtime apply controls.
+
+The current implementation still lacks:
+- direct UI launch of selection as a business action;
+- durable ranked moderation queue;
+- Telegram inline moderation over ranked stacks;
+- final approved output persistence for the next script/tool.
+
+### Accepted next product behavior
+The YouTube selection stage must become:
+
+stored candidates
+→ `youtube.select_candidates`
+→ Hermes-backed YouTube Curator ranking
+→ durable ranked batch
+→ moderation stacks
+→ Telegram/UI approve/reject/defer
+→ finalize approved result
+→ next script/tool consumes approved output
+
+### Key decisions
+- Runtime apply is not sorting launch.
+- Showing the next moderation stack must not rerun search or ranking.
+- Telegram command to continue moderation must only show the next stack from existing ranked state.
+- UI and Telegram must share one backend moderation service and one database state.
+- The agent must not mutate SQL directly.
+- The backend controls target count and stack size.
+- Source policy controls ranking preferences.
+- Approved result must be stored durably for the next pipeline step.
+- Clear/reset must clear ranked moderation/output state, not accidentally delete the whole candidate database.
+- `youtube.select_candidates` must not call post editing, formatting, or publishing tools.
+
+### Next technical phase
+`youtube_ranked_selection_moderation_queue_design`
+
+This phase must proof/design:
+- current selection DB schema;
+- ranked batch persistence;
+- moderation stack pagination;
+- status transitions: pending, approved, rejected/banned, deferred, finalized;
+- final approved output shape;
+- UI actions;
+- Telegram inline callbacks;
+- Telegram command to continue moderation;
+- clear/reset semantics.
+
+### Not next
+Do not implement Telegram publication.
+Do not implement post generation.
+Do not implement image generation.
+Do not call the next editing/formatting tool from `youtube.select_candidates`.
+Do not rerun YouTube search or ranking when the operator only asks for the next moderation stack.
+Do not add fake/offline/mock paths.
