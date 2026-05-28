@@ -693,6 +693,43 @@ Future live curator work is acceptable only if:
 - `youtube.select_candidates` remains the only writer to selection storage;
 - `next_tool_called` remains false.
 
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260528_YOUTUBE_RANKED_MODERATION_LIFECYCLE_FIXED source=chatgpt_dialogue_and_codex_reports -->
+## 2026-05-28 — YouTube ranked batch lifecycle fixed; sorting/stack semantics clarified
+
+Roadmap update:
+The YouTube moderation active block moved from callback debugging back to sorting/ranked batch lifecycle. The accepted product model is:
+1. Search stores candidates.
+2. Explicit UI/backend start ranking/selection action creates durable ranked batch.
+3. Configured stack size controls how many already-ranked cards are shown per stack.
+4. Inline “Следующий стек” shows the next configured stack from the same ranked batch.
+5. Curator is not called again while the active batch has pending rows.
+6. New ranking is only considered after active batch exhaustion.
+7. If no eligible candidates exist after exhaustion, return needs_new_search/no_eligible_candidates.
+8. Empty selection / zero persisted rows is structured failure, not ok=true.
+
+Completed implementation report:
+- RUN_ID: OPENSCRIPT_AGENT_LAB_FIX_YOUTUBE_RANKED_BATCH_LIFECYCLE_AND_CONFIGURED_STACK_SIZE_20260528_01
+- RESULT: SUCCESS
+- COMMIT: e21a6874ee864a79ad4f2221b6ee4a8a3d723753
+- Changed modules:
+  - agent_lab/youtube_agent_moderation_dispatch.py
+  - agent_lab/youtube_select_candidates.py
+  - agent_lab/youtube_selection_moderation_service.py
+  - related unit tests
+- Proof:
+  - live runner reused active batch select-e9b53dfe41a3;
+  - selector/provider were not called;
+  - moderation card was sent;
+  - zero-row success path blocked.
+
+Not next:
+- Do not return to Telegram callback testing unless the user asks after verifying current moderation flow.
+- Do not run new search/ranking just to test buttons.
+- Do not mix receipt/OCR active blocker with YouTube ranked moderation unless current task explicitly switches domain.
+
+Potential next docs/product task:
+Decide whether to extend ТЗ with a separate Telegram bot command for manual “start ranking/selection run”. Current ТЗ documents UI/backend start ranking action, Telegram continue moderation command, and inline next stack; it does not clearly define a separate Telegram command for ranking launch.
+<!-- ROADMAP_APPEND_END id=RM_20260528_YOUTUBE_RANKED_MODERATION_LIFECYCLE_FIXED -->
 END_ROADMAP_APPEND_TEXT
 
 ## RM_20260526_YOUTUBE_RANKED_MODERATION_STACKS_ACCEPTED
@@ -758,3 +795,94 @@ Do not implement image generation.
 Do not call the next editing/formatting tool from `youtube.select_candidates`.
 Do not rerun YouTube search or ranking when the operator only asks for the next moderation stack.
 Do not add fake/offline/mock paths.
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK source=chatgpt_dialogue_and_codex_reports -->
+## RM_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+
+### Status
+
+The active blocker has moved to full receipt extraction.
+
+This is a Financial Instrument / deterministic business-layer block.
+
+### Completed / proven before this block
+
+The current receipt photo path reached the correct high-level chain:
+
+- Telegram received the photo;
+- selected agent received the photo;
+- Hermes invoked `receipt_photo_draft`;
+- the first proven failure is OCR/parser extraction, not Telegram/Hermes routing.
+
+### Current blocker
+
+Receipt extraction currently fails to extract a full usable structure.
+
+Known failing case:
+
+- visible receipt total: `1 189.63`;
+- tool result: `amount=null`;
+- tool result: `item_count=0`;
+- OCR did not provide a usable total line;
+- OCR date candidate was `28.05.2025`, while the visible receipt indicated a different expected date.
+
+### Next technical block
+
+Next technical block:
+
+`receipt_full_extraction_proof_design_fix`
+
+Target fields:
+
+- merchant;
+- date;
+- time if visible;
+- final total;
+- item names;
+- quantities;
+- unit prices;
+- line sums;
+- payment facts;
+- tax facts if visible;
+- `missing_fields` for anything not honestly recoverable.
+
+### Required approach
+
+The next run must start with proof of current OCR/preprocessing/parser behavior.
+
+It must locate the current source owner before editing.
+
+Likely source areas:
+
+- `agent_lab/fin_instrument/**`;
+- `vendor/hermes-agent/tools/fin_receipt_tool.py`;
+- `tools/hermes_vendor_overlay/hermes-agent/tools/fin_receipt_tool.py`;
+- receipt OCR/parser tests under `tests/`.
+
+### Not next
+
+Not next unless fresh proof makes them first broken:
+
+- Telegram pause fix;
+- Telegram auth fix;
+- Hermes auth/provider fix;
+- Telegram send fix;
+- selected-agent routing fix.
+
+Not acceptable:
+
+- extracting only final total;
+- treating one receipt image as a one-off;
+- letting Hermes invent financial facts;
+- returning no item rows without honest `missing_fields`.
+
+### Acceptance direction
+
+A future receipt fix is accepted only when:
+
+- deterministic business layer returns structured receipt draft;
+- total/date/item row extraction is tested;
+- missing fields are explicit;
+- Hermes/agent only explains/asks confirmation over factual tool output;
+- Telegram chain remains functional after the run.
+<!-- ROADMAP_APPEND_END id=RM_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK -->

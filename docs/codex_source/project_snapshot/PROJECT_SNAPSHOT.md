@@ -109,3 +109,50 @@ The next technical step after manual policy/apply verification is a separate pro
 - No auto-mode.
 - Runtime memory remains profile-local and is not editable through current UI.
 - `system_filter` remains separate and must not be reused as YouTube curator.
+
+# Project Snapshot — 2026-05-28 — YouTube ranked moderation lifecycle
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260528_YOUTUBE_RANKED_BATCH_LIFECYCLE
+DATE_UTC: 2026-05-28
+STATUS: current_after_youtube_lifecycle_fix
+
+Current project state:
+- OpenScript Agent Lab remains Hermes-first, multi-agent, business-layer-owned deterministic state architecture.
+- Latest major accepted implementation block: YouTube ranked moderation lifecycle and configured stack size.
+- Sorting/ranking lifecycle now separates:
+  - ranking target / selected count;
+  - moderation stack size;
+  - active ranked batch serving;
+  - fresh ranking only after batch exhaustion;
+  - structured no eligible / empty selection failures.
+- Latest accepted commit for this block:
+  `e21a6874ee864a79ad4f2221b6ee4a8a3d723753`.
+- Telegram callback debugging should not be resumed automatically.
+- Current open product/documentation question:
+  Should there be a separate Telegram bot command for manual start ranking/selection run, or should ranking launch remain UI/backend only while Telegram handles continue moderation and inline next stack?
+
+# Project Snapshot — 2026-05-28 — Receipt full extraction active block
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+DATE_UTC: 2026-05-28T14:06:59Z
+
+## Current active block
+
+`receipt_full_extraction`
+
+## Current proven blocker
+
+- receipt OCR/parser extraction fails to produce full structured receipt data
+
+## Important facts
+
+- receipt photo reaches Telegram and the selected agent;
+- Hermes invokes `receipt_photo_draft`;
+- the failing step is OCR/parser, not Telegram/Hermes routing;
+- visible amount `1 189.63` was missed as a usable total;
+- tool output had `amount=null` and `item_count=0`;
+- the next work is full receipt extraction, not Telegram/Hermes/auth.
+
+## Next recommended run
+
+`OPENSCRIPT_AGENT_LAB_RECEIPT_FULL_EXTRACTION_PROOF_DESIGN_FIX`

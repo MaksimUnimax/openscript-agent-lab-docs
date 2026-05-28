@@ -3217,3 +3217,179 @@ Do not repeat already completed work unless a fresh regression is reported:
 Do not restart Telegram/router work for this block. Telegram routing is not the current blocker.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260528_YOUTUBE_RANKED_BATCH_LIFECYCLE_AND_SORTING_CORRECTION source=chatgpt_dialogue_and_codex_reports -->
+APPEND_ID: CTX_20260528_YOUTUBE_RANKED_BATCH_LIFECYCLE_AND_SORTING_CORRECTION
+SOURCE_KIND: chatgpt_dialogue_and_codex_reports
+DATE_UTC: 2026-05-28
+STATUS: accepted_current_context
+TITLE: YouTube ranked moderation lifecycle corrected after sorting/callback drift
+
+Summary:
+The current dialogue established that the active technical issue was not Telegram callback handling, but YouTube ranked moderation lifecycle and sorting. The assistant initially drifted into repeated callback/polling investigations. The user corrected the framing: if sorting does not create or serve a correct ranked batch, callback behavior is secondary.
+
+Accepted product model:
+- Search stores YouTube candidates in DB.
+- Ranking/selection is a separate UI/backend operator action, not “apply runtime” and not “next stack”.
+- Curator/Hermes ranks/selects candidates from already stored DB facts.
+- Backend persists a durable ranked batch.
+- Moderation stack is a slice from an already-ranked batch.
+- Stack size is configured display stack size; it is not hardcoded and not the ranking target.
+- Ranking target / selected count and moderation stack size are independent values.
+- Telegram inline “Следующий стек” is the next-stack control.
+- Inline “Следующий стек” must read the next configured stack from the same existing ranked batch.
+- Inline “Следующий стек” must not run YouTube search, enrichment, Hermes ranking, or youtube.select_candidates.
+- While an active/resumable ranked batch has pending rows, new Curator ranking is blocked.
+- Only after the active batch is exhausted may a new ranking be considered.
+- If the active batch is exhausted and DB has no eligible candidates, backend must return structured needs_new_search/no_eligible_candidates.
+- Empty Curator selection or zero persisted rows must not be ok=true and must not create active empty success batches.
+
+Key accepted proof:
+OPENSCRIPT_AGENT_LAB_YOUTUBE_RANKING_EMPTY_CURATOR_SELECTION_ROOT_CAUSE_PROOF_20260528_01 proved:
+- current code default target_count was 3, but user product expectation was larger ranking batches;
+- stack_size is display stack size and next stack semantics should use the same ranked batch;
+- latest empty batch select-a887c112f423 had candidate_pool_size=20 but only one fresh candidate reached Curator due selected-state/window starvation;
+- Curator returned selected_video_ids=[] and decisions=[];
+- create_ranked_batch persisted 0 rows;
+- build_moderation_cards returned 0 cards;
+- runner returned ok=true and created an active empty shell;
+- this represented DB/window starvation plus zero-selection acceptance.
+
+User correction after proof:
+The user clarified that rows marked selected/ranked are not simply “old candidates to skip” during moderation. If they belong to an active ranked batch and remain pending moderation, they must be served to the moderator through next stack until the batch is exhausted.
+
+Accepted fix:
+OPENSCRIPT_AGENT_LAB_FIX_YOUTUBE_RANKED_BATCH_LIFECYCLE_AND_CONFIGURED_STACK_SIZE_20260528_01 completed SUCCESS at commit e21a6874ee864a79ad4f2221b6ee4a8a3d723753.
+The report stated:
+- runner now checks latest non-empty active batch first and serves its current stack;
+- only when no active batch is resumable does it call Curator again;
+- zero-ranked selection is now structured failure;
+- persisted Russian card text is stored for new batches;
+- legacy active batches can render cards from stored facts;
+- stack_size comes from runner payload / launch parameters and is persisted on ranked batch;
+- runner default stack size is 5;
+- target_count comes from runner payload / launch parameters and is independent from stack size;
+- runner default target_count is 10;
+- get_latest_active_batch ignores empty shells and returns latest non-empty active batch only;
+- get_current_stack / get_next_stack use stored batch stack size;
+- no Telegram callback work was done;
+- live proof reused existing active batch select-e9b53dfe41a3, selector/provider were not called, one moderation card was built, and Telegram messages 581/582 were dispatched.
+
+Current stop-point:
+Do not continue callback debugging until the user explicitly asks. The latest accepted block is YouTube ranked batch lifecycle fix/report review. The next likely documentation/product gap is whether docs/roadmap should explicitly specify a separate Telegram command for “start ranking”; current ТЗ proves UI/backend start ranking action, Telegram continue moderation command, and inline next stack, but not a separate Telegram bot command for manual ranking launch.
+
+Guardrail:
+Future assistants must not describe “Следующий стек” as a Telegram command. It is an inline button/control. The Telegram command described in ТЗ is continue moderation, which resumes active/latest ranked batch; “start ranking/selection run” is a UI/backend operator action unless a future docs update explicitly adds a Telegram command.
+<!-- CONTEXT_APPEND_END id=CTX_20260528_YOUTUBE_RANKED_BATCH_LIFECYCLE_AND_SORTING_CORRECTION -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK source=chatgpt_dialogue_and_codex_reports -->
+## CTX_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+
+### Status
+
+The active project block is now full receipt extraction for the Financial Instrument / receipt business layer.
+
+This update records the current working context so future ChatGPT/Codex runs do not restart from Telegram, auth, Hermes, or send-path fixes.
+
+### Proven chain
+
+The current proof state is:
+
+- a receipt photo reached the Telegram chain;
+- the same receipt photo reached the selected agent;
+- the selected agent invoked `receipt_photo_draft` through Hermes;
+- the current broken step is not proven to be Telegram routing;
+- the current broken step is not proven to be Telegram auth;
+- the current broken step is not proven to be Hermes reply;
+- the current broken step is not proven to be Telegram send;
+- the proven failing step is OCR/parser extraction;
+- observed failing step label: `OCR_total_missing`.
+
+### Receipt facts from the failing case
+
+The visible receipt image contained a total amount:
+
+- `1 189.63`
+
+The tool/OCR result failed to extract usable structured data:
+
+- `amount=null`;
+- `item_count=0`;
+- OCR candidate text did not provide a usable total line;
+- OCR date candidate was `28.05.2025`;
+- the visible receipt indicated that the expected date was different.
+
+This must be treated as a class problem in receipt extraction, not as a one-image special case.
+
+### User requirement
+
+The user clarified that receipt processing must extract all useful receipt information, not only the final total.
+
+Required target fields for the next technical block:
+
+- merchant / store name;
+- date;
+- time if visible;
+- final total amount;
+- item rows;
+- item names;
+- quantities;
+- unit prices;
+- line totals;
+- payment facts if visible;
+- taxes if visible;
+- honest `missing_fields` when OCR/parser cannot recover a field.
+
+### Architecture boundary
+
+Receipt extraction belongs to deterministic business layer.
+
+Hermes/agent may help with language, explanation, and user-facing confirmation text, but must not invent:
+
+- money amounts;
+- dates;
+- item names;
+- quantities;
+- prices;
+- payment facts;
+- taxes.
+
+The business layer must own OCR/preprocessing/parser extraction and must return factual structured results.
+
+### Next technical run
+
+The next technical run should be:
+
+`OPENSCRIPT_AGENT_LAB_RECEIPT_FULL_EXTRACTION_PROOF_DESIGN_FIX`
+
+Run goal:
+
+- prove current OCR/preprocessing/parser path;
+- prove why total, date and item rows are missed;
+- design and implement a minimal universal full receipt extraction improvement;
+- add tests for total, date, item rows, and missing_fields;
+- keep Telegram/Hermes routing untouched unless fresh proof shows they are now the first broken layer.
+
+### Not next
+
+Do not reopen these areas unless fresh proof shows they are first broken:
+
+- Telegram polling/routing;
+- Telegram auth;
+- Hermes auth/provider;
+- Telegram send delivery;
+- selected-agent routing;
+- receipt_photo_draft invocation path.
+
+Do not accept a fix that only extracts the final total. The target is full receipt structure extraction.
+
+### Completion rule
+
+A future receipt extraction fix-run is not complete if:
+
+- the bot ends paused or the Telegram chain is broken;
+- receipt_photo_draft stops being called;
+- only final total is extracted;
+- item rows are ignored without explicit `missing_fields`;
+- Hermes invents financial facts instead of consuming deterministic tool output.
+<!-- CONTEXT_APPEND_END id=CTX_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK -->

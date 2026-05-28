@@ -20,16 +20,16 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
-  latest_context_append_id: CTX_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS
-  latest_roadmap_append_id: RM_20260522_YOUTUBE_SELECT_CANDIDATES_CURATOR_RUNTIME_UI_PROGRESS
-  latest_module_map_append_id: MM_20260522_YOUTUBE_CURATOR_SELECT_CANDIDATES_RUNTIME_UI_BOUNDARY
-  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260522_YOUTUBE_CURATOR_UI_READY
-  active_blocker: youtube_select_candidates_curator_configuration_before_live_hermes
-  current_active_block: youtube_select_candidates_curator_configuration_before_live_hermes
-  next_exact_run: manual_browser_refresh_youtube_curator_ui_check
+  latest_context_append_id: CTX_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+  latest_roadmap_append_id: RM_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+  latest_module_map_append_id: MM_20260528_RECEIPT_FULL_EXTRACTION_BOUNDARY
+  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+  active_blocker: receipt_full_extraction
+  current_active_block: receipt_full_extraction
+  next_exact_run: OPENSCRIPT_AGENT_LAB_RECEIPT_FULL_EXTRACTION_PROOF_DESIGN_FIX
   financial_ui_readd: completed
-  pending_next_prompt_id: none_until_manual_acceptance_or_failure_report
-  docs_update_workflow_rule: chatgpt_determines_last_saved_docs_point_and_writes_explicit_append_blocks_inline
+  pending_next_prompt_id: USER_DECISION_TELEGRAM_START_RANKING_COMMAND_OR_CONTINUE_CURRENT_FLOW
+  docs_update_workflow_rule: chatgpt_writes_append_blocks_inline_before_codex_docs_update
 repo_documentation_access_model: repo_documentation_access_v2
 current_workflow_mode_policy: risk_based_combined_runs_v1
 task_card_blocking_gate_logic: deprecated
@@ -341,8 +341,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260517_UI_ONLY_ROLLBACK_TO_WORKING_TELEGRAM_BASELINE
-      last_append_title: "UI-only rollback to working Telegram baseline"
+      last_append_id: CTX_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+      last_append_title: "Receipt full extraction active block"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:
@@ -352,9 +352,9 @@ project_memory:
       status: imported
       current_roadmap_version: v0.7
       current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
-      last_append_id: RM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+      last_append_id: RM_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
       current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
-      next_phase_after_allowlist: agent_farm_task_runtime_design_proof
+      next_phase_after_allowlist: receipt_full_extraction_proof_design_fix
     - path: docs/codex_source/roadmap/roadmap_manifest.yaml
       status: imported
     - path: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
@@ -372,7 +372,7 @@ project_memory:
       current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
       safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
       task_card_reevaluation_required: true
-      last_append_id: MM_20260516_EXPAND_TZ_FIN_TOOL_TAB_AGENT_FARM_AND_AGENT_TOOLS
+      last_append_id: MM_20260528_RECEIPT_FULL_EXTRACTION_BOUNDARY
       current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
     - path: docs/codex_source/module_map/module_map_manifest.yaml
       status: imported_current_snapshot
@@ -385,7 +385,7 @@ project_memory:
       status: initial
     - path: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
       status: imported_current_snapshot
-      last_snapshot_id: PROJECT_SNAPSHOT_20260516_FIN_TOOL_TAB_AGENT_FARM_TZ_EXPANSION
+      last_snapshot_id: PROJECT_SNAPSHOT_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
     - path: docs/codex_source/project_snapshot/project_snapshot_manifest.yaml
       status: imported_current_snapshot
   rules:

@@ -1,10 +1,10 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260526_YOUTUBE_RANKED_MODERATION_STACKS_ACCEPTED
-last_status: youtube_ranked_moderation_stacks_accepted
-active_phase: youtube_ranked_selection_moderation_design
+last_append_id: RM_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+last_status: receipt_full_extraction_active_block
+active_phase: receipt_full_extraction_proof_design_fix
 current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
-current_active_block: youtube_ranked_selection_moderation_queue_before_publication
+current_active_block: receipt_full_extraction
 next_phase_after_allowlist: youtube_search_provider_evaluation_and_schema_design
 agent_farm_deferred_until_fin_instrument: true
 current_roadmap_version: v0.7
@@ -19,4 +19,4 @@ supplemental_imported_files:
   - path: docs/codex_source/roadmap/imported/roadmap_v0_8_youtube_hermes_tool_planned.md
     status: imported
 no_destructive_rewrite: true
-last_updated_utc: 2026-05-26T10:22:00Z
+last_updated_utc: 2026-05-28T14:06:59Z

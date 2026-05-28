@@ -892,4 +892,121 @@ Current accepted model:
 
 Do not create a `telegram_router` system agent as part of YouTube curator work unless a later explicit architecture design approves it.
 
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260528_YOUTUBE_RANKED_BATCH_LIFECYCLE_MODULE_BOUNDARY source=chatgpt_dialogue_and_codex_reports -->
+## 2026-05-28 — YouTube ranked moderation lifecycle boundaries
+
+Module boundary update:
+YouTube ranked moderation lifecycle is owned by backend business modules, not Telegram connector and not Hermes alone.
+
+Relevant source ownership:
+- agent_lab/youtube_select_candidates.py
+  - candidate snapshot and Curator selection boundary;
+  - ranking target handling;
+  - Curator contract validation.
+- agent_lab/youtube_selection_moderation_service.py
+  - durable ranked batch state;
+  - active/resumable batch lookup;
+  - current stack / next stack cursor;
+  - moderation_status lifecycle;
+  - zero-row/no-eligible structured states.
+- agent_lab/youtube_agent_moderation_dispatch.py
+  - orchestration between ranked batch lifecycle and Telegram card dispatch;
+  - must check active non-empty batch before fresh ranking;
+  - must not call Curator when pending ranked rows are available;
+  - must not report ok=true for zero rows.
+
+Out of scope for ranked batch lifecycle fixes:
+- agent_lab/telegram_connector.py
+- agent_lab/telegram_polling.py
+- agent_lab/telegram_bindings.py
+- agent-packages/**
+- Fin/receipt modules
+- Hermes auth/provider configuration
+- YouTube search implementation, unless a future proof shows candidate ingestion/search is the actual blocker.
+
+Key boundary rule:
+Telegram inline next stack is a UI/control surface for requesting the next configured slice from the same ranked batch. It must not own ranking, DB state, search, or Curator selection logic.
+<!-- MODULE_MAP_APPEND_END id=MM_20260528_YOUTUBE_RANKED_BATCH_LIFECYCLE_MODULE_BOUNDARY -->
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260528_RECEIPT_FULL_EXTRACTION_BOUNDARY source=chatgpt_dialogue_and_codex_reports -->
+## MM_20260528_RECEIPT_FULL_EXTRACTION_BOUNDARY
+
+### Boundary update
+
+Receipt full extraction belongs to deterministic business layer.
+
+It is not owned by Telegram routing, Hermes auth, Telegram send delivery, or the agent personality layer.
+
+### Business-layer owner boundary
+
+Future receipt extraction work should inspect the deterministic receipt business/tool path first.
+
+Likely source areas:
+
+- `agent_lab/fin_instrument/**`;
+- `vendor/hermes-agent/tools/fin_receipt_tool.py`;
+- `tools/hermes_vendor_overlay/hermes-agent/tools/fin_receipt_tool.py`;
+- receipt OCR/parser tests under `tests/`.
+
+Responsibilities:
+
+- image preprocessing;
+- OCR invocation;
+- OCR candidate normalization;
+- merchant extraction;
+- date/time extraction;
+- total extraction;
+- item row extraction;
+- quantity/unit-price/line-total extraction;
+- payment/tax facts if visible;
+- `missing_fields` reporting;
+- returning factual draft data to the agent.
+
+### Agent/Hermes boundary
+
+Hermes/agent responsibilities:
+
+- receive compact factual tool result;
+- ask user for confirmation or missing details;
+- explain the result in character/style;
+- never invent receipt facts.
+
+Hermes/agent non-responsibilities:
+
+- no direct SQL;
+- no uncontrolled DB mutation;
+- no invented totals/dates/items;
+- no OCR correction by imagination;
+- no replacing deterministic parser output with guessed data.
+
+### Telegram boundary
+
+Telegram routing and send path should be inspected only if fresh proof shows:
+
+- receipt photo does not reach selected agent;
+- `receipt_photo_draft` is not called;
+- tool result is produced but not delivered;
+- Telegram send fails after deterministic extraction succeeded.
+
+Current proof does not make Telegram the first broken layer.
+
+### Future technical boundary
+
+The next technical run should target OCR/preprocessing/parser extraction.
+
+It must not start by changing:
+
+- Telegram Router;
+- Hermes auth/provider;
+- Telegram delivery/send;
+- agent source package;
+- unrelated YouTube pipeline;
+- unrelated UI tabs.
+
+### Acceptance boundary
+
+A receipt extraction fix is incomplete if it only returns a final total.
+
+The business layer must attempt full useful extraction and return `missing_fields` for fields it cannot honestly recover.
+<!-- MODULE_MAP_APPEND_END id=MM_20260528_RECEIPT_FULL_EXTRACTION_BOUNDARY -->
 END_MODULE_MAP_APPEND_TEXT

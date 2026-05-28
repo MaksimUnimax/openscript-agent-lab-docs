@@ -140,6 +140,39 @@ Current docs update after receipt proof:
 - future Telegram/Hermes/Fin runs must end in a working bot state when live checks are in scope;
 - the docs-update workflow now requires ChatGPT to find the last saved docs point first and provide explicit inline append blocks to Codex.
 
+## 2026-05-28 — Current active block: full receipt extraction, not Telegram/Hermes
+
+Current active blocker has moved to deterministic receipt extraction.
+
+Proven receipt-chain facts:
+- receipt photo reached the Telegram chain;
+- receipt photo reached the selected agent;
+- receipt photo invoked `receipt_photo_draft` through Hermes;
+- the current failure is not proven in Telegram routing, Telegram auth, Hermes reply, or Telegram send;
+- the current proven failing step is receipt OCR/parsing;
+- failing step label: `OCR_total_missing`;
+- a visible amount `1 189.63` was present on the receipt image;
+- OCR candidate text did not produce a usable total line;
+- tool result had `amount=null` and `item_count=0`;
+- OCR produced date `28.05.2025`, while the visible receipt indicated a different expected date;
+- this is a shared receipt-extraction class problem, not a one-image workaround.
+
+User requirement:
+- extract all useful receipt information, not only final total;
+- fields include merchant, date/time, total, item rows, item names, quantities, unit prices, item sums, payment facts, tax if visible, and `missing_fields` when data cannot be honestly recovered.
+
+Architecture boundary:
+- receipt extraction belongs to deterministic business layer;
+- Hermes/agent must not invent financial facts;
+- Telegram/auth/Hermes must not be reopened unless a fresh proof shows `receipt_photo_draft` is not called or the first broken step moved back to routing/auth/Hermes/send.
+
+Next technical block:
+- full receipt extraction proof/design/fix over OCR/preprocessing/parser;
+- not a Telegram fix;
+- not an auth fix;
+- not a Hermes fix;
+- not acceptable if it extracts only final total.
+
 - 2026-05-21: the first “Ютуб” capability is no longer only planned. `youtube.subtitles_get` has been implemented as a Hermes-visible agent tool, operator-tested through the `Ютуб` UI tab, connected to an agent through UI, and manually proven in Telegram with `squidward` returning subtitles.
 - Current YouTube status: IMPLEMENTED / UI_CONNECTED / AGENT_ATTACHABLE_VIA_UI / MANUALLY_TELEGRAM_PROVEN.
 - Language selection policy is now `ru -> en -> any available transcript`; operator language input is a priority hint, not a strict filter.
@@ -237,3 +270,6 @@ Not active now:
 - image generation;
 - editing/formatting tool;
 - auto-mode.
+
+2026-05-28 update:
+YouTube ranked moderation lifecycle was corrected after a task drift into Telegram callback debugging. The accepted fix report is OPENSCRIPT_AGENT_LAB_FIX_YOUTUBE_RANKED_BATCH_LIFECYCLE_AND_CONFIGURED_STACK_SIZE_20260528_01 at commit e21a6874ee864a79ad4f2221b6ee4a8a3d723753. The runner now reuses the latest non-empty active ranked batch before calling Curator, uses configured stack size for stack display, keeps ranking target independent from stack size, and treats zero rows as structured failure rather than ok=true. Current docs gap: decide whether ТЗ should explicitly add a Telegram command for manual start ranking/selection run. Current ТЗ already has UI/backend start ranking action, Telegram continue moderation command, and inline next stack.
