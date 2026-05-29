@@ -133,6 +133,49 @@ Use subsystem docs only when the task needs them.
 
 If exact paths are not known, first create a proof/search task to locate the relevant local docs, not a fix task.
 
+## Project docs are ChatGPT preflight, not Codex input
+
+ChatGPT must not give Codex project documentation as context.
+
+ChatGPT may read public project docs during preflight to understand rules, ТЗ, current state, roadmap, context, module map, and prior decisions. That preflight document set belongs to ChatGPT only.
+
+Codex `DOCS_TO_READ` must not include project docs such as:
+
+- `docs/codex_source/context/**`
+- `docs/codex_source/roadmap/**`
+- `docs/codex_source/module_map/**`
+- `docs/codex_source/project/current_status.md`
+- `docs/codex_source/project/technical_spec.md`
+- `docs/codex_source/project_snapshot/**`
+- task cards
+- general project memory
+- general project summaries
+
+Allowed Codex inputs are only:
+
+1. `/opt/openscript-agent-lab/AGENTS.md`;
+2. exact external/vendor/tool documentation when the current task depends on an external system, API, SDK, CLI, provider, protocol, or runtime tool;
+3. exact target files that Codex must edit or verify.
+
+Target files are not context documents. If a task edits a project documentation file, ChatGPT must list it as a target file or allowed file, not as broad project context.
+
+ChatGPT must provide any needed project baseline inline in the Codex prompt after reading public project docs itself.
+
+Forbidden reasons for adding a project doc to Codex `DOCS_TO_READ`:
+
+- “for context”
+- “for safety”
+- “source of truth”
+- “maybe useful”
+- “ChatGPT read it during preflight”
+- “to understand the whole project”
+
+If exact external/vendor/tool docs are unknown, the next Codex run must be `proof_only` to locate the required external/tool docs or source files. Do not replace that with a broad project-docs reading prompt.
+
+Hard failure:
+
+If ChatGPT gives Codex context, roadmap, module map, ТЗ, current status, snapshots, task cards, or other project docs as general reading material, the prompt is invalid and must be rewritten before use.
+
 ## 6. Do not repeat already-proven proof
 
 If a fact has already been proven in a recent accepted report, do not ask Codex to prove it again unless the current task requires revalidating current runtime state.
