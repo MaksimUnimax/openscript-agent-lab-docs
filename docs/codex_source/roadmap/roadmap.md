@@ -886,3 +886,38 @@ A future receipt fix is accepted only when:
 - Hermes/agent only explains/asks confirmation over factual tool output;
 - Telegram chain remains functional after the run.
 <!-- ROADMAP_APPEND_END id=RM_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION source=chatgpt_dialogue_and_codex_reports -->
+## RM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+
+### Status
+
+The current active phase is YouTube ranked batch moderation lifecycle and the related product/docs gap.
+
+This correction supersedes the earlier `receipt_full_extraction` active phase for the current working stop-point.
+
+### Current active phase
+
+YouTube ranked batch moderation lifecycle:
+
+- search stores YouTube candidates in DB;
+- ranking/selection is a separate UI/backend operator action;
+- Curator/Hermes ranks/selects from stored DB facts;
+- backend persists a durable ranked batch;
+- moderation stack is a slice from the existing ranked batch;
+- inline `Следующий стек` reads the next configured stack from the same ranked batch;
+- inline `Следующий стек` does not run search, enrichment, Hermes ranking, or `youtube.select_candidates`;
+- while an active/resumable ranked batch has pending rows, new Curator ranking is blocked;
+- empty selection or zero persisted rows must not be `ok=true`.
+
+### Open product/docs gap
+
+Decide whether documentation should define a separate Telegram command for starting ranking, or keep ranking start as a UI/backend operator action while Telegram only continues moderation and serves inline next stack.
+
+### Not active now
+
+- `receipt_full_extraction`;
+- Telegram/auth/Hermes restart work;
+- callback debugging;
+- unrelated Fin Instrument receipt business-layer work.
+<!-- ROADMAP_APPEND_END id=RM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION -->

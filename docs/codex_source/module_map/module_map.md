@@ -1009,4 +1009,38 @@ A receipt extraction fix is incomplete if it only returns a final total.
 
 The business layer must attempt full useful extraction and return `missing_fields` for fields it cannot honestly recover.
 <!-- MODULE_MAP_APPEND_END id=MM_20260528_RECEIPT_FULL_EXTRACTION_BOUNDARY -->
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION source=chatgpt_dialogue_and_codex_reports -->
+## MM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+
+### Boundary update
+
+The current active block belongs to the YouTube research pipeline and its selection/moderation modules, not the Fin/receipt modules.
+
+### Ownership
+
+Owned by YouTube research pipeline / selection / moderation modules:
+
+- candidate storage and ranking selection lifecycle;
+- durable ranked batch state;
+- current stack / next stack slicing;
+- moderation-state transitions;
+- structured no-eligible / empty-selection handling.
+
+Telegram boundary:
+
+- Telegram `Следующий стек` is an inline moderation control over an already-ranked batch;
+- it must not own search, ranking, database state, or Curator selection logic;
+- it is not a Telegram command in this correction state.
+
+Not current active block from this correction:
+
+- receipt / Fin Instrument module ownership;
+- Telegram router/auth recovery;
+- callback debugging.
+
+### Acceptance boundary
+
+The active/current module-map pointer must now describe the YouTube ranked batch lifecycle stop-point and leave the earlier receipt block as historical context only.
+<!-- MODULE_MAP_APPEND_END id=MM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION -->
 END_MODULE_MAP_APPEND_TEXT

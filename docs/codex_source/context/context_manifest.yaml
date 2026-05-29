@@ -1,7 +1,7 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
-last_append_title: "Receipt full extraction active block"
+last_append_id: CTX_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+last_append_title: "YouTube ranked batch active status correction"
 last_updated_utc: 2026-05-28T14:06:59Z
 read_policy:
   codex_append: read manifest + tail only

@@ -273,3 +273,6 @@ Not active now:
 
 2026-05-28 update:
 YouTube ranked moderation lifecycle was corrected after a task drift into Telegram callback debugging. The accepted fix report is OPENSCRIPT_AGENT_LAB_FIX_YOUTUBE_RANKED_BATCH_LIFECYCLE_AND_CONFIGURED_STACK_SIZE_20260528_01 at commit e21a6874ee864a79ad4f2221b6ee4a8a3d723753. The runner now reuses the latest non-empty active ranked batch before calling Curator, uses configured stack size for stack display, keeps ranking target independent from stack size, and treats zero rows as structured failure rather than ok=true. Current docs gap: decide whether ТЗ should explicitly add a Telegram command for manual start ranking/selection run. Current ТЗ already has UI/backend start ranking action, Telegram continue moderation command, and inline next stack.
+
+2026-05-29 update:
+The current working stop-point is YouTube ranked batch lifecycle / moderation stack, not `receipt_full_extraction`. The receipt block remains historical, but the active/current docs pointers now belong to the YouTube ranked batch correction. No application code changes are needed for this docs-only correction. The next product/docs question remains whether to document a separate Telegram command for starting ranking or keep ranking start as a UI/backend operator action while Telegram only continues moderation and serves inline next stack.

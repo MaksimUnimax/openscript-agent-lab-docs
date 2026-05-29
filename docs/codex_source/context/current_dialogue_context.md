@@ -3393,3 +3393,36 @@ A future receipt extraction fix-run is not complete if:
 - item rows are ignored without explicit `missing_fields`;
 - Hermes invents financial facts instead of consuming deterministic tool output.
 <!-- CONTEXT_APPEND_END id=CTX_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION source=chatgpt_dialogue_and_codex_reports -->
+APPEND_ID: CTX_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+SOURCE_KIND: chatgpt_dialogue_and_codex_reports
+DATE_UTC: 2026-05-29
+STATUS: accepted_current_context
+TITLE: YouTube ranked batch active status correction
+
+Summary:
+The earlier `receipt_full_extraction` active pointer is stale for the current working stop-point. The accepted current work is the YouTube ranked batch lifecycle and moderation stack, with the open product/docs question about whether ranking start should be a separate Telegram command or remain a UI/backend operator action.
+
+Accepted current stop-point:
+- Current active block is YouTube ranked batch lifecycle / moderation stack.
+- Search stores YouTube candidates in DB.
+- Ranking/selection is a separate UI/backend operator action, not "apply runtime" and not "next stack".
+- Curator/Hermes ranks/selects candidates from already stored DB facts.
+- Backend persists a durable ranked batch.
+- Moderation stack is a slice from an already-ranked batch.
+- Inline "Следующий стек" reads the next configured stack from the same existing ranked batch.
+- Inline "Следующий стек" is a UI/control surface, not a Telegram command.
+- Inline "Следующий стек" must not run search, enrichment, Hermes ranking, or `youtube.select_candidates`.
+- While an active/resumable ranked batch has pending rows, new Curator ranking is blocked.
+- Empty Curator selection or zero persisted rows must not be `ok=true` and must not create an active empty success batch.
+
+Guardrail:
+Do not restart receipt extraction, Telegram auth, Telegram routing, Hermes auth/provider, or callback debugging from this docs state unless the user explicitly asks for those paths.
+
+Product/docs gap:
+The next question is whether docs/roadmap should explicitly define a separate Telegram command for starting ranking, or keep start-ranking as a UI/backend operator action while Telegram only continues moderation and serves inline next stack.
+
+Historical note:
+The earlier receipt full extraction block remains historical context and is not the current active pointer.
+<!-- CONTEXT_APPEND_END id=CTX_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION -->
