@@ -3426,3 +3426,39 @@ The next question is whether docs/roadmap should explicitly define a separate Te
 Historical note:
 The earlier receipt full extraction block remains historical context and is not the current active pointer.
 <!-- CONTEXT_APPEND_END id=CTX_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS source=chatgpt_dialogue_and_codex_reports -->
+APPEND_ID: CTX_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
+SOURCE_KIND: chatgpt_dialogue_and_codex_reports
+DATE_UTC: 2026-05-30
+STATUS: accepted_current_context
+TITLE: YouTube candidates base UI cleanup and moderation semantics update
+
+Summary:
+The current active YouTube work continues under the ranked-batch moderation lifecycle, but the visible `База / кандидаты` tab now uses the backend-persisted latest search summary and paginated candidates list instead of all-time DB/debug counters.
+
+Accepted current UI/product state:
+- `Загружено в последнем поиске` comes from `latest_search_summary.stored_new_count`.
+- If `latest_search_summary` is null, the UI shows `—` / `нет данных` rather than falling back to all-time DB totals.
+- `Доступно к ранжированию` comes from `selection_overview.available_for_selection_count`.
+- The main visible candidates summary no longer shows provider, all-time loaded total, already-in-selection, available-for-selection wording, ranked total, pending moderation, full-description raw summary rows, DB path, or active batch/debug counters.
+- The candidates list uses `limit=10`, `offset`, `has_more`, and prev/next pagination.
+- The UI does not request or render 50 rows by default, and it does not accumulate pages into one giant list.
+- The backend candidates API still clamps candidate list limit to 20, but the frontend page size is 10.
+
+Accepted ranking/moderation semantics that remain current:
+- Sorting counters use `selection_overview.available_for_selection_count` for `Доступно к ранжированию`.
+- `Доступно к отправке на модерацию` means `active_batch.counts.pending_count + active_batch.counts.ranked_count`, not just the current visible stack size.
+- Future active batches supersede previous active batches and archive old rows.
+- Contract sanitizer hardening remains in force: unknown `skipped_video_ids` and `rejected_video_ids` do not abort ranking; unknown `selected_video_ids` still hard-fail; validator remains enabled; no hardcoded video IDs were introduced.
+- `/agent-lab/api/youtube/moderation/batches` has a route-specific nginx timeout of 300s for read/send; the broader `/agent-lab/api/` timeout was not globally changed.
+
+Current stop-point:
+The docs stop-point remains the YouTube ranked batch moderation lifecycle question, including the open product/docs decision about whether ranking start should be a separate Telegram command or remain a UI/backend operator action while Telegram continues moderation and inline next stack.
+
+Proven latest implementation reference:
+The latest UI cleanup commit reported by the code run was `1ba686b1d00e6d9dbe71fddbb0df8f3bf2a20092`.
+
+Guardrail:
+Do not restart receipt/OCR context from this block. The current active work is YouTube ranked batch moderation lifecycle plus candidates-base UI semantics.
+<!-- CONTEXT_APPEND_END id=CTX_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS -->

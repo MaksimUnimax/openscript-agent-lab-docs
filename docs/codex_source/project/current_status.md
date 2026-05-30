@@ -276,3 +276,26 @@ YouTube ranked moderation lifecycle was corrected after a task drift into Telegr
 
 2026-05-29 update:
 The current working stop-point is YouTube ranked batch lifecycle / moderation stack, not `receipt_full_extraction`. The receipt block remains historical, but the active/current docs pointers now belong to the YouTube ranked batch correction. No application code changes are needed for this docs-only correction. The next product/docs question remains whether to document a separate Telegram command for starting ranking or keep ranking start as a UI/backend operator action while Telegram only continues moderation and serves inline next stack.
+
+2026-05-30 update:
+- the visible `База / кандидаты` tab now shows only two main summary rows:
+  - `Загружено в последнем поиске`
+  - `Доступно к ранжированию`
+- `Загружено в последнем поиске` is sourced from `latest_search_summary.stored_new_count`;
+- if `latest_search_summary` is missing, the UI shows a safe placeholder instead of falling back to all-time DB totals;
+- `Доступно к ранжированию` is sourced from `selection_overview.available_for_selection_count`;
+- the candidates list now uses 10-row pages with previous/next controls and replaces the current page instead of accumulating rows;
+- the candidates API now carries `limit`, `offset`, `has_more`, and `latest_search_summary` as the source of truth for the base tab;
+- the main base-tab summary no longer shows provider, all-time DB total, already-in-selection, ranked total, pending moderation, full-description raw rows, DB path, or active-batch/debug counters;
+- sorting counter semantics remain distinct from the base tab:
+  - `Доступно к ранжированию` is the selection-overview count;
+  - `Доступно к отправке на модерацию` is the active batch `pending_count + ranked_count`;
+- the candidate-base frontend now guards against loading 50 rows by default and caps the request/render path at 20;
+- contract sanitizer hardening remains accepted:
+  - unknown `skipped_video_ids` and `rejected_video_ids` do not abort ranking;
+  - unknown `selected_video_ids` still hard-fail;
+  - validator remains enabled;
+  - no hardcoded video IDs were introduced;
+- `/agent-lab/api/youtube/moderation/batches` has the route-specific 300s nginx timeout for read/send;
+- the latest UI cleanup commit reported in code validation was `1ba686b1d00e6d9dbe71fddbb0df8f3bf2a20092`;
+- the current active block is still the YouTube ranked batch moderation lifecycle, and the open docs question remains whether ranking start should be a separate Telegram command or stay a UI/backend operator action while Telegram continues moderation and inline next stack.

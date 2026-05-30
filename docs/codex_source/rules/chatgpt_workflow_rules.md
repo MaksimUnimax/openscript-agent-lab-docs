@@ -176,6 +176,51 @@ Hard failure:
 
 If ChatGPT gives Codex context, roadmap, module map, ТЗ, current status, snapshots, task cards, or other project docs as general reading material, the prompt is invalid and must be rewritten before use.
 
+## 5.1. ChatGPT preflight docs are not Codex DOCS_TO_READ
+
+ChatGPT must keep two document sets separate:
+
+1. **ChatGPT preflight documents**
+   Documents ChatGPT reads before answering, validating rules, checking ТЗ, understanding current state, and deciding the next step.
+
+2. **Codex task documents**
+   Minimal exact documents Codex must read to execute one specific run safely.
+
+ChatGPT must never copy its whole preflight document set into a Codex prompt.
+
+Rules:
+
+- ChatGPT may read mandatory rules, ТЗ, current status, context, roadmap, module map, or other public docs to understand the project before answering.
+- Codex `DOCS_TO_READ` must include only exact files without which the current single task cannot be completed safely.
+- Every Codex doc entry must answer: “Why is this exact file required for this exact run?”
+- If the reason is only “general rules”, “project context”, “for safety”, “source of truth”, “maybe useful”, or “ChatGPT read it during preflight”, the file must not be included.
+- Do not include the full rules pack by default.
+- Do not include `ENTRYPOINT_FOR_CHATGPT.md` by default.
+- Do not include `technical_spec.md` by default after ChatGPT has already checked ТЗ and provided a task-specific baseline, unless the run itself changes or depends on project architecture.
+- Do not include roadmap, context, module map, vendor docs, task cards, or snapshots unless the current task directly depends on that layer.
+- Do not include project snapshot files speculatively. First prove they contain a current pointer or task-relevant contract.
+- For append-only docs tasks, include only the exact append-only rule file plus the exact target manifest/file pair needed for the append or pointer update.
+- For docs sync/public repo tasks, include only the exact git/public-docs rule file if the run must commit, push, or refresh public docs.
+- For vendor/API/provider/runtime tasks, include only the exact vendor/API/provider/runtime docs for the subsystem being touched.
+- If exact needed docs are unknown, the next Codex run must be `proof_only` to locate the required docs/files, not a broad fix prompt.
+
+Before giving any Codex prompt, ChatGPT must run a DOCS_TO_READ minimization check:
+
+1. Remove every document that ChatGPT needed only for its own preflight.
+2. Remove every document that is not directly used by the current one-run task.
+3. Remove every duplicate “general rule” document already covered by `/opt/openscript-agent-lab/AGENTS.md`, unless the current task specifically modifies or verifies that rule.
+4. Keep only:
+   - `/opt/openscript-agent-lab/AGENTS.md`;
+   - the exact rule file needed for this run type, if not already covered by `AGENTS.md`;
+   - the exact project/task/vendor document needed for this run;
+   - the exact manifest/file pair being changed or verified.
+5. If more than 5–7 docs are listed for an ordinary narrow run, ChatGPT must justify each one or split the work into a proof-only run.
+6. If justification is weak, remove the doc.
+
+Hard failure:
+
+If ChatGPT gives Codex a broad document list copied from ChatGPT’s own preflight, the prompt is invalid and must be rewritten before use.
+
 ## 6. Do not repeat already-proven proof
 
 If a fact has already been proven in a recent accepted report, do not ask Codex to prove it again unless the current task requires revalidating current runtime state.

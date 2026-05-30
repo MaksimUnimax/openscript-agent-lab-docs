@@ -156,3 +156,55 @@ DATE_UTC: 2026-05-28T14:06:59Z
 ## Next recommended run
 
 `OPENSCRIPT_AGENT_LAB_RECEIPT_FULL_EXTRACTION_PROOF_DESIGN_FIX`
+
+# Project Snapshot — 2026-05-29 — YouTube ranked batch active status correction
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+DATE_UTC: 2026-05-29
+
+## Current active block
+
+`youtube_ranked_batch_moderation_lifecycle`
+
+## Current stop-point
+
+- YouTube ranked batch lifecycle / moderation stack is the current working stop-point.
+- `receipt_full_extraction` remains historical context only.
+- Inline `Следующий стек` is a UI/control action over the same ranked batch, not a Telegram command.
+- The open product/docs question is whether ranking start should be a separate Telegram command or remain a UI/backend operator action.
+
+## No code change required
+
+- This is a documentation pointer correction, not an application behavior change.
+- No Telegram API, Hermes/provider, DB, or service-runtime change is needed.
+
+# Project Snapshot — 2026-05-30 — YouTube candidates base UI cleanup and moderation semantics
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP
+DATE_UTC: 2026-05-30
+
+## Current active block
+
+`youtube_ranked_batch_moderation_lifecycle`
+
+## Current stop-point
+
+- The current YouTube work stays in the ranked batch moderation lifecycle.
+- The visible `База / кандидаты` tab now uses latest search summary data and paginated candidate pages instead of all-time DB/debug counters.
+- `latest_search_summary.stored_new_count` is the source for `Загружено в последнем поиске`.
+- `selection_overview.available_for_selection_count` is the source for `Доступно к ранжированию`.
+- The candidates list uses 10-row pages with previous/next controls and does not accumulate pages.
+- The candidates API still exposes `limit`, `offset`, `has_more`, and `latest_search_summary`.
+- Sorting/moderation counters remain semantically separate from the base tab.
+- The open product/docs question remains whether ranking start should be a separate Telegram command or stay a UI/backend operator action while Telegram continues moderation and inline next stack.
+
+## Current accepted implementation reference
+
+- Latest UI cleanup commit: `1ba686b1d00e6d9dbe71fddbb0df8f3bf2a20092`
+- The candidate-base cleanup is a UI/docs state update, not a new Telegram/Hermes/provider/database block.
+
+## Hard boundaries
+
+- No receipt/OCR work is being restarted by this snapshot.
+- No live search/ranking is being executed by this docs update.
+- No Telegram API, Hermes/provider, DB, or service-runtime change is required for the docs state update itself.

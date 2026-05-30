@@ -20,10 +20,10 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
-  latest_context_append_id: CTX_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
-  latest_roadmap_append_id: RM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
-  latest_module_map_append_id: MM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
-  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+  latest_context_append_id: CTX_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
+  latest_roadmap_append_id: RM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
+  latest_module_map_append_id: MM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
+  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP
   active_blocker: youtube_ranked_batch_moderation_lifecycle
   current_active_block: youtube_ranked_batch_moderation_lifecycle
   next_exact_run: OPENSCRIPT_AGENT_LAB_YOUTUBE_RANKED_BATCH_MODERATION_STACK_DOCS_DECISION_20260529_01
@@ -341,8 +341,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
-      last_append_title: "YouTube ranked batch active status correction"
+      last_append_id: CTX_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
+      last_append_title: "YouTube candidates base UI cleanup and moderation semantics update"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:
@@ -352,7 +352,7 @@ project_memory:
       status: imported
       current_roadmap_version: v0.7
       current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
-      last_append_id: RM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+      last_append_id: RM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
       current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
       next_phase_after_allowlist: youtube_ranked_batch_moderation_lifecycle_product_docs_gap
     - path: docs/codex_source/roadmap/roadmap_manifest.yaml
@@ -372,7 +372,7 @@ project_memory:
       current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
       safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
       task_card_reevaluation_required: true
-      last_append_id: MM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION
+      last_append_id: MM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
       current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
     - path: docs/codex_source/module_map/module_map_manifest.yaml
       status: imported_current_snapshot
@@ -385,7 +385,7 @@ project_memory:
       status: initial
     - path: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
       status: imported_current_snapshot
-      last_snapshot_id: PROJECT_SNAPSHOT_20260528_RECEIPT_FULL_EXTRACTION_ACTIVE_BLOCK
+      last_snapshot_id: PROJECT_SNAPSHOT_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP
     - path: docs/codex_source/project_snapshot/project_snapshot_manifest.yaml
       status: imported_current_snapshot
   rules:

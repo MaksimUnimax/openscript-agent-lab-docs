@@ -921,3 +921,47 @@ Decide whether documentation should define a separate Telegram command for start
 - callback debugging;
 - unrelated Fin Instrument receipt business-layer work.
 <!-- ROADMAP_APPEND_END id=RM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS source=chatgpt_dialogue_and_codex_reports -->
+## RM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
+
+### Status
+
+The current active phase remains YouTube ranked batch moderation lifecycle, with a docs-memory refresh for the candidate-base UI cleanup and the ranking/moderation counter semantics.
+
+### Accepted current product state
+
+- `База / кандидаты` now shows only:
+  - `Загружено в последнем поиске`
+  - `Доступно к ранжированию`
+- `Загружено в последнем поиске` is sourced from `latest_search_summary.stored_new_count`.
+- Null `latest_search_summary` must render safely as `—` / `нет данных`.
+- `Доступно к ранжированию` is sourced from `selection_overview.available_for_selection_count`.
+- Candidate table is paginated:
+  - page size 10;
+  - previous/next controls;
+  - replace current page rows rather than accumulating.
+- Frontend must not request `limit=50` for the candidates list.
+- Frontend must not render or request more than 20 candidate rows in one call.
+
+### Accepted moderation semantics
+
+- `Доступно к отправке на модерацию` is `active_batch.counts.pending_count + active_batch.counts.ranked_count`.
+- `Доступно к ранжированию` is still the selection-overview count, not a stack-size count.
+- Future active ranked batches supersede previous active batches and archive old rows.
+- Contract sanitizer hardening remains accepted:
+  - unknown `skipped_video_ids` and `rejected_video_ids` do not abort ranking;
+  - unknown `selected_video_ids` still hard-fail;
+  - validator remains enabled;
+  - no hardcoded video IDs were added.
+- `/agent-lab/api/youtube/moderation/batches` keeps the route-specific nginx timeout of 300s for read/send.
+
+### Current stop-point
+
+The open product/docs question remains whether ranking start should become a separate Telegram command or stay a UI/backend operator action while Telegram continues moderation and inline next stack.
+
+### Proven implementation reference
+
+- Latest UI cleanup commit: `1ba686b1d00e6d9dbe71fddbb0df8f3bf2a20092`
+- No application code is changed by this roadmap memory block.
+<!-- ROADMAP_APPEND_END id=RM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS -->

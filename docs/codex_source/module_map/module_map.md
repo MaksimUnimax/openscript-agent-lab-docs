@@ -1043,4 +1043,52 @@ Not current active block from this correction:
 
 The active/current module-map pointer must now describe the YouTube ranked batch lifecycle stop-point and leave the earlier receipt block as historical context only.
 <!-- MODULE_MAP_APPEND_END id=MM_20260529_YOUTUBE_RANKED_BATCH_ACTIVE_STATUS_CORRECTION -->
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS source=chatgpt_dialogue_and_codex_reports -->
+## MM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS
+
+### Boundary update
+
+The current active YouTube work still belongs to the ranked batch moderation lifecycle, but the visible `База / кандидаты` surface has a new owner split:
+
+- `agent_lab/youtube_search_candidates.py`
+  - candidates list API shape;
+  - `limit` / `offset` / `has_more` response fields;
+  - `latest_search_summary` persistence;
+  - list-limit clamp to 20.
+- `agent_lab/static/app.js`
+  - candidate-base summary rendering;
+  - null-safe `latest_search_summary` display;
+  - page size 10;
+  - prev/next pagination;
+  - replacing current page rows instead of accumulating.
+- `agent_lab/admin_server.py`
+  - candidates API route plumbing;
+  - moderation status snapshot exposure for selection overview.
+- `agent_lab/youtube_selection_moderation_service.py`
+  - ranked batch state;
+  - current/next stack slicing;
+  - sendable-to-moderation counts;
+  - active batch lifecycle semantics.
+- `agent_lab/youtube_agent_moderation_dispatch.py`
+  - orchestration over active ranked batches;
+  - no fresh ranking while pending ranked rows exist;
+  - structured no-eligible / empty-selection handling.
+
+### Boundary rules that remain current
+
+- `Доступно к ранжированию` comes from `selection_overview.available_for_selection_count`.
+- `Доступно к отправке на модерацию` means `active_batch.counts.pending_count + active_batch.counts.ranked_count`.
+- Candidate-base visible summary must not reuse all-time DB totals, DB-path rows, or active-batch debug counters.
+- Telegram inline `Следующий стек` remains a control surface over an already-ranked batch, not a ranking owner and not a Telegram command in this stop-point.
+- Contract sanitizer hardening remains accepted:
+  - unknown `skipped_video_ids` and `rejected_video_ids` do not abort ranking;
+  - unknown `selected_video_ids` still hard-fail;
+  - validator remains enabled;
+  - no hardcoded video IDs were introduced.
+
+### Acceptance boundary
+
+The active/current module-map pointer remains on the YouTube ranked batch lifecycle stop-point, but the candidate-base UI cleanup and pagination semantics are now part of the same current YouTube memory state.
+<!-- MODULE_MAP_APPEND_END id=MM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS -->
 END_MODULE_MAP_APPEND_TEXT
