@@ -1183,3 +1183,110 @@ Non-responsibilities:
 - no fallback success after Hermes/provider failure when Hermes/tool path is required;
 - no hardcoding of current agent/chat/video/batch/message IDs.
 END_MODULE_MAP_APPEND_TEXT
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON source=chatgpt_inline_project_update accepted_by_user=yes -->
+## 2026-06-01 — Module map update: YouTube post draft editor execution boundary
+
+MODULE_MAP_APPEND_ID: MM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON
+
+### Current module family
+
+YouTube Post Draft Preparation Tool.
+
+### Main source owners
+
+`agent_lab/youtube_post_draft_service.py`
+- Owns post draft lifecycle and storage helpers.
+- Owns transcript snapshot persistence helpers.
+- Owns C1/C2 editor-stage state.
+- Owns editor input/output contract helpers.
+- Owns fake editor execution adapter.
+- Owns guarded live adapter skeleton with injected runner boundary.
+- Must not directly call provider/model/Hermes in unit-test/source-only phases.
+
+`agent_lab/admin_server.py`
+- Owns admin API routes for the operator UI.
+- Includes post-draft routes:
+  - `GET /api/youtube/post-drafts/status`
+  - `POST /api/youtube/post-drafts/create`
+  - `POST /api/youtube/post-drafts/bulk-create`
+  - `POST /api/youtube/post-drafts/prepare-content`
+  - `POST /api/youtube/post-drafts/transcript-snapshot`
+  - `POST /api/youtube/post-drafts/editor-contract`
+  - `POST /api/youtube/post-drafts/editor-execute`
+  - `POST /api/youtube/post-drafts/editor-execute-live`
+- Must keep live execution admin/operator guarded and fail-closed.
+
+`agent_lab/static/app.js`
+- Owns the YouTube tab operator UI behavior.
+- Shows `Редакторская оценка`.
+- Shows fake editor execution action.
+- Shows disabled live warning/action.
+- Must not imply that live execution, image generation, Telegram moderation, or publication already happened.
+
+`agent_lab/static/index.html`
+- Owns static UI markup for the tab surface.
+
+`agent-packages/youtube_post_editor_agent/**`
+- Source package for protected internal editor agent.
+- Remains `system_agent=true`, `protected=true`, `non_public=true`.
+- Contains skills:
+  - `source_fact_reader`
+  - `transcript_digest`
+  - `telegram_editorial_writer`
+  - `telegram_style_guard`
+  - `image_brief_writer`
+  - `image_generation_requester`
+  - `moderation_packager`
+- Must not become a Telegram/public command candidate.
+
+`/var/lib/openscript-agent-lab/hermes/profiles/youtube_post_editor_agent/**`
+- Runtime profile created through controlled runtime apply.
+- Runtime state, not source-of-truth.
+- Must not be edited in docs-only/source-only runs.
+
+`agent_lab/hermes_binding.py`
+- Owns readiness/binding checks.
+- Proven readiness reached `can_live_execute=True` after source gate and provider defaults updates.
+- `can_live_execute=True` is readiness state only, not permission to call live model without an approved run.
+
+`agent_lab/hermes_execution.py`
+- Owns Hermes execution adapter path.
+- Future live-smoke work must use the existing execution boundary, not direct provider calls from post draft service.
+
+### Test owners
+
+`tests/test_youtube_post_draft_service.py`
+- Service lifecycle, transcript snapshot, editor contract, fake execution, guarded live adapter tests.
+
+`tests/test_admin_server.py`
+- Admin routes and UI/API assertions for post draft flows.
+
+`tests/test_hermes_execution.py`
+- Hermes binding/execution readiness regression tests.
+
+`tests/test_storage.py`
+- Provider defaults and protected/system agent state tests.
+
+`tests/test_telegram_bot_api.py`
+- Ensures `youtube_post_editor_agent` is not exposed as a Telegram command/public persona.
+
+### Boundaries
+
+The YouTube post draft tool currently stops at guarded live route skeleton.
+
+The following remain future work:
+- controlled live-smoke proof/design;
+- real live editor execution proof;
+- image adapter execution;
+- Telegram moderation send/callback flow;
+- publication tool.
+
+The following are explicitly out of scope for this active block:
+- Fin Instrument;
+- receipt extraction;
+- Telegram routing/auth debugging unless fresh proof shows it is first broken;
+- runtime apply;
+- provider secret handling;
+- service restart.
+<!-- MODULE_MAP_APPEND_END id=MM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON -->

@@ -1201,3 +1201,76 @@ durable state and manual controls;
 repeat proof;
 then optional external-agent exposure.
 <!-- ROADMAP_APPEND_END id=RM_20260601_YOUTUBE_POST_DRAFT_UI_OPERATOR_FIRST_ORDER -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON source=chatgpt_inline_product_update accepted_by_user=yes -->
+## 2026-06-01 — YouTube Post Draft Preparation Tool: editor live-gate skeleton
+
+ROADMAP_APPEND_ID: RM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON
+
+### Current active phase
+
+`youtube_post_draft_editor_live_gate_skeleton`
+
+The YouTube Post Draft Preparation Tool has advanced from UI-first/operator-first design into a staged editor execution pipeline.
+
+### Completed in the current dialogue branch
+
+- Storage/lifecycle foundation for `youtube_post_drafts`.
+- Idempotent draft shell creation for selected/approved YouTube candidates.
+- Workflow-first operator UI under `Ютуб → Редакторская оценка`.
+- Bulk `Создать посты` flow.
+- Passive `Готовы к публикации` queue semantics.
+- Removal of misleading `Передать в публикацию` action.
+- C1 deterministic content harness.
+- C2a durable transcript snapshot persistence.
+- C2b-1 editor input/output contract and validator.
+- Protected internal `youtube_post_editor_agent` source package readiness.
+- Runtime profile creation and repeat-proof for `youtube_post_editor_agent`.
+- Source policy allowing internal execution while remaining protected/non-public.
+- Provider defaults/model mapping readiness for `gpt-5.4-mini`.
+- C2b-2A injected fake editor execution adapter.
+- Guarded live route skeleton:
+  - `POST /api/youtube/post-drafts/editor-execute-live`;
+  - explicit `HERMES_EDITOR_LIVE` confirmation;
+  - readiness/precondition fail-closed guards;
+  - injected runner boundary;
+  - no default live runner;
+  - no real Hermes/provider/model call.
+
+### Next roadmap block
+
+Next allowed block:
+
+`youtube_post_draft_controlled_live_smoke_proof_design`
+
+This block must be proof/design first and separately user-approved before any live model call.
+
+### Not next
+
+The following are not next unless the user explicitly changes direction and fresh proof supports it:
+
+- Fin Instrument / receipt OCR work.
+- Telegram callback debugging.
+- image generation.
+- Telegram moderation send.
+- publication tool implementation.
+- external/public agent exposure.
+- automatic live model execution.
+- direct provider/model call from service code.
+
+### Acceptance criteria for the next live-smoke proof/design
+
+A future live-smoke proof/design must define:
+
+- exact draft/input fixture;
+- explicit operator/admin confirmation;
+- max one controlled live execution unless otherwise approved;
+- no Telegram send;
+- no image generation;
+- no publication;
+- no runtime apply;
+- no public exposure;
+- validation through the existing C2b-1 validator before persistence;
+- safe failure handling;
+- report with exact live-call result and whether output was stored.
+<!-- ROADMAP_APPEND_END id=RM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON -->

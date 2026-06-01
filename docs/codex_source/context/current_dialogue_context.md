@@ -3570,3 +3570,166 @@ Kilo/CLI-provider exploration was explicitly canceled by the user and must not b
 Fin Instrument blocks are historical/completed/deferred according to their own accepted statuses and must not be named the next step unless the user explicitly reopens them or current docs/runtime proof says so.
 
 Receipt full extraction remains a saved historical/pending business-layer block, but it is not to be duplicated as a new active pointer by this docs update.
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON source=chatgpt_inline_project_update accepted_by_user=yes -->
+## 2026-06-01 — YouTube post draft editor live-gate skeleton
+
+CONTEXT_APPEND_ID: CTX_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON
+
+### Current active block
+
+The current active project block is `youtube.prepare_post_draft`, also referred to as the YouTube Post Draft Preparation Tool.
+
+This block is not Fin Instrument and not receipt extraction. Older receipt/OCR context remains historical only unless the user explicitly returns to that line.
+
+### Product goal
+
+The tool prepares Telegram-ready post drafts from videos that were already selected/approved by the YouTube sorting/moderation pipeline.
+
+The intended product chain is:
+
+1. selected/approved YouTube candidate from sorting/selection;
+2. durable post draft shell;
+3. durable transcript/subtitle snapshot;
+4. protected internal editor-agent contract;
+5. fake/injected editor execution adapter;
+6. guarded live editor route skeleton;
+7. moderation-ready post draft;
+8. passive `Готовы к публикации` queue after approval;
+9. future publication tool consumes the passive queue later.
+
+Publication is not part of this tool.
+
+### UI/operator-first boundary
+
+The current operator surface is the YouTube tab `Редакторская оценка`.
+
+The user clarified the correct workflow:
+
+- show ready/approved videos that have not yet been edited;
+- allow operator checkbox selection;
+- operator clicks `Создать посты`;
+- drafts are created/reused idempotently;
+- moderation/preview/ready-publication blocks exist;
+- `Готовы к публикации` is a passive output queue;
+- there is no manual `Передать в публикацию` action inside this tool.
+
+### Accepted implementation chain
+
+The following implementation/proof chain is accepted in the current dialogue:
+
+1. Storage/lifecycle foundation:
+   - `youtube_post_drafts` exists.
+   - draft shell creation is idempotent.
+   - current-draft uniqueness exists per candidate.
+   - revision path is deliberate.
+   - approved selected videos are blocked from re-selection.
+   - current tool does not delete source candidate history.
+
+2. Workflow-first operator UI:
+   - ready videos can be selected with checkboxes;
+   - bulk `Создать посты` exists;
+   - `Посты на модерации`, `Предпросмотр поста`, and `Готовы к публикации` blocks exist;
+   - future actions are staged/disabled where not implemented.
+
+3. Publication boundary:
+   - misleading `Передать в публикацию` UI action was removed.
+   - `Одобрить` is the terminal action of this tool.
+   - after approval the draft belongs in the passive `Готовы к публикации` output queue.
+   - a future publication tool will consume approved/unpublished drafts later.
+
+4. C1 harness-first content chain:
+   - explicit stage observability exists for subtitle/editor stages.
+   - deterministic harness can produce `draft_text`, `image_brief`, `image_prompt`, and `image_negative_prompt`.
+   - harness moves drafts to `ready_for_moderation` / `needs_review`.
+   - harness does not approve or publish.
+
+5. C2a transcript snapshot persistence:
+   - durable transcript snapshot storage exists.
+   - snapshots are linked by `transcript_snapshot_ref`.
+   - transcript snapshot payloads are attached without live YouTube/subtitles fetch.
+   - missing/invalid transcript state fails safely.
+
+6. C2b-1 editor request/response contract:
+   - editor input is built from source facts and stored transcript snapshot.
+   - deterministic fake editor contract output exists.
+   - validator rejects empty/ungrounded/invalid output.
+   - valid output persists post text and image prompt metadata.
+   - invalid output does not overwrite prior valid production fields.
+
+7. Protected internal editor agent readiness:
+   - `agent-packages/youtube_post_editor_agent/` exists.
+   - it is `system_agent=true`, `protected=true`, `non_public=true`.
+   - it remains excluded from Telegram/public command registration.
+   - runtime profile was created under `/var/lib/openscript-agent-lab/hermes/profiles/youtube_post_editor_agent`.
+   - source/runtime profile files were verified by hash/size during repeat-proof.
+   - provider defaults now resolve `effective_model="gpt-5.4-mini"`.
+   - readiness reached `can_live_execute=True`, but no live call was made.
+
+8. C2b-2A injected fake editor execution adapter:
+   - `POST /api/youtube/post-drafts/editor-execute` exists.
+   - `mode="fake"` works.
+   - `mode="live"` is rejected on the fake route.
+   - fake runner is deterministic and non-live.
+   - validation is reused before persistence.
+   - approval/publication remain untouched.
+
+9. Guarded live route skeleton:
+   - `POST /api/youtube/post-drafts/editor-execute-live` exists.
+   - it requires `confirm="HERMES_EDITOR_LIVE"`.
+   - readiness/source facts/transcript/approved-published guards fail closed before runner call.
+   - default/no-runner path returns `live_runner_not_configured` and does not call Hermes/provider/model.
+   - injected runner tests prove success/failure state transitions without live execution.
+   - UI shows a separate disabled live warning/action.
+   - fake route remains unchanged.
+   - no live Hermes/provider/model/auth call has been made.
+
+### Current accepted commit references
+
+Current accepted source HEAD for this block:
+`bd32dbee9ef9f0ce358f250ee5e69d46229b5384`
+
+Important accepted intermediate commits from the dialogue include:
+- `ef498eeea1cbff0291cf5006f8ddb2b3b7c5e66b` — post draft storage/lifecycle foundation repeat-proof.
+- `9fc4641471b9a969c34a8b510423d6bc5995e692` — publication handoff removed; passive publication queue semantics.
+- `fec59422553f7abc5a7bcc211458d99018ec76ff` — C1 harness chain state.
+- `7c466969188d9f8813ba94f0ad1a55dc0c9cafee` — C2a transcript snapshot persistence.
+- `0b27dec0baed6a41a7eee41b77ebd1c790457991` — C2b-1 editor contract/fake executor.
+- `16b4e6eb326e9755161496f18576172b59635a76` — source internal execution gate.
+- `1d1d1a06a94ab8bb0e0332b2ba561284e10490b7` — provider defaults/model mapping readiness.
+- `d64e69b68f5ca242c2833be904f4785508d26e25` — injected fake editor execution adapter.
+- `bd32dbee9ef9f0ce358f250ee5e69d46229b5384` — guarded live editor route skeleton.
+
+### Current stop-point
+
+The current stop-point is:
+
+Guarded live route skeleton is repeat-proven. The next technical step can only be a separately approved live-smoke proof/design run.
+
+No live Hermes/provider/model call has been attempted yet.
+
+### Next safe step
+
+The next safe step is not an implementation by default. It is a user-approved proof/design for a controlled live-smoke run of `youtube_post_editor_agent` through the guarded live route.
+
+The live-smoke proof/design must specify:
+- exact draft/input fixture;
+- explicit operator/admin confirmation;
+- max one controlled live execution unless otherwise approved;
+- no Telegram send;
+- no image generation;
+- no publication;
+- no runtime apply;
+- no public exposure;
+- validation through the existing C2b-1 validator before persistence;
+- safe failure handling;
+- report with exact live-call result and whether output was stored.
+
+### Hard boundaries
+
+Do not restart old Telegram/Hermes/auth debugging unless fresh proof shows it is the first broken layer.
+
+Do not resume Fin Instrument or receipt extraction from this active block.
+
+Do not treat `can_live_execute=True` as permission to call a model. It is only readiness state. A live call requires a separate explicitly approved run.
+<!-- CONTEXT_APPEND_END id=CTX_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON -->

@@ -1,12 +1,12 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260601_POST_YOUTUBE_TG_FIXES_AND_CODEX_RUN_RULES
-last_append_title: "Post-20260530 YouTube/Hermes/Telegram fixes and Codex run-rule correction"
-last_updated_utc: 2026-06-01T02:17:44Z
+last_append_id: CTX_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON
+last_append_title: "YouTube post draft editor live-gate skeleton"
+last_updated_utc: 2026-06-01T10:52:51Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks
 tail_lines_for_codex: 160
 no_destructive_rewrite: true
-status: post_youtube_tg_fixes_and_codex_run_rules_synced
-current_active_block: post_20260530_youtube_tg_fixes_no_auto_next_stage
+status: youtube_post_draft_editor_live_gate_skeleton_synced
+current_active_block: youtube_post_draft_editor_live_gate_skeleton

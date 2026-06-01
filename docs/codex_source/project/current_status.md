@@ -309,3 +309,19 @@ The current working stop-point is YouTube ranked batch lifecycle / moderation st
 - receipt full extraction remains historical/pending context and must not be duplicated as the current active pointer without an explicit user switch;
 - do not infer the next stage from old Provider/Auth, Fin Instrument, Kilo, or receipt blocks without current-state alignment;
 - the current next step is not auto-selected by docs; it must follow the next explicit user task and current docs alignment.
+
+## 2026-06-01 — Current active status: YouTube post draft editor live-gate skeleton
+
+- Current active block: `youtube_post_draft_editor_live_gate_skeleton`.
+- Current tool: `youtube.prepare_post_draft`.
+- Current UI surface: `Ютуб → Редакторская оценка`.
+- Latest accepted source HEAD for this branch: `bd32dbee9ef9f0ce358f250ee5e69d46229b5384`.
+- Guarded live route skeleton is repeat-proven.
+- `POST /api/youtube/post-drafts/editor-execute-live` exists.
+- Live route requires `confirm="HERMES_EDITOR_LIVE"`.
+- Readiness/precondition guards fail closed before runner call.
+- Default/no-runner path does not call Hermes/provider/model.
+- Fake route remains fake-only.
+- No live Hermes/provider/model call has been attempted.
+- No Telegram send, image generation, or publication behavior has been added.
+- Next step: separately approved live-smoke proof/design only.

@@ -356,3 +356,8 @@ items:
     expected_target_path: docs/codex_source/project/current_status.md
     notes: receipt full extraction active block imported from current ChatGPT dialogue; no external missing source is required for this docs-only update
     must_not_invent: true
+  - id: youtube_post_draft_editor_live_gate_skeleton
+    status: imported_current_context
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: current active block is youtube_post_draft_editor_live_gate_skeleton; guarded live route skeleton is repeat-proven; live-smoke proof/design is pending separate user approval; image_adapter_execution, telegram_moderation_send, and publication_tool remain future work
+    must_not_invent: true

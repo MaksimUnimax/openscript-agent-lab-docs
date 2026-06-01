@@ -248,3 +248,44 @@ DATE_UTC: 2026-06-01T02:17:44Z
 - Unrelated dirty files, if any, were not staged.
 - No secrets/runtime files were read or exported.
 - No next product stage is auto-selected.
+
+# Project Snapshot — 2026-06-01 — YouTube post draft editor live-gate skeleton
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON
+DATE_UTC: 2026-06-01T10:52:51Z
+
+## Current active block
+
+`youtube_post_draft_editor_live_gate_skeleton`
+
+## Current project state
+
+The YouTube Post Draft Preparation Tool is the active branch.
+
+The tool now has:
+- workflow-first operator UI under `Редакторская оценка`;
+- idempotent draft shell creation from selected/approved videos;
+- durable transcript snapshot storage;
+- editor input/output contract and validator;
+- protected internal `youtube_post_editor_agent`;
+- runtime profile created and repeat-proven;
+- source policy and provider defaults/model mapping ready;
+- fake editor execution adapter repeat-proven;
+- guarded live editor route skeleton repeat-proven.
+
+## Current stop-point
+
+The guarded live route skeleton is complete and repeat-proven.
+
+No live Hermes/provider/model call has been made.
+
+The next step is only a separately approved live-smoke proof/design run.
+
+## Hard boundaries
+
+- No live model call without explicit user approval.
+- No Telegram send.
+- No image generation.
+- No publication.
+- No external/public agent exposure.
+- No Fin Instrument / receipt OCR work in this active block.
