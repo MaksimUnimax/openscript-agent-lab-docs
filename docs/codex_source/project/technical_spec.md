@@ -602,6 +602,21 @@ Do not do:
 7. Когда начинать Telegram Router?
 8. Какой provider первым smoke-test после auth design: Codex or DeepSeek/custom API?
 
+## Technical Spec Extension v0.4 — Fin Instrument Tab, Agent Farm, and Agent Tools
+
+Status: imported as an extension, not a replacement for v0.3.
+
+This extension records the user’s updated product direction:
+- the current UI tab named “Телеграмм” should be treated/renamed as “Фин инструмент”;
+- Telegram user_id allowlist/access control belongs in this “Фин инструмент” tab;
+- future financial business tool work also belongs in this product surface;
+- after access control, build a universal multi-agent farm with task runtime and monitoring;
+- then add agent tools, starting with the Financial Agent Business Tool;
+- later add Telegram Post Publisher and YouTube Parsing tool families.
+
+Full extension:
+- docs/codex_source/project/technical_spec_extensions/fin_tool_tab_agent_farm_and_agent_tools_v0_4.md
+
 ## 19. Technical Spec Extension v0.5 — YouTube Post Draft Preparation Tool
 
 Status: imported as an extension, not a replacement for v0.3.
@@ -856,18 +871,3 @@ The design must not hardcode:
 - one language;
 - one message id;
 - one test case.
-
-## Technical Spec Extension v0.4 — Fin Instrument Tab, Agent Farm, and Agent Tools
-
-Status: imported as an extension, not a replacement for v0.3.
-
-This extension records the user’s updated product direction:
-- the current UI tab named “Телеграмм” should be treated/renamed as “Фин инструмент”;
-- Telegram user_id allowlist/access control belongs in this “Фин инструмент” tab;
-- future financial business tool work also belongs in this product surface;
-- after access control, build a universal multi-agent farm with task runtime and monitoring;
-- then add agent tools, starting with the Financial Agent Business Tool;
-- later add Telegram Post Publisher and YouTube Parsing tool families.
-
-Full extension:
-- docs/codex_source/project/technical_spec_extensions/fin_tool_tab_agent_farm_and_agent_tools_v0_4.md
