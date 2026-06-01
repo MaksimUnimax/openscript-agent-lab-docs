@@ -1166,3 +1166,38 @@ Do not mark this stage done until:
 - moderation and regeneration work through durable draft state;
 - publication remains separate.
 <!-- ROADMAP_APPEND_END id=RM_20260601_YOUTUBE_POST_DRAFT_PREPARATION_TOOL -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260601_YOUTUBE_POST_DRAFT_UI_OPERATOR_FIRST_ORDER source=chatgpt_inline_product_update -->
+## UI-first / operator-first order for `youtube.prepare_post_draft`
+
+### Status
+The post-draft tool now has a documented operator-first implementation order.
+
+### Completed
+- storage/lifecycle foundation;
+- protected internal editor-agent package and skills.
+
+### Next
+- UI/operator proof-design for the `Редакторская оценка` tab.
+
+### Then
+- UI implementation for draft list, status, and actions;
+- draft text generation behind operator controls;
+- image prompt and image adapter wiring behind operator controls;
+- Telegram moderation preview and callbacks;
+- approved-for-publication queue;
+- only after those proofs, external/public agent tool exposure.
+
+### Explicitly not next
+- external/public agent exposure;
+- Telegram command start;
+- publication;
+- automatic background publishing.
+
+### Tool lifecycle rule
+For future tools when applicable:
+operator UI first;
+durable state and manual controls;
+repeat proof;
+then optional external-agent exposure.
+<!-- ROADMAP_APPEND_END id=RM_20260601_YOUTUBE_POST_DRAFT_UI_OPERATOR_FIRST_ORDER -->

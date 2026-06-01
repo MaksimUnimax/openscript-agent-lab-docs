@@ -871,3 +871,38 @@ The design must not hardcode:
 - one language;
 - one message id;
 - one test case.
+
+### 19.12. UI-first / operator-first order for `youtube.prepare_post_draft`
+
+`youtube.prepare_post_draft` must be implemented first as an operator-managed UI workflow.
+
+The operator UI is the first control surface for:
+- viewing selected/approved videos;
+- seeing source facts and transcript/subtitle readiness;
+- creating post draft shells;
+- viewing draft lifecycle status;
+- later triggering text draft generation;
+- later triggering image prompt and image generation;
+- sending drafts to Telegram moderation;
+- approving, rejecting, or regenerating drafts;
+- viewing the queue of drafts approved for publication but not yet published.
+
+The existing YouTube tab `Редакторская оценка` is the intended UI surface for this tool family.
+The current placeholder text `LLM-assisted stage is not part of this MVP` is stale after this docs update and should be removed or replaced in the later UI implementation run.
+
+`youtube_post_editor_agent` is a protected internal system agent inside the tool family, not a public Telegram persona and not external/public agent exposure.
+
+External/public agent exposure to `youtube.prepare_post_draft` remains blocked until:
+1. UI/operator workflow is implemented;
+2. durable state is proven;
+3. regeneration and moderation state is proven;
+4. repeat proof passes.
+
+Future external agent exposure must use the same tool contract proven through the UI, not a separate shortcut.
+Publication remains a separate future tool.
+
+This is a reusable tool lifecycle rule for future tools when applicable:
+- operator UI first;
+- durable state and manual controls;
+- repeat proof;
+- then optional external-agent tool exposure.

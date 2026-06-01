@@ -1,10 +1,10 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260601_YOUTUBE_POST_DRAFT_PREPARATION_TOOL
-last_status: youtube_post_draft_preparation_tool_planned
+last_append_id: RM_20260601_YOUTUBE_POST_DRAFT_UI_OPERATOR_FIRST_ORDER
+last_status: youtube_post_draft_ui_operator_first_order_synced
 active_phase: youtube_post_draft_preparation_tool
-current_ui_surface_decision: current_telegram_tab_should_be_fin_instrument
-current_active_block: youtube_post_draft_preparation_tool
+current_ui_surface_decision: youtube_tab_redaktorskaya_otsenka_should_be_operator_surface
+current_active_block: youtube_post_draft_ui_operator_first_order
 next_phase_after_allowlist: youtube_ranked_batch_moderation_lifecycle_product_docs_gap
 agent_farm_deferred_until_fin_instrument: true
 current_roadmap_version: v0.7
@@ -19,5 +19,5 @@ supplemental_imported_files:
   - path: docs/codex_source/roadmap/imported/roadmap_v0_8_youtube_hermes_tool_planned.md
     status: imported
 no_destructive_rewrite: true
-last_updated_utc: 2026-06-01T03:13:09Z
-status: youtube_post_draft_preparation_tool_planned
+last_updated_utc: 2026-06-01T04:13:36Z
+status: youtube_post_draft_ui_operator_first_order_synced

@@ -21,12 +21,12 @@ rules:
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
   latest_context_append_id: CTX_20260601_POST_YOUTUBE_TG_FIXES_AND_CODEX_RUN_RULES
-  latest_roadmap_append_id: RM_20260601_POST_YOUTUBE_TG_FIXES_AND_CODEX_RUN_RULES
+  latest_roadmap_append_id: RM_20260601_YOUTUBE_POST_DRAFT_UI_OPERATOR_FIRST_ORDER
   latest_module_map_append_id: MM_20260601_POST_YOUTUBE_TG_FIXES_AND_CODEX_RUN_RULES
   latest_project_snapshot_id: PROJECT_SNAPSHOT_20260601_POST_YOUTUBE_TG_FIXES
   active_blocker: none_auto_selected_after_post_youtube_tg_fixes
-  current_active_block: post_20260530_youtube_tg_fixes_no_auto_next_stage
-  next_exact_run: USER_MUST_SELECT_NEXT_TASK_OR_DOCS_ALIGNMENT_PROOF
+  current_active_block: youtube_post_draft_ui_operator_first_order
+  next_exact_run: UI_OPERATOR_PROOF_DESIGN_FOR_YOUTUBE_POST_DRAFT_REDACTOR_TAB
   financial_ui_readd: completed
   pending_next_prompt_id: USER_DECISION_TELEGRAM_START_RANKING_COMMAND_OR_CONTINUE_CURRENT_FLOW
   docs_update_workflow_rule: chatgpt_writes_append_blocks_inline_before_codex_docs_update
