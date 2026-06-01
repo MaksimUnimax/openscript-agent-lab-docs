@@ -1,11 +1,11 @@
 snapshot_file: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
 append_only: false
-status: youtube_candidates_base_ui_cleanup_and_moderation_semantics
+status: post_youtube_tg_fixes_and_run_rules_synced
 snapshot_kind: bounded_codex_repo_snapshot
 source_kind: bounded_codex_repo_snapshot
-last_snapshot_id: PROJECT_SNAPSHOT_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP
-private_head_at_snapshot: 1ba686b1d00e6d9dbe71fddbb0df8f3bf2a20092
-last_updated_utc: 2026-05-30T00:00:00Z
+last_snapshot_id: PROJECT_SNAPSHOT_20260601_POST_YOUTUBE_TG_FIXES
+private_head_at_snapshot: 36d0f6d08c727afc412c9c75e89eac501a14d16e
+last_updated_utc: 2026-06-01T02:17:44Z
 scope: bounded inventory, no secrets
 needs_future_refresh: false
 last_snapshot_file: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md

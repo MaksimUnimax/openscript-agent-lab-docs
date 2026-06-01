@@ -208,3 +208,43 @@ DATE_UTC: 2026-05-30
 - No receipt/OCR work is being restarted by this snapshot.
 - No live search/ranking is being executed by this docs update.
 - No Telegram API, Hermes/provider, DB, or service-runtime change is required for the docs state update itself.
+
+# Project Snapshot — 2026-06-01 — Post YouTube/TG fixes and run rules
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260601_POST_YOUTUBE_TG_FIXES
+DATE_UTC: 2026-06-01T02:17:44Z
+
+## Git State
+
+- private source repo HEAD at snapshot: `36d0f6d08c727afc412c9c75e89eac501a14d16e`
+- current branch: `main`
+- `origin/main` matched `HEAD` before this docs sync
+- working tree status: dirty outside docs only
+- dirty summary: unrelated tracked/untracked changes exist outside docs; none were staged for this docs run
+- docs-only snapshot scope: `docs/codex_source/**` only
+- no application code was read or exported for this snapshot
+- no auth files were read
+- no secrets were printed
+
+## Current Project Snapshot
+
+- Post-20260530 YouTube search/readiness is fixed: search auto-completes readiness/enrichment when needed and can increase `available_to_rank` through Telegram/Hermes proof.
+- Rank pool consistency is fixed: `available_to_rank` and the actual rank pool share one source-of-truth, and live proof reached `target_count=13` with `ranked_count=13`.
+- Cleanup recent-days is fixed and proven through Telegram/Hermes/tool actions, with `N=1` meaning candidates collected today.
+- Global Telegram/Hermes no-reply from stale poller cursor is fixed at commit `36d0f6d08c727afc412c9c75e89eac501a14d16e`.
+- Kilo/CLI backend exploration was canceled by the user and is not current active roadmap work.
+- Receipt full extraction remains saved as historical/pending context and is not the auto-selected next stage.
+- No next product stage is auto-selected by this docs snapshot; the next exact run must follow the next explicit user task and current docs alignment.
+
+## Accepted implementation references
+
+- search/rank-ready/rank-pool: `013deb284a61e2da2cf952060747b8e72b3ede83`
+- cleanup recent-days/Hermes-only: `2d95c264da9f0da44b369f8b8cea4022e3af776f`
+- Telegram poller liveness: `36d0f6d08c727afc412c9c75e89eac501a14d16e`
+
+## Notes
+
+- This snapshot is docs-only and contains no application code.
+- Unrelated dirty files, if any, were not staged.
+- No secrets/runtime files were read or exported.
+- No next product stage is auto-selected.

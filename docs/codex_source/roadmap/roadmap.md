@@ -518,6 +518,52 @@ The next block should produce:
 - no monolithic all-in-one tool;
 - no hardcoded agent/channel/query/provider.
 
+---
+## RM_20260601_POST_YOUTUBE_TG_FIXES_AND_CODEX_RUN_RULES
+
+### Status
+The post-20260530 work closed several runtime blockers around YouTube search/readiness, ranking pool consistency, cleanup semantics, and global Telegram/Hermes liveness.
+
+### Completed after previous roadmap append
+1. YouTube search now completes the useful workflow to rank-ready candidates:
+   - `Запусти поиск` through Telegram/Hermes can produce candidates available for ranking.
+   - Search auto-runs the needed readiness/enrichment step when `description_full` is required.
+   - Metadata-only storage is not accepted as completed search.
+
+2. Rank pool consistency fixed:
+   - `available_to_rank` and the real rank candidate pool use one shared source-of-truth.
+   - If available_to_rank is sufficient and target_count is 13, ranking can produce 13.
+   - Live proof ranked 13/13 through Telegram/Hermes.
+
+3. Cleanup recent-days fixed:
+   - cleanup means candidates collected during the last N calendar days;
+   - N=1 means today;
+   - cleanup protects approved/rejected/deferred/finalized/carry-forward candidates;
+   - dry-run and apply were proven through Telegram/Hermes/tool actions with real Telegram message_ids.
+
+4. Global Telegram no-reply fixed:
+   - live poller cursor duplicate logic was corrected;
+   - bot replies again to `Кто ты?` and `Запусти модерацию`;
+   - root cause was stale cursor handling, not YouTube-specific logic.
+
+### Current roadmap guardrails
+Do not reopen as active unless fresh proof shows they are broken:
+- YouTube search timeout / metadata-only search;
+- YouTube rank target mismatch;
+- cleanup recent-days / Hermes-only proof;
+- Telegram global no-reply caused by stale poller cursor;
+- receipt/OCR route, unless the user explicitly switches back to receipt extraction;
+- Kilo/CLI backend exploration, because the user canceled that task.
+
+### Process guardrail for future implementation runs
+For runtime/user-flow tasks, source changes plus unit tests are not enough. Codex must also prove the working product chain. For agent/tool tasks, proof must go through:
+Telegram/user input -> project handler -> selected agent -> Hermes -> existing tool/facade action -> deterministic business layer -> user-visible reply or equivalent product output.
+
+Direct routes, DB writes, scripts, UI clicks, manual Telegram sends, reply_to_agent-only results, and fallback paths that bypass Hermes/tool architecture are not accepted as live proof.
+
+### Next-step rule
+The next technical block must be chosen from current user request plus current docs alignment. Do not answer “next stage” by taking a stale historical roadmap block in isolation.
+
 ## 2026-05-22 — YouTube search agent tool visibility fixed
 
 The YouTube Research search/intake pipeline and the agent/Hermes attach path are now proven and the final visibility blocker is resolved.

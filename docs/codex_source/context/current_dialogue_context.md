@@ -3462,3 +3462,111 @@ The latest UI cleanup commit reported by the code run was `1ba686b1d00e6d9dbe71f
 Guardrail:
 Do not restart receipt/OCR context from this block. The current active work is YouTube ranked batch moderation lifecycle plus candidates-base UI semantics.
 <!-- CONTEXT_APPEND_END id=CTX_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS -->
+
+---
+APPEND_ID: CTX_20260601_POST_YOUTUBE_TG_FIXES_AND_CODEX_RUN_RULES
+SOURCE_KIND: chatgpt_dialogue_and_codex_reports
+DATE_UTC: 2026-06-01
+STATUS: accepted_current_context
+TITLE: Post-20260530 YouTube/Hermes/Telegram fixes and Codex run-rule correction
+
+### Summary
+After the previously saved YouTube candidate-base UI cleanup and moderation semantics block, the dialogue continued with multiple accepted runtime fixes and process corrections. This block records only new accepted context after the last saved append point.
+
+### Accepted YouTube search/readiness fix
+The YouTube search workflow was corrected so `Запусти поиск` is not considered complete when it only stores metadata-only candidates. Search now auto-completes the readiness/enrichment step when needed so candidates become rank-ready.
+
+Accepted proof:
+- search through Telegram/Hermes produced real Telegram replies;
+- `available_to_rank` increased from `0 -> 10` and then `10 -> 20`;
+- `description_full` remains a real business-layer rank-readiness requirement, but search now satisfies it automatically instead of requiring a manual hidden UI step;
+- direct route/API/script/DB was not accepted as live proof;
+- fallback was not accepted as success.
+
+Accepted implementation reference:
+- commit `013deb284a61e2da2cf952060747b8e72b3ede83`.
+
+### Accepted rank-pool consistency fix
+The previous mismatch where UI could show enough available candidates while ranking produced fewer than requested was fixed.
+
+Accepted proof:
+- runtime target_count was `13`;
+- `available_to_rank_before_rank` was `20`;
+- rank candidate pool count was `13`;
+- `ranked_count` was `13`;
+- ranked count matched target;
+- proof went through Telegram -> selected agent -> Hermes -> existing YouTube rank action -> business layer -> Telegram reply.
+
+Accepted implementation reference:
+- commit `013deb284a61e2da2cf952060747b8e72b3ede83`.
+
+### Accepted cleanup recent-days / Hermes-only proof
+Stale non-finalized YouTube candidate cleanup was corrected from “older than N days” to “candidates collected during last N days”.
+
+Accepted semantics:
+- `N=1` means candidates collected today;
+- `N=2` means today + yesterday;
+- this is not “older than N days”;
+- cleanup protects approved, rejected, deferred/postponed/move-to-next-time, finalized or explicitly carried-forward candidates.
+
+Accepted live proof:
+- dry-run command went through Telegram -> selected agent -> Hermes -> existing YouTube cleanup dry-run action;
+- apply command went through Telegram -> selected agent -> Hermes -> existing YouTube cleanup apply action;
+- dry-run Telegram message_id: `890`;
+- apply Telegram message_id: `891`;
+- apply deleted `47` candidates and `29` selection-state rows and updated `6` batch refs;
+- no cleanup fallback was used;
+- no direct DB/script/route cleanup was used as live proof;
+- protected finalized/deferred candidates were preserved;
+- service remained healthy and bot status was restored.
+
+Accepted implementation reference:
+- commit `2d95c264da9f0da44b369f8b8cea4022e3af776f`.
+
+### Accepted global Telegram/Hermes no-reply fix
+A later regression caused the Telegram bot to stop replying to all messages, including `Кто ты?`.
+
+Root cause:
+- `process_pending_updates_cycle()` treated any fetched `update_id <= persisted cursor` as duplicate;
+- stale cursor state could silence the live poller by skipping real updates;
+- live runtime skipped updates instead of resyncing cursor.
+
+Accepted fix:
+- duplicate gate now skips only exact repeats;
+- lower update IDs can resync the cursor;
+- regression tests were added.
+
+Accepted live proof:
+- `Запусти модерацию` reached selected agent `plankton`, Hermes returned text, Telegram returned real message_id `909`;
+- `кто ты?` reached selected agent `plankton`, Hermes returned text, Telegram returned real message_id `910`;
+- reply chain Telegram -> selected agent -> Hermes -> Telegram send was restored.
+
+Accepted implementation reference:
+- commit `36d0f6d08c727afc412c9c75e89eac501a14d16e`.
+
+### Process correction: Codex run rules with real chain tests
+The user corrected the workflow expectation for Codex runs. Future implementation runs must not stop at code changes or unit tests when the task is runtime/user-flow.
+
+New rule:
+- Codex must fix the task and test the real working chain that imitates actual product logic.
+- For agent/tool actions, proof must go through the required architecture path, currently often:
+  Telegram inbound simulation -> project handler -> selected agent -> Hermes -> existing tool/facade action -> deterministic business layer -> real Telegram reply/message_id.
+- Direct route/API/DB/script/manual send is not accepted as live proof.
+- A fallback that only imitates success or bypasses Hermes/tool architecture is not accepted.
+- If Hermes/provider auth/rate-limit blocks the run, Codex should first use project-owned auth/recovery tools when available, then retry the proper proof path.
+- If recovery cannot solve it, Codex must report a true blocker instead of bypassing the architecture.
+
+### Active-context caution
+Do not infer the next product stage from a stale historical block alone. Before answering “what is next”, ChatGPT must compare:
+- current_status;
+- roadmap tail;
+- context tail;
+- module_map tail;
+- project snapshot;
+- latest accepted runtime reports in the dialogue.
+
+Kilo/CLI-provider exploration was explicitly canceled by the user and must not be treated as current roadmap work.
+
+Fin Instrument blocks are historical/completed/deferred according to their own accepted statuses and must not be named the next step unless the user explicitly reopens them or current docs/runtime proof says so.
+
+Receipt full extraction remains a saved historical/pending business-layer block, but it is not to be duplicated as a new active pointer by this docs update.

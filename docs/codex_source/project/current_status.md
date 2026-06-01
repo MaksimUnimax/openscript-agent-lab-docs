@@ -299,3 +299,13 @@ The current working stop-point is YouTube ranked batch lifecycle / moderation st
 - `/agent-lab/api/youtube/moderation/batches` has the route-specific 300s nginx timeout for read/send;
 - the latest UI cleanup commit reported in code validation was `1ba686b1d00e6d9dbe71fddbb0df8f3bf2a20092`;
 - the current active block is still the YouTube ranked batch moderation lifecycle, and the open docs question remains whether ranking start should be a separate Telegram command or stay a UI/backend operator action while Telegram continues moderation and inline next stack.
+
+2026-06-01 update:
+- post-20260530 YouTube search/readiness is fixed: search now auto-completes readiness/enrichment when needed and can increase `available_to_rank` through Telegram/Hermes proof;
+- rank pool consistency is fixed: `available_to_rank` and the actual rank pool use one shared source-of-truth, with live proof at `target_count=13` and `ranked_count=13`;
+- cleanup recent-days is fixed and proven through Telegram/Hermes/tool actions, with `N=1` meaning candidates collected today;
+- global Telegram/Hermes no-reply caused by stale poller cursor was fixed at commit `36d0f6d08c727afc412c9c75e89eac501a14d16e`;
+- Kilo/CLI backend exploration was canceled by the user and is not current active roadmap work;
+- receipt full extraction remains historical/pending context and must not be duplicated as the current active pointer without an explicit user switch;
+- do not infer the next stage from old Provider/Auth, Fin Instrument, Kilo, or receipt blocks without current-state alignment;
+- the current next step is not auto-selected by docs; it must follow the next explicit user task and current docs alignment.

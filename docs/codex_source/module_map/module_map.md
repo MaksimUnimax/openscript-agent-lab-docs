@@ -1091,4 +1091,95 @@ The current active YouTube work still belongs to the ranked batch moderation lif
 
 The active/current module-map pointer remains on the YouTube ranked batch lifecycle stop-point, but the candidate-base UI cleanup and pagination semantics are now part of the same current YouTube memory state.
 <!-- MODULE_MAP_APPEND_END id=MM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS -->
+
+---
+## MM_20260601_POST_YOUTUBE_TG_FIXES_AND_CODEX_RUN_RULES
+
+### YouTube search/readiness boundary
+Owner modules:
+- `agent_lab/youtube_search_candidates.py`
+- `agent_lab/admin_server.py`
+- related tests under `tests/`
+
+Responsibilities:
+- YouTube search/intake;
+- candidate storage;
+- full-description/readiness enrichment;
+- rank-ready count after search;
+- search result summary.
+
+Boundary rule:
+- A search result is not complete if it only stores metadata-only candidates and leaves `available_to_rank=0` without a true structured no-rankable reason.
+- If `description_full` is a business requirement for ranking, search/readiness must satisfy it automatically in the normal search workflow.
+
+### Rank eligibility boundary
+Owner modules:
+- `agent_lab/youtube_selection_moderation_service.py`
+- `agent_lab/youtube_select_candidates.py`
+- `agent_lab/youtube_agent_moderation_dispatch.py`
+
+Responsibilities:
+- shared rank eligibility helper/source-of-truth;
+- UI available_to_rank semantics;
+- rank candidate pool construction;
+- durable ranked batch creation.
+
+Boundary rule:
+- UI available_to_rank and actual rank candidate pool must not use divergent definitions.
+- If rank action cannot use a candidate, UI must not count it as available for ranking.
+- If UI shows enough rank-eligible candidates for target_count, rank pool must be able to supply target_count unless a true data constraint exists.
+
+### Cleanup recent-days boundary
+Owner modules:
+- `agent_lab/youtube_selection_moderation_service.py`
+- `agent_lab/youtube_select_candidates.py`
+- `agent_lab/admin_server.py`
+- `agent_lab/static/app.js`
+- `agent_lab/static/index.html`
+- `agent_lab/storage.py`
+- `agent_lab/agent_reply.py` only for routing/reply integration, not for bypassing Hermes/tool actions.
+
+Responsibilities:
+- cleanup dry-run;
+- cleanup apply;
+- recent-days window semantics;
+- protected-status preservation;
+- related selection/batch-state repair;
+- UI controls;
+- existing YouTube tool cleanup action;
+- canonical skill source for future agents.
+
+Boundary rule:
+- cleanup is stale non-finalized candidate cleanup, not duplicate-row cleanup.
+- N=1 means candidates collected today.
+- Cleanup apply must not execute through fallback after Hermes/provider failure when the requirement is Hermes/tool proof.
+- Destructive cleanup requires dry-run, explicit confirmation, transaction, protected-status preservation, and audit/result.
+
+### Telegram reply liveness boundary
+Owner module:
+- `agent_lab/telegram_polling.py`
+
+Related test:
+- `tests/test_telegram_polling.py`
+
+Responsibility:
+- live update cursor/duplicate handling;
+- ensuring real Telegram updates are not silenced by stale cursor state.
+
+Boundary rule:
+- stale persisted cursor must not cause the live poller to skip real lower update IDs forever.
+- Only exact repeats should be skipped as duplicates.
+- Global Telegram no-reply must first be diagnosed through inbound -> selected agent -> Hermes -> send path before touching business tools.
+
+### Codex-run architecture proof boundary
+For future tasks involving agent/tool runtime behavior:
+- business logic belongs in deterministic tool/business modules;
+- agents/Hermes provide language, orchestration and tool-call path;
+- Codex must not add shortcuts that bypass the intended architecture to satisfy tests.
+
+Non-responsibilities:
+- no direct DB/script/API route as live proof;
+- no manual Telegram send as proof;
+- no fallback success after Hermes/provider failure when Hermes/tool path is required;
+- no hardcoding of current agent/chat/video/batch/message IDs.
 END_MODULE_MAP_APPEND_TEXT
