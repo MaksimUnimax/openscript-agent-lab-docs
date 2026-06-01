@@ -1011,3 +1011,158 @@ The open product/docs question remains whether ranking start should become a sep
 - Latest UI cleanup commit: `1ba686b1d00e6d9dbe71fddbb0df8f3bf2a20092`
 - No application code is changed by this roadmap memory block.
 <!-- ROADMAP_APPEND_END id=RM_20260530_YOUTUBE_CANDIDATES_BASE_UI_CLEANUP_AND_MODERATION_SEMANTICS -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260601_YOUTUBE_POST_DRAFT_PREPARATION_TOOL source=chatgpt_inline_product_update -->
+## YouTube Post Draft Preparation Tool
+
+### Status
+
+Planned next YouTube pipeline stage after search, ranking, selection and moderation.
+This stage is separate from `youtube.select_candidates` and separate from publication.
+
+### Purpose
+
+The new tool `youtube.prepare_post_draft` turns already selected and moderated YouTube videos into durable Telegram post drafts.
+
+The tool must produce:
+- coherent Telegram post text from verified source facts and subtitles/transcript;
+- image brief and image prompt;
+- generated illustration through an explicit image adapter;
+- Telegram moderation preview with inline controls;
+- approved-for-publication queue item for a future publication tool.
+
+### Architecture boundary
+
+Do not overload `youtube.select_candidates`.
+Do not publish posts from this tool.
+Do not merge selection, editorial generation, image generation, Telegram moderation and publication into one god module.
+
+Deterministic business/tool code owns:
+- post draft storage;
+- lifecycle state;
+- Telegram dispatch and callback state;
+- source snapshot persistence;
+- image adapter calls;
+- anti-repeat checks;
+- queue handoff to publication.
+
+The internal system agent owns editorial reasoning only.
+
+### Internal system agent
+
+Tentative internal agent:
+
+`youtube_post_editor_agent`
+
+This internal agent is not a public Telegram persona.
+It should be built as multiple focused skills, one skill per responsibility:
+
+1. `source_fact_reader`
+   - reads verified source facts and must not invent facts.
+2. `transcript_digest`
+   - turns transcript/subtitles into structured digest and key points.
+3. `telegram_editorial_writer`
+   - writes the Telegram post draft.
+4. `telegram_style_guard`
+   - validates readability, length, facts and tone.
+5. `image_brief_writer`
+   - creates image brief, prompt, negative prompt and style tags.
+6. `image_generation_requester`
+   - prepares structured image generation requests without hidden backend choice.
+7. `moderation_packager`
+   - prepares Telegram moderation preview payload and durable callback actions.
+
+### Image generation adapter
+
+Add an explicit deterministic adapter, tentative name:
+
+`post_draft_image_adapter`
+
+Supported backend modes:
+- `codex_imagegen_cli`
+- `openai_image_api`
+
+Contract:
+- same prompt contract works for both modes;
+- backend choice is explicit via config, policy or operator action;
+- if CLI quality is poor or runtime proof fails, the same system may switch to OpenAI API without changing editorial logic;
+- adapter records backend mode, prompt, output asset ref, generation status, error and regeneration attempts.
+
+### Storage / lifecycle
+
+Suggested entity:
+
+`youtube_post_drafts`
+
+Suggested lifecycle states:
+- candidate_ready_for_draft;
+- draft_created;
+- text_regeneration_requested;
+- image_prompt_created;
+- image_generation_requested;
+- image_generated;
+- image_generation_failed;
+- moderation_sent;
+- text_regeneration_pending;
+- image_regeneration_pending;
+- approved_for_publication;
+- rejected_or_needs_changes;
+- published_later.
+
+Recommended policy:
+- source candidates/videos remain in DB forever;
+- approved/selected videos are not deleted after drafting or moderation;
+- already selected/approved videos must not be selected again;
+- draft regeneration creates a revision/version, not a duplicate source candidate.
+
+### Telegram moderation
+
+Preview should include:
+- image/media message if available;
+- full text draft message;
+- inline controls.
+
+Inline actions:
+- approve draft;
+- regenerate text;
+- regenerate image;
+- regenerate both;
+- reject / needs changes;
+- show source;
+- next draft.
+
+Callback payloads must reference durable draft ids.
+
+### Publication queue
+
+Publication is a separate future tool.
+
+After approval:
+- `moderation_status = approved_for_publication`;
+- `published_at = null`;
+- `publication_status = ready`.
+
+The publication tool will consume only approved, unpublished drafts.
+
+### Roadmap stages
+
+1. Docs/TЗ import.
+2. Proof/design run for current source owners, storage, Telegram callback path, image backend proof.
+3. Storage/lifecycle implementation.
+4. Internal editor agent package and skills.
+5. Draft text generation.
+6. Image prompt generation.
+7. Image backend adapter with `codex_imagegen_cli` and `openai_image_api`.
+8. Telegram moderation preview and inline callbacks.
+9. Approved-for-publication queue handoff.
+10. Repeat proof from selected candidate to approved draft queue without publishing.
+
+### Acceptance
+
+Do not mark this stage done until:
+- anti-repeat is preserved;
+- durable drafts are created from approved videos;
+- image generation works through a proven backend;
+- moderation and regeneration work through durable draft state;
+- publication remains separate.
+<!-- ROADMAP_APPEND_END id=RM_20260601_YOUTUBE_POST_DRAFT_PREPARATION_TOOL -->

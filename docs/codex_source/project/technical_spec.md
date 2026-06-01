@@ -602,6 +602,261 @@ Do not do:
 7. Когда начинать Telegram Router?
 8. Какой provider первым smoke-test после auth design: Codex or DeepSeek/custom API?
 
+## 19. Technical Spec Extension v0.5 — YouTube Post Draft Preparation Tool
+
+Status: imported as an extension, not a replacement for v0.3.
+
+This extension records the next YouTube pipeline stage after search, ranking, selection and moderation.
+It defines a new post-draft preparation tool and keeps it separate from selection and from publication.
+
+### 19.1. Назначение инструмента
+
+`youtube.prepare_post_draft` takes YouTube videos that already passed ranking, selection and moderation and turns them into durable Telegram post drafts.
+
+The tool must produce:
+- coherent Telegram post text from verified source facts and subtitles/transcript;
+- image brief and image prompt;
+- generated illustration through an explicit image adapter;
+- Telegram moderation preview with inline controls;
+- approved-for-publication queue item for a future publication tool.
+
+The tool is not the selection tool and is not the publication tool.
+
+### 19.2. Product scenario
+
+Typical flow:
+1. A video has already been selected and approved by the existing YouTube selection/moderation line.
+2. The operator starts `youtube.prepare_post_draft`.
+3. The tool collects immutable source facts, transcript/subtitle material and selection notes.
+4. The internal system editor agent drafts a post.
+5. The tool creates an image brief and image prompt.
+6. The image adapter generates or regenerates the illustration.
+7. Telegram moderation receives the draft with inline actions.
+8. If approved, the draft moves to an approved-for-publication queue.
+9. Publication itself remains a separate future tool.
+
+### 19.3. Architecture boundary
+
+This stage must keep the Agent Lab separation of responsibilities:
+- agent;
+- provider;
+- skills/tools;
+- deterministic business layer;
+- UI;
+- Telegram Router.
+
+The new tool must not become a god module.
+It must not overload `youtube.select_candidates`.
+It must not publish posts.
+It must not collapse editorial reasoning, storage, Telegram callbacks and image backend control into a single free-form agent path.
+
+Deterministic tool/business code owns:
+- post draft storage;
+- lifecycle state;
+- Telegram dispatch and callback state;
+- source snapshot persistence;
+- image adapter calls;
+- anti-repeat checks;
+- queue handoff to publication.
+
+The internal system agent owns:
+- editorial reasoning;
+- source summarization;
+- draft wording;
+- image brief writing;
+- moderation-pack preparation.
+
+### 19.4. Internal system agent
+
+Tentative internal system agent name:
+
+`youtube_post_editor_agent`
+
+This is an internal system agent, not a public Telegram persona.
+It must remain editor-only and must not be used as a general public chat persona.
+
+The internal agent should have multiple skills, one skill per responsibility:
+
+1. `source_fact_reader`
+   - reads verified source facts: title, channel, URL, description, transcript/subtitles, selection reason, moderation notes;
+   - must not invent facts.
+
+2. `transcript_digest`
+   - turns transcript/subtitles into structured digest, key points, useful insight, and audience relevance.
+
+3. `telegram_editorial_writer`
+   - writes the Telegram post draft;
+   - target length: 900-1600 chars for normal text;
+   - soft max: 1800 chars;
+   - if used as a media caption, cap near 950 chars;
+   - prefer 5-7 short paragraphs;
+   - moderate emoji usage, roughly 3-6 emoji per post;
+   - 0-3 hashtags max;
+   - structure: hook, why it matters, key ideas, who it helps, link/CTA.
+
+4. `telegram_style_guard`
+   - validates readability, length, facts, no spam tone, no hallucinated claims.
+
+5. `image_brief_writer`
+   - creates image brief, image prompt, negative prompt, style tags, aspect ratio, and safety notes;
+   - prefer no text inside the image unless explicitly required.
+
+6. `image_generation_requester`
+   - prepares a structured image generation request;
+   - does not choose backend by hidden improvisation;
+   - backend is selected by policy/config/operator action.
+
+7. `moderation_packager`
+   - prepares Telegram moderation preview payload and durable callback actions.
+
+The tool may add more skills later, but each responsibility must stay separated.
+
+### 19.5. Image generation adapter
+
+Add an explicit deterministic adapter, tentative name:
+
+`post_draft_image_adapter`
+
+It supports two backend modes:
+- `codex_imagegen_cli`
+- `openai_image_api`
+
+Contract:
+- the same draft/image prompt contract must work with both backend modes;
+- backend choice must be explicit via config, policy or operator action;
+- if CLI quality is poor or runtime proof fails, the same system may switch to OpenAI API without changing the editorial agent logic;
+- the adapter records backend mode, prompt, output asset ref, generation status, error, and regeneration attempts.
+
+The adapter is a business/tool boundary, not an editorial personality.
+
+### 19.6. Storage and lifecycle
+
+Use a durable post-draft state separated from source candidates.
+
+Suggested entity:
+
+`youtube_post_drafts`
+
+Suggested fields:
+- id;
+- candidate_id;
+- video_id;
+- source_url;
+- source_title;
+- source_channel;
+- source_facts_snapshot_json;
+- transcript_snapshot_ref;
+- editor_agent_id;
+- editor_skill_versions_json;
+- draft_text;
+- draft_text_length;
+- image_brief;
+- image_prompt;
+- image_negative_prompt;
+- image_backend_mode;
+- image_asset_ref;
+- image_generation_status;
+- moderation_status;
+- publication_status;
+- created_at;
+- updated_at;
+- approved_at;
+- published_at;
+- rejected_at;
+- last_error.
+
+Suggested lifecycle states:
+- candidate_ready_for_draft;
+- draft_created;
+- text_regeneration_requested;
+- image_prompt_created;
+- image_generation_requested;
+- image_generated;
+- image_generation_failed;
+- moderation_sent;
+- text_regeneration_pending;
+- image_regeneration_pending;
+- approved_for_publication;
+- rejected_or_needs_changes;
+- published_later.
+
+Recommended lifecycle rules:
+- source candidates/videos remain immutable and persistent;
+- approved/selected videos are never deleted after drafting or moderation;
+- the draft gets revisions, not source-candidate duplication;
+- if a candidate already has an active or approved draft, a new draft must not auto-create unless explicitly requested as a revision;
+- regeneration creates a revision/version of the post draft, not a duplicate source candidate.
+
+### 19.7. Anti-repeat rules
+
+- Source candidates/videos must remain in DB forever.
+- Approved/selected videos must not be deleted after drafting or moderation.
+- Already selected/approved videos must not be selected again.
+- Draft generation must not auto-repeat on the same approved source unless a revision is explicitly requested.
+- A revision should update draft version state, not create a new source record.
+
+### 19.8. Telegram moderation flow
+
+Moderation preview should not rely only on a media caption because a caption is shorter than a normal text message.
+
+Recommended moderation preview:
+- image/media message if available;
+- text message with the full post draft;
+- control message or markup with inline buttons.
+
+Inline actions:
+- approve draft;
+- regenerate text;
+- regenerate image;
+- regenerate both;
+- reject / needs changes;
+- show source;
+- next draft.
+
+Callback payloads must reference durable draft ids, not raw post text or hardcoded message ids.
+
+### 19.9. Publication queue handoff
+
+Publication is a future separate tool.
+
+After moderation approval:
+- `moderation_status = approved_for_publication`;
+- `published_at = null`;
+- `publication_status = ready`.
+
+The future publication tool consumes only approved, unpublished drafts.
+
+This tool does not publish to a Telegram channel.
+
+### 19.10. Acceptance criteria
+
+The future implementation is accepted only if:
+1. selected/approved videos remain stored and are not deleted;
+2. anti-repeat prevents repeated selection and drafting by default;
+3. every approved video can produce a durable draft;
+4. draft text is Telegram-ready and fact-grounded;
+5. image prompt is created;
+6. image generation works through at least one proven backend;
+7. the adapter supports both `codex_imagegen_cli` and `openai_image_api` modes by contract;
+8. Telegram moderation has inline controls;
+9. regeneration works through durable draft state;
+10. approval moves the draft to an approved-for-publication queue;
+11. publication is not performed by this tool;
+12. tests and proof cover the lifecycle, not just isolated functions.
+
+### 19.11. Universal boundaries
+
+The design must not hardcode:
+- one agent;
+- one user;
+- one Telegram chat/channel;
+- one provider;
+- one image backend;
+- one video;
+- one language;
+- one message id;
+- one test case.
+
 ## Technical Spec Extension v0.4 — Fin Instrument Tab, Agent Farm, and Agent Tools
 
 Status: imported as an extension, not a replacement for v0.3.
