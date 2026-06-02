@@ -1274,3 +1274,57 @@ A future live-smoke proof/design must define:
 - safe failure handling;
 - report with exact live-call result and whether output was stored.
 <!-- ROADMAP_APPEND_END id=RM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON -->
+
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS source=chatgpt_inline_project_update accepted_by_user=yes -->
+## 2026-06-02 — YouTube Post Draft Preparation Tool: live source-invisible success and manual review path
+
+ROADMAP_APPEND_ID: RM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS
+
+### Current active phase
+
+`youtube_post_draft_editor_live_source_invisible_success`
+
+The YouTube Post Draft Preparation Tool has advanced from guarded live-gate skeleton into a proven controlled live workflow for the current prepared post draft.
+
+### Completed in the current dialogue branch
+
+- source-invisible editorial/news draft rules are now visible to the live editor context;
+- the visible post text is standalone and does not rely on source recap framing;
+- `source_facts_used` grounding is canonicalized before validation when the request carries complete grounding;
+- the final live editor execution succeeded once and persisted the draft for manual review;
+- the draft remains `ready_for_moderation` / `needs_review`;
+- `approved_at`, `published_at`, and `publication_status` remain null;
+- no Telegram send, image generation, approval, or publication happened in the live step.
+
+### Next roadmap block
+
+Next allowed block:
+
+`youtube_post_draft_manual_review_and_illustration_path_after_live_success`
+
+This block is manual-review first and must keep the saved draft as the primary proof artifact.
+
+### Not next
+
+The following are not next unless the user explicitly changes direction and fresh proof supports it:
+
+- receipt OCR/full extraction;
+- Fin Instrument;
+- Telegram routing/auth debugging unless fresh proof shows it is first broken;
+- runtime apply;
+- public/private repo publication changes outside docs sync;
+- automatic approval or publication;
+- a second live editor execution;
+- any visible-source-metadata requirement in the final draft text.
+
+### Acceptance criteria for the next block
+
+A future manual-review / illustration path must define:
+
+- review of the persisted standalone news draft in the UI;
+- acceptance or rejection based on visible editorial quality;
+- controlled illustration generation only after acceptance;
+- no public docs/content drift;
+- no reintroduction of recap/source-reference wording into the visible post;
+- no validator gate that blocks manual-review drafts solely because the visible text is source-invisible.
+<!-- ROADMAP_APPEND_END id=RM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS -->

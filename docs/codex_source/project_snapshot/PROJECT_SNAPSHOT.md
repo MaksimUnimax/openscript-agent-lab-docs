@@ -289,3 +289,45 @@ The next step is only a separately approved live-smoke proof/design run.
 - No publication.
 - No external/public agent exposure.
 - No Fin Instrument / receipt OCR work in this active block.
+
+# Project Snapshot — 2026-06-02 — YouTube post draft editor live source-invisible success
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS
+DATE_UTC: 2026-06-02T13:21:38Z
+
+## Git State
+
+- private source repo HEAD at snapshot: `3047fb23c403428057466c44929a6f92dd74feac`
+- current branch: `main`
+- `origin/main` matched `HEAD` before this docs sync
+- working tree status: dirty outside docs only
+- dirty summary: unrelated tracked/untracked changes exist outside docs; none were staged for this docs run
+- docs-only snapshot scope: `docs/codex_source/**` only
+- no application code was read or exported for this snapshot
+- no auth files were read
+- no secrets were printed
+
+## Current Project Snapshot
+
+- The YouTube post draft editor has moved from guarded live-gate skeleton into a proven controlled live workflow.
+- The final successful live editor run validated a standalone editorial/news draft and persisted it for manual review.
+- Current draft target:
+  - `draft_id`: `post-draft-6af43220e9bb`
+  - `video_id`: `D67SfjYSMok`
+- The saved draft remains `ready_for_moderation` / `needs_review`.
+- `approved_at`, `published_at`, and `publication_status` remain null.
+- Visible draft text is source-invisible and does not rely on source recap wording.
+- Source grounding is preserved through machine-readable `source_facts_used` and snapshots, not visible source metadata in `draft_text`.
+- The next step is manual UI review of the persisted draft text, followed only if accepted by the normal illustration path that uses the saved image fields.
+- Temporary Hermes timeout/session-correlation diagnostics remain cleanup debt.
+
+## Accepted implementation references
+
+- live editor success / source facts used canonicalization fix: `3047fb23c403428057466c44929a6f92dd74feac`
+
+## Notes
+
+- This snapshot is docs-only and contains no application code.
+- Unrelated dirty files, if any, were not staged.
+- No secrets/runtime files were read or exported.
+- No next product stage is auto-selected.

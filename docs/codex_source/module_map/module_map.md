@@ -1290,3 +1290,101 @@ The following are explicitly out of scope for this active block:
 - provider secret handling;
 - service restart.
 <!-- MODULE_MAP_APPEND_END id=MM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON -->
+
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS source=chatgpt_inline_project_update accepted_by_user=yes -->
+## 2026-06-02 — Module map update: YouTube post draft editor live source-invisible success
+
+MODULE_MAP_APPEND_ID: MM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS
+
+### Current module family
+
+YouTube Post Draft Preparation Tool.
+
+### Main source owners
+
+`agent_lab/youtube_post_draft_service.py`
+- Owns post draft lifecycle and storage helpers.
+- Owns transcript snapshot persistence helpers.
+- Owns editor input/output contract helpers.
+- Owns prompt assembly for source-invisible editorial/news output.
+- Owns `source_facts_used` grounding normalization before validation.
+- Owns fake editor execution adapter and guarded live adapter boundary.
+
+`agent_lab/admin_server.py`
+- Owns admin API routes for the operator UI.
+- Includes post-draft routes:
+  - `GET /api/youtube/post-drafts/status`
+  - `POST /api/youtube/post-drafts/create`
+  - `POST /api/youtube/post-drafts/bulk-create`
+  - `POST /api/youtube/post-drafts/prepare-content`
+  - `POST /api/youtube/post-drafts/transcript-snapshot`
+  - `POST /api/youtube/post-drafts/editor-contract`
+  - `POST /api/youtube/post-drafts/editor-execute`
+  - `POST /api/youtube/post-drafts/editor-execute-live`
+- Must keep live execution admin/operator guarded and fail-closed.
+
+`agent_lab/static/app.js`
+- Owns the YouTube tab operator UI behavior.
+- Shows `Редакторская оценка`.
+- Shows fake editor execution action.
+- Shows the live route as a separate guarded path.
+- Must not imply that live execution, image generation, Telegram moderation, or publication already happened.
+
+`agent_lab/static/index.html`
+- Owns static UI markup for the tab surface.
+
+`agent-packages/youtube_post_editor_agent/**`
+- Source package for protected internal editor agent.
+- Remains `system_agent=true`, `protected=true`, `non_public=true`.
+- Contains skills for source reading, transcript digestion, editorial writing, style guard, image brief writing, image request shaping, and moderation packaging.
+- Must not become a Telegram/public command candidate.
+
+`/var/lib/openscript-agent-lab/hermes/profiles/youtube_post_editor_agent/**`
+- Runtime profile created through controlled runtime apply.
+- Runtime state, not source-of-truth.
+- Must not be edited in docs-only/source-only runs.
+
+`agent_lab/hermes_binding.py`
+- Owns readiness/binding checks.
+- Proven readiness reached `can_live_execute=True` after source gate and provider defaults updates.
+- `can_live_execute=True` is readiness state only, not permission to call live model without an approved run.
+
+`agent_lab/hermes_execution.py`
+- Owns Hermes execution adapter path.
+- Live execution now exists as a controlled path and must still be guarded by request confirmation and validation.
+
+### Test owners
+
+`tests/test_youtube_post_draft_service.py`
+- Service lifecycle, transcript snapshot, prompt/validation contract, fake execution, canonical grounding normalization, and guarded live adapter tests.
+
+`tests/test_admin_server.py`
+- Admin routes and UI/API assertions for post draft flows.
+
+`tests/test_hermes_execution.py`
+- Hermes binding/execution readiness regression tests.
+
+`tests/test_storage.py`
+- Provider defaults and protected/system agent state tests.
+
+`tests/test_telegram_bot_api.py`
+- Ensures `youtube_post_editor_agent` is not exposed as a Telegram command/public persona.
+
+### Boundaries
+
+The YouTube post draft tool currently stops at manual review of the persisted standalone news draft.
+
+The following remain future work:
+- controlled illustration generation after manual acceptance;
+- Telegram moderation send/callback flow;
+- publication tool;
+- any future higher-level editorial automation that preserves source-invisible visible draft text.
+
+The following are explicitly out of scope for this active block:
+- Fin Instrument;
+- receipt extraction;
+- Telegram routing/auth debugging unless fresh proof shows it is first broken;
+- runtime apply;
+- provider secret handling;
+- service restart.
+<!-- MODULE_MAP_APPEND_END id=MM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS -->

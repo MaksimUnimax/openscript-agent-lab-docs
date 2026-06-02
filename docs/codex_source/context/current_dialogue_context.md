@@ -3733,3 +3733,138 @@ Do not resume Fin Instrument or receipt extraction from this active block.
 
 Do not treat `can_live_execute=True` as permission to call a model. It is only readiness state. A live call requires a separate explicitly approved run.
 <!-- CONTEXT_APPEND_END id=CTX_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS source=chatgpt_inline_project_update accepted_by_user=yes -->
+## CTX_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS
+
+Status: accepted current context append
+Date: 2026-06-02
+Active block: YouTube post draft editor live workflow
+
+### Summary
+
+The YouTube post draft editor moved from live-gate skeleton to a proven controlled live workflow for the current prepared post draft.
+
+The current working draft proof target was:
+
+- draft_id: `post-draft-6af43220e9bb`
+- video_id: `D67SfjYSMok`
+- source video title: `AI News: Claude Opus 4.8, Hundreds of AI Agents in Claude Code, How to Spend $500 Million on APIs?`
+- channel: `Продуктивный Совет`
+
+The final accepted technical state is not “live route skeleton”. A controlled live editor execution has now succeeded after multiple proof/fix loops, and the draft is persisted for manual review.
+
+### Key proven facts
+
+- The internal protected editor agent is `youtube_post_editor_agent`.
+- The editor agent must remain visible for inspection but action-locked for unsafe UI actions.
+- Existing ready/working agents must not be touched when configuring the editor agent.
+- The editor output must be a standalone editorial/news post, not a recap of the video/channel/host/episode.
+- The source video/channel/title/transcript are internal grounding material only.
+- Visible `draft_text` must not mention source-reference framing such as:
+  - author/host/channel/video/episode/source;
+  - `в ролике`;
+  - `в выпуске`;
+  - `с канала`;
+  - `цитата из выпуска`;
+  - `автор разбирает`;
+  - `канал рассказывает`.
+- Grounding is preserved through machine-readable `source_facts_used` and source snapshots, not by forcing source metadata into the visible post text.
+- The model may return `source_facts_used` as a dict keyed by canonical grounding keys; backend postprocess now canonicalizes the accepted shape before validation.
+- Missing genuine grounding still fails closed.
+- The editor draft remains a manual-review artifact: no automatic approval, publication, Telegram send, or image generation is part of the editor live step.
+
+### Important resolved failures
+
+1. The live runner initially failed contract validation because the prompt did not require the full validator contract.
+   - Fixed by requiring `draft_text`, image fields, `source_facts_used`, and `style_guard_result`.
+
+2. The editor live execution initially timed out or became too heavy.
+   - The live payload was trimmed.
+   - Timestamp-heavy transcript text was stripped for live prompt usage.
+   - The editor live runner received a bounded longer timeout override.
+   - Temporary Hermes timeout/session-correlation diagnostics remain as cleanup debt.
+
+3. Agent training docs existed but were not visible in model context.
+   - Fixed by injecting a compact allowlisted training context into the live prompt.
+   - Runtime profile docs are preferred, with source-package fallback.
+   - The context is bounded and secret-safe.
+
+4. The text formatting/newline issue was not model/storage/API loss.
+   - Model output, parser, storage, and API preserved multiline text.
+   - UI CSS collapsed whitespace in preview surfaces.
+   - Fixed in UI/CSS only.
+
+5. The source-invisible agent training initially conflicted with backend prompt/validator.
+   - Backend prompt and validator required visible candidate title, channel name, and transcript excerpt.
+   - This forced `Выпуск ... с канала ...` and `Цитата из выпуска`.
+   - Fixed by removing literal visible-source requirements while preserving `source_facts_used` grounding.
+
+6. The last validation failure was caused by `source_facts_used` shape handling.
+   - The model returned `source_facts_used` as a dict of canonical keys with values.
+   - Validator treated non-list source_facts_used as empty.
+   - Fixed by canonicalizing dict/list/scalar outputs in postprocess when request grounding is complete.
+
+### Final successful live state
+
+Run:
+`OPENSCRIPT_AGENT_LAB_YOUTUBE_POST_EDITOR_ONE_LIVE_EXECUTION_AFTER_SOURCE_FACTS_USED_FIX_REFRESH_20260602_01`
+
+Source HEAD:
+`3047fb23c403428057466c44929a6f92dd74feac`
+
+Result:
+
+- exactly one live execution was attempted;
+- no retry loop;
+- validation passed;
+- `source_facts_used` was accepted as canonical grounding keys;
+- the regenerated draft was persisted;
+- final `draft_status`: `ready_for_moderation`;
+- final `moderation_status`: `needs_review`;
+- `approved_at=null`;
+- `published_at=null`;
+- `publication_status=null`;
+- no Telegram send;
+- no image generation;
+- no publication;
+- no draft approval.
+
+Output quality flags from the final proof:
+
+- `text_is_standalone_news_not_video_recap=true`
+- `news_items_expanded_beyond_topic_listing=true`
+- `forbidden_source_reference_phrases_present=false`
+- `text_contains_numbered_or_bulleted_list=true`
+- `image_brief_present=true`
+- `image_brief_is_collage_or_composite=true`
+- `image_prompt_present=true`
+- `image_prompt_is_collage_or_composite=true`
+- `ready_for_manual_review=true`
+
+The final draft preview begins as a standalone AI news digest, for example:
+`На этой неделе ИИ-рынок снова показал, что главное соревнование идёт не за красивые демо, а за то, кто научится превращать модели в рабочую инфраструктуру...`
+
+### Current stop-point
+
+The next step is manual UI review of the generated draft text.
+
+Do not run more live editor calls before the user reviews the full draft text in the UI.
+
+If the user accepts the text, the next technical block may be controlled illustration generation through the project workflow using the saved `image_brief`, `image_prompt`, and `image_negative_prompt`.
+
+Do not generate images through ChatGPT chat for this workflow.
+
+If the user rejects the text, use the concrete final draft content as proof and adjust the editor agent/prompt path narrowly. Do not reintroduce visible source metadata requirements and do not add validator gates that block manual-review drafts.
+
+### Cleanup debt
+
+Temporary Hermes timeout/session-correlation diagnostics are still present.
+They should be reduced to a bounded production-safe summary only after the editor path is accepted by manual review.
+
+### Not current
+
+The older receipt full extraction block remains historical/pending, but it is not the current active block unless the user explicitly switches back to receipts.
+
+Telegram/auth/Hermes routing must not be reopened for this editor path unless a fresh proof shows the first failing step moved there.
+<!-- CONTEXT_APPEND_END id=CTX_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS -->

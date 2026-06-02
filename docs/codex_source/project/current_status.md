@@ -325,3 +325,24 @@ The current working stop-point is YouTube ranked batch lifecycle / moderation st
 - No live Hermes/provider/model call has been attempted.
 - No Telegram send, image generation, or publication behavior has been added.
 - Next step: separately approved live-smoke proof/design only.
+
+## 2026-06-02 — Current active status: YouTube post draft editor live source-invisible success / manual review
+
+- Current active block: `youtube_post_draft_editor_live_source_invisible_success`.
+- Current working draft proof target remains `post-draft-6af43220e9bb` for manual review.
+- The final successful live editor run used source HEAD `3047fb23c403428057466c44929a6f92dd74feac`.
+- The live run validated successfully and persisted a standalone editorial/news draft.
+- `draft_status=ready_for_moderation`.
+- `moderation_status=needs_review`.
+- `approved_at=null`.
+- `published_at=null`.
+- `publication_status=null`.
+- `text_is_standalone_news_not_video_recap=true`.
+- `news_items_expanded_beyond_topic_listing=true`.
+- `forbidden_source_reference_phrases_present=false`.
+- `text_contains_numbered_or_bulleted_list=true`.
+- `image_brief_is_collage_or_composite=true`.
+- `image_prompt_is_collage_or_composite=true`.
+- The next step is manual UI review of the persisted draft text, not another live execution.
+- If accepted, the illustration path may reuse the saved `image_brief`, `image_prompt`, and `image_negative_prompt` through the normal project workflow.
+- Temporary Hermes timeout/session-correlation diagnostics remain cleanup debt and should later be reduced to a bounded production-safe summary.

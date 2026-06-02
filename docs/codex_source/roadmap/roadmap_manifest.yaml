@@ -1,11 +1,11 @@
 roadmap_file: docs/codex_source/roadmap/roadmap.md
 append_only: true
-last_append_id: RM_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON
-last_status: youtube_post_draft_editor_live_gate_skeleton_synced
-active_phase: youtube_post_draft_preparation_tool
+last_append_id: RM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS
+last_status: youtube_post_editor_live_source_invisible_success_synced
+active_phase: youtube_post_draft_editor_live_source_invisible_success
 current_ui_surface_decision: youtube_tab_redaktorskaya_otsenka_should_be_operator_surface
-current_active_block: youtube_post_draft_editor_live_gate_skeleton
-next_phase_after_allowlist: youtube_post_draft_controlled_live_smoke_proof_design
+current_active_block: youtube_post_draft_editor_live_source_invisible_success
+next_phase_after_allowlist: youtube_post_draft_manual_review_and_illustration_path_after_live_success
 agent_farm_deferred_until_fin_instrument: true
 current_roadmap_version: v0.7
 current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
@@ -19,5 +19,5 @@ supplemental_imported_files:
   - path: docs/codex_source/roadmap/imported/roadmap_v0_8_youtube_hermes_tool_planned.md
     status: imported
 no_destructive_rewrite: true
-last_updated_utc: 2026-06-01T10:52:51Z
-status: youtube_post_draft_editor_live_gate_skeleton_synced
+last_updated_utc: 2026-06-02T13:21:38Z
+status: youtube_post_editor_live_source_invisible_success_synced
