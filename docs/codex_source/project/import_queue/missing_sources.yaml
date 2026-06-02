@@ -1,5 +1,18 @@
 queue_version: 0.1
 items:
+  - id: current_docs_update_20260602_youtube_post_editor_live_success
+    status: resolved_by_docs_update_audit_fix
+    active_block: youtube_post_draft_editor_live_source_invisible_success
+    expected_target_path: docs/codex_source/project/current_status.md
+    notes: >
+      The YouTube post editor live success / manual review state is now imported
+      into repo docs. The current active block is YouTube post draft editor live
+      source-invisible success. Receipt full extraction remains historical/pending
+      and must not be treated as the current active pointer unless the user
+      explicitly switches back to receipts.
+    private_docs_commit: 032b2ba42302fc1df42e7d261d472668e542d6f5
+    public_docs_commit: ed0dd9b800c0de6ddbfc2e21860fea0cc8216488
+    must_not_invent: true
   - id: public_docs_repo_visibility
     status: done
     expected_target_path: docs/codex_source/project/current_status.md
