@@ -1388,3 +1388,76 @@ The following are explicitly out of scope for this active block:
 - provider secret handling;
 - service restart.
 <!-- MODULE_MAP_APPEND_END id=MM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS -->
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS source=chatgpt_inline_project_update accepted_by_user=yes -->
+## 2026-06-04 — Module map update: YouTube post draft moderation/editor revision flows
+
+MODULE_MAP_APPEND_ID: MM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS
+
+### Current module family
+
+YouTube Post Draft Preparation Tool.
+
+### Main source owners
+
+`agent_lab/youtube_post_draft_moderation_dispatch.py`
+- Owns moderation callback handling for the post-draft card.
+- Owns durable acknowledgement/replacement behavior for moderation resend flows.
+- Owns the branch between text revision and image revision actions.
+- Must not silently assume image revision when the visible evidence only shows text revision.
+
+`agent_lab/youtube_post_draft_service.py`
+- Owns draft lifecycle and persisted moderation state.
+- Owns caption rewrite flow for non-approved drafts.
+- Owns caption-length validation for Telegram photo captions.
+- Owns the guarantee that image refs stay unchanged during text-only revision.
+
+`agent_lab/admin_server.py`
+- Owns admin/operator API routes that surface the post-draft workflow.
+- Keeps the moderation flow separate from approval/publication actions.
+
+`agent_lab/static/app.js`
+- Owns the operator UI cues and current YouTube tab interaction model.
+- Must preserve the release-shaped moderation card mental model:
+  image + caption + inline buttons.
+
+`agent-packages/youtube_post_editor_agent/skills/telegram_editorial_writer.md`
+- Owns the editorial rewrite policy for caption-only revisions.
+- Must keep the caption as a standalone Russian Telegram post and not reintroduce source recap framing.
+
+`agent-packages/youtube_post_editor_agent/rules.md`
+- Source policy for prompt composition when the text-revision flow needs editor rules.
+- Must preserve the earlier news/roundup mode behavior while improving single-topic editorial style.
+
+`/var/lib/openscript-agent-lab/hermes/profiles/youtube_post_editor_agent/**`
+- Runtime profile state for the protected editor agent.
+- Not a docs-only edit target.
+
+### Test owners
+
+`tests/test_youtube_post_draft_service.py`
+- Service lifecycle, caption validation, and revision-flow regressions.
+
+`tests/test_admin_server.py`
+- Admin route behavior and operator UI assertions for the moderation flow.
+
+`tests/test_telegram_bot_api.py`
+- Ensures `youtube_post_editor_agent` is not exposed as a Telegram command/public persona.
+
+### Boundaries
+
+The YouTube post draft tool currently stops at text revision flow for a non-approved moderation card.
+
+The following remain future work:
+- image revision flow, if later proven by a fresh callback/log/screenshot;
+- approval and publication;
+- publication tooling;
+- any future automatic moderation escalation.
+
+The following are explicitly out of scope for this active block:
+- receipt extraction;
+- Fin Instrument;
+- Telegram auth/Hermes auth debugging unless fresh proof shows it is first broken;
+- runtime apply;
+- provider secret handling;
+- service restart.
+<!-- MODULE_MAP_APPEND_END id=MM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS -->

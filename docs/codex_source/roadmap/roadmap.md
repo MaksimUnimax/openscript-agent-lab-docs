@@ -1328,3 +1328,55 @@ A future manual-review / illustration path must define:
 - no reintroduction of recap/source-reference wording into the visible post;
 - no validator gate that blocks manual-review drafts solely because the visible text is source-invisible.
 <!-- ROADMAP_APPEND_END id=RM_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS -->
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS source=chatgpt_inline_project_update accepted_by_user=yes -->
+## 2026-06-04 — YouTube Post Draft Preparation Tool: moderation/editor revision flow after live source-invisible success
+
+ROADMAP_APPEND_ID: RM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS
+
+### Current active phase
+
+`youtube_post_draft_moderation_revision_flows`
+
+The YouTube Post Draft Preparation Tool is now in the post-live moderation/revision stop-point for a non-approved draft.
+
+### Completed in the current dialogue branch
+
+- live source-invisible editor success remains preserved as the previous saved state;
+- the current fresh evidence is a text-revision confirmation, not an image-revision confirmation;
+- the current moderation draft target is `post-draft-2479cdb8ffb4`;
+- the visible moderation card message id is `952`;
+- the draft remains non-approved and not published.
+
+### Next roadmap block
+
+Next allowed block:
+
+`youtube_post_draft_text_revision_flow_for_non_approved_posts`
+
+This block must preserve the existing titled image and rewrite only the caption/text for the moderation resend.
+
+### Not next
+
+The following are not next unless the user explicitly changes direction and fresh proof supports it:
+
+- image revision flow, unless the callback/log/screenshot proves the `image` action was clicked;
+- publication;
+- approval;
+- another candidate;
+- Telegram auth/Hermes auth;
+- receipt OCR/full extraction;
+- Fin Instrument work;
+- external/public repo exports outside docs sync.
+
+### Acceptance criteria for the next block
+
+A future text-revision block must define:
+
+- caption rewrite only;
+- same titled image reused;
+- full Telegram photo+caption+buttons moderation card resent or replaced;
+- caption remains within Telegram photo caption limits;
+- draft remains not approved and not published;
+- image revision stays a separate later block unless fresh proof proves the image action;
+- prompt/report wording must mention the exact visible Telegram text-revision confirmation before choosing the next step.
+<!-- ROADMAP_APPEND_END id=RM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS -->

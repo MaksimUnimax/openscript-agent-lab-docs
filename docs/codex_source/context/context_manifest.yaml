@@ -1,12 +1,12 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS
-last_append_title: "YouTube post draft editor live source-invisible success"
-last_updated_utc: 2026-06-02T13:21:38Z
+last_append_id: CTX_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS
+last_append_title: "YouTube post-draft moderation/editor pipeline after live source-invisible success"
+last_updated_utc: 2026-06-04T04:07:53Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks
 tail_lines_for_codex: 160
 no_destructive_rewrite: true
-status: youtube_post_editor_live_source_invisible_success_synced
-current_active_block: youtube_post_draft_editor_live_source_invisible_success
+status: youtube_post_draft_moderation_revision_flows_synced
+current_active_block: youtube_post_draft_moderation_revision_flows

@@ -249,6 +249,48 @@ DATE_UTC: 2026-06-01T02:17:44Z
 - No secrets/runtime files were read or exported.
 - No next product stage is auto-selected.
 
+# Project Snapshot — 2026-06-04 — YouTube post draft moderation/editor revision flows
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS
+DATE_UTC: 2026-06-04T04:07:53Z
+
+## Git State
+
+- private source repo HEAD at snapshot: `6beadd03e56de2dcf49bd9724fc36e7ae77fceb8`
+- current branch: `main`
+- `origin/main` matched `HEAD` before this docs sync
+- working tree status: dirty outside docs only
+- dirty summary: unrelated tracked/untracked changes exist outside docs; none were staged for this docs run
+- docs-only snapshot scope: `docs/codex_source/**` only
+- no application code was read or exported for this snapshot
+- no auth files were read
+- no secrets were printed
+
+## Current Project Snapshot
+
+- The YouTube post draft moderation/editor pipeline is now the active stop-point after the live source-invisible success state.
+- The latest dialogue evidence showed the explicit text-revision confirmation:
+  - `✏️ Запрошены правки текста. Черновик поставлен на текстовую доработку.`
+- That evidence proves the next technical block is text revision, not image revision.
+- Current moderation draft target:
+  - `draft_id`: `post-draft-2479cdb8ffb4`
+  - `telegram_message_id`: `952`
+- The next technical run should rewrite the caption only, keep the same titled image, and resend or replace the full Telegram photo+caption+buttons moderation card.
+- The draft remains non-approved and not published.
+- Image revision remains a separate later block unless fresh proof shows the image action was clicked.
+- Receipt extraction, Fin Instrument, Telegram auth, and Hermes auth are not the current active block.
+
+## Accepted implementation references
+
+- current live-source-invisible editor success baseline: `6beadd03e56de2dcf49bd9724fc36e7ae77fceb8`
+
+## Notes
+
+- This snapshot is docs-only and contains no application code.
+- Unrelated dirty files, if any, were not staged.
+- No secrets/runtime files were read or exported.
+- No next product stage is auto-selected.
+
 # Project Snapshot — 2026-06-01 — YouTube post draft editor live-gate skeleton
 
 SNAPSHOT_ID: PROJECT_SNAPSHOT_20260601_YOUTUBE_POST_DRAFT_EDITOR_LIVE_GATE_SKELETON

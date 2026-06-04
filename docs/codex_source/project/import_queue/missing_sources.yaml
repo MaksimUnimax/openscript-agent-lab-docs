@@ -374,3 +374,8 @@ items:
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: current active block is youtube_post_draft_editor_live_gate_skeleton; guarded live route skeleton is repeat-proven; live-smoke proof/design is pending separate user approval; image_adapter_execution, telegram_moderation_send, and publication_tool remain future work
     must_not_invent: true
+  - id: youtube_post_draft_moderation_revision_flows
+    status: imported_current_context
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: current active block is youtube_post_draft_moderation_revision_flows; latest dialogue evidence is a text-revision confirmation, not an image-revision confirmation; the next technical run is text revision for a non-approved post draft and image revision remains separate unless fresh proof shows the image action was clicked
+    must_not_invent: true

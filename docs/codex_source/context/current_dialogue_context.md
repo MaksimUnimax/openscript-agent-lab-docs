@@ -3868,3 +3868,152 @@ The older receipt full extraction block remains historical/pending, but it is no
 
 Telegram/auth/Hermes routing must not be reopened for this editor path unless a fresh proof shows the first failing step moved there.
 <!-- CONTEXT_APPEND_END id=CTX_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS -->
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS source=chatgpt_inline_project_update accepted_by_user=yes -->
+## CTX_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS
+
+### Scope
+This append records the current OpenScript Agent Lab working context after the last saved docs point `CTX_20260602_YOUTUBE_POST_EDITOR_LIVE_SOURCE_INVISIBLE_SUCCESS`.
+
+The active block is now the YouTube post-draft moderation/editor pipeline, not receipt extraction, Telegram auth, Hermes auth, or Fin Instrument UI.
+
+### Completed/proven since last saved point
+
+1. Controlled YouTube post illustration pipeline progressed from fail-closed internal slice to live direct Codex image generation.
+   - Direct Codex imagegen backend was implemented and proven with real draft smoke.
+   - Production prompt source is `youtube_post_drafts.image_prompt`.
+   - Stored `image_prompt` is passed through unchanged to image generation.
+   - No OpenAI API/FAL/Hermes gateway provider key path is the current image path.
+   - Direct Codex imagegen path is the accepted working path for current YouTube illustrations.
+
+2. Runtime illustration asset preview was implemented and fixed.
+   - Runtime image asset refs are served through a safe preview route.
+   - Browser path prefix mismatch under `/agent-lab/` was fixed.
+   - A stale live service process previously caused 404 until `openscript-agent-lab-ui.service` restart loaded current source.
+
+3. Approved sorting candidates can feed the post editor queue.
+   - Old/finalized candidates must be excluded.
+   - Approved active candidates without draft are eligible for editor processing.
+   - Processing one candidate moves it out of the editor waiting queue.
+   - Queue counts must represent current waiting items, not historical approved totals.
+
+4. One-candidate full editor pipeline was operator-tested.
+   - Candidate `NJg4_3qUHPY` / title `It's a disease...` was processed into `post-draft-2479cdb8ffb4`.
+   - Draft text, image generation, deterministic Russian title overlay, caption validation, and Telegram moderation card send were executed.
+   - The draft stayed not approved and not published.
+   - The candidate was finalized/used after processing.
+
+5. Telegram post-draft moderation card shape was corrected.
+   - Moderator must see the post as it will be released.
+   - Correct moderation card is one Telegram photo message:
+     image + caption + inline buttons.
+   - No separate “additional text” message is acceptable for a release-shaped post.
+   - Caption limit is enforced; overlong captions block/send to text revision rather than splitting.
+
+6. Caption compression / release text sizing was added.
+   - Photo caption must fit Telegram caption limit.
+   - Current target is caption-sized final post text, preferred under the limit with readable paragraph formatting.
+   - Silent truncation and split fallback are not acceptable.
+
+7. Telegram moderation callbacks and durable acknowledgements were improved.
+   - Post-draft moderation and sorting/candidate moderation callbacks now have visible chat confirmations.
+   - Popup-only `answerCallbackQuery` is not enough.
+   - Sorting approval confirmation must include current editor-waiting count.
+   - Post approval confirmation must include current publication-waiting count.
+   - Counts must decrease when the next tool consumes the item.
+   - Historical approved rows must not inflate current waiting counts.
+
+8. Sorting moderation durable confirmation live gap was fixed.
+   - A helper signature mismatch around `message_thread_id` prevented sorting durable confirmation in one live path.
+   - Sorting approval now sends the durable chat message with editor-waiting count when the candidate exists and is valid.
+   - A previously attempted old candidate was missing from DB and should not be used as proof of current path failure.
+
+9. Approved post revision guard was added and live-confirmed.
+   - If a draft is already `approved_for_publication` / publication-ready, text/image revision actions must be blocked unless the moderator explicitly returns the draft to work.
+   - Regeneration must not start on approved/publication-ready drafts.
+   - Approved draft remains in publication queue.
+   - Durable blocked message:
+     `Пост уже одобрен к публикации. Правки невозможны; верните пост в работу, если нужна доработка.`
+   - This was later live-confirmed by the user.
+
+10. Editorial quality fixes were applied to YouTube editor skills.
+   - Raw source/video/author framing was removed from final Telegram post style.
+   - Final post must be a standalone Russian Telegram post, not a raw video summary.
+   - Single-topic post needs a headline and coherent flow.
+   - News/roundup mode must remain preserved and separate.
+   - Codex must not delete or weaken the already tuned news/roundup behavior while improving single-topic editorial style.
+
+11. Deterministic Russian title overlay was improved.
+   - Base image generation should not attempt to render text.
+   - Overlay title is deterministic post-processing.
+   - Overlay title must be Russian and meaningful.
+   - Raw English clickbait fragments such as `It's disease` are not acceptable.
+   - Overlay title must not include emoji.
+
+12. Emoji policy was improved.
+   - Final Telegram caption should use semantic, variable emoji.
+   - Headline should start with a relevant emoji.
+   - Emoji should structure paragraphs/sections, not appear randomly mid-sentence.
+   - Emoji pattern must not be fixed across posts.
+   - News/roundup mode remains preserved.
+   - Overlay titles remain emoji-free.
+   - Last reported accepted semantic emoji policy commit: `6beadd03e56de2dcf49bd9724fc36e7ae77fceb8`.
+   - Latest target draft after this run: `post-draft-2479cdb8ffb4`, moderation message `952`.
+
+### Current active stop-point
+
+The current unresolved block is revision execution for a fresh, non-approved post-draft moderation card.
+
+Latest screenshot/evidence in the dialogue showed:
+`✏️ Запрошены правки текста. Черновик поставлен на текстовую доработку.`
+
+Therefore the next technical run must not assume image revision. The next technical run should first target text revision flow unless fresh proof shows the image action was clicked.
+
+### Correct next technical block
+
+Implement/prove text revision flow for a non-approved post draft:
+
+`Запросить правки текста`
+→ editor rewrites caption only
+→ caption remains <= Telegram photo caption limit
+→ image refs remain unchanged
+→ title overlay image remains unchanged
+→ resend/replace full Telegram moderation card:
+   same titled image + new caption + same buttons
+→ draft remains not approved and not published.
+
+### Not next
+
+Do not proceed next to:
+- image revision flow, unless fresh callback/log/screenshot proves the `image` action was clicked;
+- publication queue;
+- publication tool;
+- processing another candidate;
+- Telegram auth/Hermes auth;
+- receipt OCR/full extraction;
+- Fin Instrument UI.
+
+### Important lesson from the dialogue
+
+Do not misread screenshot evidence:
+- If screenshot says `✏️ Запрошены правки текста`, the evidence is text revision request, not image revision request.
+- Do not write prompts claiming the user clicked “Запросить новую иллюстрацию” unless the fresh evidence actually shows that action.
+- Always state the exact visible Telegram message before choosing the next prompt.
+
+### Source/layer boundaries for next work
+
+Likely source areas for the next text revision flow:
+- `agent_lab/youtube_post_draft_moderation_dispatch.py`
+  - callback action handling and resend/replace moderation card.
+- `agent_lab/youtube_post_draft_service.py`
+  - draft text revision, caption validation, lifecycle.
+- `agent-packages/youtube_post_editor_agent/skills/telegram_editorial_writer.md`
+  - editorial policy already improved; read only if prompt composition requires it.
+- `agent-packages/youtube_post_editor_agent/rules.md`
+  - read only if text revision prompt must reuse editor rules.
+
+Read-only / do-not-touch unless fresh proof requires it:
+- `agent_lab/youtube_post_illustration_service.py`
+- `agent_lab/youtube_post_codex_imagegen_runtime.py`
+- `agent_lab/youtube_image_title_overlay.py`
+- Telegram auth/provider/Hermes paths.
+<!-- CONTEXT_APPEND_END id=CTX_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS -->

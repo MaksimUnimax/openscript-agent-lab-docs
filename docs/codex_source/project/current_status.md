@@ -346,3 +346,13 @@ The current working stop-point is YouTube ranked batch lifecycle / moderation st
 - The next step is manual UI review of the persisted draft text, not another live execution.
 - If accepted, the illustration path may reuse the saved `image_brief`, `image_prompt`, and `image_negative_prompt` through the normal project workflow.
 - Temporary Hermes timeout/session-correlation diagnostics remain cleanup debt and should later be reduced to a bounded production-safe summary.
+
+2026-06-04 update:
+- Current active block: `youtube_post_draft_moderation_revision_flows`.
+- Latest dialogue evidence showed `✏️ Запрошены правки текста. Черновик поставлен на текстовую доработку.`
+- That evidence proves text revision flow, not image revision.
+- Latest moderation draft target: `post-draft-2479cdb8ffb4`.
+- Latest moderation card message id: `952`.
+- The next technical run should rewrite the caption only, keep the same titled image, and resend/replace the full Telegram photo+caption+buttons moderation card.
+- Image revision stays a separate later block unless fresh proof shows the image action was clicked.
+- Do not reopen receipt, Fin Instrument, Telegram auth, or Hermes auth blocks from this stop-point.
