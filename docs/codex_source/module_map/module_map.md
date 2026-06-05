@@ -1461,3 +1461,87 @@ The following are explicitly out of scope for this active block:
 - provider secret handling;
 - service restart.
 <!-- MODULE_MAP_APPEND_END id=MM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS -->
+## MM_20260605_YOUTUBE_POST_DRAFT_REVISION_AND_CALLBACK_INTAKE_BOUNDARIES
+### Current module family
+YouTube Post Draft Preparation Tool.
+
+### Updated source ownership after latest dialogue branch
+
+`agent_lab/youtube_post_draft_moderation_dispatch.py`
+- Owns post-draft moderation callback orchestration.
+- Owns immediate request-stage visible status after `answerCallbackQuery`.
+- Owns separation between request ack/status and long completion work.
+- Owns text/image moderation card resend/replace orchestration.
+- Must not send old-card fake success as regenerated output.
+
+`agent_lab/youtube_post_draft_service.py`
+- Owns durable post-draft lifecycle state.
+- Owns text revision markers:
+  - `text_revision_completed_at`;
+  - `text_revision_completed_for_requested_at`.
+- Owns stale retry vs in-progress duplicate vs fresh completed-cycle behavior.
+- Owns caption validation, length constraints, paragraph formatting normalization and grounding normalization.
+- Owns preserving image refs during text-only revision.
+
+`agent_lab/youtube_post_illustration_service.py`
+- Owns public illustration generation service result and safe error surfacing.
+- Maps backend `codex_exec_failed` into safe user-facing provider failure text.
+- Must preserve retryable image failure state.
+
+`agent_lab/youtube_post_codex_imagegen_runtime.py`
+- Owns Codex imagegen CLI subprocess/backend execution.
+- `codex_exec_failed` originates here when subprocess exits non-zero.
+- It must not be hidden as success.
+
+`agent_lab/youtube_image_title_overlay.py`
+- Owns deterministic title overlay generation.
+- Overlay title must be Russian/meaningful and emoji-free.
+- Titled asset ref must change when base image changes.
+
+`agent_lab/static/app.js`
+- Owns operator UI preview behavior for post-draft/titled image asset display.
+- Prefers `image_titled_asset_ref` for preview when available.
+- Displays titled image metadata.
+- Does not own backend generation.
+
+`agent_lab/telegram_polling.py`
+- Owns real inbound Telegram update/callback intake.
+- Owns polling ready/paused state observation, update id handling, duplicate/offset behavior.
+- No new listener should be added.
+- Current unresolved callback proof belongs here only if real click does not reach dispatch.
+
+`agent_lab/telegram_connector.py`
+- Owns Telegram connector state, bot status/live-enabled config, send/edit/replace calls and real message id extraction.
+- Control-write audit logging was added separately and is not a post-draft business-layer change.
+- Official control path was used to enable bot polling.
+
+`agent-packages/youtube_post_editor_agent/skills/telegram_editorial_writer.md`
+- Owns editor wording policy for Telegram captions.
+- Must preserve standalone Russian Telegram post style.
+- Must preserve news/roundup mode while supporting single-topic editorial style.
+- Should not reintroduce visible source/video/channel recap framing.
+
+`agent-packages/youtube_post_editor_agent/rules.md`
+- Owns source editor policy for prompt composition.
+- Must not be changed unless text prompt/rules source is the proven owner.
+
+### Read-only / do-not-touch unless fresh proof requires
+- Receipt/OCR modules.
+- Fin Instrument modules.
+- Hermes auth/provider paths.
+- Publication tool paths.
+- New Telegram listener code.
+
+### Boundary for the next technical block
+Next block owner is not text/image business logic by default.
+
+The immediate next proof should focus on:
+- `telegram_polling.py`;
+- `telegram_connector.py`;
+- `youtube_post_draft_moderation_dispatch.py`;
+- `youtube_post_draft_service.py` read-only for current card state.
+
+Goal:
+prove current-card real manual callback identity and intake before touching text/image revision business modules again.
+END_MODULE_MAP_APPEND_TEXT
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260605_YOUTUBE_POST_DRAFT_REVISION_AND_CALLBACK_INTAKE_BOUNDARIES source=chatgpt_inline_project_update accepted_by_user=yes -->

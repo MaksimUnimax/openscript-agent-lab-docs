@@ -356,3 +356,25 @@ The current working stop-point is YouTube ranked batch lifecycle / moderation st
 - The next technical run should rewrite the caption only, keep the same titled image, and resend/replace the full Telegram photo+caption+buttons moderation card.
 - Image revision stays a separate later block unless fresh proof shows the image action was clicked.
 - Do not reopen receipt, Fin Instrument, Telegram auth, or Hermes auth blocks from this stop-point.
+
+2026-06-05 update:
+- current active block: `youtube_post_draft_manual_callback_identity_current_card_proof`.
+- current unresolved blocker: real manual `callback_query` not observed after deployed `ce34fd2` fix.
+- latest accepted implementation head: `ce34fd2b70a10c4a64f9b3180d05637d8a02a67e`.
+- closed/proven:
+  - repeated text revision;
+  - caption grounding normalization;
+  - caption formatting normalization;
+  - repeated illustration regeneration;
+  - titled image asset regeneration and preview;
+  - bot polling re-enabled via official route;
+  - request-status ordering source fix;
+  - safe `codex exec failed` surfacing.
+- next correct technical run: proof-only current-card callback identity/intake test.
+- not next:
+  - new listener;
+  - text/image business fix without fresh callback reaching that layer;
+  - receipt/OCR;
+  - Fin Instrument;
+  - publication;
+  - Hermes/auth debugging.

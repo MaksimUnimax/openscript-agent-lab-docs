@@ -1380,3 +1380,63 @@ A future text-revision block must define:
 - image revision stays a separate later block unless fresh proof proves the image action;
 - prompt/report wording must mention the exact visible Telegram text-revision confirmation before choosing the next step.
 <!-- ROADMAP_APPEND_END id=RM_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS -->
+## RM_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_MANUAL_CALLBACK_INTAKE
+### Status
+The YouTube Post Draft Preparation Tool has advanced beyond the earlier text-revision-only stop-point.
+
+### Completed since RM_20260604
+- Text revision for a non-approved post draft now has:
+  - real completion path;
+  - explicit per-cycle completion markers;
+  - stale-state retry;
+  - fresh-cycle repeat behavior after completion;
+  - strict grounding normalization;
+  - readable Telegram caption formatting.
+- Repeated text revision was proven with real moderation message transitions.
+- Image revision now has:
+  - live image regeneration;
+  - titled image regeneration;
+  - repeated image cycle proof;
+  - UI preview support for titled assets.
+- Request-stage UX was corrected so request status is sent before long generation work.
+- Raw `codex exec failed` from the image backend is sanitized into safe provider-failure text and remains retryable.
+- Polling was re-enabled through the official project control path after bot paused/live disabled state was proven.
+
+### Current active phase
+`youtube_post_draft_manual_callback_identity_current_card_proof`
+
+### Current blocker
+The deployed request-timing/image-failure fix at `ce34fd2b70a10c4a64f9b3180d05637d8a02a67e` could not be manually verified because no real manual `callback_query` was observed during the proof window.
+
+Polling was ready, but callback intake for the user's manual click was not captured.
+
+### Next roadmap block
+Run a proof-only current-card callback identity test:
+1. prove current source/service/polling state;
+2. identify active bot identity if safe;
+3. identify current post-draft moderation row;
+4. refresh or create one current moderation card through the official project-owned moderation delivery path;
+5. record the fresh `moderation_message_id`;
+6. ask the user to click exactly that fresh card;
+7. prove whether callback arrives for that message id;
+8. if no callback arrives, diagnose bot/card/chat/webhook/getUpdates/offset/client mismatch.
+
+### Not next
+- no new Telegram listener;
+- no text revision business fix unless fresh callback proof reaches that layer and proves it broken;
+- no image revision business fix unless fresh callback proof reaches that layer and proves it broken;
+- no publication;
+- no approval queue implementation;
+- no receipt/OCR;
+- no Fin Instrument;
+- no Hermes/auth/provider work unless fresh proof makes it first broken.
+
+### Acceptance for next block
+The next block is complete only when:
+- a fresh current moderation card message id is known;
+- the user click is tied to that exact message id;
+- real callback either arrives and is traced, or its absence is proven for that exact current card;
+- no simulated callback is counted as final proof;
+- no direct service/business call is counted as proof.
+END_ROADMAP_APPEND_TEXT
+<!-- ROADMAP_APPEND_BEGIN id=RM_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_MANUAL_CALLBACK_INTAKE source=chatgpt_inline_project_update accepted_by_user=yes -->

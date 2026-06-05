@@ -4017,3 +4017,179 @@ Read-only / do-not-touch unless fresh proof requires it:
 - `agent_lab/youtube_image_title_overlay.py`
 - Telegram auth/provider/Hermes paths.
 <!-- CONTEXT_APPEND_END id=CTX_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS -->
+## CTX_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_TELEGRAM_INTAKE_STATUS
+Status: accepted current context append
+Date: 2026-06-05
+Source kind: ChatGPT dialogue + Codex reports after CTX_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS
+
+### Active block
+The active block remains `youtube.prepare_post_draft`, specifically the YouTube post-draft moderation/revision pipeline.
+
+This block is not:
+- receipt extraction;
+- Fin Instrument UI;
+- Telegram auth/Hermes auth unless fresh proof shows it is first broken;
+- publication;
+- approval workflow;
+- generic Telegram listener work.
+
+### What has been completed/proven since the previous saved point
+
+1. Text revision flow progressed beyond the earlier request-only state.
+
+Accepted source/runtime sequence included:
+- request stage was separated from completion stage;
+- old-card resend on request click was removed;
+- real text revision completion path was added;
+- explicit text revision completion markers were added:
+  - `text_revision_completed_at`;
+  - `text_revision_completed_for_requested_at`;
+- `moderation_sent_at >= revision_requested_at` is no longer sufficient completion proof;
+- stale requested state without explicit completion marker retries the editor path;
+- completion marker is per-cycle, not a permanent lock;
+- a completed text revision no longer blocks future text revision requests;
+- fresh click after completed cycle starts a new revision cycle;
+- repeated text revision cycles were proven through the runtime flow.
+
+Important accepted implementation references from this dialogue branch:
+- `413ed76e4abd7147bdd27a4f8845cab9c9dabed4` — real text revision completion path.
+- `ad7b596552bf68c02270e5ea4e8cbec16332397f` — explicit text revision completion marker.
+- `acaf72b5c77af80d4d82a1285e9bf5fb64f7031b` — fresh revision cycle after completion.
+- `fafad3226f303b0f871f60243bea5ff3724a979e` — nested source_facts grounding normalization.
+- `9ac59e9c7358f5f530f3732d021bc94d12b69aaa` — text revision grounding normalization cleanup.
+
+2. Text caption style/formatting was corrected.
+
+Accepted state:
+- dense regenerated captions are deterministically reflowed/normalized into readable paragraph groups;
+- editor rules/skills were tightened for Telegram-readable captions;
+- grounding validation remains strict;
+- missing required grounding still fails;
+- valid nested `source_facts_used` is normalized into required canonical keys;
+- repeated text revision remains supported;
+- text-only revision preserves the same titled image.
+
+Proof evidence accepted in dialogue:
+- repeated text cycles produced real moderation message transitions `982 -> 984 -> 986`;
+- recorded paragraph counts included 6 and 5;
+- same titled image remained for text-only revision.
+
+3. Image/illustration revision flow progressed and repeat proof was accepted.
+
+Accepted state:
+- image revision creates fresh `image_asset_ref`;
+- titled overlay image regeneration creates fresh `image_titled_asset_ref`;
+- titled image preview support was added in UI;
+- repeated illustration regeneration was proven;
+- text/caption remained valid through image-only cycles.
+
+Important accepted implementation references:
+- `b123831` — live post-draft image revision flow fix.
+- `9287473` — regenerate titled image assets on base image changes.
+- `de40b115e141870292710171446c69b515b88a2e` — titled image preview support.
+
+Accepted live proof:
+- illustration cycle 1 changed image refs and moved moderation message `990 -> 992`;
+- illustration cycle 2 changed image refs again and moved moderation message `992 -> 994`;
+- both cycles used the existing dispatch path and real Telegram connector;
+- no shortcut/manual send/fake message_id was accepted.
+
+4. Dirty working tree after interrupted runs was normalized by scope.
+
+Accepted cleanup commits:
+- `9ac59e9c7358f5f530f3732d021bc94d12b69aaa` — text revision grounding normalization.
+- `de40b115e141870292710171446c69b515b88a2e` — titled image preview support.
+- `a76371c6f867ece52474d2b8d10defd292fd610f` — Telegram connector control audit logging.
+
+Remaining dirty/untracked files were classified as unrelated to the YouTube post-draft live proof path and not blockers, provided they remain untouched.
+
+5. Telegram polling/intake state was diagnosed.
+
+Accepted facts:
+- live manual Telegram callback proof initially failed because polling was disabled and the bot was paused;
+- official control path `POST /api/telegram/mode` with `{"bot_status":"enabled"}` was used to enable runtime intake;
+- after that, state became:
+  - `bot_status=enabled`;
+  - `live_enabled=true`;
+  - `polling_worker_active=true`;
+  - `ready_for_live_polling=true`;
+- polling cycle count advanced, but later observation windows still did not capture real manual `callback_query`.
+
+Important boundary:
+- No new Telegram listener was written and none should be written.
+- Existing owner remains the project polling path in `agent_lab/telegram_polling.py`.
+
+6. Request timing and image backend failure surfacing were fixed.
+
+Accepted implementation reference:
+- `ce34fd2b70a10c4a64f9b3180d05637d8a02a67e` — request status timing and image failure surfacing.
+
+Accepted changes:
+- request-status Telegram message is sent immediately after `answerCallbackQuery` and before long text/image generation work;
+- final moderation card remains completion-only;
+- raw `codex exec failed` from image backend is mapped to a safe provider-failure message;
+- failed image generation sets a safe retryable failure state;
+- `codex_imagegen_cli` backend failure remains a backend failure and is not treated as success.
+
+Service state reported after this fix:
+- service restarted from PID `1275620` to `1339657`;
+- healthz OK;
+- source HEAD and origin/main matched `ce34fd2b70a10c4a64f9b3180d05637d8a02a67e`.
+
+### Current unresolved stop-point
+The current unresolved stop-point is not the text revision business layer and not the image revision business layer.
+
+Latest proof after `ce34fd2...` stopped because no real manual `callback_query` was observed during the observation window, even though service was healthy and polling ready.
+
+Therefore the next correct technical block is:
+
+`youtube_post_draft_manual_callback_identity_current_card_proof`
+
+Goal:
+- remove ambiguity around real Telegram inline clicks by creating or refreshing one current moderation card through the existing project-owned moderation delivery path;
+- record the fresh `moderation_message_id`;
+- ask the user to click exactly the inline button on that fresh card/message id;
+- prove whether a real `callback_query` arrives for that exact message id;
+- if callback arrives, trace route/dispatch;
+- if callback does not arrive, identify whether the first broken layer is wrong bot/card/chat, webhook/getUpdates conflict, offset/intake issue, or Telegram client/card mismatch.
+
+### What is closed and must not be re-debugged without fresh proof
+Do not restart these as next work:
+- text revision completion markers;
+- text fresh-cycle repeat behavior;
+- caption grounding normalization;
+- caption paragraph formatting;
+- repeated illustration lifecycle;
+- titled image ref regeneration;
+- Telegram bot pause/enabled control path;
+- image backend raw `codex exec failed` surfacing;
+- unrelated dirty file cleanup already handled by scope.
+
+### What is not next
+Not next unless fresh proof shows it is first broken:
+- new Telegram listener;
+- Telegram auth/Hermes auth;
+- receipt/OCR;
+- Fin Instrument;
+- publication tool;
+- approval queue implementation;
+- direct DB cleanup;
+- another candidate/draft;
+- direct service/business proof.
+
+### Hard run-rule reminders accepted in this dialogue
+For future runtime/user-flow tasks:
+- unit tests alone are not acceptance;
+- direct route/API/curl is not live proof;
+- direct Python service call is not live proof;
+- direct DB write is not live proof;
+- manual Telegram send is not live proof;
+- fake message_id is not live proof;
+- UI/Chromium click is not live proof;
+- fallback after Hermes/provider failure is not accepted if the task required Hermes/tool path;
+- Codex must not add shortcuts that only pass tests;
+- source changes require tests/compile/checks/commit/push;
+- runtime proof requires deployed source when applicable;
+- if Hermes/provider auth/rate-limit blocks a required tool path, use project-owned recovery helpers first, then retry; only a proven unrecoverable blocker may be HARD_BLOCKER.
+END_CONTEXT_APPEND_TEXT
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_TELEGRAM_INTAKE_STATUS source=chatgpt_inline_project_update accepted_by_user=yes -->

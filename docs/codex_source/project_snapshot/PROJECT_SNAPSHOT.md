@@ -249,6 +249,48 @@ DATE_UTC: 2026-06-01T02:17:44Z
 - No secrets/runtime files were read or exported.
 - No next product stage is auto-selected.
 
+# Project Snapshot — 2026-06-05 — YouTube post draft revision repeat proof and callback intake status
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260605_YOUTUBE_POST_DRAFT_REVISION_AND_CALLBACK_INTAKE
+DATE_UTC: 2026-06-05T07:22:51Z
+
+## Current active block
+
+`youtube_post_draft_manual_callback_identity_current_card_proof`
+
+## Current project state
+
+The YouTube Post Draft Preparation Tool is past the earlier text-revision and illustration-revision repeat proof stop-points.
+
+Accepted state now includes:
+- repeated text revision cycles with preserved image refs on text-only changes;
+- caption grounding normalization and readable paragraph formatting;
+- repeated illustration regeneration with fresh `image_asset_ref` and `image_titled_asset_ref`;
+- titled image preview support in the operator UI;
+- request-status timing fixed so request feedback is sent before the long generation work;
+- image backend `codex exec failed` surfacing sanitized into a safe retryable provider-failure state.
+
+Current runtime/proof stop-point:
+- the current unresolved blocker is real manual `callback_query` identity/intake for a current moderation card;
+- the deployed runtime fix at `ce34fd2b70a10c4a64f9b3180d05637d8a02a67e` was restarted and healthz was OK;
+- polling was re-enabled through the official control route;
+- subsequent proof windows still did not capture a real manual callback for the current card;
+- the next proof must create or refresh one current moderation card, record its `moderation_message_id`, and ask the user to click exactly that card.
+
+## Accepted implementation references
+
+- request timing and image failure surfacing fix: `ce34fd2b70a10c4a64f9b3180d05637d8a02a67e`
+- repeated text revision proof and grounding normalization: `9ac59e9c7358f5f530f3732d021bc94d12b69aaa`
+- titled image preview support: `de40b115e141870292710171446c69b515b88a2e`
+- Telegram connector control audit logging: `a76371c6f867ece52474d2b8d10defd292fd610f`
+
+## Notes
+
+- This snapshot is docs-only and contains no application code.
+- Unrelated dirty files, if any, were not staged.
+- No secrets/runtime files were read or exported.
+- The next technical run is proof-only current-card callback identity/intake, not a text/image source fix by default.
+
 # Project Snapshot — 2026-06-04 — YouTube post draft moderation/editor revision flows
 
 SNAPSHOT_ID: PROJECT_SNAPSHOT_20260604_YOUTUBE_POST_DRAFT_MODERATION_REVISION_FLOWS
