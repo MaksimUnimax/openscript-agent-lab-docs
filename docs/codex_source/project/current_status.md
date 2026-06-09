@@ -378,3 +378,60 @@ The current working stop-point is YouTube ranked batch lifecycle / moderation st
   - Fin Instrument;
   - publication;
   - Hermes/auth debugging.
+
+## 2026-06-08 — Current active status: YouTube prepare_post_draft attachable tool and editor queue proven
+
+Current active block:
+`youtube_prepare_post_draft_attachable_tool_editor_queue_proven`
+
+The active YouTube post-draft line has advanced beyond the previous manual callback identity/intake stop-point.
+
+Proven current state:
+
+* `youtube.prepare_post_draft` is now a public attachable tool.
+* `youtube_post_editor_agent` is an internal/system editor agent inside the tool, not the public tool id and not the normal recipient agent.
+* Active proof recipient: `plankton`.
+* `plankton` has the tool in source package and Hermes runtime profile.
+* Manual attach UI exists in `Ютуб → Редакторская оценка` and was manually observed as connected/applied.
+* Hermes model-visible callable name is `youtube_prepare_post_draft`.
+* Explicit prepare-post-draft requests are routed/forced to the correct model-visible tool when enabled.
+* `list_ready_drafts` returns categorized post-draft lifecycle buckets.
+* `list_editor_queue` returns full editor queue:
+
+  * ready-for-creation candidates;
+  * existing post-draft lifecycle buckets.
+
+Latest proven queue counts:
+
+* ready-for-creation candidates: 2
+* current post drafts: 3
+* ready-for-publication drafts: 3
+* total work items: 5
+
+Current stop-point:
+
+* manual review of the final Telegram response from the `list_editor_queue` proof.
+
+Correct next technical block after acceptance:
+
+* choose explicitly with the user;
+* likely `youtube_prepare_post_draft_ready_candidate_creation_flow` if the user wants to create drafts from the 2 ready candidates;
+* this would be a mutating action and must use proof/design, DB lifecycle guards, no publication, and simulated Telegram/tool proof if user-facing.
+
+Not next by default:
+
+* publication;
+* old YouTube search/subtitles/select work;
+* receipt/OCR;
+* Fin Instrument;
+* Telegram auth;
+* Hermes auth;
+* 2026-05-05 callback identity proof.
+
+Hard boundaries:
+
+* `youtube.prepare_post_draft` must not publish.
+* Approve means ready for future publication, not published.
+* Runtime profile must remain sync target only.
+* Business facts/lifecycle counts belong in deterministic service/tool layer, not UI text or prompt wording.
+* Agent/tool proof must go through project handler → selected agent → Hermes → tool → business layer → delivery proof when user-facing.

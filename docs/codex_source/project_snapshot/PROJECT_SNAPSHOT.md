@@ -249,6 +249,77 @@ DATE_UTC: 2026-06-01T02:17:44Z
 - No secrets/runtime files were read or exported.
 - No next product stage is auto-selected.
 
+# Project Snapshot — 2026-06-08 — YouTube prepare_post_draft attachable tool and editor queue proven
+
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260608_YOUTUBE_PREPARE_POST_DRAFT_ATTACHABLE_TOOL_EDITOR_QUEUE_PROVEN
+DATE_UTC: 2026-06-08
+ACTIVE_BLOCK: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+
+## Current project state
+
+The YouTube post-draft preparation tool is now proven as an attachable agent tool.
+
+Current facts:
+
+* public tool id: `youtube.prepare_post_draft`
+* model-visible callable: `youtube_prepare_post_draft`
+* internal/system editor agent: `youtube_post_editor_agent`
+* active recipient agent used in proof: `plankton`
+* operator UI surface: `Ютуб → Редакторская оценка`
+* deterministic business owner: `agent_lab/youtube_post_draft_service.py`
+* Hermes wrapper owner: `tools/hermes_vendor_overlay/hermes-agent/tools/youtube_prepare_post_draft_tool.py`
+
+## Completed since previous snapshot/docs point
+
+* callback/image revision work no longer blocks the active line;
+* approve/return-to-work DB lifecycle clarified and verified;
+* `youtube.prepare_post_draft` callable wrapper implemented;
+* source attach metadata implemented;
+* active agent `plankton` received the tool in source package;
+* runtime apply synced the tool and skill into `plankton` Hermes profile;
+* UI manual attach block added and manually verified in browser;
+* Hermes visibility fixed by forced tool choice for explicit prepare-post-draft requests;
+* `list_ready_drafts` fixed to return categorized post-draft lifecycle buckets;
+* `list_editor_queue` added to return full editor work queue:
+
+  * ready-for-creation candidates;
+  * existing draft lifecycle buckets.
+
+## Final proven queue counts from dialogue
+
+* ready-for-creation candidates: 2
+* current post drafts: 3
+* ready-for-publication drafts: 3
+* total work items: 5
+
+## Safety and boundaries
+
+* no publication happened;
+* no production DB mutation happened during final read-only proofs;
+* old YouTube tools were not modified;
+* runtime profile was not edited directly;
+* provider/model calls were used only where explicitly required for live Hermes/tool proof;
+* unit tests did not use provider/model calls;
+* final proof used simulated Telegram message through project handler, active agent, Hermes tool call, deterministic service layer, and Telegram delivery.
+
+## Current stop-point
+
+Manual review of the final Telegram response is the only natural acceptance check.
+
+If accepted, the next technical block should be explicitly chosen by the user. The most likely next block is a controlled mutating flow for creating post drafts from ready-for-creation candidates, not publication.
+
+## Not next by default
+
+Do not automatically resume:
+
+* receipt/OCR;
+* Fin Instrument;
+* Telegram auth;
+* Hermes auth;
+* old YouTube search/subtitles/select implementation;
+* publication;
+* 2026-05-05 callback identity proof.
+
 # Project Snapshot — 2026-06-05 — YouTube post draft revision repeat proof and callback intake status
 
 SNAPSHOT_ID: PROJECT_SNAPSHOT_20260605_YOUTUBE_POST_DRAFT_REVISION_AND_CALLBACK_INTAKE

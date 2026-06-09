@@ -1545,3 +1545,230 @@ Goal:
 prove current-card real manual callback identity and intake before touching text/image revision business modules again.
 END_MODULE_MAP_APPEND_TEXT
 <!-- MODULE_MAP_APPEND_BEGIN id=MM_20260605_YOUTUBE_POST_DRAFT_REVISION_AND_CALLBACK_INTAKE_BOUNDARIES source=chatgpt_inline_project_update accepted_by_user=yes -->
+<!-- MODULE_MAP_APPEND_BEGIN id=MM_20260608_CODEX_TOOLCHAIN_GUARD_PLAN source=chatgpt_runtime_design accepted_by_user=yes -->
+
+## 2026-06-08 — Planned Codex Toolchain Guard boundaries
+
+Planned future ownership split for the Codex toolchain guard:
+
+- `codex_toolchain_probe` - read-only probe for binary path, version, features, and safe auth readiness
+- `codex_toolchain_guard_state` - safe status/result model for admin/UI consumption
+- `codex_imagegen_preflight` - consumes guard status before image-generation attempts, but does not update toolchains
+- admin UI - displays safe status only
+- auth import/adopt - remains a separate flow and must not be duplicated inside the guard
+
+Boundaries:
+
+- no secret reads
+- no silent updates
+- no provider switch
+- no image generation inside the guard itself
+- no Telegram logic
+
+The guard is intended as a future narrow module family, not a broad runtime refactor.
+
+<!-- MODULE_MAP_APPEND_END id=MM_20260608_CODEX_TOOLCHAIN_GUARD_PLAN source=chatgpt_runtime_design accepted_by_user=yes -->
+
+## MM_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_BOUNDARIES_AND_QUEUE
+
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-08
+ACTIVE_BLOCK: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+
+### Ownership updates
+
+#### Public tool / Hermes wrapper
+
+Owner:
+
+* `tools/hermes_vendor_overlay/hermes-agent/tools/youtube_prepare_post_draft_tool.py`
+
+Responsibility:
+
+* Hermes-facing wrapper for the public tool `youtube.prepare_post_draft`.
+* Model-visible callable name: `youtube_prepare_post_draft`.
+* Exposes safe actions such as:
+
+  * `list_ready_drafts`
+  * `list_editor_queue`
+  * other prepare-post-draft actions only when implemented through deterministic service paths.
+* Must call deterministic project service/facade code.
+* Must not publish.
+* Must not mutate DB in read-only actions.
+* Must not bypass service layer.
+* Must not call Telegram directly as part of the tool action.
+
+Read-only actions proven:
+
+* `list_ready_drafts`
+* `list_editor_queue`
+
+#### Deterministic service / lifecycle owner
+
+Owner:
+
+* `agent_lab/youtube_post_draft_service.py`
+
+Responsibility:
+
+* durable post-draft lifecycle;
+* draft buckets;
+* editor queue aggregation;
+* ready-for-creation candidate discovery;
+* publication-ready queue state;
+* approval/return lifecycle helpers;
+* source snapshot and post draft state where applicable.
+
+Key rules:
+
+* “Черновик” means durable post-draft lifecycle row, not only publication-ready.
+* `list_ready_drafts` returns lifecycle buckets for existing post drafts.
+* `list_editor_queue` returns upstream ready candidates plus post-draft buckets.
+* Approval does not publish.
+* Return-to-work does not delete source or draft rows.
+* Publication remains future/separate.
+
+#### Agent reply / forced tool selection
+
+Owner:
+
+* `agent_lab/agent_reply.py`
+
+Responsibility:
+
+* route explicit prepare-post-draft user requests to the Hermes model-visible tool name `youtube_prepare_post_draft`.
+* It may detect explicit intent and force tool choice.
+* It must not own business logic.
+* It must not fake tool output.
+* It must not call the service directly as fallback.
+
+Boundary:
+
+* If Hermes/provider fails, do not perform business action through fallback.
+* Runtime proof must still show Hermes/tool call when the task requires agent/tool path.
+
+#### Tool registry / source attach
+
+Owners:
+
+* `agent_lab/tool_registry.py`
+* `tool-registry/tools.json`
+* `agent_lab/storage.py`
+
+Responsibility:
+
+* canonical registry/source attach metadata for `youtube.prepare_post_draft`;
+* recipient skill generation;
+* source package attach helper;
+* no runtime profile direct edits.
+
+Recipient skill:
+
+* `youtube-prepare-post-draft-tool.md`
+
+The skill must explain:
+
+* `youtube.prepare_post_draft` purpose;
+* read-only queue/listing actions;
+* no publish;
+* no direct DB writes by agent;
+* no direct Telegram sends by agent;
+* `youtube_post_editor_agent` is internal implementation detail only.
+
+#### Recipient agent package
+
+Example current recipient:
+
+* `agent-packages/plankton/tools.json`
+* `agent-packages/plankton/skills/youtube-prepare-post-draft-tool.md`
+
+Responsibility:
+
+* source-of-truth for recipient agent tool binding and skills.
+
+Boundary:
+
+* Do not hardcode `plankton` as the only recipient.
+* Any normal future agent should receive the same tool through the same source package + runtime apply flow.
+* Do not attach to `youtube_post_editor_agent` as normal recipient.
+
+#### Runtime profile
+
+Example current runtime target:
+
+* `/var/lib/openscript-agent-lab/hermes/profiles/plankton/.agent-lab/tools.json`
+* `/var/lib/openscript-agent-lab/hermes/profiles/plankton/skills/youtube-prepare-post-draft-tool.md`
+
+Responsibility:
+
+* sync target only.
+
+Boundary:
+
+* never edit runtime profile directly;
+* use runtime apply with dry-run before live apply;
+* preserve memories/sessions/logs/auth/env;
+* runtime profile is not source of truth.
+
+#### UI operator surface
+
+Owners:
+
+* `agent_lab/static/app.js`
+* `agent_lab/static/index.html`
+
+Surface:
+
+* `Ютуб → Редакторская оценка`
+
+Responsibility:
+
+* operator-visible manual attach control for `youtube.prepare_post_draft`;
+* show selected agent status;
+* show whether tool is connected and applied;
+* direct operator to separate Hermes apply when needed.
+
+Boundary:
+
+* UI status is not proof of Hermes tool-call.
+* UI must not direct-edit runtime profile.
+* UI must not replace business/service proof.
+
+#### Telegram proof path
+
+Owners:
+
+* `agent_lab/telegram_polling.py`
+* `agent_lab/telegram_connector.py`
+
+Responsibility:
+
+* simulated inbound Telegram proof path;
+* route to selected active agent;
+* deliver project-owned Telegram response;
+* provide real message id where connector sends externally.
+
+Boundary:
+
+* Direct Python calls, curl/API, fake message ids, manual Telegram send, and reply_to_agent-only are not accepted proof for user-facing agent/tool behavior.
+
+### Old tools boundary
+
+The following are separate tools and must not be modified for prepare-post-draft work without fresh proof:
+
+* `youtube.search_candidates`
+* `youtube.select_candidates`
+* `youtube.subtitles_get`
+* Fin Instrument tools.
+
+They may be read only as patterns.
+
+### Next module ownership for future work
+
+If the next user task is creating post drafts from ready candidates:
+
+* business owner: `agent_lab/youtube_post_draft_service.py`
+* Hermes wrapper owner: `tools/hermes_vendor_overlay/hermes-agent/tools/youtube_prepare_post_draft_tool.py`
+* source/skill owner: `agent_lab/storage.py`, `tool-registry/tools.json`, recipient skill if new action must be exposed
+* proof path: simulated Telegram → selected agent → Hermes → tool → service → Telegram delivery
+* forbidden by default: publication, direct DB write as proof, old tools, runtime profile direct edit.

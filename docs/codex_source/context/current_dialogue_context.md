@@ -4193,3 +4193,446 @@ For future runtime/user-flow tasks:
 - if Hermes/provider auth/rate-limit blocks a required tool path, use project-owned recovery helpers first, then retry; only a proven unrecoverable blocker may be HARD_BLOCKER.
 END_CONTEXT_APPEND_TEXT
 <!-- CONTEXT_APPEND_BEGIN id=CTX_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_TELEGRAM_INTAKE_STATUS source=chatgpt_inline_project_update accepted_by_user=yes -->
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260608_CODEX_IMAGEGEN_FIXED_AND_CARD_REFRESHED source=chatgpt_runtime_proof accepted_by_user=yes -->
+
+## 2026-06-08 — YouTube post-draft image generation fixed and moderation card refreshed
+
+Resolved state:
+- direct Codex image-generation backend now uses the prompt-based `$imagegen` contract
+- the obsolete `--enable image_generation` invocation was removed
+- image generation completed successfully for `post-draft-2479cdb8ffb4`
+- fresh `image_asset_ref` and `image_titled_asset_ref` were written
+- Telegram moderation card was refreshed through the existing product-owned resend path
+- moderation message id changed from `1007` to `1008`
+- no approve/publish action happened
+
+Next open design topic:
+- Codex Toolchain Guard
+
+Purpose of next design topic:
+- prevent regressions caused by Codex binary drift, version drift, feature-list drift, invocation-contract drift, or auth-readiness drift
+
+<!-- CONTEXT_APPEND_END id=CTX_20260608_CODEX_IMAGEGEN_FIXED_AND_CARD_REFRESHED source=chatgpt_runtime_proof accepted_by_user=yes -->
+
+<!-- CONTEXT_APPEND_BEGIN id=CTX_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_EDITOR_QUEUE_PROVEN source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## CTX_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_EDITOR_QUEUE_PROVEN
+
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-08
+ACTIVE_BLOCK: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+PREVIOUS_SAVED_BLOCK_SUPERSEDED: youtube_post_draft_manual_callback_identity_current_card_proof
+DOCS_UPDATE_RUN_ID: OPENSCRIPT_AGENT_LAB_DOCS_UPDATE_YOUTUBE_PREPARE_POST_DRAFT_TOOL_EDITOR_QUEUE_20260608_01
+
+### Current stop-point
+
+The current OpenScript Agent Lab active work has moved from the 2026-06-05 manual callback identity/intake blocker to the YouTube prepare-post-draft attachable tool line.
+
+The latest proven stop-point is:
+
+* `youtube.prepare_post_draft` is a public attachable tool for normal agents.
+* `youtube_post_editor_agent` is an internal/system editor agent inside that tool, not the tool id and not the recipient agent.
+* The active recipient agent used in proof is `plankton`.
+* `plankton` has `youtube.prepare_post_draft` in source package and runtime profile.
+* The UI manual attach block exists in `Ютуб → Редакторская оценка`.
+* Hermes can call the model-visible tool `youtube_prepare_post_draft` from a simulated Telegram message routed to `plankton`.
+* The action `list_ready_drafts` now returns categorized post-draft lifecycle buckets.
+* The new action `list_editor_queue` now returns both upstream ready-for-creation YouTube candidates and existing post-draft lifecycle buckets.
+
+Manual Telegram review of the final delivered message remains the natural acceptance check, but no further code change was required by the latest report.
+
+### Proven implementation sequence after the 2026-06-05 docs point
+
+#### Image/text revision and moderation callback work
+
+The earlier docs stop-point expected proof of real callback identity/current card intake. After this point the dialogue progressed through the post-draft moderation/revision area:
+
+* Text revision request flow was already proven before the 2026-06-05 docs update.
+* Image revision work later proved that Telegram intake and moderation resend were not the first broken layer.
+* The image generation bottleneck was in the Codex imagegen backend/completion path.
+* Artifact-first completion was added so a valid requested PNG artifact can be accepted even if textual last-message/path parsing is weak.
+* A later fix restored resend target resolution by passing callback-derived Telegram delivery binding into the resend dispatcher.
+* The live repeat illustration flow then delivered a refreshed moderation card with a real Telegram message id.
+* A separate timing proof showed a long 525s run was caused by slow image/provider runtime inside synchronous Codex exec, not overlay, Telegram resend, or artifact detection.
+
+These facts are historical context only. They must not cause future runs to reopen Telegram callback intake, moderation resend, or image artifact completion without fresh proof.
+
+#### Approval / return-to-work DB lifecycle
+
+The approval/return lifecycle was also clarified:
+
+* Approve does not publish.
+* Approve transitions the durable draft row to:
+
+  * `draft_status=approved_for_publication`
+  * `moderation_status=approved_for_publication`
+  * `publication_status=ready`
+  * `approved_at` set
+  * `published_at=null`
+* Return-to-work / reject / needs-changes does not delete draft/source rows.
+* Return-to-work preserves candidate/video identity and durable draft state.
+* Source candidates/videos remain durable and must not be deleted by cancel/return actions.
+* Manual approve was later verified in DB for `post-draft-2479cdb8ffb4` with `publication_status=ready` and `published_at=null`.
+
+Future work must keep the distinction:
+
+* approval = ready for future publication;
+* publication = separate future tool/action;
+* return-to-work = durable state transition, not deletion.
+
+#### Correct tool architecture
+
+A major correction happened around tool identity:
+
+Wrong framing rejected:
+
+* `youtube_post_editor_agent` is not the public tool id.
+* The public tool must not be attached to `youtube_post_editor_agent` as the normal recipient.
+* Old tools such as Fin, YouTube search, subtitles, and select/sort were reference patterns only; they must not be changed as the target.
+
+Correct framing accepted:
+
+* `youtube.prepare_post_draft` is the public attachable tool.
+* `youtube_post_editor_agent` is an internal/system editor agent inside `youtube.prepare_post_draft`.
+* Normal agents receive `youtube.prepare_post_draft` through source package `tools.json` + skill + runtime apply.
+* The deterministic business layer owns storage, lifecycle, source snapshots, image adapter calls, moderation state, and queue handoff.
+* Hermes/agent owns language, style, explanation, and editorial reasoning only through the tool contract.
+
+#### Hermes callable path
+
+The initial source attach attempt correctly stopped because source package `tools.json` + skill alone would have been fake availability.
+
+A Hermes-facing callable wrapper was then added:
+
+* wrapper file: `tools/hermes_vendor_overlay/hermes-agent/tools/youtube_prepare_post_draft_tool.py`
+* public tool id: `youtube.prepare_post_draft`
+* model-visible callable name: `youtube_prepare_post_draft`
+* initial safe actions exposed:
+
+  * `prepare_draft_from_selected_video`
+  * `read_post_draft`
+  * `list_ready_drafts`
+  * `show_source`
+  * `approve_for_publication`
+  * `return_to_work`
+* deferred actions at that time:
+
+  * `regenerate_text`
+  * `regenerate_image`
+  * `package_moderation_preview`
+* commit reference: `1f010e2c5654d98ea933e9e96500b14d1e9c2279`
+
+The callable wrapper path was added without modifying old tools, without provider/model/Telegram calls, and without production DB mutation.
+
+#### Source attach and runtime apply
+
+The source-package attach layer was implemented:
+
+* registry/source attach metadata exists for `youtube.prepare_post_draft`;
+* temporary recipient package proof passed;
+* generated skill file: `youtube-prepare-post-draft-tool.md`;
+* old tools were unchanged;
+* no real package was mutated in that source attach proof;
+* commit reference: `c33649167a6070f19b9ee1a8938932a6b230faaa`.
+
+Runtime apply dry-run later proved that source `tools.json` and skill copy safely into a Hermes runtime profile while preserving:
+
+* `memories/`
+* `sessions/`
+* `logs/`
+* `auth.json`
+* `.env` when present.
+
+The active agent was then proven as `plankton` from project state:
+
+* admin state selected agent was `plankton`;
+* Telegram router active agent was `plankton`;
+* `plankton` was a normal agent, not a system/internal agent.
+
+The tool was attached and runtime-synced for `plankton`:
+
+* source package:
+
+  * `agent-packages/plankton/tools.json`
+  * `agent-packages/plankton/skills/youtube-prepare-post-draft-tool.md`
+* runtime profile:
+
+  * `/var/lib/openscript-agent-lab/hermes/profiles/plankton/.agent-lab/tools.json`
+  * `/var/lib/openscript-agent-lab/hermes/profiles/plankton/skills/youtube-prepare-post-draft-tool.md`
+* commit reference: `0eb41e88efc4a34fb0e8cca2bf192d983fd9143c`
+
+Runtime profile was updated by the project apply path, not by direct manual edit.
+
+#### Manual UI attach control
+
+The operator UI now has a manual attach block in the YouTube post-draft/editorial workflow:
+
+* UI surface: `Ютуб → Редакторская оценка`
+* label shown to user: `Подключение youtube.prepare_post_draft`
+* selected agent shown: `plankton`
+* status shown: connected and applied
+* skill doc shown: exists
+* Hermes apply shown: not required
+* button state: already connected
+* commit reference: `1492963be5a7a1a6bba8ad7fc64e4b9ab3e8b116`
+
+Manual UI screenshot confirmed the block is visible and correctly reports `plankton` as already connected/applied.
+
+This UI block is operator convenience only. It is not proof that Hermes calls the tool.
+
+#### Hermes model visibility and forced tool choice
+
+A simulated Telegram proof initially showed:
+
+* Telegram handler worked;
+* selected agent was `plankton`;
+* Hermes/provider ran;
+* real Telegram delivery occurred;
+* but the model saw only old tools:
+
+  * `youtube_search_candidates`
+  * `youtube_select_candidates`
+  * `youtube_subtitles_get`
+
+Root cause:
+
+* `youtube.prepare_post_draft` was registered and present in schema, but `agent_reply.py` only forced tool choices for receipt, search, and select flows.
+* Explicit prepare-post-draft requests were left to model choice and could be answered as if the tool were unavailable.
+
+Fix:
+
+* `agent_reply.py` now detects explicit prepare-post-draft requests.
+* It forces model tool choice to `youtube_prepare_post_draft` when the toolset is enabled.
+* Public/source id remains `youtube.prepare_post_draft`.
+* Model-visible function name remains `youtube_prepare_post_draft`.
+* commit reference: `a00871ac39965200578b4c2d9e292b116effbfa1`
+
+Proof:
+
+* simulated Telegram message reached `plankton`;
+* Hermes invoked;
+* tool call attempted;
+* action `list_ready_drafts`;
+* business layer reached;
+* real Telegram delivery message id reported;
+* no DB mutation;
+* no publication;
+* no fallback.
+
+#### Draft lifecycle definition and `list_ready_drafts`
+
+The term “черновик” was clarified.
+
+A post draft is not only “ready for publication”. It is a durable row in `youtube_post_drafts` with lifecycle buckets.
+
+The lifecycle proof found live state:
+
+* total rows: 3
+* current rows: 3
+* `draft_status=approved_for_publication(3)`
+* `moderation_status=approved_for_publication(3)`
+* `publication_status=ready(3)`
+* `published_at NULL=3`
+* UI also showed 2 upstream ready-for-creation candidates.
+
+Previous bug:
+
+* `list_ready_drafts` was hard-coded to the moderation queue only:
+
+  * `ready_for_moderation`
+  * `needs_review`
+  * `published_at NULL`
+* Therefore it returned empty even when 3 drafts were ready for publication.
+
+Fix:
+
+* service function added: lifecycle bucket listing in `youtube_post_draft_service.py`;
+* `youtube_prepare_post_draft_tool.py` action `list_ready_drafts` now returns categorized buckets:
+
+  * `all_drafts`
+  * `editable_drafts`
+  * `needs_work_or_regeneration`
+  * `in_moderation`
+  * `ready_for_publication`
+  * `published_drafts`
+  * `failed_or_blocked_drafts`
+* live counts after fix:
+
+  * `all_drafts=3`
+  * `editable_drafts=0`
+  * `needs_work_or_regeneration=0`
+  * `in_moderation=0`
+  * `ready_for_publication=3`
+  * `published_drafts=0`
+  * `failed_or_blocked_drafts=0`
+* commit reference: `9bb0987308b21760fa5ae6cdbb59017ccb3ada3f`
+
+Proof:
+
+* simulated Telegram message reached `plankton`;
+* Hermes called `youtube_prepare_post_draft`;
+* action `list_ready_drafts`;
+* business layer reached;
+* Telegram reply delivered with real message id;
+* no DB mutation;
+* no publication.
+
+#### Full editor queue and `list_editor_queue`
+
+The user clarified that the UI had two distinct layers:
+
+1. Upstream ready videos/candidates waiting for post creation/editing.
+2. Existing post drafts already in `youtube_post_drafts`.
+
+`list_ready_drafts` correctly belongs to the draft lifecycle layer only.
+A new read-only action was added for the full editor work queue:
+
+* action: `list_editor_queue`
+* tool: `youtube.prepare_post_draft`
+* model-visible callable: `youtube_prepare_post_draft`
+* service owner: `youtube_post_draft_service.py`
+* combines:
+
+  * `ready_for_creation_candidates`
+  * existing draft lifecycle buckets
+
+Live/proven counts:
+
+* `ready_for_creation_count=2`
+* `current_draft_count=3`
+* `ready_for_publication_count=3`
+* `total_work_items=5`
+
+Files changed in this final action:
+
+* `agent-packages/plankton/skills/youtube-prepare-post-draft-tool.md`
+* `agent_lab/agent_reply.py`
+* `agent_lab/storage.py`
+* `agent_lab/tool_registry.py`
+* `agent_lab/youtube_post_draft_service.py`
+* `tests/test_agent_reply.py`
+* `tests/test_prepare_post_draft_tool.py`
+* `tests/test_storage.py`
+* `tests/test_youtube_post_draft_service.py`
+* `tool-registry/tools.json`
+* `tools/hermes_vendor_overlay/hermes-agent/tools/youtube_prepare_post_draft_tool.py`
+
+Runtime apply was run because the active agent skill changed:
+
+* dry-run first;
+* live apply after clean plan;
+* no direct runtime profile edit.
+
+Final proof:
+
+* simulated Telegram message;
+* route selected `plankton`;
+* Hermes called `youtube_prepare_post_draft`;
+* action `list_editor_queue`;
+* tool output included:
+
+  * `ready_for_creation_candidates=2`
+  * `ready_for_publication=3`
+  * `current_draft_count=3`
+* business layer reached;
+* Telegram connector delivered real message id `1037`;
+* no DB mutation;
+* no publication;
+* no fallback;
+* old tools unchanged.
+* commit reference: `02a154e04c841a92c1a24bfc8acdc429d7256b13`
+
+### Current active block
+
+`youtube_prepare_post_draft_attachable_tool_editor_queue_proven`
+
+### Current accepted state
+
+Accepted/proven:
+
+* `youtube.prepare_post_draft` exists as a public attachable tool.
+* `youtube_post_editor_agent` is internal/system only.
+* Active agent `plankton` has the tool in source and runtime.
+* UI manual attach block is visible in `Ютуб → Редакторская оценка`.
+* Hermes model visibility is fixed through forced tool choice for explicit prepare-post-draft requests.
+* `list_ready_drafts` returns categorized post-draft lifecycle buckets.
+* `list_editor_queue` returns full editor queue:
+
+  * upstream ready-for-creation candidates;
+  * post-draft lifecycle buckets.
+* Proof uses the required chain:
+
+  * simulated Telegram message
+  * Telegram handler
+  * selected agent
+  * Hermes
+  * existing tool/facade action
+  * deterministic business layer
+  * Telegram delivery proof.
+* Real Telegram delivery was reported for the final proof.
+
+### Current not-closed / next human check
+
+The natural remaining check is manual review of the Telegram message delivered by the final proof, especially message id `1037`, to confirm that the user-visible response shows:
+
+* ready-for-creation candidates: 2
+* current drafts: 3
+* ready-for-publication drafts: 3
+* total work items: 5
+
+Do not declare the user-visible scenario accepted without user confirmation if the user is actively checking Telegram/UI.
+
+### Correct next technical block
+
+If user accepts the final Telegram response, the next technical block should be chosen explicitly by the user.
+
+Likely next blocks:
+
+1. `youtube_prepare_post_draft_ready_candidate_creation_flow`
+
+   * create post drafts from the 2 ready-for-creation candidates;
+   * mutating action;
+   * requires proof/design and DB lifecycle guard;
+   * must not publish.
+2. `youtube_prepare_post_draft_publication_tool_design`
+
+   * only if user explicitly asks to move toward publication;
+   * publication remains a separate future tool, not part of `youtube.prepare_post_draft`.
+3. UI polish for the `Редaktorская оценка` queue display;
+
+   * only if user requests it;
+   * not a substitute for business/tool proof.
+
+Not next by default:
+
+* receipt/OCR;
+* Fin Instrument;
+* Telegram auth/provider;
+* Hermes auth;
+* old YouTube search/subtitles/select tools;
+* publication;
+* image generation timeout tuning;
+* callback identity proof from 2026-05-05;
+* ranking start command documentation question.
+
+### Hard invariants added or reinforced
+
+* Do not use `youtube_post_editor_agent` as the public tool id.
+* Do not attach external tools to `youtube_post_editor_agent` as if it were a normal recipient unless a separate internal need is proven.
+* Do not treat `tools.json` + skill as sufficient proof of callable Hermes availability.
+* Do not count UI-visible tool status as proof of model tool-call.
+* Do not accept a runtime/tool task unless it proves the full chain through simulated Telegram or equivalent project-owned inbound handler when the user flow requires it.
+* Do not call direct Python, curl/API, DB write, shell script, or fallback path as final proof for agent/tool tasks.
+* Do not publish from `youtube.prepare_post_draft`.
+* Approve means ready for future publication, not published.
+* Return-to-work preserves durable DB rows and candidates.
+* `list_ready_drafts` is draft lifecycle only.
+* `list_editor_queue` is full editor work queue: ready candidates plus draft buckets.
+* Old YouTube tools remain independent:
+
+  * search;
+  * subtitles;
+  * select/sort.
+* Business facts and lifecycle buckets belong in `youtube_post_draft_service.py` / deterministic layer, not in prompt text or UI-only logic.
+
+<!-- CONTEXT_APPEND_END id=CTX_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_EDITOR_QUEUE_PROVEN source=chatgpt_inline_project_update accepted_by_user=yes -->

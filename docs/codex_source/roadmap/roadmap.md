@@ -1440,3 +1440,131 @@ The next block is complete only when:
 - no direct service/business call is counted as proof.
 END_ROADMAP_APPEND_TEXT
 <!-- ROADMAP_APPEND_BEGIN id=RM_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_MANUAL_CALLBACK_INTAKE source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## RM_20260608_YOUTUBE_PREPARE_POST_DRAFT_ATTACHABLE_TOOL_EDITOR_QUEUE_PROVEN
+
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-08
+ACTIVE_PHASE: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+PREVIOUS_PHASE_SUPERSEDED: youtube_post_draft_manual_callback_identity_current_card_proof
+
+### Roadmap status update
+
+The YouTube post-draft branch has advanced beyond the 2026-06-05 manual callback identity/intake stop-point.
+
+The current accepted technical state is:
+
+* `youtube.prepare_post_draft` is now a public attachable Hermes tool.
+* The active normal agent `plankton` has the tool connected through source package and runtime apply.
+* UI operator attach control exists in `Ютуб → Редакторская оценка`.
+* Hermes model tool visibility is fixed for explicit prepare-post-draft requests.
+* The model-visible function name is `youtube_prepare_post_draft`.
+* The public/source tool id remains `youtube.prepare_post_draft`.
+* `list_ready_drafts` returns categorized post-draft lifecycle buckets.
+* `list_editor_queue` returns full editor queue:
+
+  * ready-for-creation YouTube candidates;
+  * existing post-draft lifecycle buckets.
+
+### Closed roadmap slices
+
+Closed/proven:
+
+1. Post-draft image/text revision and moderation callback work no longer blocks the active line.
+2. Approve/return-to-work DB lifecycle is understood:
+
+   * approve = ready for future publication;
+   * no immediate publication;
+   * published_at remains null;
+   * return-to-work does not delete durable rows.
+3. Public tool identity is corrected:
+
+   * `youtube.prepare_post_draft` = attachable tool;
+   * `youtube_post_editor_agent` = internal/system editor agent inside the tool.
+4. Hermes callable wrapper exists.
+5. Source attach exists.
+6. Runtime apply to `plankton` was performed.
+7. Manual UI attach block is visible and reports connected/applied.
+8. Hermes tool-call is proven through simulated Telegram chain.
+9. `list_ready_drafts` lifecycle buckets are fixed.
+10. `list_editor_queue` full editor queue is added and proven.
+
+### Current active blocker / stop-point
+
+No code blocker is currently proven after `list_editor_queue`.
+
+Current human stop-point:
+
+* manual review of the final Telegram response from the `list_editor_queue` proof.
+
+The response should show:
+
+* ready-for-creation candidates: 2
+* current drafts: 3
+* ready-for-publication drafts: 3
+* total work items: 5
+
+### Next technical block after acceptance
+
+If the user accepts the Telegram response, the next technical block must be selected explicitly.
+
+Likely next valid block:
+`youtube_prepare_post_draft_ready_candidate_creation_flow`
+
+Scope:
+
+* create durable post drafts from ready-for-creation candidates;
+* mutating action;
+* must require proof/design and DB lifecycle safety;
+* must not publish;
+* must not bypass Hermes/tool path if user-facing agent/tool flow is being proven.
+
+Possible later block:
+`youtube_post_publication_tool_design`
+
+Scope:
+
+* publication remains separate from `youtube.prepare_post_draft`;
+* must not be silently folded into prepare-post-draft actions.
+
+### Not-next blocks unless user explicitly switches
+
+Do not restart by default:
+
+* receipt/OCR/full extraction;
+* Fin Instrument;
+* Telegram auth;
+* Hermes auth;
+* provider setup;
+* old YouTube search/subtitles/select implementation;
+* ranking command docs question;
+* publication;
+* image timeout tuning;
+* 2026-05-05 callback identity proof.
+
+### Acceptance criteria for next mutating post-draft creation block
+
+A future creation flow is acceptable only if:
+
+* it proves current ready candidate source and filters;
+* it uses deterministic business layer for DB writes;
+* it keeps source candidates durable;
+* it creates or reuses post-draft rows idempotently;
+* it does not publish;
+* it reports exactly what rows were created/reused;
+* it uses simulated Telegram/project handler proof if the user flow is agent/tool driven;
+* it does not use direct Python/DB/shell as final proof.
+
+### Invalid outcomes
+
+Invalid:
+
+* agent invents draft facts;
+* tool publishes posts;
+* tool deletes source candidates;
+* `youtube_post_editor_agent` is exposed as normal public tool;
+* UI-only success without business proof;
+* direct DB write as proof;
+* fake Telegram message id;
+* fallback after Hermes failure;
+* old tools modified without fresh proof.

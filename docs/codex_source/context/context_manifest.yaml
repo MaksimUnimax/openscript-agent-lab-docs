@@ -1,12 +1,12 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_TELEGRAM_INTAKE_STATUS
-last_append_title: "YouTube post-draft revision repeat proof and Telegram intake status"
-last_updated_utc: 2026-06-05T07:22:51Z
+last_append_id: CTX_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_EDITOR_QUEUE_PROVEN
+last_append_title: "YouTube prepare_post_draft attachable tool and editor queue proven"
+last_updated_utc: 2026-06-08T00:00:00Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks
 tail_lines_for_codex: 160
 no_destructive_rewrite: true
-status: youtube_post_draft_manual_callback_identity_current_card_proof_synced
-current_active_block: youtube_post_draft_manual_callback_identity_current_card_proof
+status: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+current_active_block: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
