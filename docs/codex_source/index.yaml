@@ -343,8 +343,8 @@ project_memory:
       status: initial
     - path: docs/codex_source/context/current_dialogue_context.md
       status: imported
-      last_append_id: CTX_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_TELEGRAM_INTAKE_STATUS
-      last_append_title: "YouTube post-draft revision repeat proof and Telegram intake status"
+      last_append_id: CTX_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
+      last_append_title: "Telegram Publication two-bot migration and admin live-send trigger ready"
     - path: docs/codex_source/context/context_manifest.yaml
       status: imported
   roadmap:
@@ -354,7 +354,7 @@ project_memory:
       status: imported
       current_roadmap_version: v0.7
       current_roadmap_file: docs/codex_source/roadmap/imported/roadmap_v0_7_current.md
-      last_append_id: RM_20260605_YOUTUBE_POST_DRAFT_REVISION_REPEAT_PROOF_AND_MANUAL_CALLBACK_INTAKE
+      last_append_id: RM_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
       current_ui_surface_decision: youtube_tab_redaktorskaya_otsenka_should_be_operator_surface
       next_phase_after_allowlist: youtube_post_draft_manual_review_and_illustration_path_after_live_success
     - path: docs/codex_source/roadmap/roadmap_manifest.yaml
@@ -374,7 +374,7 @@ project_memory:
       current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
       safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
       task_card_reevaluation_required: true
-      last_append_id: MM_20260605_YOUTUBE_POST_DRAFT_REVISION_AND_CALLBACK_INTAKE_BOUNDARIES
+      last_append_id: MM_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_BOUNDARIES
       current_ui_surface_decision: youtube_tab_redaktorskaya_otsenka_should_be_operator_surface
     - path: docs/codex_source/module_map/module_map_manifest.yaml
       status: imported_current_snapshot
@@ -387,7 +387,7 @@ project_memory:
       status: initial
     - path: docs/codex_source/project_snapshot/PROJECT_SNAPSHOT.md
       status: imported_current_snapshot
-      last_snapshot_id: PROJECT_SNAPSHOT_20260605_YOUTUBE_POST_DRAFT_REVISION_AND_CALLBACK_INTAKE
+      last_snapshot_id: PROJECT_SNAPSHOT_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
     - path: docs/codex_source/project_snapshot/project_snapshot_manifest.yaml
       status: imported_current_snapshot
   rules:
