@@ -435,3 +435,55 @@ Hard boundaries:
 * Runtime profile must remain sync target only.
 * Business facts/lifecycle counts belong in deterministic service/tool layer, not UI text or prompt wording.
 * Agent/tool proof must go through project handler → selected agent → Hermes → tool → business layer → delivery proof when user-facing.
+
+## 2026-06-10 — Telegram Publication two-bot migration and admin live-send trigger ready
+
+Current active block:
+
+- `telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration`
+
+Latest proven main/runtime state before the admin-trigger branch:
+
+- `c47f2c62be26998c7f1c6de9d3ab0185cd65b49e`
+
+Runtime Telegram env keys after migration:
+
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_ROUTER_BOT_TOKEN`
+- `TELEGRAM_PUBLICATION_BOT_TOKEN`
+
+Post-migration Router proof:
+
+- proof message `PING_AFTER_SECRET_MIGRATION_20260610`
+- selected agent `plankton`
+- Telegram reply message id `1063`
+
+YouTube continuation blocker:
+
+- closed
+- stuck draft `post-draft-80c04bfaf644` resumed
+- image generated
+- moderation sent with message id `1059`
+
+Telegram Publication live-send blocker:
+
+- identified as missing normal product surface
+- live send must go through the admin/product run-cycle endpoint after source integration and deploy
+
+Source branch ready for the next technical run:
+
+- branch `feature/telegram-publication-admin-live-send-trigger-20260610-agent1`
+- commit `481fa4ee4ce862245142144098629dbf7094b91e`
+- adds `POST /api/telegram-publication/run-cycle`
+- preview/dry-run by default
+- explicit `confirm_live_send: true` required for live send
+- first proof capped to one post
+
+Next exact run:
+
+- integrate the source branch into main
+- no runtime deploy
+- no live send
+- no Telegram API call
+- no Hermes live tool call
+- no env/token changes

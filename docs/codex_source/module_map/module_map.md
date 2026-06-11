@@ -1772,3 +1772,121 @@ If the next user task is creating post drafts from ready candidates:
 * source/skill owner: `agent_lab/storage.py`, `tool-registry/tools.json`, recipient skill if new action must be exposed
 * proof path: simulated Telegram → selected agent → Hermes → tool → service → Telegram delivery
 * forbidden by default: publication, direct DB write as proof, old tools, runtime profile direct edit.
+
+## MM_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_BOUNDARIES
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-10
+ACTIVE_BLOCK: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
+
+### Current module family
+Telegram Publication / TG poster controlled send path.
+
+### Source ownership boundaries
+
+`agent_lab/telegram_bot_api.py`
+- Owns Telegram token resolution helpers.
+- Router token resolver prefers `TELEGRAM_ROUTER_BOT_TOKEN`.
+- Legacy `TELEGRAM_BOT_TOKEN` remains Router fallback only.
+- Publication token resolver reads `TELEGRAM_PUBLICATION_BOT_TOKEN` only.
+- Must not expose token values, hashes, fingerprints, or env dumps.
+
+`agent_lab/telegram_polling.py`
+- Owns Router/operator bot polling.
+- Uses Router token behavior.
+- Must not be touched for publication send proof unless fresh proof shows Router polling is first broken.
+- Must not receive a new listener for publication.
+
+`agent_lab/telegram_connector.py`
+- Owns Telegram connector state and Router delivery abstractions.
+- Exposes token metadata as presence-only.
+- Must not become the Publication send owner by default.
+
+`agent_lab/telegram_publication_send_execution.py`
+- Owns actual Telegram Publication send execution.
+- Uses `TELEGRAM_PUBLICATION_BOT_TOKEN`.
+- Must not use Router token or legacy token for publication sends.
+- Owns durable send result fields, including `telegram_message_id` when a normal live send succeeds.
+- Missing publication token must fail closed with redacted error and no Telegram API call.
+
+`agent_lab/telegram_publication_run_cycle.py`
+- Owns publication run-cycle orchestration over ready/due jobs.
+- Owns max-post cap for controlled first proof.
+- Calls existing send-execution layer for live send.
+- Must not duplicate Telegram API logic.
+
+`agent_lab/admin_server.py`
+- Owns admin/product API surface.
+- New source branch adds:
+  `POST /api/telegram-publication/run-cycle`.
+- Endpoint must be preview/dry-run by default.
+- Endpoint must require explicit `confirm_live_send: true` for live send.
+- Endpoint must cap first proof to one post.
+- Endpoint must call business-layer run-cycle/send-execution and must not call Telegram API directly.
+- Endpoint response must be redacted and durable.
+
+`agent_lab/telegram_publication_tool.py`
+and
+`tools/hermes_vendor_overlay/hermes-agent/tools/telegram_publication_tool.py`
+- Own Hermes-visible `telegram.publication` tool.
+- Current actions remain no-live-send:
+  `list_configs`, `list_jobs`, `list_ready_materials`, `list_logs`, `ingest_ready_materials`, `plan_queue_dry_run`.
+- These files must not be changed to add live-send action unless a future separate high-risk design explicitly approves it.
+
+`tool-registry/tools.json`
+and
+`agent-packages/plankton/skills/telegram-publication-tool.md`
+- Own tool registry/skill visibility.
+- Read-only for the next source-integration block unless conflict requires inspection.
+- Must not be used as a live-send bypass.
+
+### Test owners
+`tests/test_admin_server.py`
+- Owns admin endpoint behavior:
+  preview/no-confirm path;
+  explicit confirmation path;
+  redacted response;
+  no direct Telegram API from endpoint.
+
+`tests/test_telegram_publication_run_cycle.py`
+- Owns run-cycle max-post cap and sender behavior.
+
+`tests/test_telegram_publication_send_execution.py`
+- Owns publication token resolver behavior and fail-closed missing-token path.
+
+`tests/test_telegram_publication_tool.py`
+- Owns Hermes tool no-live-send behavior.
+
+`tests/test_telegram_publication_service.py`,
+`tests/test_telegram_publication_storage.py`,
+`tests/test_telegram_publication_queue.py`,
+`tests/test_telegram_publication_planning_run.py`,
+`tests/test_telegram_publication_ready_materials.py`,
+`tests/test_telegram_publication_settings_ui.py`
+- Own supporting publication lifecycle/settings/readiness regressions.
+
+### Boundaries for next technical block
+Next source-integration block may touch only:
+- `agent_lab/admin_server.py`;
+- `agent_lab/telegram_publication_run_cycle.py`;
+- `tests/test_admin_server.py`;
+- `tests/test_telegram_publication_run_cycle.py`.
+
+Read-only inspection may include publication send/service/tool files and tests.
+
+### Do not touch without fresh proof
+- YouTube continuation modules;
+- Router polling/connector modules beyond read-only verification;
+- token/env files;
+- Hermes live tool behavior;
+- Fin Instrument modules;
+- receipt/OCR modules;
+- AI Starter Community.
+
+### Product-proof boundary
+A valid future live publication proof must use the normal admin/product endpoint after source integration and deploy.
+The following are not valid product proof:
+- direct Telegram API call;
+- direct Hermes tool call;
+- direct internal business-layer function call by Codex;
+- fake sent logs;
+- hardcoded target/chat/message id.

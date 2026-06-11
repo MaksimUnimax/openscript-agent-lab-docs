@@ -4636,3 +4636,161 @@ Not next by default:
 * Business facts and lifecycle buckets belong in `youtube_post_draft_service.py` / deterministic layer, not in prompt text or UI-only logic.
 
 <!-- CONTEXT_APPEND_END id=CTX_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_EDITOR_QUEUE_PROVEN source=chatgpt_inline_project_update accepted_by_user=yes -->
+
+## CTX_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-10
+ACTIVE_BLOCK: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
+PREVIOUS_SAVED_BLOCK: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+
+### Scope
+This append records the current OpenScript Agent Lab working context after the repo-docs saved point `CTX_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_EDITOR_QUEUE_PROVEN`.
+
+The active block is now Telegram Publication / TG poster controlled live-send enablement, not YouTube editor queue, receipt extraction, Fin Instrument, Hermes auth, or Telegram Router restoration.
+
+### Completed/proven since the last saved point
+
+1. Telegram Publication / TG poster tool integration reached main.
+- `telegram.publication` exists as a Hermes-visible tool.
+- Safe actions are:
+  `list_configs`, `list_jobs`, `list_ready_materials`, `list_logs`, `ingest_ready_materials`, `plan_queue_dry_run`.
+- The tool remains no-live-send.
+- Main integration commit for the tool line:
+  `b7be7c9b4eb56813a576fd5f5f5637dd92309681`.
+
+2. Old Telegram Router bot was restored and later superseded by split-token proofs.
+- The old Router bot path was proven through inbound Telegram -> handler -> router -> selected agent -> response send.
+- Later token split and secret migration proofs supersede the original restoration proof.
+
+3. YouTube stuck editor/moderation continuation blocker was closed.
+- Source and runtime reached:
+  `3d6c840a1a364560cef56571aae2400a8af32356`.
+- Existing stuck draft evidence:
+  `post-draft-80c04bfaf644`.
+- The fix resumed from persisted editor output and stored transcript snapshot.
+- `text_generation_rerun` was `no`.
+- `editor_status` advanced from `pending` to `succeeded`.
+- image generation completed through `codex_imagegen_cli`.
+- moderation was sent with real Telegram moderation message id `1059`.
+- This closed the YouTube continuation blocker. It must not be reopened without fresh proof.
+
+4. Telegram two-bot token split was implemented and integrated.
+- Final main commit for token split:
+  `c47f2c62be26998c7f1c6de9d3ab0185cd65b49e`.
+- Router token policy:
+  `TELEGRAM_ROUTER_BOT_TOKEN` is preferred;
+  `TELEGRAM_BOT_TOKEN` is legacy Router fallback only.
+- Publication token policy:
+  `TELEGRAM_PUBLICATION_BOT_TOKEN` is required;
+  publication must not fall back to Router or legacy token.
+- Missing publication token fails closed with redacted error.
+- Metadata is presence-only; no token values, hashes, fingerprints, or env dumps.
+
+5. Runtime deploy of the token split was proven before secret migration.
+- Runtime deployed to:
+  `c47f2c62be26998c7f1c6de9d3ab0185cd65b49e`.
+- Legacy Router fallback proof succeeded after deploy.
+- Proof message:
+  `PING_AFTER_TOKEN_SPLIT_DEPLOY_20260610`.
+- Real Telegram reply message id:
+  `1061`.
+
+6. Runtime secret migration to two bot roles completed.
+- Env file path:
+  `/etc/openscript-agent-lab/telegram.env`.
+- Backup was created:
+  `/etc/openscript-agent-lab/telegram.env.bak.20260610T144210Z`.
+- Runtime env key names after migration:
+  `TELEGRAM_BOT_TOKEN`;
+  `TELEGRAM_ROUTER_BOT_TOKEN`;
+  `TELEGRAM_PUBLICATION_BOT_TOKEN`.
+- Token values were not printed.
+- Env was not dumped.
+- Service restarted healthy.
+
+7. Post-migration Router proof succeeded.
+- Proof message:
+  `PING_AFTER_SECRET_MIGRATION_20260610`.
+- The Router selected `plankton`.
+- Real Telegram reply message id:
+  `1063`.
+- This proves the old Router bot still works after the split-token secret migration.
+
+8. Publication config proof passed without live send.
+- `TELEGRAM_PUBLICATION_BOT_TOKEN` presence was proven redacted.
+- `telegram.publication` registry/wrapper/skill visibility was proven.
+- Live publication send was not attempted.
+
+9. Live Publication send design identified the real blocker.
+- Runtime was healthy.
+- Publication target config existed, redacted.
+- Dry-run/preview paths existed.
+- Durable proof fields existed.
+- Existing live-send functions were internal business-layer functions only.
+- Admin endpoints stopped at settings/status.
+- Hermes-visible tool was intentionally no-live-send.
+- Result:
+  `HARD_BLOCKER_NO_SAFE_PRODUCT_SEND_PATH`.
+
+10. Admin/product live-send trigger source branch is ready.
+- Source branch:
+  `feature/telegram-publication-admin-live-send-trigger-20260610-agent1`.
+- Source commit:
+  `481fa4ee4ce862245142144098629dbf7094b91e`.
+- Commit title:
+  `Add Telegram publication admin run-cycle trigger`.
+- New endpoint:
+  `POST /api/telegram-publication/run-cycle`.
+- Endpoint defaults to preview/dry-run and does not send unless `confirm_live_send: true`.
+- First live proof is capped to one post through `max_posts=1`.
+- Endpoint calls the existing business-layer run-cycle/send-execution path.
+- Endpoint does not call Telegram API directly.
+- Endpoint does not read token values directly.
+- Publication token resolution remains in send-execution.
+- Publication does not use Router token.
+- Hermes tool remains no-live-send.
+- Response redacts secrets and returns durable proof fields.
+- Tests and diff checks passed in the feature branch.
+- No runtime deploy or live send was done for this source branch.
+
+### Current stop-point
+The correct current stop-point is:
+`telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration`.
+
+The branch `feature/telegram-publication-admin-live-send-trigger-20260610-agent1` is ready, but not integrated into `origin/main`.
+
+### Correct next technical run
+Next run should integrate source commit:
+`481fa4ee4ce862245142144098629dbf7094b91e`
+
+Expected main before integration:
+`c47f2c62be26998c7f1c6de9d3ab0185cd65b49e`.
+
+The run must be source integration only:
+- no runtime deploy;
+- no service restart;
+- no env/token changes;
+- no live endpoint call;
+- no Telegram send.
+
+### Not next
+The following are not next unless fresh proof changes the active block:
+- redo YouTube continuation/editor/moderation work;
+- redo old Router token restoration;
+- redo token split implementation;
+- redo secret migration;
+- live publication send before source integration and runtime deploy/proof;
+- direct Telegram API call;
+- direct Hermes/tool call;
+- internal business-layer function call as product proof;
+- removal of legacy `TELEGRAM_BOT_TOKEN`;
+- Fin Instrument/receipt/OCR.
+
+### Invariants
+- Telegram Router and Telegram Publication are separate roles.
+- Router uses `TELEGRAM_ROUTER_BOT_TOKEN`, with `TELEGRAM_BOT_TOKEN` only as legacy fallback.
+- Publication uses `TELEGRAM_PUBLICATION_BOT_TOKEN` only.
+- `telegram.publication` Hermes tool remains no-live-send.
+- Live publication proof must use the normal admin/product endpoint after integration and deploy.
+- Runtime target/channel/token details remain runtime configuration, not source constants.
+- Telegram message ids recorded in this append are proof evidence only, not implementation constants.

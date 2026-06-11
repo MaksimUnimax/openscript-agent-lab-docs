@@ -249,6 +249,65 @@ DATE_UTC: 2026-06-01T02:17:44Z
 - No secrets/runtime files were read or exported.
 - No next product stage is auto-selected.
 
+# Project Snapshot — 2026-06-10 — Telegram Publication two-bot migration and admin live-send trigger ready
+SNAPSHOT_ID: PROJECT_SNAPSHOT_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
+DATE_UTC: 2026-06-10
+STATUS: current_after_telegram_publication_admin_trigger_source_ready
+
+## Current active block
+
+`telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration`
+
+## Current project state
+
+OpenScript Agent Lab remains a multi-agent Hermes-first system with separated:
+- Agent layer;
+- Provider/Hermes layer;
+- deterministic business layer;
+- Admin UI/API;
+- Telegram Router;
+- Telegram Publication.
+
+## Completed since previous saved snapshot
+- `telegram.publication` safe Hermes-visible tool is integrated and visible.
+- Old Router bot was restored and later proven after split-token migration.
+- YouTube editor continuation blocker was closed; the stuck draft resumed from persisted editor output, generated image, and sent moderation.
+- Telegram two-bot token source split was integrated into main at `c47f2c62be26998c7f1c6de9d3ab0185cd65b49e`.
+- Runtime env was migrated to:
+  `TELEGRAM_BOT_TOKEN`,
+  `TELEGRAM_ROUTER_BOT_TOKEN`,
+  `TELEGRAM_PUBLICATION_BOT_TOKEN`.
+- Post-migration Router proof succeeded with real Telegram reply message id `1063`.
+- Publication token/config presence was proven redacted.
+- First live publication send design found there was no normal product/admin live-send trigger.
+- Source branch now adds `POST /api/telegram-publication/run-cycle` as a preview-by-default admin product trigger.
+
+## Current stop-point
+Source branch:
+`feature/telegram-publication-admin-live-send-trigger-20260610-agent1`
+
+Source commit:
+`481fa4ee4ce862245142144098629dbf7094b91e`
+
+The branch is ready and pushed, but not yet integrated into main.
+
+## Next technical run
+Integrate source branch into `origin/main`.
+
+Expected main before integration:
+`c47f2c62be26998c7f1c6de9d3ab0185cd65b49e`.
+
+The integration run must not deploy runtime, call Telegram, call Hermes, call the endpoint live, edit env, or send publication messages.
+
+## Hard boundaries
+- No live publication send before source integration and runtime deploy/proof.
+- No direct Telegram API.
+- No direct Hermes/tool live-send.
+- No internal function call as product proof.
+- No token values in docs, logs, UI, reports, or public repo.
+- No hardcoded target/chat/message id.
+- No YouTube continuation redo without fresh proof.
+
 # Project Snapshot — 2026-06-08 — YouTube prepare_post_draft attachable tool and editor queue proven
 
 SNAPSHOT_ID: PROJECT_SNAPSHOT_20260608_YOUTUBE_PREPARE_POST_DRAFT_ATTACHABLE_TOOL_EDITOR_QUEUE_PROVEN

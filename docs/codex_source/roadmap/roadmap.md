@@ -1568,3 +1568,79 @@ Invalid:
 * fake Telegram message id;
 * fallback after Hermes failure;
 * old tools modified without fresh proof.
+
+## RM_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-10
+ACTIVE_PHASE: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
+PREVIOUS_PHASE_SUPERSEDED: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+
+### Roadmap status update
+The active roadmap phase has moved from YouTube prepare_post_draft/editor queue work to Telegram Publication / TG poster controlled live-send enablement.
+
+### Completed since RM_20260608
+1. `telegram.publication` became a Hermes-visible safe tool with list/ingest/plan actions only.
+2. The old Router bot was restored and later proven through split-token runtime proofs.
+3. YouTube no-placeholder/editor continuation was fixed and deployed. The stuck draft resumed from persisted editor output, generated image, and sent moderation.
+4. Telegram two-bot token split was implemented and integrated:
+   - Router token role separated from Publication token role.
+   - Publication no longer falls back to Router/legacy token.
+5. Runtime was migrated to three Telegram env keys:
+   - `TELEGRAM_BOT_TOKEN`;
+   - `TELEGRAM_ROUTER_BOT_TOKEN`;
+   - `TELEGRAM_PUBLICATION_BOT_TOKEN`.
+6. Post-migration Router proof succeeded with real Telegram reply message id `1063`.
+7. Publication token/config visibility was proven redacted.
+8. Live-send design found the actual product blocker:
+   no normal product/admin live-send trigger existed.
+9. Source branch now adds the missing normal admin/product trigger:
+   `POST /api/telegram-publication/run-cycle`.
+10. The new trigger is preview-by-default, requires explicit `confirm_live_send: true` for live send, caps first proof to one post, and routes through the existing business layer.
+
+### Current active blocker / stop-point
+The admin live-send trigger source branch is ready but not integrated into main.
+
+Source branch:
+`feature/telegram-publication-admin-live-send-trigger-20260610-agent1`
+
+Source commit:
+`481fa4ee4ce862245142144098629dbf7094b91e`
+
+Expected current main before integration:
+`c47f2c62be26998c7f1c6de9d3ab0185cd65b49e`
+
+### Next roadmap block
+`telegram_publication_admin_live_send_trigger_main_integration`
+
+The next technical run should integrate the source branch into `origin/main`.
+
+### Acceptance criteria for next block
+The next source-integration block is complete only if:
+- source commit `481fa4ee4ce862245142144098629dbf7094b91e` is integrated into main;
+- final main preserves TG poster tool, YouTube continuation fix, and two-bot token split;
+- `POST /api/telegram-publication/run-cycle` is present;
+- default/no-confirm path does not send;
+- explicit live path remains confirmation-gated;
+- first proof cap remains one post;
+- endpoint uses business-layer run-cycle/send-execution;
+- endpoint does not call Telegram API directly;
+- Hermes tool remains no-live-send;
+- tests pass;
+- no runtime deploy;
+- no Telegram send;
+- no env/token changes.
+
+### Following blocks after integration
+After source integration:
+1. runtime deploy/proof of the new endpoint without live send;
+2. preview/dry-run proof through the admin endpoint;
+3. separately approved first live send proof through the normal admin endpoint with exactly one controlled send.
+
+### Not next
+- no live publication send in the integration run;
+- no direct internal business-layer call as product proof;
+- no direct Telegram API;
+- no Hermes tool live-send action;
+- no token migration redo;
+- no YouTube continuation redo;
+- no Fin Instrument/receipt/OCR.

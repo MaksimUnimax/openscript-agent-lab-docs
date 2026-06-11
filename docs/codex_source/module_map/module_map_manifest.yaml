@@ -1,14 +1,14 @@
 module_map_file: docs/codex_source/module_map/module_map.md
 append_only: true
-last_append_id: MM_20260608_YOUTUBE_PREPARE_POST_DRAFT_TOOL_BOUNDARIES_AND_QUEUE
+last_append_id: MM_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_BOUNDARIES
 current_snapshot_id: MODULE_MAP_SNAPSHOT_20260516
 current_snapshot_file: docs/codex_source/module_map/imported/current_module_map_snapshot.md
 safe_boundaries_snapshot_file: docs/codex_source/module_map/imported/safe_boundaries_snapshot.md
 source_kind: bounded_repo_inventory_plus_imported_docs
-status: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+status: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
 task_card_reevaluation_required: true
 current_ui_surface_decision: youtube_tab_redaktorskaya_otsenka_prepare_post_draft_tool_surface
-last_status: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
+last_status: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
 planned_module_families:
   - fin_instrument_ui_surface
   - agent_farm_task_runtime
@@ -17,7 +17,8 @@ planned_module_families:
   - youtube_parsing_tool
   - youtube_research_pipeline
   - future_task_tools_tbd
-current_active_block: youtube_prepare_post_draft_attachable_tool_editor_queue_proven
-last_updated_utc: 2026-06-08T00:00:00Z
+current_module_family: telegram_post_publisher
+current_active_block: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
+last_updated_utc: 2026-06-10T00:00:00Z
 no_destructive_rewrite: true
 tail_lines_for_codex: 160

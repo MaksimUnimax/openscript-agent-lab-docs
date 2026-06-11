@@ -374,8 +374,9 @@ items:
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: current active block is youtube_post_draft_editor_live_gate_skeleton; guarded live route skeleton is repeat-proven; live-smoke proof/design is pending separate user approval; image_adapter_execution, telegram_moderation_send, and publication_tool remain future work
     must_not_invent: true
-  - id: youtube_post_draft_moderation_revision_flows
-    status: imported_current_context
+  - id: current_docs_update_20260610_telegram_publication_admin_trigger
+    status: resolved_by_docs_update
+    active_block: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
-    notes: current active block is youtube_post_draft_moderation_revision_flows; latest dialogue evidence is a text-revision confirmation, not an image-revision confirmation; the next technical run is text revision for a non-approved post draft and image revision remains separate unless fresh proof shows the image action was clicked
-    must_not_invent: true
+    notes: >
+      Current dialogue delta through the Telegram Publication two-bot migration and admin run-cycle trigger source-ready state is saved by docs update OPENSCRIPT_AGENT_LAB_DOCS_UPDATE_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_20260610_01.
