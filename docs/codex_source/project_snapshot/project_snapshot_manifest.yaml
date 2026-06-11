@@ -4,7 +4,7 @@ status: telegram_publication_admin_live_send_trigger_source_ready_pending_main_i
 snapshot_kind: bounded_codex_repo_snapshot
 source_kind: bounded_codex_repo_snapshot
 last_snapshot_id: PROJECT_SNAPSHOT_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
-private_head_at_snapshot: 02a154e04c841a92c1a24bfc8acdc429d7256b13
+private_head_at_snapshot: c47f2c62be26998c7f1c6de9d3ab0185cd65b49e
 last_updated_utc: 2026-06-10T00:00:00Z
 scope: bounded inventory, no secrets
 needs_future_refresh: false
