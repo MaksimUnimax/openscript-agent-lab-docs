@@ -534,3 +534,43 @@ Source integration completed:
   * no Telegram API call;
   * no deploy/restart unless a later explicitly approved deploy run is created;
   * if endpoint is absent in runtime, stop and propose a separate deploy/restart design/proof.
+
+## 2026-06-14 — Telegram Publication live proof success, pending preview/live selection stability
+
+Current active block:
+
+`telegram_publication_live_proof_success_pending_preview_live_selection_stability`
+
+Confirmed facts:
+
+- one-post live proof succeeded through the normal admin/product endpoint `POST /api/telegram-publication/run-cycle`;
+- private source commit `c8d4520e0dd0cf55f608118cd76849878ebc5a51` was already on `main` at the time of the proof;
+- the runtime service was active and `/healthz` returned `200 OK`;
+- safe target summary remained available as `@openscriptwibe via @EditorWaib_bot`;
+- approved drafts were ingested through `agent_lab.telegram_publication_ready_materials.ingest_ready_materials`;
+- three publication jobs were created from the approved unpublished drafts;
+- the live call was made with `{"confirm_live_send": true, "dry_run": false, "max_posts": 1}`;
+- the live result was `LIVE_PROOF_SUCCESS`;
+- `live_send_executed` was `true`;
+- `jobs_sent` was `1`;
+- `jobs_published` was `1`;
+- `telegram_message_id` was `8`;
+- no direct Telegram API call was made by Codex;
+- no Hermes live-send was used;
+- no source edits, deploys, restarts, env/token changes, or secrets exposure occurred in this docs run;
+- the frontend/auth repo was not touched;
+- tracked source tree remained clean;
+- unrelated untracked pollution remains untouched.
+
+Follow-up issue:
+
+- preview selected job id:
+  `telegram-publication-job:v1:a81eed31baa9d5c5eb8b3643bc97fa89d959c2dfe7830ad9654f5df3557c52de`
+- live sent job id:
+  `telegram-publication-job:v1:7f8de8ded4b92c0e09a640345a34041fa2b0886b058f4ff6cfe7c352f2857c10`
+- the live proof is valid because exactly one approved publication job was sent through the correct path;
+- the preview/live mismatch should be stabilized in future work so approval can point at the same selected job identity before execution.
+
+Recommended next step:
+
+- add a deterministic preview-to-live selection identity, such as `selected_job_id`, `preview_plan_id`, or a confirmation token, and prove that preview and live operate on the same job before any future live-proof approval.

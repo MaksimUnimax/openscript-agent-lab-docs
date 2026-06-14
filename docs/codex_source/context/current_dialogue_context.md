@@ -4839,6 +4839,46 @@ Source integration completed:
   * proof_only source-vs-runtime / endpoint availability check;
   * verify whether the running service exposes `POST /api/telegram-publication/run-cycle`;
   * no live send;
-  * no Telegram API call;
-  * no deploy/restart unless a later explicitly approved deploy run is created;
-  * if endpoint is absent in runtime, stop and propose a separate deploy/restart design/proof.
+* no Telegram API call;
+* no deploy/restart unless a later explicitly approved deploy run is created;
+* if endpoint is absent in runtime, stop and propose a separate deploy/restart design/proof.
+
+## 2026-06-14 — Telegram Publication live proof success, pending preview/live selection stability
+
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-14
+ACTIVE_PHASE: telegram_publication_live_proof_success_pending_preview_live_selection_stability
+PREVIOUS_PHASE_SUPERSEDED: telegram_publication_admin_trigger_source_integrated_pending_runtime_proof
+
+### Context update
+
+- the one-post Telegram Publication live proof succeeded through the normal admin/product endpoint;
+- `live_send_executed` was `true`;
+- `jobs_sent` was `1`;
+- `jobs_published` was `1`;
+- `telegram_message_id` was `8`;
+- approved unpublished drafts were ingested through `agent_lab.telegram_publication_ready_materials.ingest_ready_materials`;
+- three publication jobs were created;
+- the runtime target summary remained safe and non-secret: `@openscriptwibe via @EditorWaib_bot`;
+- no direct Telegram API call was made by Codex;
+- no Hermes live-send was used;
+- no source edits, deploys, restarts, or secret exposure occurred in this docs run;
+- the frontend/auth repo was not touched;
+- tracked source tree remained clean;
+- unrelated untracked pollution remains untouched.
+
+### Follow-up issue
+
+- preview selected job id:
+  `telegram-publication-job:v1:a81eed31baa9d5c5eb8b3643bc97fa89d959c2dfe7830ad9654f5df3557c52de`
+- live sent job id:
+  `telegram-publication-job:v1:7f8de8ded4b92c0e09a640345a34041fa2b0886b058f4ff6cfe7c352f2857c10`
+- preview/live selection should be stabilized so the approval step can name the exact same job identity before execution.
+
+### Current active block
+
+`telegram_publication_live_proof_success_pending_preview_live_selection_stability`
+
+### Recommended next run
+
+- a proof-only or fix run to add deterministic preview-to-live selection identity (`selected_job_id`, `preview_plan_id`, or equivalent) and prove preview/live operate on the same job before any future live-proof approval.

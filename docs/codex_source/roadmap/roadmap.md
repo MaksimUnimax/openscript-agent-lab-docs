@@ -1696,3 +1696,55 @@ The next proof block is complete only if:
 - do not call Hermes tool live-send paths;
 - do not change source for this docs-only run;
 - do not touch frontend/auth work.
+
+## RM_20260614_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-14
+ACTIVE_PHASE: telegram_publication_live_proof_success_pending_preview_live_selection_stability
+PREVIOUS_PHASE_SUPERSEDED: telegram_publication_admin_trigger_source_integrated_pending_runtime_proof
+
+### Roadmap status update
+The Telegram Publication admin trigger has now completed one guarded live proof through the normal admin/product endpoint.
+
+### Completed since RM_20260614_TELEGRAM_PUBLICATION_ADMIN_TRIGGER_SOURCE_INTEGRATED_PENDING_RUNTIME_PROOF
+1. Approved unpublished drafts were ingested through the existing publication intake path.
+2. The runtime queue gained three `telegram_publication_jobs` rows from the approved drafts.
+3. The safe no-confirm preview remained preview-only and selected one job.
+4. The guarded live call executed exactly one post through `POST /api/telegram-publication/run-cycle`.
+5. `live_send_executed` was `true`.
+6. `jobs_sent` was `1`.
+7. `jobs_published` was `1`.
+8. `telegram_message_id` was `8`.
+9. No direct Telegram API call was made by Codex.
+10. No Hermes live-send was used.
+11. No source edits, deploys, restarts, env/token changes, or secret exposure occurred in this docs run.
+
+### Current active blocker / follow-up issue
+Preview/live selection identity is not yet stable enough for approval semantics:
+
+- preview selected job id:
+  `telegram-publication-job:v1:a81eed31baa9d5c5eb8b3643bc97fa89d959c2dfe7830ad9654f5df3557c52de`
+- live sent job id:
+  `telegram-publication-job:v1:7f8de8ded4b92c0e09a640345a34041fa2b0886b058f4ff6cfe7c352f2857c10`
+
+The live proof is valid because exactly one approved publication job was sent through the correct path, but the preview/live mismatch should be stabilized before any future approval-sensitive live-proof step.
+
+### Next roadmap block
+`telegram_publication_preview_live_selection_stability`
+
+The next technical run should focus on deterministic preview-to-live selection identity.
+
+### Acceptance criteria for the next block
+- preview and live must identify the same selected job or confirmation token;
+- the preview response should expose a stable selection identity, such as `selected_job_id` or `preview_plan_id`;
+- the live step must be able to prove it is acting on the previewed selection;
+- no direct Telegram API call;
+- no Hermes live-send action;
+- no extra post beyond `max_posts=1`.
+
+### Not next
+- no new Telegram live proof in this docs-only run;
+- no Telegram API call;
+- no Hermes tool live-send path;
+- no source edits in this docs-only run;
+- no frontend/auth work in this repo.

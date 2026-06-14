@@ -1952,3 +1952,40 @@ Source integration is complete, but runtime/product proof is still pending.
 * no Hermes tool live-send path;
 * no source edits in this docs-only run;
 * no frontend/auth work in this repo.
+
+## MM_20260614_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-14
+ACTIVE_PHASE: telegram_publication_live_proof_success_pending_preview_live_selection_stability
+PREVIOUS_PHASE_SUPERSEDED: telegram_publication_admin_trigger_source_integrated_pending_runtime_proof
+
+### Module map update
+The Telegram Publication admin trigger completed one guarded live proof through the normal product endpoint, and the remaining follow-up is preview/live selection stability.
+
+### Proof state
+* private source commit `c8d4520e0dd0cf55f608118cd76849878ebc5a51` is the source head used during the proof;
+* the runtime service was active and `/healthz` returned `200 OK`;
+* approved drafts were ingested via `agent_lab.telegram_publication_ready_materials.ingest_ready_materials`;
+* three publication jobs were created;
+* preview selected one job, but the preview-selected job id differed from the live-sent job id;
+* the live call executed exactly one post through `POST /api/telegram-publication/run-cycle`;
+* `telegram_message_id` was `8`;
+* no direct Telegram API call was made by Codex;
+* no Hermes live-send was used;
+* no source edits, deploys, restarts, env/token changes, or secret exposure occurred in this docs run.
+
+### Follow-up issue
+Preview/live selection identity needs a stable token or id so the approval step can name the same selected job before execution.
+
+### Current active block
+`telegram_publication_live_proof_success_pending_preview_live_selection_stability`
+
+### Next module block
+`telegram_publication_preview_live_selection_stability`
+
+### Not next
+* no new live send in this docs run;
+* no Telegram API call;
+* no Hermes tool live-send path;
+* no source edits in this docs-only run;
+* no frontend/auth work in this repo.
