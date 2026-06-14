@@ -574,3 +574,60 @@ Follow-up issue:
 Recommended next step:
 
 - add a deterministic preview-to-live selection identity, such as `selected_job_id`, `preview_plan_id`, or a confirmation token, and prove that preview and live operate on the same job before any future live-proof approval.
+
+## 2026-06-14 — Telegram Publication media live proof success
+
+Current active block:
+
+`telegram_publication_media_live_proof_success`
+
+Confirmed facts:
+
+- the final accepted Telegram Publication path now includes a safe operator retry endpoint plus the normal admin/product run-cycle endpoint;
+- preview remains dry-run by default;
+- `confirm_live_send: true` is required for live send;
+- `max_posts=1` remains the live proof cap;
+- `selected_job_id` exact binding is implemented for both preview and live;
+- media/photo send path is implemented and used for approved media jobs;
+- Telegram photo captions are capped safely at `TELEGRAM_PHOTO_CAPTION_LIMIT=1024`;
+- safe failed-job retry endpoint exists:
+  - `POST /api/telegram-publication/jobs/retry`
+  - `failed -> retry_pending`
+  - preserves media metadata
+  - does not send Telegram messages
+- exact media job live proof succeeded through the product/admin run-cycle endpoint;
+- one Telegram message was published for the exact job id:
+  - `telegram-publication-job:v1:8b53c4871b838e3fd2fdb3cd7c11af0d2302f1add553db21c649fc2c7d08847b`
+  - retry proof transitioned `failed -> retry_pending`
+  - preview proof selected the exact job id
+  - live proof published message id `9`
+- earlier historical proof remains recorded:
+  - message id `8`
+  - earlier text-only proof before the media/retry path was fixed
+- architecture boundary remains intact:
+  - OpenScript remains an Agent Lab, not a one-off Telegram bot;
+  - publication continues through the product/business layer;
+  - no direct Telegram API shortcut by Codex;
+  - `youtube.prepare_post_draft` still does not publish;
+  - no Hermes live-send was used;
+  - no secrets were printed;
+  - no manual SQL was used;
+  - tracked tree was clean apart from unrelated untracked pollution;
+- runtime response caveat:
+  - the runtime response did not expose a dedicated `media_caption_truncated` flag, so future polish could add safe media delivery/caption metadata to the response if needed.
+
+Source commits recorded in this proof chain:
+
+- `fcde3149e4baa0ba6a01664e1ba029da0e1399f4` - Add Telegram publication admin run-cycle trigger
+- `c8d4520e0dd0cf55f608118cd76849878ebc5a51` - Add safe target summary fields
+- `650feb52641bf79937d2ea48583a33d2bce7f660` - Bind Telegram publication live proofs to selected jobs
+- `463f5eda2111575b4eb894272400ae99a28e1435` - Publish Telegram media via photo delivery
+- `90065ef2d0b6eceaef1ff1ed929d0927b30eb554` - Bind Telegram publication preview to selected jobs
+- `b3b7105cc202994008d3c5fc8fb155226cca7a14` - Cap Telegram photo captions safely
+- `4b495fa7d0fb0a4d23f7f33b9265027b11eaa77c` - Add Telegram publication retry path
+
+Recommended next step:
+
+- no technical blocker remains for the proven publication path;
+- optional docs/UI polish only unless a new bug appears;
+- if future approval proof is needed, use the same exact selected job identity and retry/live path contract already proven here.
