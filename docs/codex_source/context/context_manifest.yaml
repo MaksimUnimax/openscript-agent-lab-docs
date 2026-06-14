@@ -1,12 +1,12 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
-last_append_title: "Telegram Publication two-bot migration and admin live-send trigger ready"
-last_updated_utc: 2026-06-10T00:00:00Z
+last_append_id: CTX_20260614_TELEGRAM_PUBLICATION_ADMIN_TRIGGER_SOURCE_INTEGRATED_PENDING_RUNTIME_PROOF
+last_append_title: "Telegram Publication admin trigger source integrated, pending runtime proof"
+last_updated_utc: 2026-06-14T00:00:00Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks
 tail_lines_for_codex: 160
 no_destructive_rewrite: true
-status: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
-current_active_block: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
+status: telegram_publication_admin_trigger_source_integrated_pending_runtime_proof
+current_active_block: telegram_publication_admin_trigger_source_integrated_pending_runtime_proof

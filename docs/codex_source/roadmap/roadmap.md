@@ -1644,3 +1644,55 @@ After source integration:
 - no token migration redo;
 - no YouTube continuation redo;
 - no Fin Instrument/receipt/OCR.
+
+## RM_20260614_TELEGRAM_PUBLICATION_ADMIN_TRIGGER_SOURCE_INTEGRATED_PENDING_RUNTIME_PROOF
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-14
+ACTIVE_PHASE: telegram_publication_admin_trigger_source_integrated_pending_runtime_proof
+PREVIOUS_PHASE_SUPERSEDED: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
+
+### Roadmap status update
+The source integration for the Telegram Publication admin trigger is complete in private `main`.
+
+### Completed since RM_20260610
+1. Private source commit `fcde3149e4baa0ba6a01664e1ba029da0e1399f4` was created and pushed to `origin/main`.
+2. Only the four expected backend/test files were committed:
+   - `agent_lab/admin_server.py`
+   - `agent_lab/telegram_publication_run_cycle.py`
+   - `tests/test_admin_server.py`
+   - `tests/test_telegram_publication_run_cycle.py`
+3. The endpoint contract remains in source:
+   - `POST /api/telegram-publication/run-cycle` exists;
+   - preview/dry-run is default;
+   - live send requires `confirm_live_send: true`;
+   - first live proof remains capped to `max_posts=1`;
+   - endpoint delegates through the business-layer run-cycle/send-execution path;
+   - endpoint does not call Telegram API directly;
+   - endpoint does not read/print token values;
+   - endpoint does not hardcode agent/user/chat/provider/message_id.
+4. The Hermes `telegram.publication` tool remains no-live-send.
+5. No runtime deploy, restart, live send, or env/token changes were performed.
+6. Frontend/auth work is explicitly out of scope for this repo and was not touched.
+
+### Current active blocker / stop-point
+Source is integrated, but runtime/product proof is still pending.
+
+### Next roadmap block
+`telegram_publication_admin_trigger_runtime_endpoint_proof`
+
+The next technical run should be a proof-only source-vs-runtime / endpoint availability check.
+
+### Acceptance criteria for next block
+The next proof block is complete only if:
+- the running service exposes `POST /api/telegram-publication/run-cycle`;
+- no live send is attempted;
+- no Telegram API call is made;
+- the proof is strictly read-only unless a later approved deploy run is explicitly created;
+- if the endpoint is absent in runtime, stop and propose a separate deploy/restart design/proof.
+
+### Not next
+- do not live send;
+- do not call Telegram API directly;
+- do not call Hermes tool live-send paths;
+- do not change source for this docs-only run;
+- do not touch frontend/auth work.

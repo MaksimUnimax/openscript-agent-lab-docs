@@ -4794,3 +4794,51 @@ The following are not next unless fresh proof changes the active block:
 - Live publication proof must use the normal admin/product endpoint after integration and deploy.
 - Runtime target/channel/token details remain runtime configuration, not source constants.
 - Telegram message ids recorded in this append are proof evidence only, not implementation constants.
+
+## 2026-06-14 — Telegram Publication admin trigger source integrated, pending runtime proof
+
+Current active block:
+
+`telegram_publication_admin_trigger_source_integrated_pending_runtime_proof`
+
+Source integration completed:
+
+* private source commit `fcde3149e4baa0ba6a01664e1ba029da0e1399f4` is now on `origin/main`;
+* only these four source/test files were committed:
+
+  * `agent_lab/admin_server.py`
+  * `agent_lab/telegram_publication_run_cycle.py`
+  * `tests/test_admin_server.py`
+  * `tests/test_telegram_publication_run_cycle.py`
+* the endpoint source contract remains:
+
+  * `POST /api/telegram-publication/run-cycle` exists;
+  * preview/dry-run is the default path;
+  * `confirm_live_send: true` is required for live send;
+  * first live proof remains capped to `max_posts=1`;
+  * the endpoint delegates to `telegram_publication_run_cycle.run_telegram_publication_run_cycle`;
+  * the run-cycle layer delegates to `telegram_publication_send_execution.run_telegram_publication_send_execution`;
+  * the endpoint does not call Telegram API directly;
+  * the endpoint does not read or print token values;
+  * the endpoint does not hardcode agent, user, chat, provider, or message id values;
+* `telegram.publication` Hermes tool remains no-live-send;
+* runtime deploy, restart, live-send, and env/token changes were not performed;
+* the frontend/auth repo was not touched and belongs to another agent/repo;
+* unrelated untracked pollution remains and is not part of this docs run:
+
+  * `agent-packages/**`
+  * `tools/hermes_vendor_overlay/hermes-agent/tools/fin_receipt_tool.py`
+  * `.venv-hermes/**`
+  * `**/__pycache__`
+  * `vendor/**`
+* new stop-point:
+
+  * source is integrated, but runtime/product proof is still pending;
+* recommended next run:
+
+  * proof_only source-vs-runtime / endpoint availability check;
+  * verify whether the running service exposes `POST /api/telegram-publication/run-cycle`;
+  * no live send;
+  * no Telegram API call;
+  * no deploy/restart unless a later explicitly approved deploy run is created;
+  * if endpoint is absent in runtime, stop and propose a separate deploy/restart design/proof.

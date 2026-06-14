@@ -1890,3 +1890,65 @@ The following are not valid product proof:
 - direct internal business-layer function call by Codex;
 - fake sent logs;
 - hardcoded target/chat/message id.
+
+## MM_20260614_TELEGRAM_PUBLICATION_ADMIN_TRIGGER_SOURCE_INTEGRATED_PENDING_RUNTIME_PROOF
+SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
+DATE_UTC: 2026-06-14
+ACTIVE_PHASE: telegram_publication_admin_trigger_source_integrated_pending_runtime_proof
+PREVIOUS_PHASE_SUPERSEDED: telegram_publication_admin_live_send_trigger_source_ready_pending_main_integration
+
+### Module map update
+The Telegram Publication admin trigger source is now integrated into private `main`, and the remaining work is runtime/product proof only.
+
+### Source integration proof
+* commit `fcde3149e4baa0ba6a01664e1ba029da0e1399f4` was pushed to private `origin/main`;
+* only these tracked files changed in the source commit:
+  * `agent_lab/admin_server.py`
+  * `agent_lab/telegram_publication_run_cycle.py`
+  * `tests/test_admin_server.py`
+  * `tests/test_telegram_publication_run_cycle.py`
+* the endpoint contract remains:
+  * `POST /api/telegram-publication/run-cycle` exists;
+  * preview/dry-run is the default;
+  * live send requires `confirm_live_send: true`;
+  * first live proof remains capped to `max_posts=1`;
+  * the endpoint delegates through the business-layer run-cycle/send-execution path;
+  * the endpoint does not call Telegram API directly;
+  * the endpoint does not read/print token values;
+  * the endpoint does not hardcode agent/user/chat/provider/message_id.
+* the Hermes `telegram.publication` tool remains no-live-send.
+
+### Module boundaries
+`agent_lab/admin_server.py`
+* owns the admin/product API surface;
+* remains the source location for the new `POST /api/telegram-publication/run-cycle` endpoint;
+* must stay business-layer only and must not call Telegram API directly.
+
+`agent_lab/telegram_publication_run_cycle.py`
+* owns the run-cycle business layer;
+* continues to cap the first live proof at one post when requested by the admin endpoint;
+* owns the send-execution boundary below the admin endpoint.
+
+`agent_lab/telegram_publication_tool.py`
+and
+`tools/hermes_vendor_overlay/hermes-agent/tools/telegram_publication_tool.py`
+* remain Hermes-visible no-live-send surfaces;
+* must not be converted into product live-send paths in this block.
+
+`tests/test_admin_server.py`
+and
+`tests/test_telegram_publication_run_cycle.py`
+* remain the source contract tests for the endpoint default preview path, confirm-gated live path, and max-post cap.
+
+### Current active blocker / stop-point
+Source integration is complete, but runtime/product proof is still pending.
+
+### Next module block
+`telegram_publication_admin_trigger_runtime_endpoint_proof`
+
+### Not next
+* no live send;
+* no Telegram API call;
+* no Hermes tool live-send path;
+* no source edits in this docs-only run;
+* no frontend/auth work in this repo.
