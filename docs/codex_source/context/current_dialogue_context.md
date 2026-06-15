@@ -4882,3 +4882,104 @@ PREVIOUS_PHASE_SUPERSEDED: telegram_publication_admin_trigger_source_integrated_
 ### Recommended next run
 
 - a proof-only or fix run to add deterministic preview-to-live selection identity (`selected_job_id`, `preview_plan_id`, or equivalent) and prove preview/live operate on the same job before any future live-proof approval.
+
+## CTX_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_READY
+
+Status: appended from ChatGPT dialogue
+Active block: `youtube_editor_skill_selection_experience_documented_then_fresh_pipeline_restart`
+Related document: `docs/codex_source/project/youtube_post_editor_skill_selection_experience_20260615.md`
+
+### New proven context
+
+After the Telegram Publication media live proof was documented, the active YouTube/Post Publisher work continued through a full Hermes/operator-style editorial pipeline experiment.
+
+The following facts are newly relevant and should be available for future ChatGPT/Codex runs:
+
+1. A one-time DB cleanup was performed earlier in the dialogue and preserved published history while clearing active selection/draft/publication work items for a fresh YouTube chain.
+2. A fresh YouTube candidate moderation run was performed through Hermes/operator flow.
+3. Telegram moderation cards were delivered to the operator flow.
+4. Three candidate drafts were generated and sent for moderation.
+5. Image/title overlay layout was iterated. The accepted direction is:
+   - title remains on the illustration;
+   - image base and title overlay remain separate;
+   - the title is applied by Python script overlay, not baked into the generated base image;
+   - the lower-third title plate layout is currently acceptable enough to proceed.
+6. The main unresolved quality work became the `youtube_post_editor_agent` writing quality.
+
+### Editor skill-selection experience
+
+The project tried multiple editor skill directions:
+- `talkstream/ru-text`
+- `coreyhaines31/marketingskills` social/copywriting/copy-editing
+- `ilyautov/humanizer-ru`
+- `Stahlwalker/developer-marketing`
+- `ComposioHQ/content-research-writer`
+- `conorbronsdon/avoid-ai-writing`
+
+Main lesson:
+The issue is not simply “bad style”. The editor must first transform source material into one editorial angle before writing the Telegram post.
+
+### Important proof
+
+A proof run showed that `regenerate_text_requested` does not rewrite old draft text as its main input. It builds an editor-contract request from:
+- `source_facts_snapshot`
+- `transcript_snapshot`
+- `editorial_constraints`
+- `editorial_rules`
+- `grounding`
+
+Old `draft_text` is not part of the request; it is used only after the model returns for no-op comparison/update logic.
+
+Therefore repeated weak output was not caused by source starvation or old draft reuse.
+
+### Current editor stop-point
+
+The latest source-to-angle skill update was applied to runtime and text-only regeneration delivered new moderation cards:
+- `post-draft-aa6589f0fe2c` -> Telegram moderation message `1148`
+- `post-draft-bc7a951fa811` -> Telegram moderation message `1150`
+- `post-draft-a2dc0520ab53` -> Telegram moderation message `1152`
+
+The user judged the current result acceptable enough to proceed, but not as a final editorial-quality solution.
+
+### What is closed
+
+Closed/proven:
+- text regeneration uses source/transcript, not previous draft as main input;
+- source-to-angle is the correct next editor direction;
+- editor diagnostics must remain advisory, not blocking;
+- image/title overlay is not the same problem as writing quality;
+- `youtube.prepare_post_draft` still must not publish;
+- publication remains a separate business/tool path;
+- future user-facing steps must still go through Hermes/tool/operator flow.
+
+### What is not closed
+
+Not closed:
+- final high-quality Russian Telegram editorial voice;
+- stable taste calibration for the internal editor;
+- accepted corpus of good/bad Telegram post examples;
+- committing/reconciling all dirty source changes from the editor-skill iteration;
+- a fresh full YouTube pipeline run after documentation update.
+
+### Current next desired sequence
+
+The user requested:
+1. First, document the editor-skill selection experience and update repo docs.
+2. Then, in a separate later run, repeat the previous safe cleanup + fresh pipeline maneuver:
+   - clean active DB work items safely, preserving history/published proofs;
+   - run fresh search/selection/moderation through Hermes/operator flow;
+   - generate new drafts through `youtube.prepare_post_draft`;
+   - review in Telegram moderation;
+   - do not publish without explicit approval.
+
+### Not next
+
+Not next:
+- publication;
+- direct Telegram API shortcuts;
+- manual SQL without an explicitly approved cleanup run;
+- provider/model calls in docs update;
+- image overlay redesign;
+- new random skill search before using the recorded lessons;
+- blocking editorial quality gates;
+- application code edits inside docs-only run.

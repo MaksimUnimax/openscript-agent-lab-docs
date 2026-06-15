@@ -1953,6 +1953,65 @@ Source integration is complete, but runtime/product proof is still pending.
 * no source edits in this docs-only run;
 * no frontend/auth work in this repo.
 
+## MM_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_BOUNDARIES
+
+Status: module-map append from ChatGPT dialogue
+Active block: `youtube_editor_skill_selection_experience_documented_then_fresh_pipeline_restart`
+
+### Ownership boundaries confirmed
+
+The editor-skill iteration confirmed these module boundaries:
+
+1. `agent-packages/youtube_post_editor_agent/**`
+   - owns source package skills and editorial instructions;
+   - source of truth for editor skills;
+   - runtime copies must be updated through `tools/agentctl apply youtube_post_editor_agent`;
+   - should not be changed during docs-only runs.
+
+2. `/var/lib/openscript-agent-lab/hermes/profiles/youtube_post_editor_agent/**`
+   - runtime profile copy/sync target;
+   - not source of truth;
+   - must not be manually edited in docs-only or source-only runs.
+
+3. `agent_lab/youtube_post_draft_service.py`
+   - owns deterministic post-draft lifecycle and editor-contract request assembly;
+   - proved that text regeneration request uses source facts and transcript snapshots, not old draft text as generation input;
+   - must not be changed during docs-only update.
+
+4. `agent_lab/youtube_post_draft_moderation_dispatch.py`
+   - owns moderation callback path and Telegram/operator card delivery for draft moderation;
+   - must not be bypassed with direct Telegram API calls.
+
+5. `agent_lab/youtube_image_title_overlay.py`
+   - owns script-applied title overlay rendering;
+   - image title overlay is separate from editor text quality;
+   - must not be touched during docs-only or text-skill docs update.
+
+6. Telegram Publication modules
+   - publication remains separate from `youtube.prepare_post_draft`;
+   - `youtube.prepare_post_draft` must not publish;
+   - approved-for-publication means ready for future publication, not published.
+
+### Boundaries for next fresh pipeline restart
+
+The future fresh pipeline restart must keep these boundaries:
+- cleanup, if approved, uses deterministic business/storage paths and preserves history;
+- search/selection/moderation uses Hermes/tool/operator flow;
+- draft generation uses `youtube.prepare_post_draft`;
+- Telegram moderation cards use the existing moderation dispatch path;
+- publication is not part of the fresh draft generation run unless separately approved;
+- no direct Telegram API by Codex;
+- no manual SQL unless the user explicitly approves a one-time cleanup run with backup/no-delete/transaction proof.
+
+### Read-only for next docs run
+
+During the docs-only update, all application/runtime areas are read-only or out of scope:
+- `agent_lab/**`
+- `agent-packages/**`
+- `tools/**`
+- `tests/**`
+- `/var/lib/openscript-agent-lab/**`
+
 ## MM_20260614_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY
 SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
 DATE_UTC: 2026-06-14

@@ -20,14 +20,14 @@ rules:
   - Codex должен читать exact paths из task cards, а не полагаться на память.
   - Если required doc имеет status: stub, future fix-run must stop with STOP_DOCS_MISSING.
 current_dialogue_state:
-  latest_context_append_id: CTX_20260614_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY
-  latest_roadmap_append_id: RM_20260614_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY
-  latest_module_map_append_id: MM_20260614_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY
-  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
-  active_blocker: telegram_publication_live_proof_success_pending_preview_live_selection_stability
-  current_active_block: telegram_publication_live_proof_success_pending_preview_live_selection_stability
-  next_exact_run: OPENSCRIPT_AGENT_LAB_TELEGRAM_PUBLICATION_PREVIEW_LIVE_SELECTION_STABILITY_20260614_01
-  last_docs_update_id: OPENSCRIPT_AGENT_LAB_DOCS_UPDATE_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY_20260614_01
+  latest_context_append_id: CTX_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_READY
+  latest_roadmap_append_id: RM_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_READY
+  latest_module_map_append_id: MM_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_BOUNDARIES
+  latest_project_snapshot_id: PROJECT_SNAPSHOT_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE
+  active_blocker: editor_skill_selection_experience_not_yet_documented
+  current_active_block: youtube_editor_skill_selection_experience_documented_then_fresh_pipeline_restart
+  next_exact_run: OPENSCRIPT_AGENT_LAB_DOCS_UPDATE_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_20260615_01
+  last_docs_update_id: OPENSCRIPT_AGENT_LAB_DOCS_UPDATE_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_20260615_01
   financial_ui_readd: completed
   pending_next_prompt_id: user_selected_next_block_after_manual_acceptance
   docs_update_workflow_rule: chatgpt_writes_append_blocks_inline_before_codex_docs_update
@@ -322,6 +322,8 @@ project_docs:
   - path: docs/codex_source/project/source_vs_runtime.md
     status: imported
   - path: docs/codex_source/project/current_status.md
+    status: imported
+  - path: docs/codex_source/project/youtube_post_editor_skill_selection_experience_20260615.md
     status: imported
   - path: docs/codex_source/project/agent_lab_architecture.md
     status: stub

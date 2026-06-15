@@ -631,3 +631,33 @@ Recommended next step:
 - no technical blocker remains for the proven publication path;
 - optional docs/UI polish only unless a new bug appears;
 - if future approval proof is needed, use the same exact selected job identity and retry/live path contract already proven here.
+
+## 2026-06-15 — YouTube editor skill-selection experience ready for documentation, fresh pipeline restart next
+
+Current active block: `youtube_editor_skill_selection_experience_documented_then_fresh_pipeline_restart`
+
+Confirmed current dialogue facts:
+- Telegram Publication media live proof remains the latest saved publication proof; no new publication is requested in this docs update.
+- A later YouTube editor-quality exploration iterated over several writing/editor skills for `youtube_post_editor_agent`.
+- Important editor-skill lessons are now consolidated in `docs/codex_source/project/youtube_post_editor_skill_selection_experience_20260615.md`.
+- Text regeneration was proven to use source facts and transcript snapshots, not previous draft text as main model input.
+- `human_telegram_editor.md` and `telegram_editorial_writer.md` were updated toward source-to-angle shaping during the dialogue and runtime-applied in proof runs.
+- The latest regenerated draft moderation cards after source-to-angle update were:
+  - `post-draft-aa6589f0fe2c` -> `1148`
+  - `post-draft-bc7a951fa811` -> `1150`
+  - `post-draft-a2dc0520ab53` -> `1152`
+- The user judged the current editor result acceptable enough to proceed, but not final.
+- The immediate requested action is docs-only memory update before any fresh YouTube pipeline rerun.
+
+Next correct run:
+- docs-only update for editor skill-selection experience and project memory.
+
+After that, a separate run may repeat the previous safe cleanup + fresh YouTube pipeline chain.
+
+Not next:
+- publication;
+- provider/model calls during docs update;
+- DB cleanup inside docs update;
+- application code edits inside docs update;
+- direct Telegram API;
+- manual SQL without later cleanup approval.

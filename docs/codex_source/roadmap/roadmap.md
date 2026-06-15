@@ -1748,3 +1748,64 @@ The next technical run should focus on deterministic preview-to-live selection i
 - no Hermes tool live-send path;
 - no source edits in this docs-only run;
 - no frontend/auth work in this repo.
+
+## RM_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_READY
+
+Status: roadmap append from ChatGPT dialogue
+Active block: `youtube_editor_skill_selection_experience_documented_then_fresh_pipeline_restart`
+
+### Roadmap change
+
+Before restarting the fresh YouTube pipeline, document the editor-skill selection experience so future runs do not repeat failed prompt/skill approaches.
+
+### New roadmap step
+
+1. Docs-only memory update:
+   - create `docs/codex_source/project/youtube_post_editor_skill_selection_experience_20260615.md`;
+   - append context/roadmap/module-map/status/index/snapshot entries;
+   - do not change application code.
+
+2. After docs update acceptance, run a separate fresh pipeline restart:
+   - safe cleanup of active YouTube selection/draft/publication work items;
+   - preserve published history and proof rows;
+   - rerun search/selection/moderation through Hermes/operator path;
+   - generate drafts through `youtube.prepare_post_draft`;
+   - deliver Telegram moderation cards;
+   - no publication unless explicitly approved.
+
+### Active blocker
+
+The immediate blocker is documentation memory: editor-skill experience is not yet saved in repo docs.
+
+### Acceptance criteria for this docs step
+
+Accepted if:
+- a dedicated skill-selection experience document exists;
+- context/roadmap/module-map/status/index/snapshot point to it;
+- append-only history is preserved;
+- no application code changes are made;
+- private docs commit/push succeeds;
+- public docs refresh succeeds and contains only `docs/codex_source/**`.
+
+### Not acceptable
+
+Not acceptable:
+- Codex invents summary content instead of using inline text;
+- application code changes;
+- runtime modifications;
+- provider/model calls;
+- Telegram delivery;
+- DB cleanup;
+- publication;
+- duplicate old context appended again;
+- missing manifests/index/snapshot updates.
+
+### Not-next blocks
+
+Do not proceed directly to:
+- DB cleanup;
+- YouTube search/moderation;
+- draft generation;
+- Telegram publication;
+- skill implementation;
+until this docs update is accepted.

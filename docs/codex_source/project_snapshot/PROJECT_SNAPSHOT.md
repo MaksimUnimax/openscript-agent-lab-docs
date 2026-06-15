@@ -249,6 +249,30 @@ DATE_UTC: 2026-06-01T02:17:44Z
 - No secrets/runtime files were read or exported.
 - No next product stage is auto-selected.
 
+## PROJECT_SNAPSHOT_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE
+
+Status: append snapshot from ChatGPT dialogue
+
+Current active block:
+`youtube_editor_skill_selection_experience_documented_then_fresh_pipeline_restart`
+
+Snapshot summary:
+The project has completed a major YouTube post editor skill-selection experiment. The key result is not a final perfect writing style, but a documented set of lessons for future editor-agent work.
+
+Important facts:
+- Text regeneration uses source facts and transcript snapshots, not previous draft text as the main input.
+- Weak repeated output was therefore caused by editor transformation quality, not source starvation.
+- The best current direction is source-to-angle shaping before prose generation.
+- Editorial quality diagnostics must remain advisory, not blocking.
+- Image/title overlay work is separate from text quality.
+- The next immediate task is docs-only memory update.
+- The next technical block after docs acceptance is a fresh YouTube pipeline restart using the previous cleanup/full-chain approach.
+
+Safety:
+- No application code should be modified during this docs update.
+- No provider/model/Telegram/DB actions should run during this docs update.
+- Future fresh pipeline run must be separate and explicit.
+
 # Project Snapshot — 2026-06-10 — Telegram Publication two-bot migration and admin live-send trigger ready
 SNAPSHOT_ID: PROJECT_SNAPSHOT_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
 DATE_UTC: 2026-06-10
