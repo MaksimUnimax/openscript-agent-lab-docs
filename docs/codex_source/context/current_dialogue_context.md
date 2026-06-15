@@ -4983,3 +4983,61 @@ Not next:
 - new random skill search before using the recorded lessons;
 - blocking editorial quality gates;
 - application code edits inside docs-only run.
+
+## CTX_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_DOCS_COMPLETED_FRESH_PIPELINE_NEXT
+
+Status: appended from ChatGPT dialogue
+Corrects: `CTX_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_READY`
+Active block: `youtube_fresh_pipeline_restart_after_editor_skill_docs_completed`
+Related document: `docs/codex_source/project/youtube_post_editor_skill_selection_experience_20260615.md`
+
+### Correction
+
+The YouTube editor skill-selection experience has now been documented in repo docs and pushed to both the private source repo and public docs repo.
+
+The previous active blocker:
+`editor_skill_selection_experience_not_yet_documented`
+
+is closed.
+
+### Current active block
+
+Current active block is now:
+`youtube_fresh_pipeline_restart_after_editor_skill_docs_completed`
+
+### Current stop-point
+
+The project is ready for a separate technical run that repeats the previous safe cleanup + fresh YouTube pipeline maneuver.
+
+That future run must:
+- clean only active/current YouTube selection/draft/publication work items;
+- preserve published history and proof rows;
+- preserve documentation and skill-selection experience;
+- run fresh YouTube search/selection/moderation through Hermes/operator flow;
+- generate new drafts through `youtube.prepare_post_draft`;
+- deliver Telegram moderation cards;
+- not publish without explicit approval.
+
+### Not part of this docs correction
+
+This docs correction does not run:
+- DB cleanup;
+- YouTube search;
+- candidate selection;
+- draft generation;
+- provider/model calls;
+- Telegram delivery;
+- publication;
+- runtime apply;
+- application code changes.
+
+### Guard for the next technical run
+
+The next technical run must start with proof/current-state checks before cleanup:
+- inspect active YouTube candidate batches/selections/drafts/publication jobs;
+- preserve published history;
+- prove what will be marked inactive/cleared before any mutation;
+- do not use broad destructive SQL;
+- use the previously accepted cleanup pattern only after explicit scope proof;
+- no direct Telegram API shortcuts;
+- no publication in the same run unless separately approved.

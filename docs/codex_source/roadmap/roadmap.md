@@ -1749,6 +1749,63 @@ The next technical run should focus on deterministic preview-to-live selection i
 - no source edits in this docs-only run;
 - no frontend/auth work in this repo.
 
+## RM_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_DOCS_COMPLETED_FRESH_PIPELINE_NEXT
+
+Status: roadmap correction append from ChatGPT dialogue
+Corrects: `RM_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_READY`
+Active block: `youtube_fresh_pipeline_restart_after_editor_skill_docs_completed`
+
+### Roadmap correction
+
+The editor skill-selection experience docs update is complete.
+
+The immediate roadmap blocker is no longer documentation memory. The next active technical block is a separate safe cleanup + fresh YouTube pipeline restart.
+
+### Next roadmap step
+
+Run a separate technical block:
+
+1. Proof/current state:
+   - inspect active YouTube selection batches;
+   - inspect current candidate moderation state;
+   - inspect current post drafts;
+   - inspect current publication queue state;
+   - verify published/proof rows that must be preserved.
+
+2. Safe cleanup:
+   - clear only active/current work items needed for a fresh chain;
+   - preserve historical published jobs, live proof rows, and committed documentation;
+   - avoid destructive broad SQL.
+
+3. Fresh pipeline:
+   - run fresh YouTube search/candidate flow;
+   - send candidate moderation cards through Telegram/operator flow;
+   - after user approvals, generate drafts through `youtube.prepare_post_draft`;
+   - send draft moderation cards through Telegram/operator flow.
+
+4. Stop before publication:
+   - no publication without explicit user approval.
+
+### Acceptance for next technical block
+
+Accepted only if:
+- cleanup scope is proven before mutation;
+- no published/proof history is deleted;
+- fresh candidate moderation cards are delivered;
+- fresh drafts are generated only for approved candidates;
+- draft moderation cards are delivered;
+- no publication is performed.
+
+### Not-next
+
+Not next:
+- another docs-only skill-selection update;
+- new editor skill search;
+- image/overlay redesign;
+- publication;
+- direct Telegram API;
+- manual SQL without proof and explicit cleanup scope.
+
 ## RM_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_EXPERIENCE_AND_FRESH_PIPELINE_RESTART_READY
 
 Status: roadmap append from ChatGPT dialogue

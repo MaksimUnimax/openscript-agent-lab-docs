@@ -661,3 +661,35 @@ Not next:
 - application code edits inside docs update;
 - direct Telegram API;
 - manual SQL without later cleanup approval.
+
+## 2026-06-15 — Docs correction: editor skill-selection experience documented, fresh YouTube pipeline restart next
+
+Current active block: `youtube_fresh_pipeline_restart_after_editor_skill_docs_completed`
+
+Correction:
+The YouTube editor skill-selection experience docs update is complete.
+
+Completed docs state:
+- Dedicated document exists:
+  `docs/codex_source/project/youtube_post_editor_skill_selection_experience_20260615.md`
+- Context/roadmap/module-map/project snapshot were updated in the previous docs run.
+- The previous blocker `editor_skill_selection_experience_not_yet_documented` is closed.
+- The next run is no longer another docs-only memory update.
+
+Next correct run:
+- safe cleanup + fresh YouTube pipeline restart, as a separate technical run.
+
+The next run must start with current-state proof before mutation:
+- inspect active YouTube selection/draft/publication state;
+- prove cleanup scope;
+- preserve published history/proof rows;
+- then run fresh YouTube candidate moderation and draft generation through Hermes/operator flow.
+
+Not next:
+- publication;
+- direct Telegram API;
+- image/overlay redesign;
+- new editor skill search;
+- docs-only repeat of the same skill-selection experience;
+- provider/model calls outside official future pipeline path;
+- DB cleanup without explicit proof of exact affected rows.

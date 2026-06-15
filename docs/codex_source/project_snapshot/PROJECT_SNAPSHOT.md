@@ -273,6 +273,29 @@ Safety:
 - No provider/model/Telegram/DB actions should run during this docs update.
 - Future fresh pipeline run must be separate and explicit.
 
+## PROJECT_SNAPSHOT_20260615_EDITOR_SKILL_DOCS_COMPLETED_FRESH_PIPELINE_NEXT
+
+Status: append snapshot correction from ChatGPT dialogue
+
+Current active block:
+`youtube_fresh_pipeline_restart_after_editor_skill_docs_completed`
+
+Snapshot correction:
+The YouTube editor skill-selection experience is now documented and no longer blocks the next technical work.
+
+Current next technical block:
+A separate safe cleanup + fresh YouTube pipeline restart.
+
+Important guard:
+The next run must not start with blind cleanup. It must first prove active/current state and exact rows/items that will be cleared while preserving published/proof history.
+
+Out of scope for the next docs correction:
+- application code changes;
+- runtime/profile changes;
+- provider/model calls;
+- Telegram calls;
+- DB mutations.
+
 # Project Snapshot — 2026-06-10 — Telegram Publication two-bot migration and admin live-send trigger ready
 SNAPSHOT_ID: PROJECT_SNAPSHOT_20260610_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_READY
 DATE_UTC: 2026-06-10
