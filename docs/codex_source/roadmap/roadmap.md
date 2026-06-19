@@ -1866,3 +1866,82 @@ Do not proceed directly to:
 - Telegram publication;
 - skill implementation;
 until this docs update is accepted.
+
+## RM_20260618_YOUTUBE_EDITOR_QUEUE_TARGET_DIVERGENCE_FIVE_STEP_PROOF
+
+SOURCE_KIND: chatgpt_dialogue_delta_checked_against_repo_docs
+DATE_UTC: 2026-06-18
+ACTIVE_PHASE: `youtube_prepare_post_draft_action_target_divergence_five_step_proof`
+PREVIOUS_PHASE_SUPERSEDED: `youtube_fresh_pipeline_restart_after_editor_skill_docs_completed`
+
+### Roadmap status update
+
+The active YouTube line is paused before any fresh pipeline restart or editing execution because fresh queue targets and actual execution targets diverged.
+
+A fresh deterministic editor queue displayed seven ready-for-creation candidates. A later real editing action attempted a different candidate, `zexcKJYQooU`, which was not present in the fresh queue and was finalized.
+
+The first point where valid targets change into an unrelated target is not yet proven.
+
+### Current active blocker
+
+`fresh_queue_target_set != actual_execution_target`
+
+### Next technical block
+
+`OPENSCRIPT_AGENT_LAB_YOUTUBE_EDITOR_QUEUE_FIRST_TARGET_DIVERGENCE_FIVE_STEP_PROOF_20260618_01`
+
+This is a proof-only block. It must trace exactly:
+
+STEP -5 → STEP -4 → STEP -3 → STEP -2 → STEP -1 → FIRST BROKEN STEP
+
+The proof must establish the first runtime boundary where:
+
+* fresh target IDs disappear;
+* fresh target IDs are replaced;
+* target fields are dropped or renamed;
+* an empty target set causes a fallback;
+* a wrong identifier type is passed; or
+* `zexcKJYQooU` first appears.
+
+### Acceptance criteria
+
+The proof is accepted only when it contains:
+
+* the exact failed action input and result;
+* the immediately preceding fresh queue result;
+* exact input/output target values at five direct predecessor transitions;
+* exact file/function for each transition;
+* the earliest divergence point;
+* one evidence-based classification;
+* no source change;
+* no runtime mutation;
+* no queue advancement;
+* no draft creation;
+* no moderation dispatch;
+* no publication.
+
+### Not-next blocks
+
+The following are explicitly not next:
+
+* Hermes/session remediation;
+* action-state redesign;
+* prompt wording or pronoun patch;
+* target cache;
+* direct DB or backend proof;
+* new tool implementation;
+* fresh pipeline restart;
+* publication;
+* any mutating YouTube operation.
+
+### Unacceptable result
+
+The next proof is invalid if it only says:
+
+* “Hermes selected stale context”;
+* “the action state was missing”;
+* “the tool selected the wrong video”;
+* “send_to_editing failed”;
+* “the target was probably lost”.
+
+It must prove the exact first target-ID substitution with the five direct transitions before it.

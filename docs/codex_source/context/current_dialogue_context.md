@@ -5041,3 +5041,87 @@ The next technical run must start with proof/current-state checks before cleanup
 - use the previously accepted cleanup pattern only after explicit scope proof;
 - no direct Telegram API shortcuts;
 - no publication in the same run unless separately approved.
+
+## CTX_20260618_YOUTUBE_EDITOR_QUEUE_TARGET_DIVERGENCE_FIVE_STEP_PROOF_REQUIRED
+
+SOURCE_KIND: chatgpt_dialogue_delta_checked_against_repo_docs
+DATE_UTC: 2026-06-18
+ACTIVE_BLOCK: `youtube_prepare_post_draft_action_target_divergence_five_step_proof`
+PREVIOUS_ACTIVE_BLOCK_SUPERSEDED: `youtube_fresh_pipeline_restart_after_editor_skill_docs_completed`
+
+### Current proven stop-point
+
+The June 15 fresh-pipeline-restart pointer is superseded by a new active YouTube execution-target divergence.
+
+A fresh deterministic `youtube.prepare_post_draft` / `list_editor_queue` read displayed seven current ready-for-creation candidates:
+
+* `AwS1tnJ3CGw`
+* `yE9_9zkP47c`
+* `TKhx4W-eEgk`
+* `iP73V-XJG_k`
+* `UL1LaGQWCzU`
+* `Q1VNOkJYL1M`
+* `CBd-ldtru74`
+
+These IDs are diagnostic evidence from one observed fresh queue response. They are not source constants, cached authoritative action targets, or values that future code may hardcode.
+
+A later real action requesting editing attempted to process `zexcKJYQooU`, which was absent from that fresh seven-item queue. The action response treated this unrelated target as finalized / unsuitable for the requested draft/editing operation.
+
+### What is proven
+
+* Fresh deterministic queue state and actual execution target diverged.
+* The current active failure is not “queue is empty”.
+* The current active failure is not accepted as fixed by any earlier status, Hermes, follow-up, confirmation, or authority-boundary report.
+* No final root cause is accepted until the first target-ID divergence is located in the real execution path.
+* Publication remains separate from `youtube.prepare_post_draft` and is out of scope.
+* A valid user-facing proof must use the project-owned Telegram operator-imitation path and normal architecture, not direct backend, direct DB, direct service-function, manual SQL, or fake Telegram execution.
+
+### Required next technical run
+
+The next run is proof-only:
+
+`OPENSCRIPT_AGENT_LAB_YOUTUBE_EDITOR_QUEUE_FIRST_TARGET_DIVERGENCE_FIVE_STEP_PROOF_20260618_01`
+
+It must identify exactly:
+
+* STEP -5
+* STEP -4
+* STEP -3
+* STEP -2
+* STEP -1
+* FIRST BROKEN STEP
+
+For every point it must provide file/function, input values, output values, source of each value, next consumer, and target-ID invariant status.
+
+Fresh-queue invariant:
+
+Before the first broken step, action target IDs must be either:
+
+* a subset of the fresh ready-for-creation queue; or
+* explicit IDs contained in the current user action.
+
+The first step where this invariant becomes false is the first broken step.
+
+### What is not next
+
+Do not start:
+
+* a Hermes fix;
+* a session cleanup;
+* a regex or phrasing fix;
+* a confirmation redesign;
+* a target cache;
+* a stale-candidate exclusion;
+* a new action tool;
+* a queue advancement;
+* draft creation;
+* draft moderation;
+* publication;
+* a fresh YouTube pipeline restart;
+* a direct backend or DB substitute.
+
+No source fix may begin until the five predecessor transitions and first broken step are proven.
+
+### Diagnostic invariant for future reports
+
+For every future failure diagnosis, Codex must report the first wrong object/value/action and exactly five direct prior runtime transitions. ChatGPT must then explain all five transitions and the first broken step in plain Russian before proposing any fix.

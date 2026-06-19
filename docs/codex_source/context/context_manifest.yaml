@@ -1,12 +1,12 @@
 context_file: docs/codex_source/context/current_dialogue_context.md
 append_only: true
-last_append_id: CTX_20260615_YOUTUBE_EDITOR_SKILL_SELECTION_DOCS_COMPLETED_FRESH_PIPELINE_NEXT
-last_append_title: "YouTube editor skill-selection docs completed; fresh pipeline next"
-last_updated_utc: 2026-06-15T00:00:00Z
+last_append_id: CTX_20260618_YOUTUBE_EDITOR_QUEUE_TARGET_DIVERGENCE_FIVE_STEP_PROOF_REQUIRED
+last_append_title: "YouTube editor queue target divergence; five-step proof required"
+last_updated_utc: 2026-06-18T00:00:00Z
 read_policy:
   codex_append: read manifest + tail only
   chatgpt_start: read entrypoint + manifests + latest append blocks
 tail_lines_for_codex: 160
 no_destructive_rewrite: true
-status: youtube_fresh_pipeline_restart_after_editor_skill_docs_completed
-current_active_block: youtube_fresh_pipeline_restart_after_editor_skill_docs_completed
+status: youtube_prepare_post_draft_action_target_divergence_five_step_proof
+current_active_block: youtube_prepare_post_draft_action_target_divergence_five_step_proof

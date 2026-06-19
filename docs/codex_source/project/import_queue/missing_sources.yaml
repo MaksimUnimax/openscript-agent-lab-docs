@@ -380,3 +380,13 @@ items:
     expected_target_path: docs/codex_source/context/current_dialogue_context.md
     notes: >
       Current dialogue delta through the Telegram Publication two-bot migration and admin run-cycle trigger source-ready state is saved by docs update OPENSCRIPT_AGENT_LAB_DOCS_UPDATE_TELEGRAM_PUBLICATION_TWO_BOT_AND_ADMIN_TRIGGER_20260610_01.
+  - id: current_docs_update_20260618_youtube_editor_queue_target_divergence
+    status: imported_current_dialogue_context
+    active_block: youtube_prepare_post_draft_action_target_divergence_five_step_proof
+    expected_target_path: docs/codex_source/context/current_dialogue_context.md
+    notes: >
+      The current dialogue delta establishes a target-provenance divergence:
+      fresh editor queue candidates and the actual execution candidate differ.
+      The next technical step is a proof-only five-predecessor trace to the
+      first target-ID substitution. No external source import is required.
+    must_not_invent: true

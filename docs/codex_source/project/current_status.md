@@ -140,6 +140,33 @@ Current docs update after receipt proof:
 - future Telegram/Hermes/Fin runs must end in a working bot state when live checks are in scope;
 - the docs-update workflow now requires ChatGPT to find the last saved docs point first and provide explicit inline append blocks to Codex.
 
+## 2026-06-18 — Current active block: YouTube editor queue target divergence
+
+Current active block:
+
+`youtube_prepare_post_draft_action_target_divergence_five_step_proof`
+
+The prior June 15 fresh YouTube pipeline restart pointer is superseded.
+
+### Current proven facts
+
+* Fresh `youtube.prepare_post_draft` / `list_editor_queue` returned seven ready-for-creation candidates in an observed live queue response.
+* A later real editing action attempted `zexcKJYQooU`.
+* That ID was not in the immediately preceding fresh seven-item queue.
+* The action treated the unrelated candidate as finalized / not suitable.
+* The first target-ID substitution point is not yet proven.
+* No source fix is accepted for this failure until the exact first divergence is traced.
+* Publication is separate and forbidden in the next proof.
+* The next proof is read-only and does not execute editing, create drafts, send moderation, or publish.
+
+### Exact next run
+
+`OPENSCRIPT_AGENT_LAB_YOUTUBE_EDITOR_QUEUE_FIRST_TARGET_DIVERGENCE_FIVE_STEP_PROOF_20260618_01`
+
+### Required result
+
+The run must report five direct runtime transitions before the first broken step, then the first broken step itself, with exact input/output IDs, file/function, and value provenance.
+
 ## 2026-05-28 — Current active block: full receipt extraction, not Telegram/Hermes
 
 Current active blocker has moved to deterministic receipt extraction.

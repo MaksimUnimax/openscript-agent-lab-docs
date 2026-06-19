@@ -2012,6 +2012,94 @@ During the docs-only update, all application/runtime areas are read-only or out 
 - `tests/**`
 - `/var/lib/openscript-agent-lab/**`
 
+## MM_20260618_YOUTUBE_EDITOR_QUEUE_TARGET_DIVERGENCE_FIVE_STEP_PROOF_BOUNDARY
+
+SOURCE_KIND: chatgpt_dialogue_delta_checked_against_repo_docs
+DATE_UTC: 2026-06-18
+ACTIVE_BLOCK: `youtube_prepare_post_draft_action_target_divergence_five_step_proof`
+
+### Current ownership boundary
+
+The current YouTube failure is a target-provenance divergence between fresh deterministic queue data and actual action execution.
+
+The following ownership boundaries are established for the next proof:
+
+1. `agent_lab/youtube_post_draft_service.py`
+
+   * owns deterministic editor-queue facts;
+   * owns `list_editor_queue` output;
+   * owns deterministic post-draft/editing lifecycle behavior;
+   * is the source to inspect for expected target identifier contract of `send_to_editing`;
+   * must not be changed before the first divergence is proven.
+
+2. `agent_lab/agent_reply.py`
+
+   * owns Telegram/agent action routing and preparation of the action/tool handoff;
+   * is a read-only trace source for the next proof;
+   * must not be changed before the proof establishes whether it is the first divergence boundary.
+
+3. The exact facade, registry, or wrapper between `agent_reply.py` and `youtube_post_draft_service.py`
+
+   * is currently unproven;
+   * may be inspected only when a direct call path from the two known source areas requires it;
+   * must be recorded as the next direct runtime boundary, not guessed.
+
+4. Hermes session artifacts, request dumps, and prompt context
+
+   * are read-only evidence only;
+   * may be inspected only if they lie inside the five-step trace;
+   * must not be assumed to be the first cause before target-value evidence proves it.
+
+5. Telegram operator imitation and connector delivery
+
+   * remain the accepted user-facing proof path;
+   * direct backend, direct service-function, direct tool call, fake Telegram flow, and manual SQL are not accepted proof substitutes.
+
+### Target provenance invariant
+
+For every runtime handoff before the first broken step:
+
+`action_target_ids` must be either:
+
+* a subset of current fresh `ready_for_creation` IDs; or
+* explicit IDs supplied by the current user action.
+
+Any other source is a divergence and must be classified before a fix begins.
+
+### Read-only areas for the next proof
+
+* `agent_lab/agent_reply.py`
+* `agent_lab/youtube_post_draft_service.py`
+* `tests/test_agent_reply.py`
+* one exact direct facade/registry/helper file only if required by the real call path
+* existing Telegram/operator artifacts, session/request dumps, tool logs, service logs, and current SQLite DB in read-only mode
+
+### Do not touch before fresh proof
+
+* `agent_lab/**` source;
+* `tools/**`;
+* `tests/**`;
+* `agent-packages/**`;
+* Hermes vendor source;
+* runtime profiles;
+* Telegram connector/send implementation;
+* database schema or data;
+* publication modules.
+
+### Future fix owner is not yet assigned
+
+No module is yet authorized as the future fix owner.
+
+The first divergence proof must decide whether the future fix belongs at:
+
+* action routing;
+* action payload construction;
+* facade/registry translation;
+* tool argument normalization;
+* business-service fallback;
+* identifier-type conversion; or
+* another proven boundary.
+
 ## MM_20260614_TELEGRAM_PUBLICATION_LIVE_PROOF_SUCCESS_PENDING_PREVIEW_LIVE_SELECTION_STABILITY
 SOURCE_KIND: chatgpt_dialogue_delta_verified_against_repo_docs
 DATE_UTC: 2026-06-14
