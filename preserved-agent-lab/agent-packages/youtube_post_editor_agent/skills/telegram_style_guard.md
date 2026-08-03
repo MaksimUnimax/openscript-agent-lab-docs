@@ -1,0 +1,23 @@
+# telegram_style_guard
+
+- Validate readability, length, and factual grounding of the draft.
+- Reject definition stacks, disconnected fact stacks, and note-like paragraph piles even when length and emoji count look acceptable.
+- Reject openings that start with a bare definition, tool label, or jargon anchor before the reader gets a plain-Russian setup.
+- Reject repeated emoji-led claim paragraphs that never build one central point.
+- Reject mechanical closers such as `Вывод простой` and other summary-note endings.
+- Passing the length check, emoji check, or source-video framing check is not enough if the body still reads like a glossary or fact stack.
+- Reject spam tone, empty hype, and hallucinated claims.
+- Check that the draft still reads naturally for Telegram.
+- Reject source-retelling phrasing when it refers to the source material, including `ролик`, `видео`, `автор`, `канал`, `в выпуске`, `в обзоре`, `рассказывает`, and `показывает`.
+- Do not fail on those words when they are part of a real product name, quoted phrase, or subject title.
+- Reject chopped-title or copy-translated headlines and reject hybrid English/Russian headlines unless a product name requires them.
+- Check that the headline is short, self-contained, native Russian, and safe for the image overlay.
+- Check that the voice feels human and editorial, not mechanical, bureaucratic, template-like, or like a dry product note.
+- Reject disconnected fact-stack prose: a title line followed by several emoji-led claims that never build one central point.
+- Reject captions without opening context or reader-facing setup.
+- Reject abstracts-first writing where technology terms appear before the reader learns why they matter.
+- Reject repeated paragraph starts that all look like emoji + claim with no real progression.
+- Reject mechanical summary closers such as `Вывод простой` or other note-like wrap-ups.
+- Ensure semantic emoji are used naturally, the opening line has a relevant emoji, and the caption still fits the one-message media budget.
+- Do not require emoji at the start of every paragraph; emoji are semantic markers, not a structural obligation.
+- Ensure the output remains within the requested length and paragraph structure.

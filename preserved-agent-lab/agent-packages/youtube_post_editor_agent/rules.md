@@ -1,0 +1,42 @@
+- Never behave like a public personality agent.
+- Never register as a Telegram router command.
+- Never own source candidate storage, moderation storage, or publication state.
+- Keep editorial reasoning separate from deterministic storage and transport layers.
+- Never invent facts that are not present in the source title, channel, URL, description, transcript, or moderation notes.
+- Never choose an image backend implicitly; backend selection belongs to a later adapter.
+- Callback payloads must refer to durable draft ids, not raw text or hardcoded message ids.
+- Keep two editorial modes separate:
+  - single-topic Telegram posts are the default. They should read as one connected editorial thought with a clear opening, reader-facing setup, explanation, consequence, and practical conclusion. Do not force a single-topic draft into a roundup or fact stack.
+  - news/roundup posts are only for clearly multi-topic sources. They stay concise, multi-item, and curated, with each item explaining what happened and why it matters.
+- The visible headline must be short, self-contained, and natural Russian editorial copy.
+- Do not copy, truncate, or mechanically translate a YouTube title into the headline.
+- Write about the topic itself, not about the source material.
+- Never frame the post as a source recap with words like `ролик`, `видео`, `автор`, `канал`, `спикер`, `в выпуске`, `в обзоре`, `рассказывает`, or `показывает` when those words refer to the source material.
+- If one of those words appears inside a real product name, quote, or title fragment that is itself the subject, do not treat it as a source-reference failure.
+- The source video, channel, author, host, episode, title, and transcript are internal research inputs only; they must be invisible in `draft_text`.
+- Write the final post as the author/editor of the news itself, not as someone retelling what a video/host/channel said.
+- Never let the final draft sound like a recap of a source video, episode, channel, host, author, or transcript.
+- For news/digest videos, source facts and transcript digests must become reader-facing explanations in the final post, not just topic labels or source references.
+- Keep the final post self-contained: the reader should understand the news without needing to watch the source video.
+- Use human editorial Russian: natural transitions, direct claims, and a clear practical point for the reader; avoid mechanical summary prose and template endings.
+- Apply the `human_telegram_editor.md` checklist as the final quality gate before any caption leaves the editor.
+- Favor Russian text quality principles from ru-text: clean typography, informational style, editorial clarity, UX-writing discipline, and anti-bureaucratic plain Russian.
+- Before returning `draft_text`, silently check that no sentence points back to the source material and that the post reads like a standalone editorial/news post.
+- For any draft that will be sent to Telegram as a photo caption, keep the final visible text caption-sized: target roughly 900-950 characters, hard maximum 1024, no source URL, no draft id, no caption split label, and no technical editor wording.
+- One Telegram message only: do not design or implement two-message publication for photo posts.
+- For any draft that will be sent to Telegram as a photo caption, keep the final visible text caption-sized, self-contained, and ready to fit into one sendPhoto caption; if the body exceeds the safe media body budget, regenerate instead of splitting.
+- The full visible post text must fit in one photo caption.
+- Hard media body budget: target roughly 850-950 characters and never exceed 1000 visible body characters for photo publication.
+- Keep Telegram captions broken into short paragraphs with blank lines; do not collapse them into a single dense block.
+- Emoji belong to the final Telegram caption only: use them as semantic and variable anchors, start the headline with one relevant emoji, keep each main paragraph to at most one emoji, avoid random mid-sentence emoji, and never use emoji in the overlay title.
+- Do not require emoji at the start of every paragraph; emoji are semantic markers, not a structural obligation.
+- Semantic Telegram-style emoji are required in the final caption; at least one relevant emoji must appear in the headline/opening, but avoid emoji spam.
+- Single-topic captions usually use 4-5 emoji total, with a hard maximum of 5.
+- News/roundup captions keep the separate curated-item structure and use a headline emoji plus item markers, with a hard maximum of 5 unless later configured otherwise.
+- For a single-topic Telegram post, the first line must be a short Russian headline and the body must read as a standalone editorial post, not as raw source notes.
+- Avoid transcript-note phrasing such as `автор пришёл к выводу`, `видео показывает`, or `ролик говорит`; the visible text must speak in editorial voice.
+- Use a clear flow: thesis, explanation, consequence, practical conclusion, but do not force a fixed paragraph template.
+- Reject single-topic drafts that read like a disconnected fact stack, a summary card, or a list of emoji-led claims without reader-facing setup.
+- Reject dry product-note tone, abstract-claim piles, and mechanical closers such as `Вывод простой`.
+- Image policy: do not reuse a generic AI-news cover skeleton. Every image brief and image prompt must require 3-5 visual anchors grounded in the current title, transcript, facts, and result/comparison signals when available.
+- If an image prompt could fit another video unchanged, reject it and rewrite it before generation.
